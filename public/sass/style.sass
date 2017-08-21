@@ -1,0 +1,306 @@
+$primary: #5c2626
+$secondary: #b74242
+$accent: #ea7362
+$light: #ffd6b6
+$box: #f2f2f2
+$main: #333
+
+@font-face
+	font-family: 'PilsenPlakat'
+	src: url(../fonts/PilsenPlakat.ttf)
+
+html, body
+	width: 100%
+	height: 100%
+	color: $main
+	background: url(../img/bg2.jpg) center no-repeat
+	background-size: cover
+
+
+
+a:hover
+	text-decoration: none
+
+.main-content
+	width: 100%
+	height: 100%
+	display: flex
+	align-items: center
+
+.lz-header
+	padding: 20px !important
+	h3
+		padding: 0 !important
+
+.lz-title
+	margin: 0
+	display: inline-block
+	line-height: 38px
+	font-family: 'PilsenPlakat'
+
+.lz-catalogue, .lz-cart
+	background-color: #fff
+	border-radius: 5px
+	box-shadow: 0px 8px 21px 0px rgba(0, 0, 0, 0.17)
+	height: 80vh
+
+.lz-catalogue
+	padding-left: 20px
+	padding-right: 20px
+	margin-bottom: 20px
+	overflow-y: auto
+	display: flex
+	flex-direction: column
+	.lz-header
+		margin-right: -5px
+	
+.lz-category-container
+	flex: 1
+	background-color: $box
+	border-radius: 5px
+	margin: 10px
+	padding-top: 20px
+
+.lz-category
+	height: 100px
+	border-radius: 5px
+	background-color: #fff
+	margin-bottom: 20px
+	display: flex
+	align-items: flex-end
+	justify-content: stretch
+	background-position: center
+	background-repeat: no-repeat
+	background-size: cover
+	transition: all 0.2s ease
+	&:hover
+		opacity: .9
+
+.lz-category-title
+	width: 100%
+	background: transparentize(darken($main, 20), .5)
+	border-radius: 0 0 5px 5px
+	color: #fff
+	font-size: 14px
+	padding: 8px 15px
+
+
+.lz-table
+	padding-left: 10px
+	padding-right: 10px
+
+.lz-total
+	display: flex
+	justify-content: flex-end
+	align-items: center
+	height: 80px
+	margin: 20px 0
+	// background-color: transparentize($accent, .5)
+
+
+	label
+		padding: 5px 10px
+		margin-bottom: 0
+
+	.total
+		background-color: $accent
+		padding: 5px 10px
+		border-radius: 5px
+		color: #fff
+		font-family: 'PilsenPlakat'
+		font-size: 20px
+
+.lz-cart-content
+	flex: 1
+	overflow-y: auto
+	tbody > tr > td:last-child
+		text-align: right
+	th:last-child
+		text-align: right
+
+.lz-cart
+	display: flex
+	flex-direction: column
+	padding-left: 20px
+	padding-right: 20px
+	// margin: 0 20px
+	tbody > tr > td
+		border-top-color: transparent !important
+		padding-top: 10px
+		padding-bottom: 10px
+
+.lz-top
+	position: absolute
+	width: 100%
+	height: 100%
+	// background: url(../img/nav-bg.svg) top center no-repeat
+	// background-size: cover
+	.container
+		position: relative
+
+.lz-brand
+	font-size: 50px
+	font-family: 'PilsenPlakat'
+	color: #fff
+	margin-top: 40px
+	z-index: -1
+
+.lz-bottom
+	position: absolute
+	bottom: 0
+	width: 100%
+	height: 100%
+	z-index: -1
+	background: url(../img/foot-bg.svg) left bottom no-repeat
+	background-size: cover
+	p
+		position: absolute
+		color: #fff
+		padding: 20px
+		margin: 0
+
+
+// .lz-item
+// 	// height: 128px
+// 	display: flex
+// 	.lz-item-image
+// 		box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.17)
+// 		width: 128px
+// 		height: 128px
+// 		overflow: hidden
+// 		img
+// 			// height: 100%
+// 			// width: auto
+// 	.lz-item-info
+// 		box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.17)
+// 		flex: 1
+// 		margin-left: 10px
+// 		background-color: #fff
+
+.lz-item
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.17)
+	margin-bottom: 20px
+	border-radius: 5px
+
+.lz-item-image
+	position: relative
+	height: 100px
+	overflow: hidden
+	border-radius: 5px 5px 0 0
+	img
+		width: 100%
+		height: auto
+
+
+.lz-item-info
+	display: flex
+	background-color: #fff
+	align-items: center
+
+	padding: 10px
+	border-radius: 0 0 5px 5px
+
+.lz-item-title
+	flex: 1
+	font-weight: 600
+	font-size: 13px
+
+.lz-item-price
+	font-family: 'PilsenPlakat'
+	font-size: 20px
+
+.lz-add-btn
+	position: absolute
+	height: 30px
+	width: 30px
+	bottom: 10px
+	right: 10px
+	box-sizing: border-box
+	padding: 0
+	background-color: $accent
+	display: none
+	transition: all 0.3s ease
+	i
+		// padding: 10px
+		color: #fff
+
+.lz-item-image:hover
+	.lz-add-btn
+		display: inline-block
+
+.lz-login
+	width: 500px
+	margin: 5% auto
+	a
+		color: #ffb932
+
+.login-logo
+	a
+		color: white
+
+.login-box-body, .register-box-body
+	box-shadow: 0 3rem 5rem -2rem rgba(0, 0, 0, 0.2)
+	border-radius: 3px
+	background: transparentize(#222, .5)
+	hr
+		opacity: .5
+		border-color: #ffb932
+
+.social-auth-links .fa
+	font-size: 14px
+
+.login-box-msg
+	padding-top: 20px
+	margin-bottom: 0
+	border-radius: 3px
+	color: #fff
+	font-weight: 600
+	font-size: 20px
+	text-align: left
+	padding-left: 0
+
+.login-btn
+	background-color: #ffb932
+	color: #140e0e
+	border-color: transparent
+	box-shadow: 0px 5px 6px 0px rgba(49, 49, 49, 0.31)
+	padding-left: 30px
+	padding-right: 30px
+	&:hover
+		background-color: lighten(#ffb932, 10)
+	&:focus
+		background-color: darken(#ffb932, 10)
+
+
+.login-check label
+	color: #fff
+
+.lz-error
+	color: #fc4f45
+
+.lz-input
+	border-radius: 3px
+
+.login-box-body .form-control-feedback, .login-box-body .form-control-feedback
+	color: #333 !important
+
+.lz-footer
+	div
+		// padding-right: 0
+	a
+		color: #ffb932
+		&:hover, &:active, &:focus
+			color: darken(#ffb932, 10)
+
+.icheckbox_square-blue
+	background: url(../adaptdev/AdminLTE/plugins/iCheck/square/yellow.png) no-repeat
+
+.lz-register-form
+	label
+		color: #fff
+		font-weight: 400
+
+.lz-logo
+	text-align: left
+	color: #ffb932
+	font-size: 32px
