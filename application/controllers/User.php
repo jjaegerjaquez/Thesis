@@ -42,9 +42,7 @@ class User extends CI_Controller
     else
     {
       $RegisterData = array(
-        'business_name' => $this->input->post('business_name'),
         'email' => $this->input->post('email'),
-        'username' => $this->input->post('username'),
         'password' => md5($this->input->post('password')),
         'date_joined' => date("Y-m-d"),
         'image' => ''
