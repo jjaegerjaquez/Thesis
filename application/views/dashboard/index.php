@@ -34,9 +34,9 @@
     <!-- Logo -->
     <a href="http://localhost:8000/public/thesis/AdminLTE/index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>B</b>PMS</span>
+      <span class="logo-mini"><b>T</b>HUB</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Bianca</b> PMS</span>
+      <span class="logo-lg"><b>Travel</b> Hub</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -136,7 +136,7 @@
           <li class="dropdown user user-menu">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="/uploads/images/" class="user-image" alt="User Image">
-              <span class="hidden-xs">Admin</span>
+              <span class="hidden-xs"><?php echo $this->session->userdata('email')?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -146,7 +146,7 @@
                 <p>
                   Admin<small>Member since <?php $joined = strtotime($user_info->date_joined);
                   // echo date('F j Y',$joined)
-                  echo date('F Y',$joined)
+                  echo date('F j Y',$joined)
                   ?></small>
                 </p>
               </li>
@@ -198,6 +198,7 @@
         <li class="treeview"><a href="/Profile"><i class="fa fa-male"></i> <span>Profile</span></a></li>
         <li class="treeview"><a href="/About"><i class="fa fa-edit"></i> <span>About</span></a></li>
         <li class="treeview"><a href="/Contacts"><i class="fa fa-user"></i> <span>Contacts</span></a></li>
+        <li class="treeview"><a href="/Theme"><i class="fa fa-user"></i> <span>Theme</span></a></li>
         <!-- <li class="treeview">
           <a href="/"><i class="fa fa-credit-card"></i> <span>Billings</span>
             <span class="pull-right-container">

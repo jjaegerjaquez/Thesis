@@ -15,7 +15,7 @@ class Dashboard extends CI_Controller
     $this->load->library('session');
 		$this->load->model('Dashboards');
     if (!$this->session->userdata('is_logged_in')) {
-      redirect('/User');
+      redirect('/Home');
     }
 	}
 
@@ -29,12 +29,10 @@ class Dashboard extends CI_Controller
   public function logout()
   {
     if ($this->session->userdata('is_logged_in')) {
-
-            //$this->session->unset_userdata(array('email' => '', 'is_logged_in' => ''));
-            $this->session->unset_userdata('email');
-            $this->session->unset_userdata('is_logged_in');
-            $this->session->unset_userdata('user_id');
+          $this->session->unset_userdata('email');
+          $this->session->unset_userdata('is_logged_in');
+          $this->session->unset_userdata('user_id');
         }
-        redirect('/User');
+        redirect('/Home');
   }
 }

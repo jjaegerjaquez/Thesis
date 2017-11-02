@@ -34,7 +34,7 @@ class User extends CI_Controller
     // $this->form_validation->set_rules('username', 'Username', 'trim|required');
     $this->form_validation->set_rules('password', 'Password', 'trim|required');
     $this->form_validation->set_rules('confirm_password', 'Confrim Password', 'trim|required|matches[password]');
-    $this->form_validation->set_rules('checkbox', '', 'callback_check');
+    // $this->form_validation->set_rules('checkbox', '', 'callback_check');
     if ($this->form_validation->run() == FALSE)
     {
       $this->load->view('user/register');

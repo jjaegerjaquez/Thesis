@@ -12,7 +12,7 @@ class Dashboards extends CI_Model
 
   public function get($user_id)
   {
-    $query = $this->db->get_where('users', ['user_id' => $user_id]);
+    $query = $this->db->get_where('accounts', ['user_id' => $user_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();

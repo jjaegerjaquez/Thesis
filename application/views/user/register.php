@@ -64,7 +64,7 @@
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox icheck login-check">
+          <div class="">
             <label>
               <input type="checkbox" name="checkbox"> I agree to the <a href="#">terms</a>
               <span style="color:red" class="help-block"><?php echo form_error('checkbox'); ?></span>
