@@ -11,10 +11,10 @@ class Verifies extends CI_Model
     parent::__construct();
   }
 
-  public function verify_email($code)
-  {
-    $data = array('status' => '1');
-    $this->db->where('md5(email)', $code);
-    return $this->db->update('accounts', $data);
-  }
+    public function verify_email($code)
+    {
+      $data = array('status' => '1');
+      $this->db->where('md5(email)', $code);
+      return $this->db->update('accounts', $data);
+    }
 }

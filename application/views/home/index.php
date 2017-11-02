@@ -257,14 +257,17 @@ $('#Submit').click(function() {
         type: 'POST',
         data: form_data,
         success: function(msg) {
-            if (msg=='Invalid') {
+            if (msg =='Invalid') {
               $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
-            }else if (msg=="Unconfirmed") {
+            }else if (msg =="Unconfirmed") {
               $('#login').hide();
               $(location).attr('href','/Verify/unconfirmed');
-            }else if (msg=='Incorrect') {
+            }else if (msg =='Incorrect') {
               $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
-            }else if (msg=='Correct') {
+            }else if (msg =='Set up') {
+              $('#login').hide();
+              $(location).attr('href','/SetUp');
+            }else if (msg == 'Dashboard') {
               $('#login').hide();
               $(location).attr('href','/Dashboard');
             }else {

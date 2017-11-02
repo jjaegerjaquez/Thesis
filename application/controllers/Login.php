@@ -48,10 +48,18 @@ class Login extends CI_Controller
                 if($password !== md5($pass)){
                   echo "Incorrect";
                 }else {
-                  echo "Correct";
-                  $this->session->set_userdata('email', $email);
-                  $this->session->set_userdata('user_id', $data['account']->user_id);
-                  $this->session->set_userdata('is_logged_in', true);
+                  $set_up = $data['account']->set_up;
+                  if ($set_up == '0') {
+                    echo "Set up";
+                    $this->session->set_userdata('email', $email);
+                    $this->session->set_userdata('user_id', $data['account']->user_id);
+                    $this->session->set_userdata('is_logged_in', true);
+                  }elseif ($set_up == '1') {
+                    echo "Dashboard";
+                    $this->session->set_userdata('email', $email);
+                    $this->session->set_userdata('user_id', $data['account']->user_id);
+                    $this->session->set_userdata('is_logged_in', true);
+                  }
                 }
               }
             }else {

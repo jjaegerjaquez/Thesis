@@ -55,6 +55,7 @@ class Register extends CI_Controller
                 'password' => md5($this->input->post('register_password')),
                 'date_joined' => date("Y-m-d"),
                 'website' => 'No',
+                'set_up' => '0',
                 'status' => '0'
               );
               $email = $this->input->post('register_email');
@@ -67,9 +68,6 @@ class Register extends CI_Controller
               }
               else
               {
-                // $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Please try again ...</div>');
-                // echo "Email not sent";
-                // echo $email;
                 echo "Unsucessful";
               }
           }

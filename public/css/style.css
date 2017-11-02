@@ -55,10 +55,11 @@ html, body {
     color: #FFFFFF;}
   .back-btn:focus {
     background-color: #fc4a1a; }
-/*.login-btn{
-  font-family: 'Lato', sans-serif;
-	font-size: 12px;
-}*/
+.get-started-logo{
+  font-family: 'Raleway', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
 .search{
   position: absolute;
   z-index: 10;
