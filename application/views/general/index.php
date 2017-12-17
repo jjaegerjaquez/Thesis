@@ -50,15 +50,48 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          
-          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="/uploads/images/user.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs"><?php echo $this->session->userdata('email')?></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="/uploads/images/" class="img-circle" alt="User Image">
 
-          <!-- User Account: style can be found in dropdown.less -->
-
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                <p>
+                  Admin<small>Member since <?php $joined = strtotime($user_info->date_joined);
+                  // echo date('F j Y',$joined)
+                  echo date('F j Y',$joined)
+                  ?></small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Followers</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Sales</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">Friends</a>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="/profile" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/Dashboard/logout" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -74,11 +107,12 @@
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <li class="treeview"><a href="/Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="active treeview"><a href="/General"><i class="fa fa-navicon"></i> <span>General Information</span></a></li>
-        <li class="treeview"><a href="/Profile"><i class="fa fa-male"></i> <span>Profile</span></a></li>
-        <li class="treeview"><a href="/About"><i class="fa fa-edit"></i> <span>About</span></a></li>
-        <li class="treeview"><a href="/Contacts"><i class="fa fa-user"></i> <span>Contacts</span></a></li>
-        <li class="treeview"><a href="/Theme"><i class="fa fa-user"></i> <span>Theme</span></a></li>
+        <li class="active treeview"><a href="/Edit/General"><i class="fa fa-navicon"></i> <span>General Information</span></a></li>
+        <li class="treeview"><a href="/Edit/Home"><i class="fa fa-th-large"></i> <span>Home</span></a></li>
+        <li class="treeview"><a href="/Edit/About"><i class="fa fa-edit"></i> <span>About</span></a></li>
+        <li class="treeview"><a href="/Edit/Gallery"><i class="fa fa-photo"></i> <span>Gallery</span></a></li>
+        <li class="treeview"><a href="/Edit/Contacts"><i class="fa fa-user"></i> <span>Contacts</span></a></li>
+        <li class="treeview"><a href="/Edit/Theme"><i class="fa fa-heart"></i> <span>Theme</span></a></li>
         <!-- <li class="treeview">
           <a href="/"><i class="fa fa-credit-card"></i> <span>Billings</span>
             <span class="pull-right-container">
@@ -136,20 +170,55 @@
           </div>
         </div>
         <div class="box-body">
+          <div class="form-group">
+            <label>*Upload an image with a size 200 x 200 pixels or 500 x 500 pixels</label>
+            <br>
+            <img src="/uploads/images/user.jpg" width="200px" height="200px"alt="">
+          </div>
           <form action ="/General/insert_general/" method="post" enctype="multipart/form-data">
               <div class="form-group">
-                <label>Image:</label>
+                <label>Profile Image:</label>
                 <input class="" type="file" name="image" />
                 <span style="color:red" class="help-block"><?php echo form_error('image'); ?></span>
               </div>
               <div class="form-group">
+                <label>*Category:</label>
+                <select class="form-control" name="category" id="category" required>
+                  <option value ="" selected disabled>Restaurant</option>
+                  <option value ="Womens Fashion">Restaurant</option>
+                  <option value ="Mens Fashion">Men's Fashion</option>
+                  <option value ="Babies/Kids">Babies/Kids</option>
+                  <option value ="Health/Beauty">Health/Beauty</option>
+                  <option value ="Home & Appliances">Home & Appliances</option>
+                </select>
+              </div>
+              <div class="form-group">
                 <label>Business Name:</label>
-                <input type="text" name="business_name" class="form-control" placeholder="Business Name">
+                <input type="text" name="business_name" class="form-control" value="Samgyupsalamat">
+                <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
+              </div>
+              <div class="form-group">
+                <label>Address:</label>
+                <input type="text" name="business_name" class="form-control" value="911 Kapitan Tikong Corner Leon Guinto Street, Malate">
+                <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
+              </div>
+              <div class="form-group">
+                <label>Cellphone Number:</label>
+                <input type="text" name="business_name" class="form-control" value="+63 9778423427">
+                <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
+              </div>
+              <div class="form-group">
+                <label>Telephone:</label>
+                <input type="text" name="business_name" class="form-control" value="N/A">
+                <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
+              </div>
+              <div class="form-group">
+                <label>Website:</label>
+                <input type="text" name="business_name" class="form-control" placeholder="Website Address" disabled>
                 <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
               </div>
               <div class="box-footer">
-                <button type="submit" name="create" class="btn btn-success" value="Add"><i class="fa fa-floppy-o"></i> Create</button>
-                <a href="/General" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
+                <button type="submit" name="create" class="btn btn-success" value="Add"><i class="fa fa-floppy-o"></i> Update</button>
               </div>
           </form>
         </div>
@@ -170,7 +239,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.9.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://thesis.ph" target="_blank">thesis Solutions</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://thesis.ph" target="_blank">Travel Hub</a>.</strong> All rights
     reserved.
   </footer>
 

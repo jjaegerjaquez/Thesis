@@ -49,92 +49,9 @@
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="http://localhost:8000/public/thesis/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
-          <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-          <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
-          <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="/uploads/images/" class="user-image" alt="User Image">
+              <img src="/uploads/images/user.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $this->session->userdata('email')?></span>
             </a>
             <ul class="dropdown-menu">
@@ -193,11 +110,12 @@
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <li class="active treeview"><a href="/Dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="treeview"><a href="/General"><i class="fa fa-navicon"></i> <span>General Information</span></a></li>
-        <li class="treeview"><a href="/Profile"><i class="fa fa-male"></i> <span>Profile</span></a></li>
-        <li class="treeview"><a href="/About"><i class="fa fa-edit"></i> <span>About</span></a></li>
-        <li class="treeview"><a href="/Contacts"><i class="fa fa-user"></i> <span>Contacts</span></a></li>
-        <li class="treeview"><a href="/Theme"><i class="fa fa-user"></i> <span>Theme</span></a></li>
+        <li class="treeview"><a href="/Edit/General"><i class="fa fa-navicon"></i> <span>General Information</span></a></li>
+        <li class="treeview"><a href="/Edit/Home"><i class="fa fa-th-large"></i> <span>Home</span></a></li>
+        <li class="treeview"><a href="/Edit/About"><i class="fa fa-edit"></i> <span>About</span></a></li>
+        <li class="treeview"><a href="/Edit/Gallery"><i class="fa fa-photo"></i> <span>Gallery</span></a></li>
+        <li class="treeview"><a href="/Edit/Contacts"><i class="fa fa-user"></i> <span>Contacts</span></a></li>
+        <li class="treeview"><a href="/Edit/Theme"><i class="fa fa-heart"></i> <span>Theme</span></a></li>
         <!-- <li class="treeview">
           <a href="/"><i class="fa fa-credit-card"></i> <span>Billings</span>
             <span class="pull-right-container">
@@ -236,35 +154,117 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="fa fa-heart"></i></span>
 
+            <div class="info-box-content">
+              <span class="info-box-text">Votes</span>
+              <span class="info-box-number">139</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-comment"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Reviews</span>
+              <span class="info-box-number">150</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa  fa-bar-chart"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Rating</span>
+              <span class="info-box-number">4.7</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Main content -->
     <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Box Comment -->
+          <div class="box box-widget">
+            <div class="box-header with-border">
+              <h3 class="box-title">Reviews</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-footer box-comments">
+              <div class="box-comment">
+                <!-- User image -->
+                <img class="img-circle img-sm" src="/uploads/images/maria.jpg" alt="User Image">
 
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
+                <div class="comment-text">
+                      <span class="username">
+                        Maria Gonzales
+                        <span class="text-muted pull-right">8:03 PM Today</span>
+                      </span><!-- /.username -->
+                  I am inlove with their food! Super yummy and the place, super
+                  beautiful and comfortable.
+                </div>
+                <!-- /.comment-text -->
+              </div>
+              <!-- /.box-comment -->
+              <div class="box-comment">
+                <!-- User image -->
+                <img class="img-circle img-sm" src="/uploads/images/james.jpg" alt="User Image">
 
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
+                <div class="comment-text">
+                      <span class="username">
+                        James Reid
+                        <span class="text-muted pull-right">8:03 PM Today</span>
+                      </span><!-- /.username -->
+                  Delicious food, nice ambiance, and very friendly staffs. Will definitely
+                  go back here again.
+                </div>
+                <!-- /.comment-text -->
+              </div>
+              <!-- /.box-comment -->
+            </div>
+            <!-- /.box-footer -->
+            <div class="box-footer box-comments">
+              <div class="box-comment">
+                <!-- User image -->
+                <img class="img-circle img-sm" src="/uploads/images/abel.jpg" alt="User Image">
+
+                <div class="comment-text">
+                      <span class="username">
+                        The Weeknd
+                        <span class="text-muted pull-right">8:03 PM Today</span>
+                      </span><!-- /.username -->
+                Very nice place, food and staff. But the service took so long.
+                </div>
+                <!-- /.comment-text -->
+              </div>
           </div>
-        </div>
-        <div class="box-body">
-          Start creating your amazing application!
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
+          <!-- /.box -->
+          <div class="box-footer box-comments">
+            <div class="box-comment">
+              <!-- User image -->
+              <img class="img-circle img-sm" src="/uploads/images/Maddie.jpg" alt="User Image">
 
+              <div class="comment-text">
+                    <span class="username">
+                      Maddie Madayag
+                      <span class="text-muted pull-right">8:03 PM Today</span>
+                    </span><!-- /.username -->
+              The best restaurant eveeer! I can't help but be addicted. The food is
+              superb! The staffs are very accomodating. I love the place sooo much!
+              </div>
+              <!-- /.comment-text -->
+            </div>
+        </div>
+        </div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -274,7 +274,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.9.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://thesis.ph" target="_blank">thesis Solutions</a>.</strong> All rights
+    <strong>Copyright &copy; 2017 <a href="http://thesis.ph" target="_blank">Travel Hub</a>.</strong> All rights
     reserved.
   </footer>
 

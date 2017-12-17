@@ -8,6 +8,40 @@ html, body {
   background-color: #ebe9e9;
   padding-bottom: 40px;
 }
+.text-header{
+  margin-bottom: 0;
+}
+.omb_btn-facebook{
+  background-color: #3B5998;
+  color: white;
+}
+.omb_btn-google{
+  background-color: #C32F10;
+  color: white;
+}
+.calendar{
+  background-color: white;
+  color: #ffb932;
+}
+.calendar:hover{
+  color: #ffb932;
+}
+.deal-box{
+  font-size: 30px;
+  color: #323339;
+}
+.box-1{
+  background-image: url(/public/img/promo1.jpg);
+  background-size: contain;
+}
+.box-2{
+  background-image: url(/public/img/barkadabg.jpg);
+  background-size: cover;
+}
+.box-3{
+  background-image: url(/public/img/luggagebg.jpg);
+  background-size: contain;
+}
 .modal-header{
      background-color:#ffb932;
 }

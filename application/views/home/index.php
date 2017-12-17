@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
 
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/style.css">
 
@@ -102,6 +103,18 @@
           <form class="" action="/Login/login" method="post" enctype="multipart/form-data">
             <div id="error_message"></div>
             <div class="form-group">
+              <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
+			        <i class="fa fa-facebook visible-xs"></i>
+			        <span class="hidden-xs">Facebook</span>
+		        </a>
+            </div>
+            <div class="form-group">
+              <a href="#" class="btn btn-lg btn-block omb_btn-google">
+			        <i class="fa fa-facebook visible-xs"></i>
+			        <span class="hidden-xs">Google</span>
+		        </a>
+            </div>
+            <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
                 <input type="email" name="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="email" required>
@@ -164,52 +177,102 @@
   <section class="container">
     <div class="row">
       <div class="col-xs-12">
-        <h1 class="lato"><strong>HOT DEALS</strong></h1>
+        <h1 class="lato text-header"><strong>HOT DEALS</strong></h1>
         <small>Discover great finds and deals for a discounted price</small>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4">
-        <img src="/public/img/promo1.jpg" alt="" style="width:100%;height:150px;">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-1"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
+              <p>Visit Summer Craze PH for great find summer goodies!</p>
+            </div>
+          </div>
       </div>
-    </div>
-  </section>
-  <section class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1 class="lato"><strong>HOT DEALS</strong></h1>
-        <small>Discover great finds and deals for a discounted price</small>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-2"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Treat for your Barkada!</span>
+              <p>Come with us at Cebu Resorts and enjoy your trip with barkada!</p>
+            </div>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <img src="/public/img/promo1.jpg" alt="" style="width:100%;height:150px;">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-3"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Discounted Luggage!</span>
+              <p>Premium quality luggage here at Luggage Store.</p>
+            </div>
+          </div>
       </div>
-    </div>
-  </section>
-  <section class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1 class="lato"><strong>HOT DEALS</strong></h1>
-        <small>Discover great finds and deals for a discounted price</small>
+      <!-- <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-3"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Discounted Luggage!</span>
+              <p>Premium quality luggage here at Luggage Store.</p>
+            </div>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <img src="/public/img/promo1.jpg" alt="" style="width:100%;height:150px;">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-3"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Discounted Luggage!</span>
+              <p>Premium quality luggage here at Luggage Store.</p>
+            </div>
+          </div>
       </div>
-    </div>
-  </section>
-  <section class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1 class="lato"><strong>HOT DEALS</strong></h1>
-        <small>Discover great finds and deals for a discounted price</small>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua box-3"></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Discounted Luggage!</span>
+              <p>Premium quality luggage here at Luggage Store.</p>
+            </div>
+          </div>
+      </div> -->
+      <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="info-box text-center">
+            <div class="icon deal-box">
+              <i class="fa fa-tags" style="margin-top:20px;"></i>
+            </div>
+            <span style="color:#ffb932;">View all deals</span>
+          </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <img src="/public/img/promo1.jpg" alt="" style="width:100%;height:150px;">
+      <div class="col-lg-4 col-xs-6">
+          <!-- small box -->
+          <div class="small-box calendar">
+            <div class="inner">
+              <h3>25</h3>
+              <p>Deals</p>
+            </div>
+            <div class="icon" style="color:#ffb932;">
+              <i class="fa fa-tags"></i>
+            </div>
+            <a href="#" class="small-box-footer" style="background-color:#ffb932;">
+              View all deals <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+      </div>
+      <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box calendar">
+            <div class="inner">
+              <h3>10</h3>
+              <p>Topics</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-comments"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
       </div>
     </div>
   </section>
