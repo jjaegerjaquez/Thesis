@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +26,8 @@
   <![endif]-->
 </head>
 <body>
+
+  <!-- NAVBAR -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -41,6 +42,21 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class=""><a href="#">Categories</a></li>
+        <li><a href="#">Destinations</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Deals</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Forum</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Most Viewed</a></li>
+          </ul>
+        </li>
+        <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+      </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="" data-toggle="modal" data-target="#login"> Login</a></li>
         <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
@@ -48,18 +64,25 @@
     </div>
   </div>
   </nav>
+  <!-- END NAVBAR -->
+
+  <!-- IMAGE SLIDER -->
   <div id="slider" class="carousel slide" data-ride="carousel">
-    <form class="form-inline kc_fab_main_btn" action="" method="post">
-      <div class="container text-center">
-        <div class="input-group">
-          <div class="input-group-addon"><i class="fa fa-location-arrow"></i></div>
-          <input type="text" class="form-control" placeholder="Location">
-        </div>
-        <div class="input-group">
-          <input type="text" class="form-control" name="search" placeholder="Tell us what you're looking for...">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
-          </span>
+    <form class="search-panel" action="" method="post">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter">
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+              <input type="text" class="form-control input-style" placeholder="Location">
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter">
+            <input type="text" class="form-control input-style" placeholder="Search for...">
+          </div>
+          <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter">
+            <input class="btn search-btn btn-block" type="submit" value="Search">
+          </div>
         </div>
       </div>
     </form>
@@ -91,7 +114,9 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  <!-- END IMAGE SLIDER -->
 
+  <!-- LOGIN MODAL -->
   <div class="modal fade" id="login">
     <div class="modal-dialog warning">
       <div class="modal-content">
@@ -135,7 +160,9 @@
       </div>
     </div>
   </div>
+  <!-- END LOGIN  -->
 
+  <!-- REGISTER MODAL -->
   <div class="modal fade" id="register">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -144,7 +171,7 @@
           <h3 style="color:#FFFFFF" class="login-logo text-center">Travel Hub | Register</h3>
         </div>
         <div class="modal-body">
-          <form class="" action="/Register" method="post" enctype="multipart/form-data">
+          <form class="" action="/Lol" method="post" enctype="multipart/form-data">
             <div id="register_error_message"></div>
             <div class="form-group">
               <div class="input-group">
@@ -173,109 +200,511 @@
       </div>
     </div>
   </div>
+  <!-- END REGISTER -->
 
-  <section class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1 class="lato text-header"><strong>HOT DEALS</strong></h1>
-        <small>Discover great finds and deals for a discounted price</small>
+  <!-- CATEGORIES SECTION -->
+  <section class="container categories-section">
+    <div class="row text-title header-row">
+      <h1 class="lato text-header">Discover</h1>
+      <p>Quick search for what you're looking for</p>
+    </div>
+    <div class="row row1">
+      <div class="sidebar-social text-center">
+        <ul>
+          <?php foreach ($categories as $key => $category): ?>
+            <div class="col-lg-2 col-sm-2 col-xs-12">
+              <li>
+                <a href="/Category/result/<?php echo $category->category?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
+                  <img src="/public/img/icons/<?php echo $category->image?>" width="25px" height="25px" alt="">
+                  <span><?php echo $category->category?></span>
+                </a>
+              </li>
+            </div>
+          <?php endforeach; ?>
+
+          <!-- <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Fast Food" target="_self" rel="nofollow">
+                <img src="/public/img/icons/fast-food.png" width="25px" height="25px" alt="">
+                <span>Fast Food</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Restaurant" target="_self" rel="nofollow">
+                <img src="/public/img/icons/restaurant.png" width="25px" height="25px" alt="">
+                <span>Restaurant</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Night Market" target="_self" rel="nofollow">
+                <img src="/public/img/icons/night.png" width="25px" height="25px" alt="">
+                <span>Night Market</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Bar" target="_self" rel="nofollow">
+                <img src="/public/img/icons/bar.png" width="25px" height="25px" alt="">
+                <span>Bar</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Lodging" target="_self" rel="nofollow">
+                <img src="/public/img/icons/lodging.png" width="25px" height="25px" alt="">
+                <span>Lodging</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Shoe Shop" target="_self" rel="nofollow">
+                <img src="/public/img/icons/shoe.png" width="25px" height="25px" alt="">
+                <span>Shop Shop</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Dress Shop" target="_self" rel="nofollow">
+                <img src="/public/img/icons/dress.png" width="25px" height="25px" alt="">
+                <span>Dress Shop</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Public Market" target="_self" rel="nofollow">
+                <img src="/public/img/icons/public-market.png" width="25px" height="25px" alt="">
+                <span>Public Market</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Spa" target="_self" rel="nofollow">
+                <img src="/public/img/icons/spa.png" width="25px" height="25px" alt="">
+                <span>Spa</span>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="Car Rental" target="_self" rel="nofollow">
+                <img src="/public/img/icons/car.png" width="25px" height="25px" alt="">
+                <span>Car Rental</span>
+              </a>
+            </li>
+          </div> -->
+          <div class="col-lg-2 col-sm-2 col-xs-12">
+            <li>
+              <a href="" title="See All" target="_self" rel="nofollow">
+                <img src="/public/img/icons/search.png" width="25px" height="25px" alt="">
+                <span style="color:#fba100;">See All</span>
+              </a>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
+  </section>
+  <!-- END CATEGORIES SECTION -->
+
+  <!-- DESTINATION SECTION -->
+  <section class="container destination-section">
+    <div class="row text-title header-row">
+      <h1 class="lato text-header">Explore</h1>
+      <p>Explore by places or localities</p>
+    </div>
+    <div class="row row2">
+      <div class="col-lg-12 destination-list">
+        <ul>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Manila" target="_self" rel="nofollow">
+                <label>Manila <span>(250 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Boracay" target="_self" rel="nofollow">
+                <label>Boracay <span>(182 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Cebu" target="_self" rel="nofollow">
+                <label>Cebu <span>(176 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Bohol" target="_self" rel="nofollow">
+                <label>Bohol <span>(163 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Palawan" target="_self" rel="nofollow">
+                <label>Palawan <span>(154 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Baguio" target="_self" rel="nofollow">
+                <label>Baguio <span>(142 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Davao" target="_self" rel="nofollow">
+                <label>Davao <span>(131 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Vigan" target="_self" rel="nofollow">
+                <label>Vigan <span>(129 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Tagaytay" target="_self" rel="nofollow">
+                <label>Tagaytay <span>(126 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Batangas" target="_self" rel="nofollow">
+                <label>Batangas <span>(123 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Taguig" target="_self" rel="nofollow">
+                <label>Taguig <span>(119 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Puerto Galera" target="_self" rel="nofollow">
+                <label>Puerto Galera <span>(115 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Bataan" target="_self" rel="nofollow">
+                <label>Bataan <span>(108 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Bacolod" target="_self" rel="nofollow">
+                <label>Bacolod <span>(101 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="Banaue" target="_self" rel="nofollow">
+                <label>Banaue <span>(85 places)</span></label>
+              </a>
+            </li>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+            <li>
+              <a href="" title="See All" target="_self" rel="nofollow">
+                <label class="see-all-color">See All</label>
+              </a>
+            </li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- END DESTINATION SECTION -->
+
+  <!-- HOT DEALS SECTION -->
+  <section class="container hot-deals-section">
+    <div class="row text-title header-row">
+      <h1 class="lato text-header">Hot Deals</h1>
+      <p>Discover great finds and deals for a discounted price</p>
+    </div>
     <div class="row">
-      <div class="col-md-4 col-sm-6 col-xs-12">
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua box-1"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
-              <p>Visit Summer Craze PH for great find summer goodies!</p>
-            </div>
-          </div>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua box-2"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Treat for your Barkada!</span>
-              <p>Come with us at Cebu Resorts and enjoy your trip with barkada!</p>
-            </div>
-          </div>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua box-3"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Discounted Luggage!</span>
-              <p>Premium quality luggage here at Luggage Store.</p>
-            </div>
-          </div>
-      </div>
-      <!-- <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua box-3"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Discounted Luggage!</span>
-              <p>Premium quality luggage here at Luggage Store.</p>
-            </div>
-          </div>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua box-3"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Discounted Luggage!</span>
-              <p>Premium quality luggage here at Luggage Store.</p>
-            </div>
-          </div>
-      </div>
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box">
-            <span class="info-box-icon bg-aqua box-3"></span>
-            <div class="info-box-content">
-              <span class="info-box-number">Discounted Luggage!</span>
-              <p>Premium quality luggage here at Luggage Store.</p>
-            </div>
-          </div>
-      </div> -->
-      <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="info-box text-center">
-            <div class="icon deal-box">
-              <i class="fa fa-tags" style="margin-top:20px;"></i>
-            </div>
-            <span style="color:#ffb932;">View all deals</span>
-          </div>
-      </div>
-      <div class="col-lg-4 col-xs-6">
-          <!-- small box -->
-          <div class="small-box calendar">
-            <div class="inner">
-              <h3>25</h3>
-              <p>Deals</p>
-            </div>
-            <div class="icon" style="color:#ffb932;">
-              <i class="fa fa-tags"></i>
-            </div>
-            <a href="#" class="small-box-footer" style="background-color:#ffb932;">
-              View all deals <i class="fa fa-arrow-circle-right"></i>
+            <a href="#">
+              <span class="info-box-icon bg-aqua box-1"></span>
+              <div class="info-box-content">
+                <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
+                <p>Visit Summer Craze PH for great find summer goodies!</p>
+              </div>
             </a>
           </div>
       </div>
-      <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box calendar">
-            <div class="inner">
-              <h3>10</h3>
-              <p>Topics</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-comments"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+          <div class="info-box">
+            <a href="#">
+              <span class="info-box-icon bg-aqua box-2"></span>
+              <div class="info-box-content">
+                <span class="info-box-number">Treat for your Barkada!</span>
+                <p>Come with us at Cebu Resorts and enjoy your trip with barkada!</p>
+              </div>
+            </a>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+          <div class="info-box">
+            <a href="#">
+              <span class="info-box-icon bg-aqua box-3"></span>
+              <div class="info-box-content">
+                <span class="info-box-number">Discounted Luggage!</span>
+                <p>Premium quality luggage here at Luggage Store.</p>
+              </div>
+            </a>
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+          <div class="info-box">
+            <a href="#">
+              <span class="info-box-icon bg-aqua box-3"></span>
+              <div class="info-box-content">
+                <span class="info-box-number">Discounted Luggage!</span>
+                <p>Premium quality luggage here at Luggage Store.</p>
+              </div>
+            </a>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+          <div class="info-box">
+            <a href="#">
+              <span class="info-box-icon bg-aqua box-1"></span>
+              <div class="info-box-content">
+                <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
+                <p>Visit Summer Craze PH for great find summer goodies!</p>
+              </div>
+            </a>
+          </div>
+      </div>
+      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+          <div class="info-box text-center">
+            <a href="">
+              <div class="icon deal-box">
+                <i class="fa fa-tags" style="margin-top:20px;"></i>
+              </div>
+              <span style="color:#f37430;">View all deals</span>
             </a>
           </div>
       </div>
     </div>
   </section>
+  <!-- END HOT DEALS -->
+
+  <!-- EVENTS -->
+  <section class="container efc-section">
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="row text-title header-row">
+          <h1 class="lato text-header">EVENTS</h1>
+          <!-- <p>Discover great finds and deals for a discounted price</p> -->
+        </div>
+        <div class="row" style="background-color:pink;">
+          <div class="spacer"></div>
+          <a href="#" class="event">
+            <div class="event-container">
+              <span class="date-container">
+                <span class="date">31<span class="month">may</span></span>
+              </span>
+              <span class="detail-container">
+                <span class="title">linden hills farmers market</span>
+              <span class="description">Every other Sunday</span>
+              </span>
+              </span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="event">
+            <div class="event-container">
+              <span class="date-container">
+                <span class="date">31<span class="month">may</span></span>
+              </span>
+              <span class="detail-container">
+                <span class="title">linden hills farmers market</span>
+              <span class="description">Every other Sunday</span>
+              </span>
+              </span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="event">
+            <div class="event-container">
+              <span class="date-container">
+                <span class="date">31<span class="month">may</span></span>
+              </span>
+              <span class="detail-container">
+                <span class="title">linden hills farmers market</span>
+              <span class="description">Every other Sunday</span>
+              </span>
+              </span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="event">
+            <div class="see-all-container text-center">
+              <span class="">
+                <span class="title">SEE ALL</span>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12">
+        <div class="row text-title header-row">
+          <h1 class="lato text-header">TOP FORUM</h1>
+          <!-- <p>Discover great finds and deals for a discounted price</p> -->
+        </div>
+        <div class="row">
+          <div class="spacer"></div>
+          <a href="#" class="forum">
+            <div class="forum-container">
+              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="forum">
+            <div class="forum-container">
+              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="forum">
+            <div class="forum-container">
+              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="forum">
+            <div class="forum-container">
+              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="forum">
+            <div class="forum-container">
+              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
+            </div>
+          </a>
+          <div class="spacer"></div>
+          <a href="#" class="event">
+            <div class="see-all-container-forum text-center">
+              <span class="">
+                <span class="title">SEE ALL</span>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-12">
+        <div class="row text-title header-row">
+          <h1 class="lato text-header">COUNT</h1>
+          <!-- <p>Discover great finds and deals for a discounted price</p> -->
+        </div>
+        <div class="row count-list">
+          <ul>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>500 </span>Localities</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>1000 </span>Restaurants</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>900 </span>Hotels</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>786 </span>Resorts</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>5000 </span>Reviews</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_self" rel="nofollow">
+                <label><span>3000 </span>Suppliers</label>
+              </a>
+            </li>
+            <li>
+              <a href="" target="_target" rel="nofollow">
+                <label class="count-see-all">SEE ALL</label>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- END EVENTS -->
+
+  <!-- FOOTER -->
+  <footer class="footer1">
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="footer-desc text-center">
+                        <img src="logo" width="82" height="48" alt="">
+                        <p>
+                            <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <ul class="social">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div> <!--/.row-->
+        </div> <!--/.container-->
+    </div> <!--/.footer-->
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="text-center"> Copyright © 2017-2018. All right reserved.</div>
+        </div>
+    </div> <!--/.footer-bottom-->
+  </footer>
+  <!-- END FOOTER -->
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -289,26 +718,9 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+
 <script>
-// $(".login").click(function() {
-//   var id = $(this).attr("id");
-//   var email = $('#email').val();
-//   var password = $('#password').val();
-//   $.ajax({
-//     url:"/Login/login",
-//     method:"post",
-//     data:{
-//       'email':email,
-//       'password':password
-//     },
-//     success:function(data){
-//       var obj = $.parseJSON(data);
-//       if (obj!=null) {
-//         $('#email_error').html(obj['error_message']);
-//       }
-//     }
-//   });
-// });
+
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {
@@ -316,7 +728,7 @@ $('#Submit').click(function() {
         password: $('#password').val()
     };
     $.ajax({
-        url: "/Login/login",
+        url: "/Home/login",
         type: 'POST',
         data: form_data,
         success: function(msg) {
@@ -329,10 +741,10 @@ $('#Submit').click(function() {
               $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
             }else if (msg =='Set up') {
               $('#login').hide();
-              $(location).attr('href','/SetUp');
+              $(location).attr('href','/Home/set_up');
             }else if (msg == 'Dashboard') {
               $('#login').hide();
-              $(location).attr('href','/Dashboard');
+              $(location).attr('href','/Account');
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }
@@ -352,7 +764,7 @@ $('#Register').click(function() {
         register_confirm_password: $('#register_confirm_password').val()
     };
     $.ajax({
-        url: "/Register",
+        url: "/Home/register",
         type: 'POST',
         data: register_data,
         success: function(message) {
