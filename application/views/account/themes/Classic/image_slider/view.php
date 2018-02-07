@@ -68,7 +68,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -88,7 +88,7 @@
           <hr>
         </div>
         <div class="row" style="padding: 0 20px 20px 20px;">
-          <img src="/uploads/themes/<?php echo $business->template?>/<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" alt="">
+          <img src="/uploads/<?php echo $account->username?>/<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" alt="">
         </div>
       </div>
     </div>

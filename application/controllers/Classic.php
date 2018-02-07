@@ -14,6 +14,21 @@ class Classic extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
 		$this->load->model('Classics');
+    if (!$this->session->userdata('is_logged_in'))
+    {
+      $allowed = array(
+        );
+        if ( ! in_array($this->router->fetch_method(), $allowed))
+        {
+          redirect('/Home');
+        }
+    }
+    else
+    {
+      $this->user_id = $_SESSION['user_id'];
+      $this->data['account'] = $this->Classics->get_account_details($this->user_id);
+      $this->data['business'] = $this->Classics->get_business_details($this->user_id);
+    }
 	}
 
   public function index()
@@ -23,21 +38,14 @@ class Classic extends CI_Controller
 
   public function home()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['home_title'] = $this->Classics->get_home_title($user_id);
-    $data['home_description'] = $this->Classics->get_home_description($user_id);
-    // print_r($data['home_title']);
-    $this->load->view('account/themes/'.$theme.'/home/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['home_title'] = $this->Classics->get_home_title($this->user_id);
+    $this->data['home_description'] = $this->Classics->get_home_description($this->user_id);
+    $this->load->view('account/themes/'.$theme.'/home/index',$this->data);
   }
 
   public function save_home()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'title', 'Title',
@@ -54,21 +62,21 @@ class Classic extends CI_Controller
     {
       if (!empty($this->input->post('title')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'home_title'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'home_title'");
         if ($query->num_rows() > 0)
         {
-          $data['home_title'] = $this->Classics->get_home_title($user_id);
+          $data['home_title'] = $this->Classics->get_home_title($this->user_id);
           $Home_Title = [
             'value' => $this->input->post('title')
           ];
-          if ($this->Classics->update_home_title($Home_Title,$user_id,$data['home_title']->content_id)) {
+          if ($this->Classics->update_home_title($Home_Title,$this->user_id,$data['home_title']->content_id)) {
             // redirect('/Account/home', 'refresh');
           }
         }
         else
         {
           $Home_Title = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'home_title',
             'content_title' => '',
             'description' => '',
@@ -83,21 +91,21 @@ class Classic extends CI_Controller
 
       if (!empty($this->input->post('description')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'home_description'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'home_description'");
         if ($query->num_rows() > 0)
         {
-          $data['home_description'] = $this->Classics->get_home_description($user_id);
+          $data['home_description'] = $this->Classics->get_home_description($this->user_id);
           $Home_Description = [
             'value' => $this->input->post('description')
           ];
-          if ($this->Classics->update_home_description($Home_Description,$user_id,$data['home_description']->content_id)) {
+          if ($this->Classics->update_home_description($Home_Description,$this->user_id,$data['home_description']->content_id)) {
             // redirect('/Account/home', 'refresh');
           }
         }
         else
         {
           $Home_Description = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'home_description',
             'content_title' => '',
             'description' => '',
@@ -115,21 +123,15 @@ class Classic extends CI_Controller
 
   public function about()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['featured_image'] = $this->Classics->get_featured_image($user_id);
-    $data['about_description'] = $this->Classics->get_about_description($user_id);
-    $this->load->view('account/themes/'.$theme.'/about/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['featured_image'] = $this->Classics->get_featured_image($this->user_id);
+    $this->data['about_description'] = $this->Classics->get_about_description($this->user_id);
+    $this->load->view('account/themes/'.$theme.'/about/index',$this->data);
   }
 
   public function save_about()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
+    $theme = $this->data['business']->template;
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'description', 'Description',
@@ -140,11 +142,11 @@ class Classic extends CI_Controller
     if ($this->form_validation->run() == TRUE)
     {
       if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'about_featured_image'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'about_featured_image'");
         if ($query->num_rows() > 0)
         {
           $data['featured_image'] = $query->row();
-          $config['upload_path'] = 'uploads/themes/'.$theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -161,7 +163,7 @@ class Classic extends CI_Controller
                 'value' => $picture
               ];
 
-              if ($this->Classics->update_featured_image($Featured_Image,$user_id,$data['featured_image']->content_id))
+              if ($this->Classics->update_featured_image($Featured_Image,$this->user_id,$data['featured_image']->content_id))
               { //KAPAG NAUPDATE YUNG LOGO
 
               }
@@ -169,7 +171,7 @@ class Classic extends CI_Controller
         }
         else
         {
-          $config['upload_path'] = 'uploads/themes/'.$theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -183,7 +185,7 @@ class Classic extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Featured_Image = [
-                'user_id' => $user_id,
+                'user_id' => $this->user_id,
                 'meta_key' => 'about_featured_image',
                 'content_title' => '',
                 'description' => '',
@@ -199,21 +201,21 @@ class Classic extends CI_Controller
 
       if (!empty($this->input->post('description')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'about_description'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'about_description'");
         if ($query->num_rows() > 0) {
 
-          $data['about_description'] = $this->Classics->get_about_description($user_id);
+          $data['about_description'] = $this->Classics->get_about_description($this->user_id);
           $About_Description = [
             'value' => $this->input->post('description')
           ];
-          if ($this->Classics->update_about_description($About_Description,$user_id,$data['about_description']->content_id)) {
+          if ($this->Classics->update_about_description($About_Description,$this->user_id,$data['about_description']->content_id)) {
             // redirect('/Account/about', 'refresh');
           }
 
         }else {
 
           $About_Description = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'about_description',
             'content_title' => '',
             'description' => '',
@@ -232,36 +234,27 @@ class Classic extends CI_Controller
 
   public function gallery()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['gallery_images'] = $this->Classics->get_gallery_images($user_id);
-    $this->load->view('account/themes/'.$theme.'/gallery/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['gallery_images'] = $this->Classics->get_gallery_images($this->user_id);
+    $this->load->view('account/themes/'.$theme.'/gallery/index',$this->data);
   }
 
   public function add_image()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $this->load->view('account/themes/'.$theme.'/gallery/add',$data);
+    $theme = $this->data['business']->template;
+    $this->load->view('account/themes/'.$theme.'/gallery/add',$this->data);
   }
 
   public function save_image()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $query = $this->db->query("select count(value) as count from contents where user_id = '$user_id' and meta_key = 'gallery_image'");
+    $theme = $this->data['business']->template;
+    $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and meta_key = 'gallery_image'");
     $count = $query->row();
     if ($count->count < 6)
     {
       if(!empty($_FILES['picture']['name']))
       { //If may laman na image
-          $config['upload_path'] = 'uploads/themes/'.$theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -275,7 +268,7 @@ class Classic extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Image = [
-                'user_id' => $user_id,
+                'user_id' => $this->user_id,
                 'meta_key' => 'gallery_image',
                 'content_title' => '',
                 'description' => '',
@@ -304,33 +297,24 @@ class Classic extends CI_Controller
 
   public function view_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['image'] = $this->Classics->get_image($user_id,$content_id);
-    $this->load->view('account/themes/'.$theme.'/gallery/view',$data);
+    $theme = $this->data['business']->template;
+    $this->data['image'] = $this->Classics->get_image($this->user_id,$content_id);
+    $this->load->view('account/themes/'.$theme.'/gallery/view',$this->data);
   }
 
   public function edit_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['image'] = $this->Classics->get_image($user_id,$content_id);
-    $this->load->view('account/themes/'.$theme.'/gallery/edit',$data);
+    $theme = $this->data['business']->template;
+    $this->data['image'] = $this->Classics->get_image($this->user_id,$content_id);
+    $this->load->view('account/themes/'.$theme.'/gallery/edit',$this->data);
   }
 
   public function update_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
+    $theme = $this->data['business']->template;
 
     if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/themes/'.$theme;
+        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
         $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = $_FILES['picture']['name'];
@@ -347,7 +331,7 @@ class Classic extends CI_Controller
               'value' => $picture
             ];
 
-            if ($this->Classics->update_gallery_image($Image,$user_id,$content_id)) {
+            if ($this->Classics->update_gallery_image($Image,$this->user_id,$content_id)) {
               redirect('/Classic/gallery', 'refresh');
             }
         }else{
@@ -359,9 +343,8 @@ class Classic extends CI_Controller
 
   public function delete_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
     $this->db->where('content_id', $content_id);
-    $this->db->where('user_id', $user_id);
+    $this->db->where('user_id', $this->user_id);
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
@@ -370,19 +353,15 @@ class Classic extends CI_Controller
 
   public function contacts()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['facebook'] = $this->Classics->get_facebook_url($user_id);
-    $data['instagram'] = $this->Classics->get_instagram_url($user_id);
-    $data['twitter'] = $this->Classics->get_twitter_url($user_id);
-    $this->load->view('account/themes/'.$theme.'/contacts/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['facebook'] = $this->Classics->get_facebook_url($this->user_id);
+    $this->data['instagram'] = $this->Classics->get_instagram_url($this->user_id);
+    $this->data['twitter'] = $this->Classics->get_twitter_url($this->user_id);
+    $this->load->view('account/themes/'.$theme.'/contacts/index',$this->data);
   }
 
   public function save_contacts()
   {
-    $user_id = $_SESSION['user_id'];
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'facebook', 'Facebook',
@@ -404,7 +383,7 @@ class Classic extends CI_Controller
     {
       if (!empty($this->input->post('facebook')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'facebook_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'facebook_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -413,7 +392,7 @@ class Classic extends CI_Controller
             'value' => $this->input->post('facebook')
           ];
 
-          if ($this->Classics->update_facebook_url($Facebook,$user_id,$data['facebook']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+          if ($this->Classics->update_facebook_url($Facebook,$this->user_id,$data['facebook']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
           {
 
           }
@@ -426,7 +405,7 @@ class Classic extends CI_Controller
         else
         {
           $Facebook = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'facebook_url',
             'content_title' => '',
             'description' => '',
@@ -446,7 +425,7 @@ class Classic extends CI_Controller
       }
       if (!empty($this->input->post('instagram')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'instagram_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'instagram_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -455,7 +434,7 @@ class Classic extends CI_Controller
             'value' => $this->input->post('instagram')
           ];
 
-          if ($this->Classics->update_instagram_url($Instagram,$user_id,$data['instagram']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+          if ($this->Classics->update_instagram_url($Instagram,$this->user_id,$data['instagram']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
           {
 
           }
@@ -468,7 +447,7 @@ class Classic extends CI_Controller
         else
         {
           $Instagram = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'instagram_url',
             'content_title' => '',
             'description' => '',
@@ -488,7 +467,7 @@ class Classic extends CI_Controller
       }
       if (!empty($this->input->post('twitter')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$user_id' and meta_key = 'twitter_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'twitter_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -497,7 +476,7 @@ class Classic extends CI_Controller
             'value' => $this->input->post('twitter')
           ];
 
-          if ($this->Classics->update_twitter_url($Twitter,$user_id,$data['twitter']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+          if ($this->Classics->update_twitter_url($Twitter,$this->user_id,$data['twitter']->content_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
           {
 
           }
@@ -510,7 +489,7 @@ class Classic extends CI_Controller
         else
         {
           $Twitter = [
-            'user_id' => $user_id,
+            'user_id' => $this->user_id,
             'meta_key' => 'twitter_url',
             'content_title' => '',
             'description' => '',
@@ -534,36 +513,27 @@ class Classic extends CI_Controller
 
   public function image_slider()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['slider_images'] = $this->Classics->get_slider_images($user_id);
-    $this->load->view('account/themes/'.$theme.'/image_slider/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['slider_images'] = $this->Classics->get_slider_images($this->user_id);
+    $this->load->view('account/themes/'.$theme.'/image_slider/index',$this->data);
   }
 
   public function add_image_slider()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $this->load->view('account/themes/'.$theme.'/image_slider/add',$data);
+    $theme = $this->data['business']->template;
+    $this->load->view('account/themes/'.$theme.'/image_slider/add',$this->data);
   }
 
   public function save_image_slider()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $query = $this->db->query("select count(value) as count from contents where user_id = '$user_id' and meta_key = 'image_slider'");
+    $theme = $this->data['business']->template;
+    $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and meta_key = 'image_slider'");
     $count = $query->row();
     if ($count->count < 3)
     {
       if(!empty($_FILES['picture']['name']))
       { //If may laman na image
-          $config['upload_path'] = 'uploads/themes/'.$theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -577,7 +547,7 @@ class Classic extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Image = [
-                'user_id' => $user_id,
+                'user_id' => $this->user_id,
                 'meta_key' => 'image_slider',
                 'content_title' => '',
                 'description' => '',
@@ -606,33 +576,24 @@ class Classic extends CI_Controller
 
   public function view_slider_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['image'] = $this->Classics->get_image_slider($user_id,$content_id);
-    $this->load->view('account/themes/'.$theme.'/image_slider/view',$data);
+    $theme = $this->data['business']->template;
+    $this->data['image'] = $this->Classics->get_image_slider($this->user_id,$content_id);
+    $this->load->view('account/themes/'.$theme.'/image_slider/view',$this->data);
   }
 
   public function edit_slider_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['image_slider'] = $this->Classics->get_image_slider($user_id,$content_id);
-    $this->load->view('account/themes/'.$theme.'/image_slider/edit',$data);
+    $theme = $this->data['business']->template;
+    $this->data['image_slider'] = $this->Classics->get_image_slider($this->user_id,$content_id);
+    $this->load->view('account/themes/'.$theme.'/image_slider/edit',$this->data);
   }
 
   public function update_image_slider($content_id)
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
+    $theme = $this->data['business']->template;
 
     if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/themes/'.$theme;
+        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
         $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = $_FILES['picture']['name'];
@@ -649,7 +610,7 @@ class Classic extends CI_Controller
               'value' => $picture
             ];
 
-            if ($this->Classics->update_image_slider($Image,$user_id,$content_id)) {
+            if ($this->Classics->update_image_slider($Image,$this->user_id,$content_id)) {
               redirect('/Classic/image_slider', 'refresh');
             }
         }else{
@@ -661,9 +622,8 @@ class Classic extends CI_Controller
 
   public function delete_slider_image($content_id)
   {
-    $user_id = $_SESSION['user_id'];
     $this->db->where('content_id', $content_id);
-    $this->db->where('user_id', $user_id);
+    $this->db->where('user_id', $this->user_id);
     $this->db->where('meta_key', 'image_slider');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
@@ -672,27 +632,21 @@ class Classic extends CI_Controller
 
   public function theme()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['account'] = $this->Classics->get_account_details($user_id);
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $theme = $data['business']->template;
-    $data['themes'] = $this->Classics->get_themes();
-    $this->load->view('account/themes/'.$theme.'/theme/index',$data);
+    $theme = $this->data['business']->template;
+    $this->data['themes'] = $this->Classics->get_themes();
+    $this->load->view('account/themes/'.$theme.'/theme/index',$this->data);
   }
 
   public function save_template()
   {
-    $user_id = $_SESSION['user_id'];
-    $data['business'] = $this->Classics->get_business_details($user_id);
-    $data['account'] = $this->Classics->get_account_details($user_id);
     $template = $this->input->post('template');
     $Template = [
       'template' => $this->input->post('template')
     ];
 
-    if ($this->Classics->update_user_template($Template,$user_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+    if ($this->Classics->update_user_template($Template,$this->user_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
     {
-      redirect('/Classic/theme', 'refresh');
+      redirect('/'.$template.'/theme', 'refresh');
 
     }
     else

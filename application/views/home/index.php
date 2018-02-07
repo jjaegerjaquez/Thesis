@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -175,8 +175,14 @@
             <div id="register_error_message"></div>
             <div class="form-group">
               <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
                 <input type="email" name="register_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="register_email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+                <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" required>
               </div>
             </div>
             <div class="form-group">
@@ -681,17 +687,23 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="footer-desc text-center">
-                        <img src="logo" width="82" height="48" alt="">
-                        <p>
-                            <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
-                        </p>
+                        <div class="col-lg-6 col-lg-offset-3">
+                          <p>
+                              <?php if (!empty($tagline->value)): ?>
+                                <?php echo $tagline->value ?>
+                                <?php else: ?>
+                                  Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                              <?php endif; ?> <a href="/about/">Learn More</a>
+                          </p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <ul class="social">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
                     </ul>
                 </div>
             </div> <!--/.row-->
@@ -760,6 +772,7 @@ $('#Register').click(function() {
     $('#register_error_message').show();
     var register_data = {
         register_email: $('#register_email').val(),
+        username: $('#username').val(),
         register_password: $('#register_password').val(),
         register_confirm_password: $('#register_confirm_password').val()
     };

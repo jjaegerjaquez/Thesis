@@ -67,7 +67,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -86,8 +86,11 @@
           <hr>
         </div>
         <form class="" action="/Classic/save_about" method="post" enctype="multipart/form-data">
-          <img src="/uploads/themes/<?php echo $business->template?>/<?php if (!empty($featured_image->value)) { echo $featured_image->value; } else { echo 'about-feat-img.jpg'; }?>" alt="" height="300px" height="200px">
-          <div class="col-lg-12">
+          <?php if (!empty($featured_image->value)): ?>
+            <img src="/uploads/<?php echo $account->username?>/<?php echo $featured_image->value?>" alt="" height="300px" height="200px">
+          <?php else: ?>
+            <img src="/public/img/img.jpg" alt="" height="300px" height="200px">
+          <?php endif; ?>
             <div class="form-group">
               <label>Featured Image:
                 <br>
@@ -95,8 +98,6 @@
               </label>
               <input class="" type="file" name="picture" />
             </div>
-          </div>
-          <div class="col-lg-12">
             <div class="form-group input-width center-block">
               <label>Description:</label>
               <textarea class="form-control" name="description"><?php if (!empty($about_description->value)) { echo $about_description->value; } ?></textarea>
@@ -104,7 +105,6 @@
             <div class="form-group">
               <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
             </div>
-          </div>
         </form>
       </div>
     </div>

@@ -67,7 +67,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -86,25 +86,23 @@
           <hr>
         </div>
         <form class="" action="/Classic/save_contacts" method="post" enctype="multipart/form-data">
-          <div class="col-lg-12">
-            <div class="form-group">
-              <label>Facebook URL:</label>
-              <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50">
-              <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
-            </div>
-            <div class="form-group">
-              <label>Instagram URL:</label>
-              <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50">
-              <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
-            </div>
-            <div class="form-group">
-              <label>Twitter URL:</label>
-              <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50">
-              <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-            </div>
+          <div class="form-group">
+            <label>Facebook URL:</label>
+            <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50">
+            <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
+          </div>
+          <div class="form-group">
+            <label>Instagram URL:</label>
+            <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50">
+            <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
+          </div>
+          <div class="form-group">
+            <label>Twitter URL:</label>
+            <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50">
+            <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
+          </div>
+          <div class="form-group">
+            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </form>
       </div>

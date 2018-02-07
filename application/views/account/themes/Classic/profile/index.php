@@ -67,7 +67,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile" class="active">Profile</a>
@@ -113,11 +113,6 @@
               <?php endforeach; ?>
             </select>
             <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" class="form-control" value="<?php echo $business->username?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
           </div>
           <div class="form-group">
             <label>Business Name:</label>

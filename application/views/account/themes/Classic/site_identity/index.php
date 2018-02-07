@@ -67,7 +67,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -86,7 +86,7 @@
           <hr>
         </div>
         <form class="" action="/Account/save_site_identity" method="post" enctype="multipart/form-data">
-          <img src="/uploads/themes/<?php echo $business->template?>/<?php if (!empty($site_logo->value)) { echo $site_logo->value; } else { echo 'logo1.png'; }?>" alt="" height="100px" height="50px">
+          <img src="/uploads/<?php echo $account->username?>/<?php if (!empty($site_logo->value)) { echo $site_logo->value; } else { echo 'logo1.png'; }?>" alt="" height="100px" height="50px">
           <div class="col-lg-12">
             <div class="form-group">
               <label>Logo:

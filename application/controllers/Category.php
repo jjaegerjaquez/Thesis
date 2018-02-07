@@ -31,6 +31,7 @@ class Category extends CI_Controller
       $data['results'] = $this->Categories->get_category_result($category);
       $data['category'] = $category;
       $this->load->view('home/result',$data);
+      // print_r($data['results']);
     }
   }
 

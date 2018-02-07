@@ -36,7 +36,7 @@
               <h3 style="color:#fff;"><?php echo $theme->theme?></h3>
               <p>
                 <form class="" action="/Account/save_template" method="post">
-                  <a href = "#" class = "btn btn-primary" role = "button" style="background-color:#f37430;border:none;color:#3c3734;">View</a>
+                  <a href = "/Theme/preview/<?php echo $theme->theme?>" class = "btn btn-primary" role = "button" style="background-color:#f37430;border:none;color:#3c3734;">Preview</a>
                   <button type="submit" name="template" class = "btn btn-primary" value="<?php echo $theme->theme?>" style="background-color:#f37430;border:none;color:#3c3734;">Apply</button>
                 </form>
               </p>

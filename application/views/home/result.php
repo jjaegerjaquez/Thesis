@@ -116,7 +116,7 @@
               </ul>
               <div class="row">
                 <div class="col-xs-6">
-                  <a href="#" class="btn btn-lg btn-primary btn-style">
+                  <a href="<?php echo $result->website_url?>" class="btn btn-lg btn-primary btn-style">
                     <div class="space"></div>
     			        <span class="" style="color: #f37430;">Visit Website</span>
     		          </a>

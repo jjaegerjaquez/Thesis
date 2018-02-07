@@ -22,6 +22,30 @@ class Homes extends CI_Model
     }
   }
 
+  public function UsernameExists($username)
+  {
+    $this->db->select('user_id');
+    $this->db->where('username', $username);
+    $query = $this->db->get('users');
+
+    if ($query->num_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  public function get_business_details($user_id)
+  {
+    $query = $this->db->get_where('basic_info', ['user_id' => $user_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
   public function sendemail($email,$code)
   {
     $from = "victonaragang@gmail.com";    //senders email address
@@ -111,6 +135,52 @@ class Homes extends CI_Model
   {
     $query = $this->db->query("select * from categories limit 11");
     return $query->result();
+  }
+
+  public function get_user_details($user_id)
+  {
+    $query = $this->db->query("select * from users u join basic_info bi on u.user_id=bi.user_id where u.user_id='$user_id'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return $query->row();
+    }
+  }
+
+  public function get_title()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_title'");
+    return $query->row();
+  }
+
+  public function get_tagline()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+    return $query->row();
+  }
+
+  public function get_facebook()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+    return $query->row();
+  }
+
+  public function get_instagram()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+    return $query->row();
+  }
+
+  public function get_twitter()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+    return $query->row();
+  }
+
+  public function get_google()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    return $query->row();
   }
 
 }

@@ -16,21 +16,25 @@ class View extends CI_Controller
 		$this->load->model('Views');
 	}
 
-  function _remap($user_id)
+  function _remap($username)
   {
-    $this->index($user_id);
+    $this->index($username);
   }
 
-  public function index($user_id)
+  public function index($username)
   {
-    $data['user'] = $this->Views->view_user_webpage($user_id);
-    $temp = $data['user']->temp;
-    if ($temp == 1) {
-      $this->load->view('temp1/home');
-    }elseif ($temp == 2) {
-      $this->load->view('temp2/home');
-    }elseif ($temp == 3) {
-
-    }
+    $data['account'] = $this->Views->get_account_details($username);
+    $business_id = $data['account']->user_id;
+    $data['home_title'] = $this->Views->get_home_title($business_id);
+    $data['home_description'] = $this->Views->get_home_description($business_id);
+    $data['about_featured_image'] = $this->Views->get_about_featured_image($business_id);
+    $data['about_description'] = $this->Views->get_about_description($business_id);
+    $data['details'] = $this->Views->get_details($business_id);
+    $data['facebook'] = $this->Views->get_facebook($business_id);
+    $data['instagram'] = $this->Views->get_instagram($business_id);
+    $data['image_sliders'] = $this->Views->get_image_slider($business_id);
+    $theme = $data['account']->template;
+    // print_r($data['facebook']);
+    $this->load->view('account/themes/'.$theme.'/index',$data);
   }
 }

@@ -14,18 +14,48 @@ class Home extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
 		$this->load->model('Homes');
+    if (!$this->session->userdata('is_logged_in'))
+    {
+      $this->data['categories'] = $this->Homes->get_categories();
+      $this->data['title'] = $this->Homes->get_title();
+      $this->data['tagline'] = $this->Homes->get_tagline();
+      $this->data['facebook'] = $this->Homes->get_facebook();
+      $this->data['instagram'] = $this->Homes->get_instagram();
+      $this->data['twitter'] = $this->Homes->get_twitter();
+      $this->data['google'] = $this->Homes->get_google();
+      $allowed = array(
+            'index',
+            'login',
+            'register'
+        );
+        if ( ! in_array($this->router->fetch_method(), $allowed))
+        {
+          redirect('/Home');
+        }
+    }
+    else
+    {
+      $this->data['title'] = $this->Homes->get_title();
+      $this->data['tagline'] = $this->Homes->get_tagline();
+    }
 	}
 
   public function index()
   {
-    if (!$this->session->userdata('is_logged_in')) {
-      $data['categories'] = $this->Homes->get_categories();
-      $this->load->view('home/index',$data);
-    }else {
-      $this->redirect();
+    if ($this->session->userdata('is_logged_in'))
+    {
+      $email = $_SESSION['email'];
+      $this->data['account'] = $this->Homes->validate_email($email);
+      $set_up = $data['account']->set_up;
+      if ($set_up == '0')
+        {
+          redirect('/Home/set_up');
+        }else {
+          redirect('/Home/redirect');
+        }
     }
-    // $data['categories'] = $this->Homes->get_categories();
-    // $this->load->view('home/index',$data);
+    $this->load->view('home/index',$this->data);
+
   }
 
   public function register()
@@ -56,55 +86,77 @@ class Home extends CI_Controller
         }
         else
         {
-          $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'matches[register_password]');
+          // $this->form_validation->set_rules('username', 'Username', 'alpha_numeric|callback_UsernameExists');
+          $this->form_validation->set_rules(
+              'username', 'Username',
+              'alpha_numeric|callback_UsernameExists|trim',
+              array(
+                      'alpha_numeric'      => 'Space is not allowed.'
+              )
+          );
           if ($this->form_validation->run() == FALSE)
           {
-            echo "Passwords do not matched";
-          }else {
-              $RegisterData = array(
-                'email' => $this->input->post('register_email'),
-                'password' => md5($this->input->post('register_password')),
-                'date_joined' => date("Y-m-d"),
-                'website' => 'No',
-                'set_up' => '0',
-                'status' => '1'
-              );
-              $email = $this->input->post('register_email');
-              $code = md5($email);
-              // $this->sendemail($email,$code);
-              if ($this->db->insert('users',$RegisterData)) {
-                $data['email_details'] = $this->Homes->get_email($email);
-                $Business_Data = array(
-                  'user_id' => $data['email_details']->user_id,
-                  'business_name' => '',
-                  'category' => '',
-                  'locality' => '',
-                  'address' => '',
-                  'cellphone' => '',
-                  'telephone' => '',
-                  'website_url' => '',
-                  'template' => '0',
-                  'image' => 'default-img.jpg'
+            echo validation_errors();
+          }
+          else
+          {
+            $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'matches[register_password]');
+            if ($this->form_validation->run() == FALSE)
+            {
+              echo "Passwords do not matched";
+            }else {
+                $RegisterData = array(
+                  'email' => $this->input->post('register_email'),
+                  'username' => $this->input->post('username'),
+                  'password' => md5($this->input->post('register_password')),
+                  'date_joined' => date("Y-m-d"),
+                  'website' => 'No',
+                  'set_up' => '0',
+                  'status' => '1'
                 );
-                if ($this->db->insert('basic_info',$Business_Data)) {
-                  echo "Successful";
+                $email = $this->input->post('register_email');
+                $code = md5($email);
+                // $this->sendemail($email,$code);
+                if ($this->db->insert('users',$RegisterData)) {
+                  $data['email_details'] = $this->Homes->get_email($email);
+                  $Business_Data = array(
+                    'user_id' => $data['email_details']->user_id,
+                    'username' => $this->input->post('username'),
+                    'business_name' => '',
+                    'category' => '',
+                    'locality' => '',
+                    'address' => '',
+                    'cellphone' => '',
+                    'telephone' => '',
+                    'website_url' => '',
+                    'template' => '0',
+                    'image' => 'default-img.jpg'
+                  );
+                  if ($this->db->insert('basic_info',$Business_Data)) {
+                    chmod('./uploads/', 0777);
+                    $path   = './uploads/'.$this->input->post('username');
+                    if (!is_dir($path)) { //create the folder if it's not already exists
+                        mkdir($path, 0755, TRUE);
+                    }
+                    echo "Successful";
+                  }else {
+                    $this->db->where('user_id', $data['email_details']->user_id);
+                    $this->db->delete('users');
+                    echo "Unsucessful";
+                  }
                 }else {
-                  $this->db->where('user_id', $data['email_details']->user_id);
-                  $this->db->delete('users');
                   echo "Unsucessful";
                 }
-              }else {
-                echo "Unsucessful";
-              }
-              // if($this->Registers->sendemail($email,$code))
-              // {
-              //   $this->db->insert('users',$RegisterData);
-              //   echo "Successful";
-              // }
-              // else
-              // {
-              //   echo "Unsucessful";
-              // }
+                // if($this->Registers->sendemail($email,$code))
+                // {
+                //   $this->db->insert('users',$RegisterData);
+                //   echo "Successful";
+                // }
+                // else
+                // {
+                //   echo "Unsucessful";
+                // }
+            }
           }
         }
       }
@@ -118,6 +170,19 @@ class Home extends CI_Controller
 
     if ($exists) {
         $this->form_validation->set_message('EmailExists', 'Email address is taken already.');
+        return false;
+    } else {
+        return true;
+    }
+  }
+
+  public function UsernameExists()
+  {
+    $username = $this->input->post('username');
+    $exists = $this->Homes->UsernameExists($username);
+
+    if ($exists) {
+        $this->form_validation->set_message('UsernameExists', 'Username is already taken.');
         return false;
     } else {
         return true;
@@ -179,26 +244,19 @@ class Home extends CI_Controller
 
   public function redirect()
   {
-    $email = $this->session->userdata('email');
+    $email = $_SESSION['email'];
     $email_validate = $this->Homes->validate_email($email);
     if ($email_validate)
     {
       $data['account'] = $this->Homes->validate_email($email);
       $set_up = $data['account']->set_up;
-      if ($set_up == '0') {
+      if ($set_up == '0')
+      {
         $this->load->view('/home/setup/index');
-        // echo "Set up";
-        // $this->session->set_userdata('email', $email);
-        // $this->session->set_userdata('user_id', $data['account']->user_id);
-        // $this->session->set_userdata('is_logged_in', true);
-      }elseif ($set_up == '1') {
-        $user_id = $_SESSION['user_id'];
-        $data['user_info'] = $this->Homes->get($user_id);
-        $this->load->view('account/dashboard/index',$data);
-        // echo "Dashboard";
-        // $this->session->set_userdata('email', $email);
-        // $this->session->set_userdata('user_id', $data['account']->user_id);
-        // $this->session->set_userdata('is_logged_in', true);
+      }
+      elseif ($set_up == '1')
+      {
+        redirect('/Account', 'refresh');
       }
     }
   }
@@ -212,19 +270,48 @@ class Home extends CI_Controller
   {
     $user_id = $_SESSION['user_id'];
     $status = $this->input->post('select');
-    if($this->Homes->update_set_up($user_id,$status))
+    if ($status == 'Yes')
     {
-        $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
-        redirect('/Account/themes', 'refresh');
+      if($this->Homes->update_set_up($user_id,$status))
+      {
+          $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
+          redirect('/Account', 'refresh');
+      }
+      else
+      {
+          $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Something went wrong...</div>');
+          $this->session->unset_userdata('email');
+          $this->session->unset_userdata('is_logged_in');
+          $this->session->unset_userdata('user_id');
+          redirect('/Home', 'refresh');
+      }
     }
     else
     {
-        $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Something went wrong...</div>');
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('is_logged_in');
-        $this->session->unset_userdata('user_id');
-        redirect('/Home', 'refresh');
+      if($this->Homes->update_set_up($user_id,$status))
+      {
+          $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
+          redirect('/Account/themes', 'refresh');
+      }
+      else
+      {
+          $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Something went wrong...</div>');
+          $this->session->unset_userdata('email');
+          $this->session->unset_userdata('is_logged_in');
+          $this->session->unset_userdata('user_id');
+          redirect('/Home', 'refresh');
+      }
     }
+  }
+
+  public function user_with_website()
+  {
+
+  }
+
+  public function user_without_website()
+  {
+    # code...
   }
 
   public function search()

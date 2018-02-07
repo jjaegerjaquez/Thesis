@@ -68,7 +68,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -87,17 +87,15 @@
           <hr>
         </div>
         <form class="" action="/Classic/save_image_slider" method="post" enctype="multipart/form-data">
-          <div class="col-lg-12">
-            <div class="form-group">
-              <label>Image:
-                <br>
-                <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
-              </label>
-              <input class="" type="file" name="picture" />
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Upload</button>
-            </div>
+          <div class="form-group">
+            <label>Image:
+              <br>
+              <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
+            </label>
+            <input class="" type="file" name="picture" />
+          </div>
+          <div class="form-group">
+            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Upload</button>
           </div>
         </form>
       </div>

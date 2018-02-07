@@ -14,22 +14,34 @@ class Admin extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
 		$this->load->model('Admins');
-    // if (!$this->session->userdata('admin_is_logged_in')) {
-    //   redirect('/Home');
-    // }else {
-    //   redirect('/Admin/dashboard');
-    // }
+    if (!$this->session->userdata('admin_is_logged_in'))
+    {
+      $allowed = array(
+            'index',
+            'login'
+        );
+        if ( ! in_array($this->router->fetch_method(), $allowed))
+        {
+          redirect('/Admin');
+        }
+    }
+    else
+    {
+      $username = $_SESSION['username'];
+      $this->data['user'] = $this->Admins->validate_user($username);
+      $this->data['title'] = $this->Admins->get_title();
+      $this->data['tagline'] = $this->Admins->get_tagline();
+    }
 	}
 
   public function index()
   {
-    if (!$this->session->userdata('admin_is_logged_in')) {
-      $data['error'] = '';
-      $this->load->view('admin/index',$data);
-    }else {
-      // $this->redirect();
+    if ($this->session->userdata('admin_is_logged_in'))
+    {
       redirect('/Admin/dashboard');
     }
+    $data['error'] = '';
+    $this->load->view('admin/index',$data);
   }
 
   public function login()
@@ -87,19 +99,17 @@ class Admin extends CI_Controller
 
   public function dashboard()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $this->load->view('admin/dashboard/index',$data);
+    $this->load->view('admin/dashboard/index',$this->data);
   }
 
   // LOCALITY
   public function localities()
   {
     $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
+    $this->data['user'] = $this->Admins->validate_user($username);
 
     $query = $this->db->get('localities','7', $this->uri->segment(3));
-		$data['localities'] = $query->result();
+		$this->data['localities'] = $query->result();
 
 		$query2= $this->db->get('localities');
 
@@ -130,14 +140,12 @@ class Admin extends CI_Controller
 
 		$this->pagination->initialize($config);
 
-    $this->load->view('admin/dashboard/localities/index',$data);
+    $this->load->view('admin/dashboard/localities/index',$this->data);
   }
 
   public function add_localities()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $this->load->view('admin/dashboard/localities/create',$data);
+    $this->load->view('admin/dashboard/localities/create',$this->data);
   }
 
   public function create_locality()
@@ -160,9 +168,7 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $this->load->view('admin/dashboard/localities/create',$data);
+      $this->load->view('admin/dashboard/localities/create',$this->data);
     }
     else
     {
@@ -228,18 +234,14 @@ class Admin extends CI_Controller
 
   public function view_locality($locality_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['locality'] = $this->Admins->get_locality($locality_id);
-    $this->load->view('admin/dashboard/localities/view', $data);
+    $this->data['locality'] = $this->Admins->get_locality($locality_id);
+    $this->load->view('admin/dashboard/localities/view', $this->data);
   }
 
   public function edit_locality($locality_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['locality'] = $this->Admins->get_locality($locality_id);
-    $this->load->view('admin/dashboard/localities/update', $data);
+    $this->data['locality'] = $this->Admins->get_locality($locality_id);
+    $this->load->view('admin/dashboard/localities/update', $this->data);
   }
 
   public function update_locality($locality_id)
@@ -262,10 +264,8 @@ class Admin extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $data['locality'] = $this->Admins->get_locality($locality_id);
-      $this->load->view('admin/dashboard/localities/update', $data);
+      $this->data['locality'] = $this->Admins->get_locality($locality_id);
+      $this->load->view('admin/dashboard/localities/update', $this->data);
     }
     else
     {
@@ -330,11 +330,8 @@ class Admin extends CI_Controller
   // CATEGORY
   public function categories()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-
     $query = $this->db->get('categories','7', $this->uri->segment(3));
-		$data['categories'] = $query->result();
+		$this->data['categories'] = $query->result();
 
 		$query2= $this->db->get('categories');
 
@@ -365,14 +362,12 @@ class Admin extends CI_Controller
 
 		$this->pagination->initialize($config);
 
-    $this->load->view('admin/dashboard/categories/index',$data);
+    $this->load->view('admin/dashboard/categories/index',$this->data);
   }
 
   public function add_category()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $this->load->view('admin/dashboard/categories/create',$data);
+    $this->load->view('admin/dashboard/categories/create',$this->data);
   }
 
   public function create_category()
@@ -395,9 +390,7 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $this->load->view('admin/dashboard/categories/create',$data);
+      $this->load->view('admin/dashboard/categories/create',$this->data);
     }
     else
     {
@@ -463,18 +456,14 @@ class Admin extends CI_Controller
 
   public function view_category($category_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['category'] = $this->Admins->get_category($category_id);
-    $this->load->view('admin/dashboard/categories/view', $data);
+    $this->data['category'] = $this->Admins->get_category($category_id);
+    $this->load->view('admin/dashboard/categories/view', $this->data);
   }
 
   public function edit_category($category_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['category'] = $this->Admins->get_category($category_id);
-    $this->load->view('admin/dashboard/categories/update', $data);
+    $this->data['category'] = $this->Admins->get_category($category_id);
+    $this->load->view('admin/dashboard/categories/update', $this->data);
   }
 
   public function update_category($category_id)
@@ -497,10 +486,8 @@ class Admin extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $data['category'] = $this->Admins->get_category($category_id);
-      $this->load->view('admin/dashboard/categories/update', $data);
+      $this->data['category'] = $this->Admins->get_category($category_id);
+      $this->load->view('admin/dashboard/categories/update', $this->data);
     }
     else
     {
@@ -565,11 +552,8 @@ class Admin extends CI_Controller
   // THEMES
   public function themes()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-
     $query = $this->db->get('themes','7', $this->uri->segment(3));
-		$data['themes'] = $query->result();
+		$this->data['themes'] = $query->result();
 
 		$query2= $this->db->get('themes');
 
@@ -600,14 +584,12 @@ class Admin extends CI_Controller
 
 		$this->pagination->initialize($config);
 
-    $this->load->view('admin/dashboard/themes/index',$data);
+    $this->load->view('admin/dashboard/themes/index',$this->data);
   }
 
   public function add_theme()
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $this->load->view('admin/dashboard/themes/create',$data);
+    $this->load->view('admin/dashboard/themes/create',$this->data);
   }
 
   public function save_theme()
@@ -637,9 +619,7 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $this->load->view('admin/dashboard/themes/create',$data);
+      $this->load->view('admin/dashboard/themes/create',$this->data);
     }
     else
     {
@@ -724,18 +704,14 @@ class Admin extends CI_Controller
 
   public function view_theme($theme_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['theme'] = $this->Admins->get_theme($theme_id);
-    $this->load->view('admin/dashboard/themes/view', $data);
+    $this->data['theme'] = $this->Admins->get_theme($theme_id);
+    $this->load->view('admin/dashboard/themes/view', $this->data);
   }
 
   public function edit_theme($theme_id)
   {
-    $username = $_SESSION['username'];
-    $data['user'] = $this->Admins->validate_user($username);
-    $data['theme'] = $this->Admins->get_theme($theme_id);
-    $this->load->view('admin/dashboard/themes/update', $data);
+    $this->data['theme'] = $this->Admins->get_theme($theme_id);
+    $this->load->view('admin/dashboard/themes/update', $this->data);
   }
 
   public function update_theme($theme_id)
@@ -765,9 +741,7 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $username = $_SESSION['username'];
-      $data['user'] = $this->Admins->validate_user($username);
-      $this->load->view('admin/dashboard/themes/create',$data);
+      $this->load->view('admin/dashboard/themes/create',$this->data);
     }
     else
     {
@@ -821,6 +795,350 @@ class Admin extends CI_Controller
      redirect('/Admin/themes', 'refresh');
   }
   // END OF THEMES
+
+  // LAYOUT
+  public function layout()
+  {
+    $this->data['logo'] = $this->Admins->get_logo();
+    $this->data['icon'] = $this->Admins->get_icon();
+    $this->data['facebook'] = $this->Admins->get_facebook();
+    $this->data['instagram'] = $this->Admins->get_instagram();
+    $this->data['twitter'] = $this->Admins->get_twitter();
+    $this->data['google'] = $this->Admins->get_google();
+    // print_r($this->data['icon']);
+    $this->load->view('admin/dashboard/layout/index',$this->data);
+  }
+
+  public function save_site_settings()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'tagline', 'Tagline',
+        'trim',
+        array()
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == TRUE)
+    {
+      if(!empty($_FILES['picture']['name']))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'site_logo'");
+        if ($query->num_rows() > 0)
+        {
+           $data['logo'] = $query->row();
+           $config['upload_path'] = 'public/img/logo';
+           $config['overwrite'] = TRUE;
+           $config['allowed_types'] = 'jpg|jpeg|png|gif';
+          //  $config['min_width']            = 500;
+          //  $config['min_height']           = 300;
+          //  $config['max_width']            = 1000;
+          //  $config['max_height']           = 600;
+           $config['file_name'] = $_FILES['picture']['name'];
+
+           //Load upload library and initialize configuration
+           $this->load->library('upload',$config);
+           $this->upload->initialize($config);
+
+           if($this->upload->do_upload('picture')){
+               $uploadData = $this->upload->data();
+               $picture = $uploadData['file_name'];
+
+               $Logo = [
+                 'value' => $picture
+               ];
+
+               if ($this->Admins->update_site_logo($Logo,$data['logo']->content_id)) {
+               }
+           }
+           else
+           {
+             echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
+           }
+        }
+        else
+        {
+            $config['upload_path'] = 'public/img/logo';
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['min_width']            = 500;
+            $config['min_height']           = 300;
+            // $config['max_width']            = 1000;
+            // $config['max_height']           = 600;
+            $config['file_name'] = $_FILES['picture']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('picture')){
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+
+                $Logo = [
+                  'meta_key' => 'site_logo',
+                  'value' => $picture
+                ];
+
+                if ($this->db->insert('layout',$Logo)) {
+                }
+            }
+            else
+            {
+              echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
+            }
+        }
+      }
+      if(!empty($_FILES['icon']['name']))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+        if ($query->num_rows() > 0)
+        {
+           $data['icon'] = $query->row();
+           $config['upload_path'] = 'public/img/logo';
+           $config['overwrite'] = TRUE;
+           $config['allowed_types'] = 'jpg|jpeg|png|gif';
+           $config['min_width']            = 300;
+           $config['min_height']           = 300;
+           $config['max_width']            = 900;
+           $config['max_height']           = 900;
+           $config['file_name'] = $_FILES['icon']['name'];
+
+           //Load upload library and initialize configuration
+           $this->load->library('upload',$config);
+           $this->upload->initialize($config);
+
+           if($this->upload->do_upload('icon')){
+               $uploadData = $this->upload->data();
+               $picture = $uploadData['file_name'];
+
+               $Icon = [
+                 'value' => $picture
+               ];
+
+               if ($this->Admins->update_site_icon($Icon,$data['icon']->content_id)) {
+               }
+           }
+           else
+           {
+             echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
+           }
+        }
+        else
+        {
+            $config['upload_path'] = 'public/img/logo';
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['min_width']            = 300;
+            $config['min_height']           = 300;
+            $config['max_width']            = 900;
+            $config['max_height']           = 900;
+            $config['file_name'] = $_FILES['icon']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('icon')){
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+
+                $Icon = [
+                  'meta_key' => 'site_icon',
+                  'value' => $picture
+                ];
+
+                if ($this->db->insert('layout',$Icon)) {
+                }
+            }
+            else
+            {
+              echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
+            }
+        }
+      }
+      if (!empty($this->input->post('title')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'site_title'");
+        if ($query->num_rows() > 0)
+        {
+          $data['title'] = $query->row();
+          $Title = [
+            'value' => $this->input->post('title')
+          ];
+          if ($this->Admins->update_site_title($Title,$data['title']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Title = [
+            'meta_key' => 'site_title',
+            'value' => $this->input->post('title')
+          ];
+
+          if ($this->db->insert('layout',$Title)) {
+          }
+        }
+      }
+      if (!empty($this->input->post('tagline')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+        if ($query->num_rows() > 0)
+        {
+          $data['tagline'] = $query->row();
+          $Tagline = [
+            'value' => $this->input->post('tagline')
+          ];
+          if ($this->Admins->update_site_tagline($Tagline,$data['tagline']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Tagline = [
+            'meta_key' => 'site_tagline',
+            'value' => $this->input->post('tagline')
+          ];
+
+          if ($this->db->insert('layout',$Tagline)) {
+          }
+        }
+      }
+      redirect('/Admin/layout', 'refresh');
+    }
+  }
+
+  public function save_social()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'facebook', 'Facebook',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'instagram', 'Instagram',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'twitter', 'Twitter',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'google', 'Google',
+        'trim',
+        array()
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == TRUE)
+    {
+      if (!empty($this->input->post('facebook')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+        if ($query->num_rows() > 0)
+        {
+          $data['facebook'] = $query->row();
+          $Facebook = [
+            'value' => $this->input->post('facebook')
+          ];
+          if ($this->Admins->update_facebook_url($Facebook,$data['facebook']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Facebook = [
+            'meta_key' => 'facebook_link',
+            'value' => $this->input->post('facebook')
+          ];
+
+          if ($this->db->insert('layout',$Facebook)) {
+          }
+        }
+      }
+      if (!empty($this->input->post('instagram')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+        if ($query->num_rows() > 0)
+        {
+          $data['instagram'] = $query->row();
+          $Instagram = [
+            'value' => $this->input->post('instagram')
+          ];
+          if ($this->Admins->update_instagram_url($Instagram,$data['instagram']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Instagram = [
+            'meta_key' => 'instagram_link',
+            'value' => $this->input->post('instagram')
+          ];
+
+          if ($this->db->insert('layout',$Instagram)) {
+          }
+        }
+      }
+      if (!empty($this->input->post('instagram')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+        if ($query->num_rows() > 0)
+        {
+          $data['twitter'] = $query->row();
+          $Twitter = [
+            'value' => $this->input->post('twitter')
+          ];
+          if ($this->Admins->update_twitter_url($Twitter,$data['twitter']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Twitter = [
+            'meta_key' => 'twitter_link',
+            'value' => $this->input->post('twitter')
+          ];
+
+          if ($this->db->insert('layout',$Twitter)) {
+          }
+        }
+      }
+      if (!empty($this->input->post('google')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+        if ($query->num_rows() > 0)
+        {
+          $data['google'] = $query->row();
+          $Google = [
+            'value' => $this->input->post('google')
+          ];
+          if ($this->Admins->update_google_url($Google,$data['google']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Google = [
+            'meta_key' => 'google_link',
+            'value' => $this->input->post('google')
+          ];
+
+          if ($this->db->insert('layout',$Google)) {
+          }
+        }
+      }
+      redirect('/Admin/layout', 'refresh');
+    }
+  }
+  // END OF LAYOUT
 
   public function logout()
   {

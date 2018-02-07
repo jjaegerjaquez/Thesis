@@ -40,7 +40,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -67,32 +67,11 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/images/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
-        <?php
-          if ($account->website == 'Yes')
-          {
-            echo '
-              <div class="vertical-menu">
-                <a href="/Account">Dashboard</a>
-                <a href="/Account/profile" class="active">Profile</a>
-              </div>
-            ';
-          }
-          else
-          {
-            echo '
-              <div class="vertical-menu">
-                <a href="/Account/dashboard">Dashboard</a>
-                <a href="/Account/profile" class="active">Profile</a>
-                <a href="/Account/home">Home</a>
-                <a href="/Account/about">About</a>
-                <a href="/Account/gallery">Gallery</a>
-                <a href="/Account/contacts">Contacts</a>
-                <a href="/Account/theme">Theme</a>
-              </div>
-            ';
-          }
-        ?>
+        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <div class="vertical-menu">
+          <a href="/Account">Dashboard</a>
+          <a href="/Account/profile" class="active">Profile</a>
+        </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
@@ -151,22 +130,14 @@
             <input type="text" name="telephone_number" class="form-control" value="<?php echo $business->telephone?>" maxlength="11">
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
-          <?php
-            if ($account->website == 'Yes')
-            {
-              echo '
-                <div class="form-group">
-                  <label>Website URL:</label>
-                  <input type="text" name="website_address" class="form-control" value="'.$business->website_url.'">
-                  <span style="color:red" class="help-block">'.form_error("website_address").'</span>
-                </div>
-              ';
-            }
-            else
-            {
+          <?php if ($account->website == 'Yes'): ?>
+            <div class="form-group">
+              <label>Website URL:</label>
+              <input type="text" name="website_address" class="form-control" value="<?php echo $business->website_url?>">
+              <span style="color:red" class="help-block"><?php echo form_error("website_address");?></span>
+            </div>
+          <?php endif; ?>
 
-            }
-          ?>
           <div class="form-group">
             <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
