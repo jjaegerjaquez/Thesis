@@ -72,7 +72,7 @@ class Light extends CI_Controller
         if ($query->num_rows() > 0)
         {
           $data['home_bg'] = $query->row();
-          $config['upload_path'] = 'uploads/themes/'.$this->theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -97,7 +97,7 @@ class Light extends CI_Controller
         }
         else
         {
-          $config['upload_path'] = 'uploads/themes/'.$this->theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -182,7 +182,7 @@ class Light extends CI_Controller
           }
         }
       }
-      redirect('/Neutral/home', 'refresh');
+      redirect('/Light/home', 'refresh');
     }
   }
 
@@ -215,7 +215,7 @@ class Light extends CI_Controller
         if ($query->num_rows() > 0)
         {
           $data['about_bg'] = $query->row();
-          $config['upload_path'] = 'uploads/themes/'.$this->theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -240,7 +240,7 @@ class Light extends CI_Controller
         }
         else
         {
-          $config['upload_path'] = 'uploads/themes/'.$this->theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -327,7 +327,7 @@ class Light extends CI_Controller
 
         }
       }
-      redirect('/Neutral/about', 'refresh');
+      redirect('/Light/about', 'refresh');
     }
   }
 
@@ -350,7 +350,7 @@ class Light extends CI_Controller
     {
       if(!empty($_FILES['picture']['name']))
       { //If may laman na image
-          $config['upload_path'] = 'uploads/themes/'.$this->theme;
+          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
           $config['overwrite'] = TRUE;
           $config['allowed_types'] = 'jpg|jpeg|png|gif';
           $config['file_name'] = $_FILES['picture']['name'];
@@ -373,21 +373,21 @@ class Light extends CI_Controller
 
               $this->db->insert('contents',$Image);
               echo '<script>alert("Image added!");</script>';
-              redirect('/Neutral/gallery/', 'refresh');
+              redirect('/Light/gallery/', 'refresh');
           }else{
             echo '<script>alert("Something went wrong, image not uploaded...");</script>';
-            redirect('/Neutral/gallery', 'refresh');
+            redirect('/Light/gallery', 'refresh');
           }
       }
       else
       {
-        redirect('/Neutral/add_image', 'refresh');
+        redirect('/Light/add_image', 'refresh');
       }
     }
     else
     {
       echo '<script>alert("Sorry, you have reached the maximum number of image you can upload for the gallery..");</script>';
-      redirect('/Neutral/add_image', 'refresh');
+      redirect('/Light/add_image', 'refresh');
     }
   }
 
@@ -406,7 +406,7 @@ class Light extends CI_Controller
   public function update_image($content_id)
   {
     if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/themes/'.$this->theme;
+        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
         $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = $_FILES['picture']['name'];
@@ -424,11 +424,11 @@ class Light extends CI_Controller
             ];
 
             if ($this->Lights->update_gallery_image($Image,$this->user_id,$content_id)) {
-              redirect('/Neutral/gallery', 'refresh');
+              redirect('/Light/gallery', 'refresh');
             }
         }else{
           echo '<script>alert("Something went wrong, image cannot be updated..");</script>';
-          redirect('/Neutral/gallery', 'refresh');
+          redirect('/Light/gallery', 'refresh');
         }
     }
   }
@@ -440,7 +440,7 @@ class Light extends CI_Controller
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
-     redirect('/Neutral/gallery', 'refresh');
+     redirect('/Light/gallery', 'refresh');
   }
 
   public function contacts()
@@ -490,7 +490,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
         else
@@ -510,7 +510,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
       }
@@ -532,7 +532,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
         else
@@ -552,7 +552,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
       }
@@ -574,7 +574,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
         else
@@ -594,12 +594,12 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Neutral/contacts', 'refresh');
+            redirect('/Light/contacts', 'refresh');
           }
         }
       }
     }
-    redirect('/Neutral/contacts', 'refresh');
+    redirect('/Light/contacts', 'refresh');
   }
 
   public function theme()
@@ -623,7 +623,7 @@ class Light extends CI_Controller
     else
     {
       echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect('/Neutral/theme', 'refresh');
+      redirect('/Light/theme', 'refresh');
     }
   }
 }

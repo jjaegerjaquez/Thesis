@@ -220,7 +220,7 @@
           <?php foreach ($categories as $key => $category): ?>
             <div class="col-lg-2 col-sm-2 col-xs-12">
               <li>
-                <a href="/Category/result/<?php echo $category->category?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
+                <a href="/Category/result/<?php echo str_replace(' ', '_', $category->category)?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
                   <img src="/public/img/icons/<?php echo $category->image?>" width="25px" height="25px" alt="">
                   <span><?php echo $category->category?></span>
                 </a>

@@ -28,7 +28,8 @@ class Category extends CI_Controller
     }
     else
     {
-      $data['results'] = $this->Categories->get_category_result($category);
+      // echo str_replace('_', ' ', $category);
+      $data['results'] = $this->Categories->get_category_result(str_replace('_', ' ', $category));
       $data['category'] = $category;
       $this->load->view('home/result',$data);
       // print_r($data['results']);

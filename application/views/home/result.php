@@ -102,7 +102,7 @@
         </div> -->
         <?php foreach ($results as $key => $result): ?>
           <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
-            <div class="pull-left visible-lg visible-md visible-sm media-left"><img class="media-object" src="/uploads/images/<?php echo $result->image?>" alt="/uploads/images/user.jpg" width="200px" height="200px"></div>
+            <div class="pull-left visible-lg visible-md visible-sm media-left"><img class="media-object" src="/uploads/<?php echo $result->username?>/<?php echo $result->image?>" alt="/uploads/images/user.jpg" width="200px" height="200px"></div>
             <div class="media-body rating">
               <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/images/user.jpg" alt="/uploads/images/user.jpg"><br class="hidden-lg hidden-md hidden-sm">
               <span class="pull-right votes-style" style="">231 Votes</span>

@@ -26,7 +26,8 @@ class Home extends CI_Controller
       $allowed = array(
             'index',
             'login',
-            'register'
+            'register',
+            'logout'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -130,7 +131,7 @@ class Home extends CI_Controller
                     'telephone' => '',
                     'website_url' => '',
                     'template' => '0',
-                    'image' => 'default-img.jpg'
+                    'image' => ''
                   );
                   if ($this->db->insert('basic_info',$Business_Data)) {
                     chmod('./uploads/', 0777);
@@ -317,5 +318,15 @@ class Home extends CI_Controller
   public function search()
   {
     $this->load->view('home/search');
+  }
+
+  public function logout()
+  {
+    if ($this->session->userdata('is_logged_in')) {
+          $this->session->unset_userdata('email');
+          $this->session->unset_userdata('is_logged_in');
+          $this->session->unset_userdata('user_id');
+        }
+        redirect('/Home');
   }
 }

@@ -68,7 +68,11 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php if (!empty($business->image)): ?>
+          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php else: ?>
+          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php endif; ?>
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>

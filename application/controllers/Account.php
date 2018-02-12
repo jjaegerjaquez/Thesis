@@ -47,6 +47,7 @@ class Account extends CI_Controller
     }
     else
     {
+      // echo $this->data['business']->image;
       // $data['business'] = $this->Accounts->get_business_details($user_id);
       $theme = $this->data['business']->template;
       $this->load->view('account/themes/'.$theme.'/dashboard/index',$this->data);
@@ -210,7 +211,7 @@ class Account extends CI_Controller
                 'cellphone' => $this->input->post('cellphone_number'),
                 'telephone' => $this->input->post('telephone_number'),
                 'website_url' => $this->input->post('website_address'),
-                'image' => 'default-img.jpg'
+                'image' => '/public/img/default-img.jpg'
               ];
 
               $this->Accounts->save_profile($Business_Details,$this->user_id);
@@ -260,7 +261,7 @@ class Account extends CI_Controller
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
-                  'website_url' => base_url().'/View/'.$this->input->post('username'),
+                  'website_url' => base_url().'/View/home/'.$this->data['account']->username,
                   'image' => $picture
                 ];
 
@@ -278,8 +279,8 @@ class Account extends CI_Controller
                 'address' => $this->input->post('address'),
                 'cellphone' => $this->input->post('cellphone_number'),
                 'telephone' => $this->input->post('telephone_number'),
-                'website_url' =>  base_url().'/View/'.$this->input->post('username'),
-                'image' => 'default-img.jpg'
+                'website_url' =>  base_url().'/View/home/'.$this->data['account']->username,
+                'image' => '/public/img/default-img.jpg'
               ];
 
               $this->Accounts->save_profile($Business_Details,$this->user_id);
@@ -297,7 +298,7 @@ class Account extends CI_Controller
             'address' => $this->input->post('address'),
             'cellphone' => $this->input->post('cellphone_number'),
             'telephone' => $this->input->post('telephone_number'),
-            'website_url' => base_url().'/View/'.$this->input->post('username')
+            'website_url' => base_url().'/View/home/'.$this->data['account']->username
           ];
           $this->Accounts->save_profile($Business_Details,$this->user_id);
           echo '<script>alert("Profile updated!");</script>';

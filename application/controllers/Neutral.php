@@ -255,7 +255,7 @@ class Neutral extends CI_Controller
 
               $Bg = [
                 'user_id' => $this->user_id,
-                'meta_key' => 'about_background_image',
+                'meta_key' => 'about_header_image',
                 'content_title' => '',
                 'description' => '',
                 'value' => $picture
