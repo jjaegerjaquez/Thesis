@@ -40,7 +40,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?> <?php echo $account->username ?> <?php endif; ?><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -99,7 +99,7 @@
           <div class="form-group">
             <label>Business Category:</label>
             <select class="form-control" name="category" id="category">
-              <option value ="<?php echo $business->category?>" selected><?php echo $business->category?></option>
+              <option value ="<?php if (!empty($business->category)): ?> <?php echo $business->category ?> <?php endif; ?>" selected><?php if (!empty($business->category)): ?> <?php echo $business->category ?> <?php endif; ?></option>
               <?php foreach ($categories as $key => $category): ?>
                 <option value ="<?php echo $category->category?>"><?php echo $category->category?></option>
               <?php endforeach; ?>
@@ -109,7 +109,7 @@
           <div class="form-group">
             <label>City/Province:</label>
             <select class="form-control" name="city_province" id="city_province">
-              <option value ="<?php echo $business->locality?>" selected><?php echo $business->locality?></option>
+              <option value ="<?php if (!empty($business->locality)): ?> <?php echo $business->locality?> <?php endif; ?>" selected><?php if (!empty($business->locality)): ?> <?php echo $business->locality ?> <?php endif; ?></option>
               <?php foreach ($localities as $key => $locality): ?>
                 <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
               <?php endforeach; ?>
@@ -117,18 +117,13 @@
             <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
           </div>
           <div class="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" class="form-control" value="<?php echo $business->username?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
-          </div>
-          <div class="form-group">
             <label>Business Name:</label>
-            <input type="text" name="business_name" class="form-control" value="<?php echo $business->business_name?>" maxlength="25">
+            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($business->business_name)): ?> <?php echo $business->business_name ?> <?php endif; ?>" maxlength="25">
             <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
           </div>
           <div class="form-group">
             <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?php echo $business->address?>" maxlength="50">
+            <input type="text" name="address" class="form-control" value="<?php if (!empty($business->address)): ?> <?php echo $business->address ?> <?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
           </div>
 
@@ -136,31 +131,15 @@
             <label>Cellphone Number: (Do NOT include the leading 0)</label>
             <div class="input-group">
               <div class="input-group-addon"><i>+63</i></div>
-              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php echo $business->cellphone?>" placeholder="917XXXXXXX" maxlength="10">
+              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($business->cellphone)): ?> <?php echo $business->cellphone ?> <?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
             </div>
             <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Telephone Number:</label>
-            <input type="text" name="telephone_number" class="form-control" value="<?php echo $business->telephone?>" maxlength="11">
+            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($business->telephone)): ?> <?php echo $business->telephone ?> <?php endif; ?>" maxlength="11">
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
-          <?php
-            if ($account->website == 'Yes')
-            {
-              echo '
-                <div class="form-group">
-                  <label>Website URL:</label>
-                  <input type="text" name="website_address" class="form-control" value="'.$business->website_url.'">
-                  <span style="color:red" class="help-block">'.form_error("website_address").'</span>
-                </div>
-              ';
-            }
-            else
-            {
-
-            }
-          ?>
           <div class="form-group">
             <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>

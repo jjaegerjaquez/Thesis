@@ -40,8 +40,8 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($business->username)): ?>
-          <?php echo $business->username?>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
           <?php else: ?>
             Admin
           <?php endif; ?> <span class="caret"></span></a>
@@ -70,32 +70,16 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
-        <?php
-          if ($account->website == 'Yes')
-          {
-            echo '
-              <div class="vertical-menu">
-                <a href="/Account/dashboard" class="active">Dashboard</a>
-                <a href="/Account/profile">Profile</a>
-              </div>
-            ';
-          }
-          else
-          {
-            echo '
-              <div class="vertical-menu">
-                <a href="/Account/dashboard" class="active">Dashboard</a>
-                <a href="/Account/profile">Profile</a>
-                <a href="/Classic/home">Home</a>
-                <a href="/Classic/about">About</a>
-                <a href="/Classic/gallery">Gallery</a>
-                <a href="/Classic/contacts">Contacts</a>
-                <a href="/Classic/theme">Theme</a>
-              </div>
-            ';
-          }
-        ?>
+        <?php if (!empty($business->image)): ?>
+          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php else: ?>
+          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php endif; ?>
+        <!-- <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px"> -->
+        <div class="vertical-menu">
+          <a href="/Account/dashboard" class="active">Dashboard</a>
+          <a href="/Account/profile">Profile</a>
+        </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
         <div class="row">

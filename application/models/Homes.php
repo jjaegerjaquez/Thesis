@@ -22,6 +22,12 @@ class Homes extends CI_Model
     }
   }
 
+  public function update_user_template($Template,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Template);
+  }
+
   public function UsernameExists($username)
   {
     $this->db->select('user_id');
@@ -104,6 +110,30 @@ class Homes extends CI_Model
     }
   }
 
+  public function get_traveller_details($traveller_id)
+  {
+    $query = $this->db->get_where('users', ['user_id' => $traveller_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
+  public function get_traveller_profile($traveller_id)
+  {
+    $query = $this->db->get_where('profile', ['user_id' => $traveller_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
+  public function get_localities()
+  {
+    $query = $this->db->query("select * from localities order by locality asc");
+    return $query->result();
+  }
+
   public function get($user_id)
   {
     $query = $this->db->get_where('users', ['user_id' => $user_id]);
@@ -181,6 +211,34 @@ class Homes extends CI_Model
   {
     $query = $this->db->query("select * from layout where meta_key = 'google_link'");
     return $query->row();
+  }
+
+  public function update_traveller_profile($Profile,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('profile', $Profile);
+  }
+
+  public function update_password($Password,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Password);
+  }
+
+  public function update_username($Username,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Username);
+  }
+
+  public function get_vote($business_id)
+  {
+    $query = $this->db->query("SELECT count(voter_id) as vote from votes where business_id = '$business_id'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
   }
 
 }

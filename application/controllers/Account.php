@@ -49,7 +49,7 @@ class Account extends CI_Controller
     {
       // echo $this->data['business']->image;
       // $data['business'] = $this->Accounts->get_business_details($user_id);
-      $theme = $this->data['business']->template;
+      $theme = $this->data['account']->template;
       $this->load->view('account/themes/'.$theme.'/dashboard/index',$this->data);
     }
   }
@@ -81,13 +81,13 @@ class Account extends CI_Controller
 
   public function profile()
   {
-    $theme = $this->data['business']->template;
     if ($this->data['account']->website == 'Yes')
     {
       $this->load->view('account/profile/index',$this->data);
     }
     else
     {
+      $theme = $this->data['account']->template;
       $this->load->view('account/themes/'.$theme.'/profile/index',$this->data);
     }
   }
@@ -98,28 +98,28 @@ class Account extends CI_Controller
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'category', 'Category',
-        'required',
+        'trim|required',
         array(
                 'required'      => 'Please select your business category'
         )
     );
     $this->form_validation->set_rules(
         'city_province', 'City/Province',
-        'required',
+        'trim|required',
         array(
                 'required'      => 'Please select a city or province'
         )
     );
     $this->form_validation->set_rules(
         'business_name', 'Business Name',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter your business name'
         )
     );
     $this->form_validation->set_rules(
         'address', 'Address',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter your business address'
         )
@@ -127,7 +127,7 @@ class Account extends CI_Controller
 
     $this->form_validation->set_rules(
         'cellphone_number', 'Cellphone Number',
-        'required|trim|numeric',
+        'trim|required|numeric',
         array(
                 'required'      => 'Please enter your business cellphone number',
                 'numeric'      => 'Please enter numeric characters only'
@@ -136,7 +136,7 @@ class Account extends CI_Controller
 
     $this->form_validation->set_rules(
         'telephone_number', 'Telephone Number',
-        'required|trim|alpha_dash',
+        'trim|required|alpha_dash',
         array(
                 'required'      => 'Please enter your business telephone number',
                 'alpha_dash'      => 'Please enter alphanumeric characters and dash.'
@@ -146,7 +146,7 @@ class Account extends CI_Controller
     if ($website == 'Yes') {
       $this->form_validation->set_rules(
           'website_address', 'Website Address',
-          'required|trim',
+          'trim|required',
           array(
                   'required'      => 'Please enter your business website URL'
           )
@@ -155,13 +155,13 @@ class Account extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $theme = $this->data['business']->template;
       if ($this->data['account']->website == 'Yes')
       {
         $this->load->view('account/profile/index',$this->data);
       }
       else
       {
+        $theme = $this->data['account']->template;
         $this->load->view('account/themes/'.$theme.'/profile/index',$this->data);
       }
     }
@@ -170,7 +170,11 @@ class Account extends CI_Controller
       if ($website == 'Yes')
       { //Kapag may website kukunin yung laman ng website na input
         // If may laman na image
-        if(!empty($_FILES['picture']['name'])){
+        if(!empty($_FILES['picture']['name']))
+        {
+          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id'");
+          if ($query->num_rows() > 0)
+          {
             $config['upload_path'] = 'uploads/'.$this->data['account']->username;
             $config['overwrite'] = TRUE;
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -186,6 +190,7 @@ class Account extends CI_Controller
 
                 $Business_Details = [
                   'user_id' => $this->user_id,
+                  'username' => $this->data['account']->username,
                   'business_name' => $this->input->post('business_name'),
                   'category' => $this->input->post('category'),
                   'locality' => $this->input->post('city_province'),
@@ -195,51 +200,17 @@ class Account extends CI_Controller
                   'website_url' => $this->input->post('website_address'),
                   'image' => $picture
                 ];
-
-                $this->Accounts->save_profile($Business_Details,$this->user_id);
-                echo '<script>alert("Profile updated!");</script>';
-                redirect('/Account/profile', 'refresh');
+                if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
+                  // redirect('/Account/home', 'refresh');
+                  redirect('/Account/profile', 'refresh');
+                }
+                // $this->Accounts->save_profile($Business_Details,$this->user_id);
+                // echo '<script>alert("Profile updated!");</script>';
+                // redirect('/Account/profile', 'refresh');
             }
-            else
-            {
-              $Business_Details = [
-                'user_id' => $this->user_id,
-                'business_name' => $this->input->post('business_name'),
-                'category' => $this->input->post('category'),
-                'locality' => $this->input->post('city_province'),
-                'address' => $this->input->post('address'),
-                'cellphone' => $this->input->post('cellphone_number'),
-                'telephone' => $this->input->post('telephone_number'),
-                'website_url' => $this->input->post('website_address'),
-                'image' => '/public/img/default-img.jpg'
-              ];
-
-              $this->Accounts->save_profile($Business_Details,$this->user_id);
-              echo '<script>alert("Profile updated!");</script>';
-              redirect('/Account/profile', 'refresh');
-            }
-        } //END NG KAPAG MAY LAMAN NA IMAGE
-        else //KAPAG WALANG LAMAN NA IMAGE
-        {
-          $Business_Details = [
-            'user_id' => $this->user_id,
-            'business_name' => $this->input->post('business_name'),
-            'category' => $this->input->post('category'),
-            'locality' => $this->input->post('city_province'),
-            'address' => $this->input->post('address'),
-            'cellphone' => $this->input->post('cellphone_number'),
-            'telephone' => $this->input->post('telephone_number'),
-            'website_url' => $this->input->post('website_address')
-          ];
-          $this->Accounts->save_profile($Business_Details,$this->user_id);
-          echo '<script>alert("Profile updated!");</script>';
-          redirect('/Account/profile', 'refresh');
-        }
-      }
-      else //Kapag walang website lalagyan ng NA yung website URL sa db
-      {
-        // If may laman na image
-        if(!empty($_FILES['picture']['name'])){
+          }
+          else
+          {
             $config['upload_path'] = 'uploads/'.$this->data['account']->username;
             $config['overwrite'] = TRUE;
             $config['allowed_types'] = 'jpg|jpeg|png|gif';
@@ -255,54 +226,184 @@ class Account extends CI_Controller
 
                 $Business_Details = [
                   'user_id' => $this->user_id,
+                  'username' => $this->data['account']->username,
                   'business_name' => $this->input->post('business_name'),
                   'category' => $this->input->post('category'),
                   'locality' => $this->input->post('city_province'),
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
-                  'website_url' => base_url().'/View/home/'.$this->data['account']->username,
+                  'website_url' => $this->input->post('website_address'),
                   'image' => $picture
                 ];
-
-                $this->Accounts->save_profile($Business_Details,$this->user_id);
-                echo '<script>alert("Profile updated!");</script>';
-                redirect('/Account/profile', 'refresh');
+                if ($this->db->insert('basic_info', $Business_Details)) {
+                  // redirect('/Account/home', 'refresh');
+                  redirect('/Account/profile', 'refresh');
+                }
+                // $this->Accounts->save_profile($Business_Details,$this->user_id);
+                // echo '<script>alert("Profile updated!");</script>';
+                // redirect('/Account/profile', 'refresh');
             }
-            else
-            {
-              $Business_Details = [
-                'user_id' => $this->user_id,
-                'business_name' => $this->input->post('business_name'),
-                'category' => $this->input->post('category'),
-                'locality' => $this->input->post('city_province'),
-                'address' => $this->input->post('address'),
-                'cellphone' => $this->input->post('cellphone_number'),
-                'telephone' => $this->input->post('telephone_number'),
-                'website_url' =>  base_url().'/View/home/'.$this->data['account']->username,
-                'image' => '/public/img/default-img.jpg'
-              ];
-
-              $this->Accounts->save_profile($Business_Details,$this->user_id);
-              echo '<script>alert("Profile updated!");</script>';
-              redirect('/Account/profile', 'refresh');
-            }
+          }
         } //END NG KAPAG MAY LAMAN NA IMAGE
         else //KAPAG WALANG LAMAN NA IMAGE
         {
-          $Business_Details = [
-            'user_id' => $this->user_id,
-            'business_name' => $this->input->post('business_name'),
-            'category' => $this->input->post('category'),
-            'locality' => $this->input->post('city_province'),
-            'address' => $this->input->post('address'),
-            'cellphone' => $this->input->post('cellphone_number'),
-            'telephone' => $this->input->post('telephone_number'),
-            'website_url' => base_url().'/View/home/'.$this->data['account']->username
-          ];
-          $this->Accounts->save_profile($Business_Details,$this->user_id);
-          echo '<script>alert("Profile updated!");</script>';
-          redirect('/Account/profile', 'refresh');
+          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id'");
+          if ($query->num_rows() > 0)
+          {
+            $Business_Details = [
+              'user_id' => $this->user_id,
+              'username' => $this->data['account']->username,
+              'business_name' => $this->input->post('business_name'),
+              'category' => $this->input->post('category'),
+              'locality' => $this->input->post('city_province'),
+              'address' => $this->input->post('address'),
+              'cellphone' => $this->input->post('cellphone_number'),
+              'telephone' => $this->input->post('telephone_number'),
+              'website_url' => $this->input->post('website_address')
+            ];
+            if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
+              // redirect('/Account/home', 'refresh');
+              redirect('/Account/profile', 'refresh');
+            }
+          }
+          else
+          {
+            $Business_Details = [
+              'user_id' => $this->user_id,
+              'username' => $this->data['account']->username,
+              'business_name' => $this->input->post('business_name'),
+              'category' => $this->input->post('category'),
+              'locality' => $this->input->post('city_province'),
+              'address' => $this->input->post('address'),
+              'cellphone' => $this->input->post('cellphone_number'),
+              'telephone' => $this->input->post('telephone_number'),
+              'website_url' => $this->input->post('website_address')
+            ];
+            if ($this->db->insert('basic_info', $Business_Details)) {
+              // redirect('/Account/home', 'refresh');
+              redirect('/Account/profile', 'refresh');
+            }
+          }
+        }
+      }
+      else //Kapag walang website lalagyan ng NA yung website URL sa db
+      {
+        if(!empty($_FILES['picture']['name']))
+        {
+          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id'");
+          if ($query->num_rows() > 0)
+          {
+            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['picture']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('picture')){
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+
+                $Business_Details = [
+                  'user_id' => $this->user_id,
+                  'username' => $this->data['account']->username,
+                  'business_name' => $this->input->post('business_name'),
+                  'category' => $this->input->post('category'),
+                  'locality' => $this->input->post('city_province'),
+                  'address' => $this->input->post('address'),
+                  'cellphone' => $this->input->post('cellphone_number'),
+                  'telephone' => $this->input->post('telephone_number'),
+                  'website_url' => base_url().'View/home/'.$this->data['account']->username,
+                  'image' => $picture
+                ];
+                if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
+                  // redirect('/Account/home', 'refresh');
+                  redirect('/Account/profile', 'refresh');
+                }
+                // $this->Accounts->save_profile($Business_Details,$this->user_id);
+                // echo '<script>alert("Profile updated!");</script>';
+                // redirect('/Account/profile', 'refresh');
+            }
+          }
+          else
+          {
+            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['picture']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('picture')){
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+
+                $Business_Details = [
+                  'user_id' => $this->user_id,
+                  'username' => $this->data['account']->username,
+                  'business_name' => $this->input->post('business_name'),
+                  'category' => $this->input->post('category'),
+                  'locality' => $this->input->post('city_province'),
+                  'address' => $this->input->post('address'),
+                  'cellphone' => $this->input->post('cellphone_number'),
+                  'telephone' => $this->input->post('telephone_number'),
+                  'website_url' => base_url().'View/home/'.$this->data['account']->username,
+                  'image' => $picture
+                ];
+                if ($this->db->insert('basic_info', $Business_Details)) {
+                  // redirect('/Account/home', 'refresh');
+                  redirect('/Account/profile', 'refresh');
+                }
+                // $this->Accounts->save_profile($Business_Details,$this->user_id);
+                // echo '<script>alert("Profile updated!");</script>';
+                // redirect('/Account/profile', 'refresh');
+            }
+          }
+        } //END NG KAPAG MAY LAMAN NA IMAGE
+        else //KAPAG WALANG LAMAN NA IMAGE
+        {
+          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id'");
+          if ($query->num_rows() > 0)
+          {
+            $Business_Details = [
+              'user_id' => $this->user_id,
+              'username' => $this->data['account']->username,
+              'business_name' => $this->input->post('business_name'),
+              'category' => $this->input->post('category'),
+              'locality' => $this->input->post('city_province'),
+              'address' => $this->input->post('address'),
+              'cellphone' => $this->input->post('cellphone_number'),
+              'telephone' => $this->input->post('telephone_number'),
+              'website_url' => base_url().'View/home/'.$this->data['account']->username
+            ];
+            if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
+              // redirect('/Account/home', 'refresh');
+              redirect('/Account/profile', 'refresh');
+            }
+          }
+          else
+          {
+            $Business_Details = [
+              'user_id' => $this->user_id,
+              'username' => $this->data['account']->username,
+              'business_name' => $this->input->post('business_name'),
+              'category' => $this->input->post('category'),
+              'locality' => $this->input->post('city_province'),
+              'address' => $this->input->post('address'),
+              'cellphone' => $this->input->post('cellphone_number'),
+              'telephone' => $this->input->post('telephone_number'),
+              'website_url' => base_url().'View/home/'.$this->data['account']->username
+            ];
+            if ($this->db->insert('basic_info', $Business_Details)) {
+              // redirect('/Account/home', 'refresh');
+              redirect('/Account/profile', 'refresh');
+            }
+          }
         }
       }
     }
@@ -310,7 +411,7 @@ class Account extends CI_Controller
 
   public function site_identity()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['site_title'] = $this->Accounts->get_site_title($this->user_id);
     $this->data['site_tagline'] = $this->Accounts->get_site_tagline($this->user_id);
     $this->data['site_logo'] = $this->Accounts->get_site_logo($this->user_id);
@@ -319,7 +420,7 @@ class Account extends CI_Controller
 
   public function save_site_identity()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
 
     $count = count($this->input->post('value'));
 

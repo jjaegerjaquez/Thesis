@@ -13,12 +13,18 @@ class Views extends CI_Model
 
   public function get_account_details($username)
   {
-    $query = $this->db->get_where('basic_info', ['username' => $username]);
-
+    // $query = $this->db->get_where('basic_info', ['username' => $username]);
+    //
+    // if ($query->num_rows() > 0) {
+    //   return $query->row();
+    // }
+    // return FALSE;
+    $query = $this->db->query("select * from users u join basic_info bi on u.username=bi.username where u.username='$username'");
     if ($query->num_rows() > 0) {
       return $query->row();
+    }else {
+      return $query->row();
     }
-    return FALSE;
   }
 
   public function get_site_title($user_id)

@@ -33,7 +33,7 @@ class Accounts extends CI_Model
   public function save_profile($Business_Details,$user_id)
   {
     $this->db->where('user_id', $user_id);
-    $this->db->update('basic_info', $Business_Details);
+    return $this->db->update('basic_info', $Business_Details);
   }
 
   public function get_localities()
@@ -51,7 +51,7 @@ class Accounts extends CI_Model
   public function update_user_template($Template,$user_id)
   {
     $this->db->where('user_id', $user_id);
-    return $this->db->update('basic_info', $Template);
+    return $this->db->update('users', $Template);
   }
 
   public function get_business_template($user_id)

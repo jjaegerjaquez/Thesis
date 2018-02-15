@@ -16,6 +16,16 @@ class Verify extends CI_Controller
     // if (!$this->session->userdata('is_logged_in')) {
     //   redirect('/Home');
     // }
+    if (!$this->session->userdata('is_logged_in') || !$this->session->userdata('traveller_is_logged_in'))
+    {
+      $allowed = array(
+            'index'
+        );
+        if ( ! in_array($this->router->fetch_method(), $allowed))
+        {
+          redirect('/Home');
+        }
+    }
   }
 
   public function index()

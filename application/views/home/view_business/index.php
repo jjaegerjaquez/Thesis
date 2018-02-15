@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/view_page/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -291,72 +291,164 @@
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
         <li><a href="/Category">Categories</a></li>
-        <li class="active"><?php echo str_replace('_', ' ', $category)?></li>
+        <li><a href="/Category/result/<?php echo str_replace(' ', '_', $business->category)?>"><?php echo str_replace('_', ' ', $business->category)?></a></li>
+        <li class="active"><?php echo str_replace('_', ' ', $business->business_name)?></li>
       </ul>
-      <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
+      <!-- <span class="content-title"><?php echo str_replace('_', ' ', $business->category)?></span> -->
     </div>
     <div class="row content">
-      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <label>Filters</label>
-        <div class="separator"></div>
-        <label>Sort By</label>
-        <ul class="sort-list">
-          <li><a href="#">Popularity - <span>high to low</span></a></li>
-          <li><a href="#">Rating - <span>high to low</span></a></li>
-          <li><a href="#">Recently Added</a></li>
-        </ul>
-      </div>
-      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
-        <?php if (!empty($results)): ?>
-          <?php foreach ($results as $key => $result): ?>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 main-content">
+        <div class="col-xs-12">
+          <?php if (!empty($business)): ?>
             <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($result->image)): ?>
-                  <img class="media-object" src="/uploads/<?php echo $result->username?>/<?php echo $result->image?>" alt="image" width="200px" height="200px">
+                <?php if (!empty($business->image)): ?>
+                  <img class="media-object" src="/uploads/<?php echo $business->username?>/<?php echo $business->image?>" alt="image" width="200px" height="200px">
                 <?php else: ?>
                   <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
                 <?php endif; ?>
               </div>
               <div class="media-body rating">
-                <?php if (!empty($result->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $result->username?>/<?php echo $result->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+                <?php if (!empty($business->image)): ?>
+                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $business->username?>/<?php echo $business->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
-                <span class="pull-right votes-style" style="">231 Votes</span>
-                <span class="badge pull-right rating-style" style="">4.5</span>
-                <h3 class="media-heading business-title"><?php echo $result->business_name?></h3>
-                <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
-                <label for="toggle-heart">❤</label> -->
+                <span>
+                  <?php echo $business->business_name?>
+                  <div class="pull-right">
+                    <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $business->user_id?>"/>
+                    <label for="toggle-heart">❤</label>
+                  </div>
+                </span>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $result->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $result->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $result->telephone?></li>
+                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $business->address?></li>
+                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $business->cellphone?></li>
+                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $business->telephone?></li>
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="<?php echo $result->website_url?>" class="btn btn-lg btn-primary btn-style">
-                      <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
-                    <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
-                  </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/<?php echo str_replace(' ', '_', $result->business_name)?>" class="btn btn-lg btn-primary btn-style">
-                    <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
-                  </div>
-                </div>
               </div>
             </div>
-          <?php endforeach; ?>
+          <?php endif; ?>
+        </div>
+        <div class="col-xs-12 rating-vote-div">
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+            <ul class="rating-vote">
+              <li><i class="ion-ios-star" style="color:#FFC400;"></i></li>
+              <li class="">Rating: 4.5</li>
+            </ul>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+            <ul class="rating-vote">
+              <li><i class="ion-heart" style="color:#C32F10;"></i></li>
+              <li id="vote">
+                <?php if (!empty($vote->vote)): ?>
+                  <?php if ($vote->vote > 1): ?>
+                    Votes: <?php echo $vote->vote?>
+                  <?php elseif ($vote->vote == 1): ?>
+                    Vote: <?php echo $vote->vote?>
+                  <?php elseif ($vote->vote == 0): ?>
+                    0 Vote
+                  <?php endif; ?>
+                <?php else: ?>
+                  0 Vote
+                <?php endif; ?>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+            <ul class="rating-vote">
+              <li><i class="ion-edit" style="color:#52BD52;"></i></li>
+              <li>
+                Reviews: 50
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-xs-12 comment">
+          <ul class="media-list">
+
+            <?php if (!empty($reviews)): ?>
+              <?php foreach ($reviews as $key => $review): ?>
+                <li class="col-lg-12 media">
+                  <a class="pull-left" href="#">
+                    <img class="media-object img-circle" src="/uploads/images/Maddie.jpg" width="100px" height="100px" alt="profile">
+                  </a>
+                  <div class="media-body">
+                    <div class="well well-lg">
+                        <h4 class="media-heading text-uppercase reviews">Marco </h4>
+                        <ul class="media-date text-uppercase reviews list-inline">
+                          <li class="dd">22</li>
+                          <li class="mm">09</li>
+                          <li class="aaaa">2014</li>
+                        </ul>
+                        <p class="media-comment">
+                          <?php echo $review->review?>
+                        </p>
+                    </div>
+                  </div>
+                </li>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </ul>
+        </div>
+
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 side-content">
+        <?php if (!$this->session->userdata('traveller_is_logged_in')): ?>
+          <h3>Write a Review</h3>
+          <div class="input-group" style="">
+            <div class="input-group-addon"><i class="ion-edit input-style"></i></div>
+            <input type="text" class="form-control input-style" placeholder="Share your experience with <?php echo $business->business_name?>" readonly>
+          </div>
+          <div class="pull-right" style="margin-top:5px;">
+            <button class="btn btn-success" type="button" name="button" disabled>Add review</button>
+          </div>
         <?php else: ?>
-          <?php echo "0 results"; ?>
+          <h3>Write a Review</h3>
+          <div id="review_error_msg"></div>
+          <!-- Rating Stars Box -->
+          <div class='rating-stars text-center'>
+            <ul id='stars' name="<?php echo $business->user_id?>">
+              <li class='star' title='Poor' data-value='1'>
+                <i class='fa fa-star fa-fw'></i>
+              </li>
+              <li class='star' title='Fair' data-value='2'>
+                <i class='fa fa-star fa-fw'></i>
+              </li>
+              <li class='star' title='Good' data-value='3'>
+                <i class='fa fa-star fa-fw'></i>
+              </li>
+              <li class='star' title='Excellent' data-value='4'>
+                <i class='fa fa-star fa-fw'></i>
+              </li>
+              <li class='star' title='WOW!!!' data-value='5'>
+                <i class='fa fa-star fa-fw'></i>
+              </li>
+            </ul>
+          </div>
+
+          <div class='success-box'>
+            <div class='clearfix'></div>
+            <img alt='tick image' width='22' src='https://i.imgur.com/3C3apOp.png'/>
+            <div class='text-message'></div>
+            <div class='clearfix'></div>
+          </div>
+
+          <div class="form-group input-width center-block">
+            <span style="color:red" class="help-block"><?php echo form_error('review'); ?></span>
+            <textarea class="form-control" name="review" id="review"></textarea>
+          </div>
+          <div class="pull-left" style="margin-top:5px;">
+            <span id="count"> </span>
+          </div>
+          <div class="pull-right" style="margin-top:5px;">
+            <button class="btn btn-success" type="button" name="button" id="Add_Review">Add review</button>
+          </div>
         <?php endif; ?>
       </div>
     </div>
+
   </div>
   <!-- END OF CONTENT -->
 
@@ -367,7 +459,6 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="footer-desc text-center">
-                        <img src="logo" width="82" height="48" alt="">
                         <p>
                             <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
                         </p>
@@ -397,7 +488,6 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
-
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {
@@ -496,58 +586,193 @@ $('#register').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
 })
-// $('#toggle-heart').on('click',function () {
-//     var ckbox = $('#toggle-heart');
-//     if (ckbox.is(':checked'))
-//     {
-//         // alert($('#toggle-heart').attr('name'));
-//         var vote = {
-//             business_id: $('#toggle-heart').attr('name')
-//         };
-//         $.ajax({
-//             url: "/Home/vote",
-//             type: 'POST',
-//             data: vote,
-//             success: function(message) {
-//               // alert(message);
-//               if (message == 'Voted') {
-//                 $('#toggle-heart').prop('checked', true);
-//               }
-//               }else if (message=='Unsucessful') {
-//                 $('#toggle-heart').prop('checked', false);
-//               }
-//               // else {
-//               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//               // }
-//               // alert('Success');
-//             }
-//         });
-//         // return false;
-//     }
-//     else
-//     {
-//       var vote = {
-//           business_id: $('#toggle-heart').attr('name')
-//       };
-//       $.ajax({
-//           url: "/Home/unvote",
-//           type: 'POST',
-//           data: vote,
-//           success: function(message) {
-//             alert(message);
-//             // }else if (message=='Unsucessful') {
-//             //   $('#register').hide();
-//             //   $(location).attr('href','/Verify/not_sent');
-//             // }
-//             // else {
-//             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//             // }
-//             // alert('Success');
-//           }
-//       });
-//         // alert('You Un-Checked it');
-//     }
-// });
+$('#toggle-heart').on('click',function () {
+    var ckbox = $('#toggle-heart');
+    if (ckbox.is(':checked'))
+    {
+        // alert($('#toggle-heart').attr('name'));
+        var vote = {
+            business_id: $('#toggle-heart').attr('name')
+        };
+        $.ajax({
+            url: "/Home/vote",
+            type: 'POST',
+            data: vote,
+            success: function(message) {
+              // alert(message);
+              if (message > 1) {
+                $('#vote').html('Votes: '+message);
+              }else {
+                $('#vote').html('Vote: '+message);
+              }
+              // if (message == 'Voted') {
+              //   $('#toggle-heart').prop('checked', true);
+              // }else if (message=='Unsucessful') {
+              //   $('#toggle-heart').prop('checked', false);
+              // }
+              // else {
+              //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+              // }
+              // alert('Success');
+            }
+        });
+        // return false;
+    }
+    else
+    {
+      var vote = {
+          business_id: $('#toggle-heart').attr('name')
+      };
+      $.ajax({
+          url: "/Home/unvote",
+          type: 'POST',
+          data: vote,
+          success: function(message) {
+            // alert(message);
+            if (message > 1) {
+              $('#vote').html('Votes: '+message);
+            }else {
+              $('#vote').html('Vote: '+message);
+            }
+            // }else if (message=='Unsucessful') {
+            //   $('#register').hide();
+            //   $(location).attr('href','/Verify/not_sent');
+            // }
+            // else {
+            //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+            // }
+            // alert('Success');
+          }
+      });
+        // alert('You Un-Checked it');
+    }
+});
+$('#review').keyup(function () {
+  var max = 100;
+  var len = $(this).val().length;
+  if (len >= max) {
+    $('#count').text('');
+  } else {
+    var char = max - len;
+    $('#count').text(char + ' characters left');
+  }
+});
+var rate;
+$(document).ready(function(){
+
+  /* 1. Visualizing things on Hover - See next part for action on click */
+  $('#stars li').on('mouseover', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+    // Now highlight all the stars that's not after the current hovered star
+    $(this).parent().children('li.star').each(function(e){
+      if (e < onStar) {
+        $(this).addClass('hover');
+      }
+      else {
+        $(this).removeClass('hover');
+      }
+    });
+
+  }).on('mouseout', function(){
+    $(this).parent().children('li.star').each(function(e){
+      $(this).removeClass('hover');
+    });
+  });
+
+
+  /* 2. Action to perform on click */
+  $('#stars li').on('click', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    var stars = $(this).parent().children('li.star');
+
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass('selected');
+    }
+
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass('selected');
+    }
+
+    // JUST RESPONSE (Not needed)
+    var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+    rate = ratingValue;
+    var msg = "";
+    if (ratingValue > 1) {
+        msg = "Thanks! You rated this " + ratingValue + " stars.";
+    }
+    else {
+        msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+    }
+    responseMessage(msg);
+
+    // rate(ratingValue);
+  });
+});
+
+function responseMessage(msg) {
+  $('.success-box').fadeIn(200);
+  $('.success-box div.text-message').html("<span>" + msg + "</span>");
+}
+
+$('#Add_Review').click(function() {
+  if (rate==null) {
+    var review = {
+        rate: 0,
+        review: $('#review').val(),
+        business_id: $('#stars').attr('name')
+    };
+    $.ajax({
+        url: "/Category/add_review",
+        type: 'POST',
+        data: review,
+        success: function(message) {
+          // // alert(message);
+          // if (message > 1) {
+          //   $('#vote').html('Votes: '+message);
+          // }else {
+          //   $('#vote').html('Vote: '+message);
+          // }
+          if (message == 'Voted') {
+
+          }else if (message=='Unsucessful') {
+
+          }
+          else {
+            $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
+          }
+          // alert('Success');
+        }
+    });
+  }else {
+    var review = {
+        rate: rate,
+        review: $('#review').val(),
+        business_id: $('#stars').attr('name')
+    };
+    $.ajax({
+        url: "/Category/add_review",
+        type: 'POST',
+        data: review,
+        success: function(message) {
+          // alert(message);
+          // if (message > 1) {
+          //   $('#vote').html('Votes: '+message);
+          // }else {
+          //   $('#vote').html('Vote: '+message);
+          // }
+          if (message == 'Voted') {
+
+          }else if (message=='Unsucessful') {
+          }
+          else {
+            $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
+          }
+          // alert('Success');
+        }
+    });
+  }
+});
 </script>
 </body>
 </html>

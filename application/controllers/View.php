@@ -14,13 +14,16 @@ class View extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
 		$this->load->model('Views');
-
 	}
 
   // public function _remap($username)
   // {
   //   $this->index($username);
   // }
+  public function index()
+  {
+    
+  }
 
   public function home($username)
   {
@@ -83,5 +86,16 @@ class View extends CI_Controller
     $this->load->view('account/themes/'.$theme.'/contacts',$data);
   }
 
-
+  public function view($username)
+  {
+    $data['account'] = $this->Views->get_account_details($username);
+    $business_id = $data['account']->user_id;
+    $data['site_title'] = $this->Views->get_site_title($business_id);
+    $data['facebook'] = $this->Views->get_facebook($business_id);
+    $data['instagram'] = $this->Views->get_instagram($business_id);
+    $data['twitter'] = $this->Views->get_twitter($business_id);
+    $data['details'] = $this->Views->get_details($business_id);
+    $theme = $data['account']->template;
+    $this->load->view('account/themes/'.$theme.'/contacts',$data);
+  }
 }
