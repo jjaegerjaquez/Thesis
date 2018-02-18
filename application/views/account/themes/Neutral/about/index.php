@@ -40,7 +40,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
+          <?php else: ?>
+            Admin
+          <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Account Settings</a></li>
             <li role="separator" class="divider"></li>
@@ -66,7 +70,7 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($business->image)): ?>
-          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -91,7 +95,7 @@
             <label>Background Image:</label>
           </div>
           <?php if (!empty($about_bg->value)): ?>
-            <img src="/uploads/<?php echo $account->username?>/<?php echo $about_bg->value?>" alt="" height="300px" height="300px">
+            <img src="<?php echo $about_bg->value?>" alt="" height="300px" height="300px">
           <?php else: ?>
             <img src="/public/img/img.jpg" alt="" height="300px" height="300px">
           <?php endif; ?>

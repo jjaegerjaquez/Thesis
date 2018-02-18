@@ -61,8 +61,11 @@
     </div><!-- /.container-fluid -->
   </nav>
   <!-- END OF NAV -->
-
+<?php if (!empty($home_bg->value)): ?>
+  <header class="masthead" style="background-image: url('<?php echo $home_bg->value?>')" id="home">  <!-- 1279 x 699 pixels -->
+<?php else: ?>
   <header class="masthead" style="background-image: url('/public/img/Light/home-bg.jpg')" id="home">  <!-- 1279 x 699 pixels -->
+<?php endif; ?>
     <div class="overlay"></div>
 		<div class="container">
       <div class="row">
@@ -113,7 +116,7 @@
 
   <section id="about">
     <?php if (!empty($about_header_image)): ?>
-      <header class="masthead" style="background-image: url('/uploads/<?php echo $details->username?>/<?php echo $about_header_image->value?>')"> <!-- 1600 x 1000 pixels -->
+      <header class="masthead" style="background-image: url('<?php echo $about_header_image->value?>')"> <!-- 1600 x 1000 pixels -->
     <?php else: ?>
       <header class="masthead" style="background-image: url('/public/img/Light/about-bg.jpg')"> <!-- 1600 x 1000 pixels -->
     <?php endif; ?>
@@ -180,7 +183,7 @@
           <?php $ctr = 1;?>
           <?php foreach ($gallery_images as $key => $gallery_image): ?>
             <div class="item <?php if($ctr <=1 ){ echo 'active';}?>">
-              <img src="/uploads/<?php echo $details->username?>/<?php echo $gallery_image->value?>">
+              <img src="<?php echo $gallery_image->value?>">
             </div>
             <?php $ctr++;?>
           <?php endforeach; ?>

@@ -6,6 +6,10 @@
   <title>Travel | Hub</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- jQuery 2.2.3 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -290,7 +294,7 @@
     <div class="row content-header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li><a href="/Category">Categories</a></li>
+        <li>Categories</li>
         <li><a href="/Category/result/<?php echo str_replace(' ', '_', $business->category)?>"><?php echo str_replace('_', ' ', $business->category)?></a></li>
         <li class="active"><?php echo str_replace('_', ' ', $business->business_name)?></li>
       </ul>
@@ -314,13 +318,22 @@
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
-                <span>
+                <span style="font-size:25px;">
                   <?php echo $business->business_name?>
                   <div class="pull-right">
                     <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $business->user_id?>"/>
                     <label for="toggle-heart">❤</label>
                   </div>
                 </span>
+                <?php if (!empty($voted)): ?>
+                  <?php if ($voted == 'Voted'): ?>
+                    <script type='text/javascript'>
+                      $(document).ready(function(){
+                        $('#toggle-heart').prop('checked', true);
+                      });
+                    </script>
+                  <?php endif; ?>
+                <?php endif; ?>
                 <div class="separator"></div>
                 <ul>
                   <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $business->address?></li>
@@ -345,13 +358,11 @@
                 <?php if (!empty($vote->vote)): ?>
                   <?php if ($vote->vote > 1): ?>
                     Votes: <?php echo $vote->vote?>
-                  <?php elseif ($vote->vote == 1): ?>
+                  <?php else: ?>
                     Vote: <?php echo $vote->vote?>
-                  <?php elseif ($vote->vote == 0): ?>
-                    0 Vote
                   <?php endif; ?>
                 <?php else: ?>
-                  0 Vote
+                  Vote: 0
                 <?php endif; ?>
               </li>
             </ul>
@@ -360,7 +371,15 @@
             <ul class="rating-vote">
               <li><i class="ion-edit" style="color:#52BD52;"></i></li>
               <li>
-                Reviews: 50
+                <?php if (!empty($review_count)): ?>
+                  <?php if ($review_count->reviews > 1): ?>
+                    Reviews: <?php echo $review_count->reviews ?>
+                  <?php else: ?>
+                    Review: <?php echo $review_count->reviews ?>
+                  <?php endif; ?>
+                <?php else: ?>
+                  Reviews: 0
+                <?php endif; ?>
               </li>
             </ul>
           </div>
@@ -370,18 +389,22 @@
 
             <?php if (!empty($reviews)): ?>
               <?php foreach ($reviews as $key => $review): ?>
+                <div class="row comment-header" style="">
+                  <ul>
+                    <li><span class="badge rating-style" style=""><?php echo $review->rate?> </span></li>
+                    <li class="pull-right"><?php echo $review->date_created?></li>
+                  </ul>
+                </div>
                 <li class="col-lg-12 media">
                   <a class="pull-left" href="#">
-                    <img class="media-object img-circle" src="/uploads/images/Maddie.jpg" width="100px" height="100px" alt="profile">
+                    <img class="media-object img-circle" src="/uploads/<?php echo $review->username?>/<?php echo $review->image?>" width="100px" height="100px" alt="profile">
                   </a>
                   <div class="media-body">
                     <div class="well well-lg">
-                        <h4 class="media-heading text-uppercase reviews">Marco </h4>
-                        <ul class="media-date text-uppercase reviews list-inline">
-                          <li class="dd">22</li>
-                          <li class="mm">09</li>
-                          <li class="aaaa">2014</li>
-                        </ul>
+                        <h4 class="media-heading text-uppercase reviews"><?php echo $review->username?> </h4>
+                        <!-- <ul class="media-date text-uppercase reviews list-inline">
+                          <li>February 11, 2018</li>
+                        </ul> -->
                         <p class="media-comment">
                           <?php echo $review->review?>
                         </p>
@@ -395,57 +418,46 @@
 
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 side-content">
-        <?php if (!$this->session->userdata('traveller_is_logged_in')): ?>
-          <h3>Write a Review</h3>
-          <div class="input-group" style="">
-            <div class="input-group-addon"><i class="ion-edit input-style"></i></div>
-            <input type="text" class="form-control input-style" placeholder="Share your experience with <?php echo $business->business_name?>" readonly>
-          </div>
-          <div class="pull-right" style="margin-top:5px;">
-            <button class="btn btn-success" type="button" name="button" disabled>Add review</button>
-          </div>
-        <?php else: ?>
-          <h3>Write a Review</h3>
-          <div id="review_error_msg"></div>
-          <!-- Rating Stars Box -->
-          <div class='rating-stars text-center'>
-            <ul id='stars' name="<?php echo $business->user_id?>">
-              <li class='star' title='Poor' data-value='1'>
-                <i class='fa fa-star fa-fw'></i>
-              </li>
-              <li class='star' title='Fair' data-value='2'>
-                <i class='fa fa-star fa-fw'></i>
-              </li>
-              <li class='star' title='Good' data-value='3'>
-                <i class='fa fa-star fa-fw'></i>
-              </li>
-              <li class='star' title='Excellent' data-value='4'>
-                <i class='fa fa-star fa-fw'></i>
-              </li>
-              <li class='star' title='WOW!!!' data-value='5'>
-                <i class='fa fa-star fa-fw'></i>
-              </li>
-            </ul>
-          </div>
+        <h3>Write a Review</h3>
+        <div id="review_error_msg"></div>
+        <!-- Rating Stars Box -->
+        <div class='rating-stars text-center'>
+          <ul id='stars' name="<?php echo $business->user_id?>">
+            <li class='star' title='Poor' data-value='1'>
+              <i class='fa fa-star fa-fw'></i>
+            </li>
+            <li class='star' title='Fair' data-value='2'>
+              <i class='fa fa-star fa-fw'></i>
+            </li>
+            <li class='star' title='Good' data-value='3'>
+              <i class='fa fa-star fa-fw'></i>
+            </li>
+            <li class='star' title='Excellent' data-value='4'>
+              <i class='fa fa-star fa-fw'></i>
+            </li>
+            <li class='star' title='WOW!!!' data-value='5'>
+              <i class='fa fa-star fa-fw'></i>
+            </li>
+          </ul>
+        </div>
 
-          <div class='success-box'>
-            <div class='clearfix'></div>
-            <img alt='tick image' width='22' src='https://i.imgur.com/3C3apOp.png'/>
-            <div class='text-message'></div>
-            <div class='clearfix'></div>
-          </div>
+        <div class='success-box'>
+          <div class='clearfix'></div>
+          <img alt='tick image' width='22' src='https://i.imgur.com/3C3apOp.png'/>
+          <div class='text-message'></div>
+          <div class='clearfix'></div>
+        </div>
 
-          <div class="form-group input-width center-block">
-            <span style="color:red" class="help-block"><?php echo form_error('review'); ?></span>
-            <textarea class="form-control" name="review" id="review"></textarea>
-          </div>
-          <div class="pull-left" style="margin-top:5px;">
-            <span id="count"> </span>
-          </div>
-          <div class="pull-right" style="margin-top:5px;">
-            <button class="btn btn-success" type="button" name="button" id="Add_Review">Add review</button>
-          </div>
-        <?php endif; ?>
+        <div class="form-group input-width center-block">
+          <span style="color:red" class="help-block"><?php echo form_error('review'); ?></span>
+          <textarea class="form-control" name="review" id="review"></textarea>
+        </div>
+        <div class="pull-left" style="margin-top:5px;">
+          <span id="count"> </span>
+        </div>
+        <div class="pull-right" style="margin-top:5px;">
+          <button class="btn btn-success" type="button" name="button" id="Add_Review">Add review</button>
+        </div>
       </div>
     </div>
 
@@ -483,10 +495,6 @@
   </footer>
   <!-- END FOOTER -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 $('#Submit').click(function() {
     $('#error_message').show();
@@ -512,9 +520,9 @@ $('#Submit').click(function() {
             }else if (msg == 'Dashboard') {
               $('#login').hide();
               $(location).attr('href','/Account');
-            }else if (msg == 'Home') {
+            }else if (msg == 'Login') {
               $('#login').hide();
-              $(location).attr('href','/Home');
+              window.location.reload();
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }
@@ -599,12 +607,15 @@ $('#toggle-heart').on('click',function () {
             type: 'POST',
             data: vote,
             success: function(message) {
-              // alert(message);
-              if (message > 1) {
+              if (message == 'Not logged in') {
+                $('#toggle-heart').prop('checked', false);
+                $('#login').modal('show');
+              }else if (message > 1) {
                 $('#vote').html('Votes: '+message);
               }else {
                 $('#vote').html('Vote: '+message);
               }
+
               // if (message == 'Voted') {
               //   $('#toggle-heart').prop('checked', true);
               // }else if (message=='Unsucessful') {
@@ -727,16 +738,13 @@ $('#Add_Review').click(function() {
         type: 'POST',
         data: review,
         success: function(message) {
-          // // alert(message);
-          // if (message > 1) {
-          //   $('#vote').html('Votes: '+message);
-          // }else {
-          //   $('#vote').html('Vote: '+message);
-          // }
+
           if (message == 'Voted') {
 
           }else if (message=='Unsucessful') {
 
+          }else if (message == 'Not logged in') {
+            $('#login').modal('show');
           }
           else {
             $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -764,6 +772,9 @@ $('#Add_Review').click(function() {
           if (message == 'Voted') {
 
           }else if (message=='Unsucessful') {
+
+          }else if (message == 'Not logged in') {
+            $('#login').modal('show');
           }
           else {
             $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');

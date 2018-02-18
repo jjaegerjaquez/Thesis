@@ -78,7 +78,7 @@
         <?php $ctr = 1;?>
         <?php foreach ($image_sliders as $key => $image_slider): ?>
           <div class="item <?php if($ctr <=1 ){ echo 'active';}?>">
-            <img class="carousel-img" src="/uploads/<?php echo $details->username?>/<?php echo $image_slider->value?>">
+            <img class="carousel-img" src="<?php echo $image_slider->value?>">
           </div>
           <?php $ctr++;?>
         <?php endforeach; ?>
@@ -135,7 +135,7 @@
       <div class="col-sm-6 col-md-6 about-text">
         <!-- 600 x 500 -->
         <?php if (!empty($about_featured_image->value)): ?>
-          <img class="about-img center-block img-responsive" src="/uploads/themes/<?php echo $details->template?>/<?php echo $about_featured_image->value?>" alt="">
+          <img class="about-img center-block img-responsive" src="<?php echo $about_featured_image->value?>" alt="">
         <?php else: ?>
           <img class="about-img center-block img-responsive" src="/public/img/Template1/image4.jpg" alt="">
         <?php endif; ?>
@@ -157,7 +157,7 @@
       <!-- 550 x 500 -->
       <?php if (!empty($gallery_images)): ?>
         <?php foreach ($gallery_images as $key => $gallery_image): ?>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(/uploads/<?php echo $details->username?>/<?php echo $gallery_image->value?>);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
         <?php endforeach; ?>
       <?php else: ?>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(/public/img/Template1/gallery-1.jpg);"></div>

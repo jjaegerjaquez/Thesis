@@ -55,7 +55,7 @@
 
   <!-- <header class="container-fluid header-style" style="background-image: url('/public/img/Neutral/bg2.jpg');"> -->
     <?php if (!empty($home_bg)): ?>
-      <header class="container-fluid header-style" style="background-image: url('/uploads/<?php echo $details->username?>/<?php echo $home_bg->value?>');">
+      <header class="container-fluid header-style" style="background-image: url('<?php echo $home_bg->value?>');">
     <?php else: ?>
       <header class="container-fluid header-style" style="background-image: url('/public/img/Neutral/bg2.jpg');">
     <?php endif; ?>

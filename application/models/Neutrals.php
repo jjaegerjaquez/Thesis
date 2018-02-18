@@ -129,7 +129,7 @@ class Neutrals extends CI_Model
 
   public function get_about_background_image($user_id)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'about_background_image'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'about_header_image'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -294,7 +294,7 @@ class Neutrals extends CI_Model
   public function update_user_template($Template,$user_id)
   {
     $this->db->where('user_id', $user_id);
-    return $this->db->update('basic_info', $Template);
+    return $this->db->update('users', $Template);
   }
 
 }

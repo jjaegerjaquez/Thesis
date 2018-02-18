@@ -290,8 +290,7 @@
     <div class="row content-header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li><a href="/Category">Categories</a></li>
-        <li class="active"><?php echo str_replace('_', ' ', $category)?></li>
+        <li>Categories</li>
       </ul>
       <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
     </div>
@@ -307,43 +306,43 @@
         </ul>
       </div>
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
-        <?php if (!empty($results)): ?>
-          <?php foreach ($results as $key => $result): ?>
+        <?php if (!empty($ctr)): ?>
+          <?php for ($i=0; $i <$ctr ; $i++) { ?>
             <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($result->image)): ?>
-                  <img class="media-object" src="/uploads/<?php echo $result->username?>/<?php echo $result->image?>" alt="image" width="200px" height="200px">
+                <?php if (!empty($results[$i]->image)): ?>
+                  <img class="media-object" src="/uploads/<?php echo $results[$i]->username?>/<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
                 <?php else: ?>
                   <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
                 <?php endif; ?>
               </div>
               <div class="media-body rating">
-                <?php if (!empty($result->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $result->username?>/<?php echo $result->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+                <?php if (!empty($results[$i]->image)): ?>
+                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $results[$i]->username?>/<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
-                <span class="pull-right votes-style" style="">231 Votes</span>
+                <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
                 <span class="badge pull-right rating-style" style="">4.5</span>
-                <h3 class="media-heading business-title"><?php echo $result->business_name?></h3>
+                <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
                 <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
                 <label for="toggle-heart">❤</label> -->
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $result->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $result->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $result->telephone?></li>
+                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $results[$i]->address?></li>
+                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $results[$i]->cellphone?></li>
+                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $results[$i]->telephone?></li>
                 </ul>
                 <div class="row">
                   <div class="col-xs-6">
-                    <a href="<?php echo $result->website_url?>" class="btn btn-lg btn-primary btn-style">
+                    <a href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
                       <div class="space"></div>
       			        <span class="" style="color: #f37430;">Visit Website</span>
       		          </a>
                     <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
                   </div>
                   <div class="col-xs-6">
-                    <a href="/Category/view/<?php echo str_replace(' ', '_', $result->business_name)?>" class="btn btn-lg btn-primary btn-style">
+                    <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn btn-lg btn-primary btn-style">
                     <div class="space"></div>
       			        <span class="" style="color: #f37430;">View</span>
       		          </a>
@@ -351,9 +350,9 @@
                 </div>
               </div>
             </div>
-          <?php endforeach; ?>
+          <?php }?>
         <?php else: ?>
-          <?php echo "0 results"; ?>
+          <?php echo "0 result" ?>
         <?php endif; ?>
       </div>
     </div>
@@ -422,9 +421,9 @@ $('#Submit').click(function() {
             }else if (msg == 'Dashboard') {
               $('#login').hide();
               $(location).attr('href','/Account');
-            }else if (msg == 'Home') {
+            }else if (msg == 'Login') {
               $('#login').hide();
-              $(location).attr('href','/Home');
+              window.location.reload();
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }

@@ -220,7 +220,7 @@ class Classics extends CI_Model
   public function update_user_template($Template,$user_id)
   {
     $this->db->where('user_id', $user_id);
-    return $this->db->update('basic_info', $Template);
+    return $this->db->update('users', $Template);
   }
 
 }

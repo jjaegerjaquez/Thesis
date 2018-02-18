@@ -53,6 +53,16 @@ class Categories extends CI_Model
     }
   }
 
+  public function get_review_count($business_id)
+  {
+    $query = $this->db->query("SELECT count(user_id) as reviews from reviews where business_id = '$business_id'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
   public function get_business_by_Id($business_id)
   {
     $query = $this->db->get_where('basic_info', ['user_id' => $business_id]);
@@ -64,8 +74,14 @@ class Categories extends CI_Model
 
   public function get_reviews($business_id)
   {
-    $query = $this->db->query("SELECT * FROM `reviews` WHERE business_id = '$business_id'");
+    $query = $this->db->query("select username,review,rate,r.date_created,image from users u join reviews r join rates ra join profile p on (u.user_id=r.user_id and u.user_id = ra.user_id and u.user_id = p.user_id and r.business_id = ra.business_id) where r.business_id = '$business_id'");
     return $query->result();
+  }
+
+  public function get_votes($business_id)
+  {
+    $query = $this->db->query("select count(business_id) as vote from votes WHERE business_id = '$business_id'");
+    return $query->row();
   }
 
 }

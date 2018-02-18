@@ -40,7 +40,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
+          <?php else: ?>
+            Admin
+          <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -68,7 +72,7 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($business->image)): ?>
-          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -90,30 +94,26 @@
           <hr>
         </div>
         <form class="" action="/Account/save_site_identity" method="post" enctype="multipart/form-data">
-          <img src="/uploads/<?php echo $account->username?>/<?php if (!empty($site_logo->value)) { echo $site_logo->value; } else { echo 'logo1.png'; }?>" alt="" height="100px" height="50px">
-          <div class="col-lg-12">
-            <div class="form-group">
-              <label>Logo:
-                <br>
-                <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
-              </label>
-              <input class="" type="file" name="logo" />
-            </div>
+          <img src="<?php if (!empty($site_logo->value)) { echo $site_logo->value; } else { echo 'logo1.png'; }?>" alt="" height="100px" height="50px">
+          <div class="form-group">
+            <label>Logo:
+              <br>
+              <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
+            </label>
+            <input class="" type="file" name="logo" />
           </div>
-          <div class="col-lg-12">
-            <div class="form-group">
-              <label>Site Title:</label>
-              <input type="text" name="site_title" class="form-control" value="<?php if (!empty($site_title->value)) { echo $site_title->value; } ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('site_title'); ?></span>
-            </div>
-            <div class="form-group input-width center-block">
-              <label>Tagline:</label>
-              <textarea class="form-control" name="site_tagline"><?php if (!empty($site_tagline->value)) { echo $site_tagline->value; }?></textarea>
-              <span style="color:red" class="help-block"><?php echo form_error('site_tagline'); ?></span>
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-            </div>
+          <div class="form-group">
+            <label>Site Title:</label>
+            <input type="text" name="site_title" class="form-control" value="<?php if (!empty($site_title->value)) { echo $site_title->value; } ?>" maxlength="25">
+            <span style="color:red" class="help-block"><?php echo form_error('site_title'); ?></span>
+          </div>
+          <div class="form-group input-width center-block">
+            <label>Tagline:</label>
+            <textarea class="form-control" name="site_tagline"><?php if (!empty($site_tagline->value)) { echo $site_tagline->value; }?></textarea>
+            <span style="color:red" class="help-block"><?php echo form_error('site_tagline'); ?></span>
+          </div>
+          <div class="form-group">
+            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </form>
       </div>

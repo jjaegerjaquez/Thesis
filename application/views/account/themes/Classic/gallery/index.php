@@ -40,7 +40,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
+          <?php else: ?>
+            Admin
+          <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -68,7 +72,7 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($business->image)): ?>
-          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -100,7 +104,7 @@
             <tbody>
               <?php foreach ($gallery_images as $key => $image): ?>
                 <tr role="row" class="odd">
-                  <td><img src="/uploads/<?php echo $account->username?>/<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" alt="" height="100px" height="50px"></td>
+                  <td><img src="<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" alt="" height="100px" height="50px"></td>
                   <td>
                     <a href="/Classic/view_image/<?php echo $image->content_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
                     <a href="/Classic/edit_image/<?php echo $image->content_id ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>

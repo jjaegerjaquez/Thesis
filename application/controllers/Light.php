@@ -28,7 +28,7 @@ class Light extends CI_Controller
       $this->user_id = $_SESSION['user_id'];
       $this->data['account'] = $this->Lights->get_account_details($this->user_id);
       $this->data['business'] = $this->Lights->get_business_details($this->user_id);
-      $this->theme = $this->data['business']->template;
+      $this->theme = $this->data['account']->template;
       $this->data['title'] = $this->Lights->get_title();
       $this->data['tagline'] = $this->Lights->get_tagline();
       $this->data['facebook'] = $this->Lights->get_facebook();
@@ -86,7 +86,7 @@ class Light extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Bg = [
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               if ($this->Lights->update_home_background_image($Bg,$this->user_id,$data['home_bg']->content_id))
@@ -115,7 +115,7 @@ class Light extends CI_Controller
                 'meta_key' => 'home_background_image',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
               if ($this->db->insert('contents',$Bg))
               {
@@ -229,7 +229,7 @@ class Light extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Bg = [
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               if ($this->Lights->update_about_background_image($Bg,$this->user_id,$data['about_bg']->content_id))
@@ -258,7 +258,7 @@ class Light extends CI_Controller
                 'meta_key' => 'about_background_image',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
               if ($this->db->insert('contents',$Bg))
               {
@@ -368,7 +368,7 @@ class Light extends CI_Controller
                 'meta_key' => 'gallery_image',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               $this->db->insert('contents',$Image);
@@ -420,7 +420,7 @@ class Light extends CI_Controller
             $picture = $uploadData['file_name'];
 
             $Image = [
-              'value' => $picture
+              'value' => '/'.$config['upload_path'].'/'.$picture
             ];
 
             if ($this->Lights->update_gallery_image($Image,$this->user_id,$content_id)) {

@@ -66,7 +66,7 @@
       <?php if (!empty($gallery_images)): ?>
         <?php foreach ($gallery_images as $key => $gallery_image): ?>
           <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
-            <img src="/uploads/<?php echo $details->username?>/<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+            <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
             <div class="middle">
               <div class="text"></div>
             </div>

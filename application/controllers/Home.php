@@ -33,7 +33,8 @@ class Home extends CI_Controller
             'index',
             'login',
             'register',
-            'logout'
+            'logout',
+            'vote'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -316,6 +317,7 @@ class Home extends CI_Controller
                   'password' => md5($this->input->post('register_password')),
                   'date_joined' => date("Y-m-d"),
                   'website' => 'NA',
+                  'template' => 'NA',
                   'set_up' => '1',
                   'status' => '1',
                   'type' => $this->input->post('type')
@@ -459,7 +461,7 @@ class Home extends CI_Controller
               $position = $data['account']->type;
               if ($position == 'Traveller')
               {
-                echo "Home";
+                echo "Login";
                 $this->session->set_userdata('traveller_email', $email);
                 $this->session->set_userdata('traveller_id', $data['account']->user_id);
                 $this->session->set_userdata('traveller_is_logged_in', true);
@@ -643,7 +645,7 @@ class Home extends CI_Controller
                   'gender' => $this->input->post('gender'),
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone'),
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
                   // redirect('/Account/home', 'refresh');
@@ -673,7 +675,7 @@ class Home extends CI_Controller
                   'gender' => $this->input->post('gender'),
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone'),
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
                   // redirect('/Account/home', 'refresh');
@@ -705,11 +707,14 @@ class Home extends CI_Controller
                 'gender' => $this->input->post('gender'),
                 'address' => $this->input->post('address'),
                 'cellphone' => $this->input->post('cellphone'),
-                'image' => $picture
+                'image' => '/'.$config['upload_path'].'/'.$picture
               ];
               if ($this->db->insert('profile',$Profile)) {
                 // redirect('/Account/home', 'refresh');
               }
+          }
+          else {
+            echo "Mali yung path";
           }
         }
       }
@@ -856,27 +861,34 @@ class Home extends CI_Controller
 
   public function vote()
   {
-    $business_id = $this->input->post('business_id');
-    $query = $this->db->query("select * from votes where voter_id = '$this->traveller_id' and business_id = '$business_id'");
-    if ($query->num_rows() > 0)
+    if ($this->session->userdata('traveller_is_logged_in'))
     {
-      echo "Meron na";
-    }
-    else
-    {
-      $Vote = [
-        'voter_id' => $this->traveller_id,
-        'business_id' => $this->input->post('business_id')
-      ];
-      if ($this->db->insert('votes',$Vote)) {
-        $this->data['vote'] = $this->Homes->get_vote($business_id);
-        // redirect('/Account/home', 'refresh');
-        echo $this->data['vote']->vote;
+      $business_id = $this->input->post('business_id');
+      $query = $this->db->query("select * from votes where voter_id = '$this->traveller_id' and business_id = '$business_id'");
+      if ($query->num_rows() > 0)
+      {
+        echo "Meron na";
       }
       else
       {
-        echo "Unsucessful";
+        $Vote = [
+          'voter_id' => $this->traveller_id,
+          'business_id' => $this->input->post('business_id')
+        ];
+        if ($this->db->insert('votes',$Vote)) {
+          $this->data['vote'] = $this->Homes->get_vote($business_id);
+          // redirect('/Account/home', 'refresh');
+          echo $this->data['vote']->vote;
+        }
+        else
+        {
+          echo "Unsucessful";
+        }
       }
+    }
+    else
+    {
+      echo "Not logged in";
     }
   }
 

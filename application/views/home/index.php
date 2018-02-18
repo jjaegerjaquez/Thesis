@@ -957,7 +957,7 @@ $('#Submit').click(function() {
             }else if (msg == 'Dashboard') {
               $('#login').hide();
               $(location).attr('href','/Account');
-            }else if (msg == 'Home') {
+            }else if (msg == 'Login') {
               $('#login').hide();
               $(location).attr('href','/Home');
             }else {

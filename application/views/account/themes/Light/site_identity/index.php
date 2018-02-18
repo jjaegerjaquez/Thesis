@@ -40,7 +40,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $business->username?> <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
+          <?php else: ?>
+            Admin
+          <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
@@ -68,7 +72,7 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($business->image)): ?>
-          <img src="/uploads/<?php echo $account->username?>/<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -90,7 +94,7 @@
         </div>
         <form class="" action="/Account/save_site_identity" method="post" enctype="multipart/form-data">
           <?php if (!empty($site_logo->value)): ?>
-            <img src="/uploads/<?php echo $account->username?>/<?php echo $site_logo->value?>" alt="" height="100px" height="50px">
+            <img src="<?php echo $site_logo->value?>" alt="" height="100px" height="50px">
           <?php else: ?>
             <img src="/public/img/logo1.png" alt="" height="100px" height="50px">
           <?php endif; ?>

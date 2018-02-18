@@ -38,7 +38,7 @@ class Classic extends CI_Controller
 
   public function home()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['home_title'] = $this->Classics->get_home_title($this->user_id);
     $this->data['home_description'] = $this->Classics->get_home_description($this->user_id);
     $this->load->view('account/themes/'.$theme.'/home/index',$this->data);
@@ -123,7 +123,7 @@ class Classic extends CI_Controller
 
   public function about()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['featured_image'] = $this->Classics->get_featured_image($this->user_id);
     $this->data['about_description'] = $this->Classics->get_about_description($this->user_id);
     $this->load->view('account/themes/'.$theme.'/about/index',$this->data);
@@ -131,7 +131,7 @@ class Classic extends CI_Controller
 
   public function save_about()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'description', 'Description',
@@ -160,7 +160,7 @@ class Classic extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Featured_Image = [
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               if ($this->Classics->update_featured_image($Featured_Image,$this->user_id,$data['featured_image']->content_id))
@@ -189,7 +189,7 @@ class Classic extends CI_Controller
                 'meta_key' => 'about_featured_image',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
               if ($this->db->insert('contents',$Featured_Image))
               {
@@ -234,20 +234,20 @@ class Classic extends CI_Controller
 
   public function gallery()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['gallery_images'] = $this->Classics->get_gallery_images($this->user_id);
     $this->load->view('account/themes/'.$theme.'/gallery/index',$this->data);
   }
 
   public function add_image()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->load->view('account/themes/'.$theme.'/gallery/add',$this->data);
   }
 
   public function save_image()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and meta_key = 'gallery_image'");
     $count = $query->row();
     if ($count->count < 6)
@@ -272,7 +272,7 @@ class Classic extends CI_Controller
                 'meta_key' => 'gallery_image',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               $this->db->insert('contents',$Image);
@@ -297,21 +297,21 @@ class Classic extends CI_Controller
 
   public function view_image($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['image'] = $this->Classics->get_image($this->user_id,$content_id);
     $this->load->view('account/themes/'.$theme.'/gallery/view',$this->data);
   }
 
   public function edit_image($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['image'] = $this->Classics->get_image($this->user_id,$content_id);
     $this->load->view('account/themes/'.$theme.'/gallery/edit',$this->data);
   }
 
   public function update_image($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
 
     if(!empty($_FILES['picture']['name'])){ //If may laman na image
         $config['upload_path'] = 'uploads/'.$this->data['account']->username;
@@ -328,7 +328,7 @@ class Classic extends CI_Controller
             $picture = $uploadData['file_name'];
 
             $Image = [
-              'value' => $picture
+              'value' => '/'.$config['upload_path'].'/'.$picture
             ];
 
             if ($this->Classics->update_gallery_image($Image,$this->user_id,$content_id)) {
@@ -353,7 +353,7 @@ class Classic extends CI_Controller
 
   public function contacts()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['facebook'] = $this->Classics->get_facebook_url($this->user_id);
     $this->data['instagram'] = $this->Classics->get_instagram_url($this->user_id);
     $this->data['twitter'] = $this->Classics->get_twitter_url($this->user_id);
@@ -513,20 +513,20 @@ class Classic extends CI_Controller
 
   public function image_slider()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['slider_images'] = $this->Classics->get_slider_images($this->user_id);
     $this->load->view('account/themes/'.$theme.'/image_slider/index',$this->data);
   }
 
   public function add_image_slider()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->load->view('account/themes/'.$theme.'/image_slider/add',$this->data);
   }
 
   public function save_image_slider()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and meta_key = 'image_slider'");
     $count = $query->row();
     if ($count->count < 3)
@@ -551,7 +551,7 @@ class Classic extends CI_Controller
                 'meta_key' => 'image_slider',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               $this->db->insert('contents',$Image);
@@ -576,21 +576,21 @@ class Classic extends CI_Controller
 
   public function view_slider_image($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['image'] = $this->Classics->get_image_slider($this->user_id,$content_id);
     $this->load->view('account/themes/'.$theme.'/image_slider/view',$this->data);
   }
 
   public function edit_slider_image($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['image_slider'] = $this->Classics->get_image_slider($this->user_id,$content_id);
     $this->load->view('account/themes/'.$theme.'/image_slider/edit',$this->data);
   }
 
   public function update_image_slider($content_id)
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
 
     if(!empty($_FILES['picture']['name'])){ //If may laman na image
         $config['upload_path'] = 'uploads/'.$this->data['account']->username;
@@ -607,7 +607,7 @@ class Classic extends CI_Controller
             $picture = $uploadData['file_name'];
 
             $Image = [
-              'value' => $picture
+              'value' => '/'.$config['upload_path'].'/'.$picture
             ];
 
             if ($this->Classics->update_image_slider($Image,$this->user_id,$content_id)) {
@@ -632,7 +632,7 @@ class Classic extends CI_Controller
 
   public function theme()
   {
-    $theme = $this->data['business']->template;
+    $theme = $this->data['account']->template;
     $this->data['themes'] = $this->Classics->get_themes();
     $this->load->view('account/themes/'.$theme.'/theme/index',$this->data);
   }

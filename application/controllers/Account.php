@@ -198,7 +198,7 @@ class Account extends CI_Controller
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
                   'website_url' => $this->input->post('website_address'),
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
                   // redirect('/Account/home', 'refresh');
@@ -234,7 +234,7 @@ class Account extends CI_Controller
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
                   'website_url' => $this->input->post('website_address'),
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->db->insert('basic_info', $Business_Details)) {
                   // redirect('/Account/home', 'refresh');
@@ -317,7 +317,7 @@ class Account extends CI_Controller
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
                   'website_url' => base_url().'View/home/'.$this->data['account']->username,
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
                   // redirect('/Account/home', 'refresh');
@@ -353,7 +353,7 @@ class Account extends CI_Controller
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
                   'website_url' => base_url().'View/home/'.$this->data['account']->username,
-                  'image' => $picture
+                  'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->db->insert('basic_info', $Business_Details)) {
                   // redirect('/Account/home', 'refresh');
@@ -462,7 +462,7 @@ class Account extends CI_Controller
               $picture = $uploadData['file_name'];
 
               $Site_Logo = [
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               if ($this->Accounts->update_site_logo($Site_Logo,$this->user_id,$data['site_logo']->content_id))
@@ -502,7 +502,7 @@ class Account extends CI_Controller
                 'meta_key' => 'site_logo',
                 'content_title' => '',
                 'description' => '',
-                'value' => $picture
+                'value' => '/'.$config['upload_path'].'/'.$picture
               ];
 
               if ($this->db->insert('contents',$Site_Logo))
