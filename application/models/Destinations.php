@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Categories extends CI_Model
+class Destinations extends CI_Model
 {
 
   function __construct()
@@ -15,16 +15,28 @@ class Categories extends CI_Model
     return $query->row();
   }
 
-  public function get_categories()
+  public function get_localities()
   {
-    $query = $this->db->query("select * from categories order by category asc");
+    $query = $this->db->query("select * from localities order by locality asc");
     return $query->result();
   }
 
-  public function get_category_result($category)
+  public function get__localities($letter)
   {
-    $ctgry = str_replace('_', ' ', $category);
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry'");
+    $query = $this->db->query("SELECT locality as locality FROM localities WHERE locality LIKE '$letter%' ORDER BY locality");
+    return $query->result();
+  }
+
+  public function get__counts($letter)
+  {
+    $query = $this->db->query("SELECT count(locality_id) FROM localities WHERE locality LIKE '$letter%' ORDER BY locality");
+    return $query->result();
+  }
+
+  public function get_locality_result($locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
     return $query->result();
   }
 

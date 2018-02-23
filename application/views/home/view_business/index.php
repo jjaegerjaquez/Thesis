@@ -307,14 +307,14 @@
             <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
                 <?php if (!empty($business->image)): ?>
-                  <img class="media-object" src="/uploads/<?php echo $business->username?>/<?php echo $business->image?>" alt="image" width="200px" height="200px">
+                  <img class="media-object" src="<?php echo $business->image?>" alt="image" width="200px" height="200px">
                 <?php else: ?>
                   <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
                 <?php endif; ?>
               </div>
               <div class="media-body rating">
                 <?php if (!empty($business->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $business->username?>/<?php echo $business->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $business->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>

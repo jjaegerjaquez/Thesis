@@ -16,8 +16,9 @@
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/destination/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -288,11 +289,16 @@
   <!-- CONTENT -->
   <div class="container">
     <div class="row content-header">
-      <ul class="breadcrumb">
-        <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li>Categories</li>
-      </ul>
-      <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
+      <ul class="breadcrumb navbar-bottom">
+  	     <li><a href="">Home</a></li>
+         <li>Destinations</li>
+         <li><?php echo $destination?></li>
+  		</ul>
+      <div class="container-fluid text-center header-style " style="background-image:url('/public/img/destination-bg.jpg');">
+  		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
+      </div>
+
+      <!-- <span class="content-title"><?php echo $category?></span> -->
     </div>
     <div class="row content">
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
@@ -305,6 +311,7 @@
           <li><a href="#">Recently Added</a></li>
         </ul>
       </div>
+
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
         <?php if (!empty($ctr)): ?>
           <?php for ($i=0; $i <$ctr ; $i++) { ?>
@@ -391,162 +398,162 @@
   </footer>
   <!-- END FOOTER -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<script>
+  <!-- jQuery 2.2.3 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+  <script>
 
-$('#Submit').click(function() {
-    $('#error_message').show();
-    var form_data = {
-        email: $('#email').val(),
-        password: $('#password').val()
-    };
-    $.ajax({
-        url: "/Home/login",
-        type: 'POST',
-        data: form_data,
-        success: function(msg) {
-            if (msg =='Invalid') {
-              $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
-            }else if (msg =="Unconfirmed") {
-              $('#login').hide();
-              $(location).attr('href','/Verify/unconfirmed');
-            }else if (msg =='Incorrect') {
-              $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
-            }else if (msg =='Set up') {
-              $('#login').hide();
-              $(location).attr('href','/Home/set_up');
-            }else if (msg == 'Dashboard') {
-              $('#login').hide();
-              $(location).attr('href','/Account');
-            }else if (msg == 'Login') {
-              $('#login').hide();
-              window.location.reload();
-            }else {
-              $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
+  $('#Submit').click(function() {
+      $('#error_message').show();
+      var form_data = {
+          email: $('#email').val(),
+          password: $('#password').val()
+      };
+      $.ajax({
+          url: "/Home/login",
+          type: 'POST',
+          data: form_data,
+          success: function(msg) {
+              if (msg =='Invalid') {
+                $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
+              }else if (msg =="Unconfirmed") {
+                $('#login').hide();
+                $(location).attr('href','/Verify/unconfirmed');
+              }else if (msg =='Incorrect') {
+                $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
+              }else if (msg =='Set up') {
+                $('#login').hide();
+                $(location).attr('href','/Home/set_up');
+              }else if (msg == 'Dashboard') {
+                $('#login').hide();
+                $(location).attr('href','/Account');
+              }else if (msg == 'Login') {
+                $('#login').hide();
+                window.location.reload();
+              }else {
+                $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
+              }
+          }
+      });
+      return false;
+  });
+  $('#login').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
+      $('#error_message').hide();
+  })
+  $('#Register').click(function() {
+      $('#register_error_message').show();
+      var register_data = {
+          register_email: $('#register_email').val(),
+          username: $('#username').val(),
+          register_password: $('#register_password').val(),
+          register_confirm_password: $('#register_confirm_password').val(),
+          type: $('#Register').attr('name')
+      };
+      $.ajax({
+          url: "/Home/register",
+          type: 'POST',
+          data: register_data,
+          success: function(message) {
+            if (message=='Successful') {
+              $('#register').hide();
+              $(location).attr('href','/Verify');
+            }else if (message=='Unsucessful') {
+              $('#register').hide();
+              $(location).attr('href','/Verify/not_sent');
             }
-        }
-    });
-    return false;
-});
-$('#login').on('hidden.bs.modal', function () {
-    $(this).find('form').trigger('reset');
-    $('#error_message').hide();
-})
-$('#Register').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#register_email').val(),
-        username: $('#username').val(),
-        register_password: $('#register_password').val(),
-        register_confirm_password: $('#register_confirm_password').val(),
-        type: $('#Register').attr('name')
-    };
-    $.ajax({
-        url: "/Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
+            else {
+              $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
+            }
           }
-          else {
-            $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
+      });
+      return false;
+  });
+  $('#Register_Traveller').click(function() {
+      $('#register_error_message').show();
+      var register_data = {
+          register_email: $('#traveller_register_email').val(),
+          username: $('#traveller_username').val(),
+          register_password: $('#traveller_register_password').val(),
+          register_confirm_password: $('#traveller_register_confirm_password').val(),
+          type: $('#Register_Traveller').attr('name')
+      };
+      $.ajax({
+          url: "/Home/register",
+          type: 'POST',
+          data: register_data,
+          success: function(message) {
+            if (message=='Successful') {
+              $('#register').hide();
+              $(location).attr('href','/Verify');
+            }else if (message=='Unsucessful') {
+              $('#register').hide();
+              $(location).attr('href','/Verify/not_sent');
+            }
+            else {
+              $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
+            }
           }
-        }
-    });
-    return false;
-});
-$('#Register_Traveller').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#traveller_register_email').val(),
-        username: $('#traveller_username').val(),
-        register_password: $('#traveller_register_password').val(),
-        register_confirm_password: $('#traveller_register_confirm_password').val(),
-        type: $('#Register_Traveller').attr('name')
-    };
-    $.ajax({
-        url: "/Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
-          }
-          else {
-            $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-          }
-        }
-    });
-    return false;
-});
-$('#register').on('hidden.bs.modal', function () {
-    $(this).find('form').trigger('reset');
-    $('#register_error_message').hide();
-})
-// $('#toggle-heart').on('click',function () {
-//     var ckbox = $('#toggle-heart');
-//     if (ckbox.is(':checked'))
-//     {
-//         // alert($('#toggle-heart').attr('name'));
-//         var vote = {
-//             business_id: $('#toggle-heart').attr('name')
-//         };
-//         $.ajax({
-//             url: "/Home/vote",
-//             type: 'POST',
-//             data: vote,
-//             success: function(message) {
-//               // alert(message);
-//               if (message == 'Voted') {
-//                 $('#toggle-heart').prop('checked', true);
-//               }
-//               }else if (message=='Unsucessful') {
-//                 $('#toggle-heart').prop('checked', false);
-//               }
-//               // else {
-//               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//               // }
-//               // alert('Success');
-//             }
-//         });
-//         // return false;
-//     }
-//     else
-//     {
-//       var vote = {
-//           business_id: $('#toggle-heart').attr('name')
-//       };
-//       $.ajax({
-//           url: "/Home/unvote",
-//           type: 'POST',
-//           data: vote,
-//           success: function(message) {
-//             alert(message);
-//             // }else if (message=='Unsucessful') {
-//             //   $('#register').hide();
-//             //   $(location).attr('href','/Verify/not_sent');
-//             // }
-//             // else {
-//             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//             // }
-//             // alert('Success');
-//           }
-//       });
-//         // alert('You Un-Checked it');
-//     }
-// });
-</script>
+      });
+      return false;
+  });
+  $('#register').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
+      $('#register_error_message').hide();
+  })
+  // $('#toggle-heart').on('click',function () {
+  //     var ckbox = $('#toggle-heart');
+  //     if (ckbox.is(':checked'))
+  //     {
+  //         // alert($('#toggle-heart').attr('name'));
+  //         var vote = {
+  //             business_id: $('#toggle-heart').attr('name')
+  //         };
+  //         $.ajax({
+  //             url: "/Home/vote",
+  //             type: 'POST',
+  //             data: vote,
+  //             success: function(message) {
+  //               // alert(message);
+  //               if (message == 'Voted') {
+  //                 $('#toggle-heart').prop('checked', true);
+  //               }
+  //               }else if (message=='Unsucessful') {
+  //                 $('#toggle-heart').prop('checked', false);
+  //               }
+  //               // else {
+  //               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+  //               // }
+  //               // alert('Success');
+  //             }
+  //         });
+  //         // return false;
+  //     }
+  //     else
+  //     {
+  //       var vote = {
+  //           business_id: $('#toggle-heart').attr('name')
+  //       };
+  //       $.ajax({
+  //           url: "/Home/unvote",
+  //           type: 'POST',
+  //           data: vote,
+  //           success: function(message) {
+  //             alert(message);
+  //             // }else if (message=='Unsucessful') {
+  //             //   $('#register').hide();
+  //             //   $(location).attr('href','/Verify/not_sent');
+  //             // }
+  //             // else {
+  //             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+  //             // }
+  //             // alert('Success');
+  //           }
+  //       });
+  //         // alert('You Un-Checked it');
+  //     }
+  // });
+  </script>
 </body>
 </html>

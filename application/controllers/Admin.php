@@ -1140,6 +1140,460 @@ class Admin extends CI_Controller
   }
   // END OF LAYOUT
 
+  // ADVERTISEMENTS
+  public function advertisements()
+  {
+    $this->data['priorities'] = $this->Admins->get_priority_ad();
+    // $this->data['regulars'] = $this->Admins->get_regular_ad();
+    $query2= $this->db->get_where('advertisements', ['type' => 'Regular']);
+    // echo $query2->num_rows();
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/advertisements';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['regulars'] = $this->Admins->function_pagination($limit, $offset);
+    $this->load->view('admin/dashboard/advertisements/index',$this->data);
+  }
+
+  public function add_ad($type)
+  {
+    if ($type == "Regular")
+    {
+      $this->load->view('admin/dashboard/advertisements/create',$this->data);
+    }
+    else
+    {
+      $this->load->view('admin/dashboard/advertisements/create_priority',$this->data);
+    }
+  }
+
+  public function save_ad($type)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'start', 'Start Date',
+        'required',
+        array(
+                'required'      => 'Please select start date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'end', 'End Date',
+        'required',
+        array(
+                'required'      => 'Please select end date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'business_id', 'Business ID',
+        'trim|required|callback_BusinessIdExists',
+        array(
+                'required'      => 'Please enter business id'
+        )
+    );
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter title'
+        )
+    );
+    $this->form_validation->set_rules(
+        'subtext', 'Tagline',
+        'trim|required',
+        array(
+                'required'      => 'Please enter a short text for the advertisement'
+        )
+    );
+    $this->form_validation->set_rules(
+        'description', 'Description',
+        'trim|required',
+        array(
+                'required'      => 'Please enter description for the advertisement'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      if ($type == 'Regular')
+      {
+        $this->load->view('admin/dashboard/advertisements/create',$this->data);
+      }
+      else
+      {
+        $this->load->view('admin/dashboard/advertisements/create_priority',$this->data);
+      }
+    }
+    else
+    {
+      if ($type == 'Regular')
+      {
+        if(!empty($_FILES['picture']['name']))
+        {
+          $config['upload_path'] = 'public/img/advertisements';
+          $config['overwrite'] = TRUE;
+          $config['allowed_types'] = 'jpg|jpeg|png|gif';
+          $config['file_name'] = $_FILES['picture']['name'];
+
+          //Load upload library and initialize configuration
+          $this->load->library('upload',$config);
+          $this->upload->initialize($config);
+
+          if($this->upload->do_upload('picture')){
+              $uploadData = $this->upload->data();
+              $picture = $uploadData['file_name'];
+
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'image' => '/'.$config['upload_path'].'/'.$picture,
+                'type' => $type
+              ];
+
+              if ($this->db->insert('advertisements',$Ad)) {
+                echo '<script>alert("Advertisement added!");</script>';
+                redirect('/Admin/advertisements', 'refresh');
+              }else {
+                echo '<script>alert("Advertisement not added!");</script>';
+                redirect('/Admin/advertisements', 'refresh');
+              }
+          }
+          else
+          {
+            $Ad = [
+              'business_id' => $this->input->post('business_id'),
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'subtext' => $this->input->post('subtext'),
+              'description' => $this->input->post('description'),
+              'image' => '/public/img/default-img.jpg',
+              'type' => $type
+            ];
+
+            if ($this->db->insert('advertisements',$Ad)) {
+              echo '<script>alert("Advertisement added!");</script>';
+              redirect('/Admin/advertisements', 'refresh');
+            }else {
+              echo '<script>alert("Advertisement not added!");</script>';
+              redirect('/Admin/advertisements', 'refresh');
+            }
+          }
+        }
+        else
+        {
+          $Ad = [
+            'business_id' => $this->input->post('business_id'),
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'subtext' => $this->input->post('subtext'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg',
+            'type' => $type
+          ];
+
+          if ($this->db->insert('advertisements',$Ad)) {
+            echo '<script>alert("Advertisement added!");</script>';
+            redirect('/Admin/advertisements', 'refresh');
+          }else {
+            echo '<script>alert("Advertisement not added!");</script>';
+            redirect('/Admin/advertisements', 'refresh');
+          }
+        }
+      }
+      else
+      {
+        $this->data['priorities'] = $this->Admins->get_priority_ad();
+        $count = count($this->data['priorities']);
+        if ($count < 5)
+        {
+          if(!empty($_FILES['picture']['name']))
+          {
+            $config['upload_path'] = 'public/img/advertisements';
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['picture']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('picture')){
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$config['upload_path'].'/'.$picture,
+                  'type' => $type
+                ];
+
+                if ($this->db->insert('advertisements',$Ad)) {
+                  echo '<script>alert("Advertisement added!");</script>';
+                  redirect('/Admin/advertisements', 'refresh');
+                }else {
+                  echo '<script>alert("Advertisement not added!");</script>';
+                  redirect('/Admin/advertisements', 'refresh');
+                }
+            }
+            else
+            {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'image' => '/public/img/default-img.jpg',
+                'type' => $type
+              ];
+
+              if ($this->db->insert('advertisements',$Ad)) {
+                echo '<script>alert("Advertisement added!");</script>';
+                redirect('/Admin/advertisements', 'refresh');
+              }else {
+                echo '<script>alert("Advertisement not added!");</script>';
+                redirect('/Admin/advertisements', 'refresh');
+              }
+            }
+          }
+          else
+          {
+            $Ad = [
+              'business_id' => $this->input->post('business_id'),
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'subtext' => $this->input->post('subtext'),
+              'description' => $this->input->post('description'),
+              'image' => '/public/img/default-img.jpg',
+              'type' => $type
+            ];
+
+            if ($this->db->insert('advertisements',$Ad)) {
+              echo '<script>alert("Advertisement added!");</script>';
+              redirect('/Admin/advertisements', 'refresh');
+            }else {
+              echo '<script>alert("Advertisement not added!");</script>';
+              redirect('/Admin/advertisements', 'refresh');
+            }
+          }
+        }
+        else
+        {
+          echo '<script>alert("You have reached the maximum number of priority ads..");</script>';
+          redirect('/Admin/add_ad/'.$type, 'refresh');
+        }
+      }
+    }
+  }
+
+  public function BusinessIdExists()
+  {
+    $business_id = $this->input->post('business_id');
+    $exists = $this->Admins->BusinessIdExists($business_id);
+
+    if ($exists)
+    {
+      $this->form_validation->set_message('BusinessIdExists', 'The id you entered does not exists');
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  public function view_ad($ad_id)
+  {
+    $this->data['ad'] = $this->Admins->get_ad($ad_id);
+    $this->load->view('admin/dashboard/advertisements/view',$this->data);
+  }
+
+  public function edit_ad($ad_id)
+  {
+    $this->data['ad'] = $this->Admins->get_ad($ad_id);
+    $this->load->view('admin/dashboard/advertisements/edit',$this->data);
+  }
+
+  public function update_ad($ad_id)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'start', 'Start Date',
+        'required',
+        array(
+                'required'      => 'Please select start date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'end', 'End Date',
+        'required',
+        array(
+                'required'      => 'Please select end date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'business_id', 'Business ID',
+        'trim|required',
+        array(
+                'required'      => 'Please enter business id'
+        )
+    );
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter title'
+        )
+    );
+    $this->form_validation->set_rules(
+        'subtext', 'Tagline',
+        'trim|required',
+        array(
+                'required'      => 'Please enter a short text for the advertisement'
+        )
+    );
+    $this->form_validation->set_rules(
+        'description', 'Description',
+        'trim|required',
+        array(
+                'required'      => 'Please enter description for the advertisement'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->data['ad'] = $this->Admins->get_ad($ad_id);
+      $this->load->view('admin/dashboard/advertisements/edit',$this->data);
+    }
+    else
+    {
+      if(!empty($_FILES['picture']['name']))
+      {
+        $config['upload_path'] = 'public/img/advertisements';
+        $config['overwrite'] = TRUE;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['file_name'] = $_FILES['picture']['name'];
+
+        //Load upload library and initialize configuration
+        $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('picture')){
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+
+            $Ad = [
+              'business_id' => $this->input->post('business_id'),
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'subtext' => $this->input->post('subtext'),
+              'description' => $this->input->post('description'),
+              'image' => '/'.$config['upload_path'].'/'.$picture
+            ];
+
+            if ($this->Admins->update_ad($Ad,$ad_id))
+            { //KAPAG NAUPDATE YUNG Image at data
+              echo '<script>alert("Advertisement updated!");</script>';
+              redirect('/Admin/advertisements', 'refresh');
+            }
+            else
+            { //KAPAG DI NAUPDATE YUNG Image at data
+              echo '<script>alert("Please check your image size and image file type...");</script>';
+            }
+        }
+        else
+        {
+          $Ad = [
+            'business_id' => $this->input->post('business_id'),
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'subtext' => $this->input->post('subtext'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg'
+          ];
+
+          if ($this->Admins->update_ad($Ad,$ad_id))
+          { //KAPAG NAUPDATE YUNG Image at data
+            echo '<script>alert("Advertisement updated!");</script>';
+            redirect('/Admin/advertisements', 'refresh');
+          }
+          else
+          { //KAPAG DI NAUPDATE YUNG Image at data
+            echo '<script>alert("Please check your image size and image file type...");</script>';
+          }
+        }
+      }
+      else
+      {
+        $Ad = [
+          'business_id' => $this->input->post('business_id'),
+          'start_date' => $this->input->post('start'),
+          'end_date' => $this->input->post('end'),
+          'title' => $this->input->post('title'),
+          'subtext' => $this->input->post('subtext'),
+          'description' => $this->input->post('description')
+        ];
+
+        if ($this->Admins->update_ad($Ad,$ad_id))
+        { //KAPAG NAUPDATE YUNG Image at data
+          echo '<script>alert("Advertisement updated!");</script>';
+          redirect('/Admin/advertisements', 'refresh');
+        }
+        else
+        { //KAPAG DI NAUPDATE YUNG Image at data
+          echo '<script>alert("Please check your image size and image file type...");</script>';
+        }
+      }
+    }
+  }
+
+  public function delete_ad($advertisement_id)
+  {
+    $this->db->where('advertisement_id', $advertisement_id);
+    $this->db->delete('advertisements');
+    echo '<script>alert("Advertisement deleted!");</script>';
+    redirect('/Admin/advertisements', 'refresh');
+  }
+  // END OF ADVERTISEMENTS
+
   public function logout()
   {
     if ($this->session->userdata('admin_is_logged_in')) {

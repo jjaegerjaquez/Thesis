@@ -156,6 +156,17 @@ html, body {
   padding-top: 15px;
   background-color: #fff;
 }
+.info-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.info-title{
+  padding-top:10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .info-box a{
   color:#323339;
 }
@@ -505,8 +516,8 @@ html, body {
   font-size: 30px;
   color: #323339;
 }
-.box-1{
-  background-image: url(/public/img/promo1.jpg);
+.ad-box{
+  /*background-image: url(/public/img/promo1.jpg);*/
   background-size: contain;
   line-height: 1px;
 }
@@ -676,8 +687,10 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
 }
 .input-style{
   border-radius: 2px;
+  font-family: 'Roboto', sans-serif;
 }
 .search-btn {
+  font-family: 'Oswald', sans-serif;
   background-color: #f37430;
 }
 .search-btn:hover {

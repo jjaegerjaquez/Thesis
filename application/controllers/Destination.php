@@ -3,7 +3,7 @@
 /**
  *
  */
-class Category extends CI_Controller
+class Destination extends CI_Controller
 {
 
   public function __construct()
@@ -13,18 +13,18 @@ class Category extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
-		$this->load->model('Categories');
-    $this->data['categories'] = $this->Categories->get_categories();
-    $this->data['title'] = $this->Categories->get_title();
+		$this->load->model('Destinations');
+    $this->data['destinations'] = $this->Destinations->get_localities();
+    $this->data['title'] = $this->Destinations->get_title();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
-      $this->data['traveller_details'] = $this->Categories->get_traveller_details($this->traveller_id);
-      $this->data['traveller_profile'] = $this->Categories->get_traveller_profile($this->traveller_id);
+      $this->data['traveller_details'] = $this->Destinations->get_traveller_details($this->traveller_id);
+      $this->data['traveller_profile'] = $this->Destinations->get_traveller_profile($this->traveller_id);
     }
     else
     {
-      $this->data['categories'] = $this->Categories->get_categories();
+      $this->data['destinations'] = $this->Destinations->get_localities();
     }
 	}
 
@@ -35,24 +35,30 @@ class Category extends CI_Controller
 
   public function all()
   {
-    $this->load->view('categories/index',$this->data);
+    $letters = array(0 => 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z');
+    $ctr=count($letters);
+    for ($i=0; $i <$ctr ; $i++) {
+      $this->data['localities'.$i] = $this->Destinations->get__localities($letters[$i]);
+    }
+
+    $this->load->view('destinations/all',$this->data);
   }
 
-  public function result($category)
+  public function result($locality)
   {
     $count = 0;
-    $this->data['results'] = $this->Categories->get_category_result($category);
+    $this->data['results'] = $this->Destinations->get_locality_result($locality);
     foreach ($this->data['results'] as $key => $result) {
       $count++;
     }
 
     for ($i=0; $i <$count ; $i++) {
-      $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+      $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
     }
     // print_r($this->data['votes']);
     $this->data['ctr']=$count;
-    $this->data['category'] = $category;
-    $this->load->view('home/result',$this->data);
+    $this->data['destination'] = $locality;
+    $this->load->view('destinations/index',$this->data);
   }
 
   public function search()
@@ -62,7 +68,7 @@ class Category extends CI_Controller
 
   public function view($business_name)
   {
-    $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
+    $this->data['business'] = $this->Destinations->get_business(str_replace('_', ' ', $business_name));
     $business_id = $this->data['business']->user_id;
     if ($this->session->userdata('traveller_is_logged_in'))
     {
@@ -72,10 +78,10 @@ class Category extends CI_Controller
         $this->data['voted'] = 'Voted';
       }
     }
-    $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
-    $this->data['vote'] = $this->Categories->get_vote($this->data['business']->user_id);
-    $this->data['reviews'] = $this->Categories->get_reviews($this->data['business']->user_id);
-    $this->data['review_count'] = $this->Categories->get_review_count($this->data['business']->user_id);
+    $this->data['business'] = $this->Destinations->get_business(str_replace('_', ' ', $business_name));
+    $this->data['vote'] = $this->Destinations->get_vote($this->data['business']->user_id);
+    $this->data['reviews'] = $this->Destinations->get_reviews($this->data['business']->user_id);
+    $this->data['review_count'] = $this->Destinations->get_review_count($this->data['business']->user_id);
     $this->load->view('home/view_business/index',$this->data);
   }
 
@@ -125,7 +131,7 @@ class Category extends CI_Controller
             ];
             if ($this->db->insert('reviews',$Review)) {
               // $this->data['vote'] = $this->Homes->get_vote($business_id);
-              $this->data['business_details'] = $this->Categories->get_business_by_Id($this->input->post('business_id'));
+              $this->data['business_details'] = $this->Destinations->get_business_by_Id($this->input->post('business_id'));
               // echo $this->data['business_details']->business_name;
               // base_url().'View/home/'.$this->data['account']->username
               // echo "/Category/view/".str_replace(' ', '_', $this->data['business_details']->business_name);

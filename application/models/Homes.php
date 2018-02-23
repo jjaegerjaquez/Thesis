@@ -22,6 +22,12 @@ class Homes extends CI_Model
     }
   }
 
+  public function get_priority_ad()
+  {
+    $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Priority'");
+    return $query->result();
+  }
+
   public function update_user_template($Template,$user_id)
   {
     $this->db->where('user_id', $user_id);
@@ -130,8 +136,20 @@ class Homes extends CI_Model
 
   public function get_localities()
   {
-    $query = $this->db->query("select * from localities order by locality asc");
+    $query = $this->db->query("select * from localities limit 15");
     return $query->result();
+  }
+
+  public function get_all_localities()
+  {
+    $query = $this->db->query("select * from localities limit 15");
+    return $query->result();
+  }
+
+  public function get_counts($locality)
+  {
+    $query = $this->db->query("select count(user_id) as count from basic_info WHERE locality = '$locality'");
+    return $query->row();
   }
 
   public function get($user_id)

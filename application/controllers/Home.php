@@ -27,6 +27,7 @@ class Home extends CI_Controller
     $this->data['title'] = $this->Homes->get_title();
     $this->data['tagline'] = $this->Homes->get_tagline();
     $this->data['localities'] = $this->Homes->get_localities();
+    $this->data['priority_ads'] = $this->Homes->get_priority_ad();
     if (!$this->session->userdata('is_logged_in') && !$this->session->userdata('traveller_is_logged_in'))
     {
       $allowed = array(
@@ -67,6 +68,17 @@ class Home extends CI_Controller
     // $this->session->unset_userdata('traveller_email');
     // $this->session->unset_userdata('traveller_is_logged_in');
     // $this->session->unset_userdata('traveller_id');
+    $count = 0;
+    foreach ($this->data['localities'] as $key => $result) {
+      $count++;
+    }
+
+    for ($i=0; $i <$count ; $i++) {
+      $this->data['counts'][$i] = $this->Homes->get_counts($this->data['localities'][$i]->locality);
+    }
+
+    $this->data['ctr']=$count;
+
     if ($this->session->userdata('is_logged_in'))
     {
       $email = $_SESSION['email'];

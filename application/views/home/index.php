@@ -519,7 +519,7 @@
           </div> -->
           <div class="col-lg-2 col-sm-2 col-xs-12">
             <li>
-              <a href="" title="See All" target="_self" rel="nofollow">
+              <a href="/Category/all" title="See All" target="_self" rel="nofollow">
                 <img src="/public/img/icons/search.png" width="25px" height="25px" alt="">
                 <span style="color:#fba100;">See All</span>
               </a>
@@ -540,114 +540,22 @@
     <div class="row row2">
       <div class="col-lg-12 destination-list">
         <ul>
+          <?php if (!empty($ctr)): ?>
+            <?php for ($i=0; $i <$ctr ; $i++) { ?>
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                <li>
+                  <a href="/Destination/result/<?php echo str_replace(' ', '_', $localities[$i]->locality)?>" title="<?php echo $localities[$i]->locality?>" target="_self" rel="nofollow">
+                    <label><?php echo $localities[$i]->locality?> <span>(<?php echo $counts[$i]->count?> <?php if ($counts[$i]->count > 1): ?> places <?php else: ?> place <?php endif; ?>)</span></label>
+                  </a>
+                </li>
+              </div>
+            <?php }?>
+          <?php else: ?>
+            <?php echo "0 result" ?>
+          <?php endif; ?>
           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
             <li>
-              <a href="" title="Manila" target="_self" rel="nofollow">
-                <label>Manila <span>(250 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Boracay" target="_self" rel="nofollow">
-                <label>Boracay <span>(182 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Cebu" target="_self" rel="nofollow">
-                <label>Cebu <span>(176 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Bohol" target="_self" rel="nofollow">
-                <label>Bohol <span>(163 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Palawan" target="_self" rel="nofollow">
-                <label>Palawan <span>(154 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Baguio" target="_self" rel="nofollow">
-                <label>Baguio <span>(142 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Davao" target="_self" rel="nofollow">
-                <label>Davao <span>(131 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Vigan" target="_self" rel="nofollow">
-                <label>Vigan <span>(129 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Tagaytay" target="_self" rel="nofollow">
-                <label>Tagaytay <span>(126 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Batangas" target="_self" rel="nofollow">
-                <label>Batangas <span>(123 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Taguig" target="_self" rel="nofollow">
-                <label>Taguig <span>(119 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Puerto Galera" target="_self" rel="nofollow">
-                <label>Puerto Galera <span>(115 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Bataan" target="_self" rel="nofollow">
-                <label>Bataan <span>(108 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Bacolod" target="_self" rel="nofollow">
-                <label>Bacolod <span>(101 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="Banaue" target="_self" rel="nofollow">
-                <label>Banaue <span>(85 places)</span></label>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-            <li>
-              <a href="" title="See All" target="_self" rel="nofollow">
+              <a href="/Destination/all" title="See All" target="_self" rel="nofollow">
                 <label class="see-all-color">See All</label>
               </a>
             </li>
@@ -665,66 +573,32 @@
       <p>Discover great finds and deals for a discounted price</p>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
-          <div class="info-box">
-            <a href="#">
-              <span class="info-box-icon bg-aqua box-1"></span>
-              <div class="info-box-content">
-                <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
-                <p>Visit Summer Craze PH for great find summer goodies!</p>
+      <?php if (!empty($priority_ads)): ?>
+        <?php foreach ($priority_ads as $key => $ad): ?>
+          <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
+              <div class="info-box">
+                <a href="/Advertisement/result/<?php echo $ad->advertisement_id?>">
+                  <span class="info-box-icon bg-aqua ad-box" style="background-image: url(<?php echo $ad->image?>);"></span>
+                  <div class="info-box-content">
+                    <span class="info-box-number">
+                      <div class="info-title">
+                        <?php echo $ad->title?>
+                      </div>
+                    </span>
+                    <div class="info-text">
+                      <?php echo $ad->subtext?>
+                    </div>
+                  </div>
+                </a>
               </div>
-            </a>
           </div>
-      </div>
-      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
-          <div class="info-box">
-            <a href="#">
-              <span class="info-box-icon bg-aqua box-2"></span>
-              <div class="info-box-content">
-                <span class="info-box-number">Treat for your Barkada!</span>
-                <p>Come with us at Cebu Resorts and enjoy your trip with barkada!</p>
-              </div>
-            </a>
-          </div>
-      </div>
-      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
-          <div class="info-box">
-            <a href="#">
-              <span class="info-box-icon bg-aqua box-3"></span>
-              <div class="info-box-content">
-                <span class="info-box-number">Discounted Luggage!</span>
-                <p>Premium quality luggage here at Luggage Store.</p>
-              </div>
-            </a>
-          </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
-          <div class="info-box">
-            <a href="#">
-              <span class="info-box-icon bg-aqua box-3"></span>
-              <div class="info-box-content">
-                <span class="info-box-number">Discounted Luggage!</span>
-                <p>Premium quality luggage here at Luggage Store.</p>
-              </div>
-            </a>
-          </div>
-      </div>
-      <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
-          <div class="info-box">
-            <a href="#">
-              <span class="info-box-icon bg-aqua box-1"></span>
-              <div class="info-box-content">
-                <span class="info-box-number">Summer Sale: Up to 70% sale!</span>
-                <p>Visit Summer Craze PH for great find summer goodies!</p>
-              </div>
-            </a>
-          </div>
-      </div>
+        <?php endforeach; ?>
+      <?php else: ?>
+        0 results
+      <?php endif; ?>
       <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
           <div class="info-box text-center">
-            <a href="">
+            <a href="/Advertisement/all">
               <div class="icon deal-box">
                 <i class="fa fa-tags" style="margin-top:20px;"></i>
               </div>

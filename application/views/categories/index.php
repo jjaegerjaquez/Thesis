@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/categories/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -287,73 +287,26 @@
 
   <!-- CONTENT -->
   <div class="container">
-    <div class="row content-header">
-      <ul class="breadcrumb">
-        <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li>Categories</li>
-      </ul>
-      <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
-    </div>
     <div class="row content">
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <label>Filters</label>
+        <!-- <label>Filters</label>
         <div class="separator"></div>
         <label>Sort By</label>
         <ul class="sort-list">
           <li><a href="#">Popularity - <span>high to low</span></a></li>
           <li><a href="#">Rating - <span>high to low</span></a></li>
           <li><a href="#">Recently Added</a></li>
-        </ul>
+        </ul> -->
       </div>
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
-        <?php if (!empty($ctr)): ?>
-          <?php for ($i=0; $i <$ctr ; $i++) { ?>
-            <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
-              <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="media-object" src="<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
-                <?php else: ?>
-                  <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
-                <?php endif; ?>
-              </div>
-              <div class="media-body rating">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $results[$i]->username?>/<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php else: ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php endif; ?>
-                <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
-                <span class="badge pull-right rating-style" style="">4.5</span>
-                <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
-                <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
-                <label for="toggle-heart">❤</label> -->
-                <div class="separator"></div>
-                <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $results[$i]->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $results[$i]->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $results[$i]->telephone?></li>
-                </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
-                      <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
-                    <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
-                  </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn btn-lg btn-primary btn-style">
-                    <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <?php }?>
-        <?php else: ?>
-          <?php echo "0 result" ?>
-        <?php endif; ?>
+        <?php foreach ($categories as $key => $category): ?>
+          <div class="col-lg-3 col-md-3 col-sm-3 text-center" style="padding-top:5px;">
+  				  <a href="/Category/result/<?php echo str_replace(' ', '_', $category->category)?>" >
+  					<img src="/public/img/icons/<?php echo $category->image?>"alt="Fjords"  width="100px" height="100px">
+  				  </a>
+  				 <p class=""><?php echo $category->category?></p>
+  			  </div>
+        <?php endforeach; ?>
       </div>
     </div>
   </div>

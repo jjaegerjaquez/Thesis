@@ -18,6 +18,19 @@ class Admins extends CI_Model
     }
   }
 
+  public function BusinessIdExists($business_id)
+  {
+    $this->db->select('business_name');
+    $this->db->where('user_id', $business_id);
+    $query = $this->db->get('basic_info');
+
+    if ($query->num_rows() > 0) {
+        return false;
+    } else {
+        return true;
+    }
+  }
+
   public function get($user_id)
   {
     $query = $this->db->get_where('accounts', ['user_id' => $user_id]);
@@ -43,6 +56,44 @@ class Admins extends CI_Model
     $data = array('website' => $status, 'set_up' => '1' );
     $this->db->where('user_id', $user_id);
     return $this->db->update('accounts', $data);
+  }
+
+  public function get_priority_ad()
+  {
+    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Priority'");
+    return $query->result();
+  }
+
+  public function get_regular_ad()
+  {
+    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Regular'");
+    return $query->result();
+  }
+
+  function function_pagination($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('basic_info');
+    $this->db->join('advertisements','basic_info.user_id=advertisements.business_id');
+    $this->db->where('type', 'Regular');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  public function get_ad($ad_id)
+  {
+    $query = $this->db->query("select business_name,advertisement_id,title,business_id,start_date,end_date,subtext,description,a.image from basic_info bi join advertisements a on (bi.user_id=a.business_id) where advertisement_id = '$ad_id'");
+    return $query->row();
+  }
+
+  public function update_ad($Ad,$ad_id)
+  {
+    $this->db->where('advertisement_id', $ad_id);
+    return $this->db->update('advertisements', $Ad);
   }
 
   // LOCALITY

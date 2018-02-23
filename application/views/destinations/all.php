@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -12,12 +12,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/destination/all/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -290,70 +289,172 @@
     <div class="row content-header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li>Categories</li>
+        <li>Destinations</li>
+        <li class="active">All</li>
       </ul>
-      <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
+      <span class="content-title"></span>
     </div>
     <div class="row content">
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <label>Filters</label>
+        <!-- <label>Filters</label>
         <div class="separator"></div>
         <label>Sort By</label>
         <ul class="sort-list">
           <li><a href="#">Popularity - <span>high to low</span></a></li>
           <li><a href="#">Rating - <span>high to low</span></a></li>
           <li><a href="#">Recently Added</a></li>
-        </ul>
+        </ul> -->
       </div>
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
-        <?php if (!empty($ctr)): ?>
-          <?php for ($i=0; $i <$ctr ; $i++) { ?>
-            <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
-              <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="media-object" src="<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
-                <?php else: ?>
-                  <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
-                <?php endif; ?>
-              </div>
-              <div class="media-body rating">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $results[$i]->username?>/<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php else: ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php endif; ?>
-                <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
-                <span class="badge pull-right rating-style" style="">4.5</span>
-                <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
-                <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
-                <label for="toggle-heart">❤</label> -->
-                <div class="separator"></div>
-                <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $results[$i]->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $results[$i]->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $results[$i]->telephone?></li>
-                </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
-                      <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
-                    <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
-                  </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn btn-lg btn-primary btn-style">
-                    <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
-                  </div>
-                </div>
-              </div>
+        <!-- <div class="col-lg-12" style="background-color:pink;padding:15px 15px 15px 15px;">
+          <div class="col-lg-2" style="background-color:tomato;padding:0;border-radius:5px;">
+            <img src="/uploads/images/user.jpg" width="200px" height="200px" alt="">
+          </div>
+        </div>
+        <div class="col-lg-12" style="background-color:gray;padding:50px;">
+
+        </div> -->
+          <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+            <div class="pull-left visible-lg visible-md visible-sm media-left"></div>
+				<div class="row">
+						  <div class="column">
+							<label>A</label>
+              <?php if (!empty($localities0)): ?>
+                <?php foreach ($localities0 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>B</label>
+              <?php if (!empty($localities1)): ?>
+                <?php foreach ($localities1 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>C</label>
+              <?php if (!empty($localities2)): ?>
+                <?php foreach ($localities2 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>D</label>
+              <?php if (!empty($localities3)): ?>
+                <?php foreach ($localities3 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							</div>
+						 <div class="column">
+						 <label>E</label>
+             <?php if (!empty($localities4)): ?>
+               <?php foreach ($localities4 as $key => $locality): ?>
+                 <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+               <?php endforeach; ?>
+             <?php else: ?>
+               <br>
+             <?php endif; ?>
+							<label>F</label>
+              <?php if (!empty($localities5)): ?>
+                <?php foreach ($localities5 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>G</label>
+              <?php if (!empty($localities6)): ?>
+                <?php foreach ($localities6 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>H</label>
+              <?php if (!empty($localities7)): ?>
+                <?php foreach ($localities7 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>I</label>
+              <?php if (!empty($localities8)): ?>
+                <?php foreach ($localities8 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							</div>
+							<div class="column">
+							<label>J</label>
+              <?php if (!empty($localities9)): ?>
+                <?php foreach ($localities9 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>K</label>
+              <?php if (!empty($localities10)): ?>
+                <?php foreach ($localities10 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>L</label>
+              <?php if (!empty($localities11)): ?>
+                <?php foreach ($localities11 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>M</label>
+              <?php if (!empty($localities12)): ?>
+                <?php foreach ($localities12 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>N</label>
+              <?php if (!empty($localities13)): ?>
+                <?php foreach ($localities13 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>O</label>
+              <?php if (!empty($localities14)): ?>
+                <?php foreach ($localities14 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+							<label>P</label>
+              <?php if (!empty($localities15)): ?>
+                <?php foreach ($localities15 as $key => $locality): ?>
+                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <br>
+              <?php endif; ?>
+						  </div>
+						</div>
+				</div>
             </div>
-          <?php }?>
-        <?php else: ?>
-          <?php echo "0 result" ?>
-        <?php endif; ?>
+          </div>
       </div>
     </div>
   </div>
@@ -385,168 +486,17 @@
 
     <div class="footer-bottom">
         <div class="container">
-            <div class="text-center"> Copyright © 2017-2018. All right reserved.</div>
+            <div class="text-center "> Copyright © 2017-2018. All right reserved.</div>
         </div>
     </div> <!--/.footer-bottom-->
   </footer>
   <!-- END FOOTER -->
 
 <!-- jQuery 2.2.3 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
-
-$('#Submit').click(function() {
-    $('#error_message').show();
-    var form_data = {
-        email: $('#email').val(),
-        password: $('#password').val()
-    };
-    $.ajax({
-        url: "/Home/login",
-        type: 'POST',
-        data: form_data,
-        success: function(msg) {
-            if (msg =='Invalid') {
-              $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
-            }else if (msg =="Unconfirmed") {
-              $('#login').hide();
-              $(location).attr('href','/Verify/unconfirmed');
-            }else if (msg =='Incorrect') {
-              $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
-            }else if (msg =='Set up') {
-              $('#login').hide();
-              $(location).attr('href','/Home/set_up');
-            }else if (msg == 'Dashboard') {
-              $('#login').hide();
-              $(location).attr('href','/Account');
-            }else if (msg == 'Login') {
-              $('#login').hide();
-              window.location.reload();
-            }else {
-              $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
-            }
-        }
-    });
-    return false;
-});
-$('#login').on('hidden.bs.modal', function () {
-    $(this).find('form').trigger('reset');
-    $('#error_message').hide();
-})
-$('#Register').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#register_email').val(),
-        username: $('#username').val(),
-        register_password: $('#register_password').val(),
-        register_confirm_password: $('#register_confirm_password').val(),
-        type: $('#Register').attr('name')
-    };
-    $.ajax({
-        url: "/Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
-          }
-          else {
-            $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-          }
-        }
-    });
-    return false;
-});
-$('#Register_Traveller').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#traveller_register_email').val(),
-        username: $('#traveller_username').val(),
-        register_password: $('#traveller_register_password').val(),
-        register_confirm_password: $('#traveller_register_confirm_password').val(),
-        type: $('#Register_Traveller').attr('name')
-    };
-    $.ajax({
-        url: "/Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
-          }
-          else {
-            $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-          }
-        }
-    });
-    return false;
-});
-$('#register').on('hidden.bs.modal', function () {
-    $(this).find('form').trigger('reset');
-    $('#register_error_message').hide();
-})
-// $('#toggle-heart').on('click',function () {
-//     var ckbox = $('#toggle-heart');
-//     if (ckbox.is(':checked'))
-//     {
-//         // alert($('#toggle-heart').attr('name'));
-//         var vote = {
-//             business_id: $('#toggle-heart').attr('name')
-//         };
-//         $.ajax({
-//             url: "/Home/vote",
-//             type: 'POST',
-//             data: vote,
-//             success: function(message) {
-//               // alert(message);
-//               if (message == 'Voted') {
-//                 $('#toggle-heart').prop('checked', true);
-//               }
-//               }else if (message=='Unsucessful') {
-//                 $('#toggle-heart').prop('checked', false);
-//               }
-//               // else {
-//               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//               // }
-//               // alert('Success');
-//             }
-//         });
-//         // return false;
-//     }
-//     else
-//     {
-//       var vote = {
-//           business_id: $('#toggle-heart').attr('name')
-//       };
-//       $.ajax({
-//           url: "/Home/unvote",
-//           type: 'POST',
-//           data: vote,
-//           success: function(message) {
-//             alert(message);
-//             // }else if (message=='Unsucessful') {
-//             //   $('#register').hide();
-//             //   $(location).attr('href','/Verify/not_sent');
-//             // }
-//             // else {
-//             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//             // }
-//             // alert('Success');
-//           }
-//       });
-//         // alert('You Un-Checked it');
-//     }
-// });
 </script>
 </body>
 </html>
