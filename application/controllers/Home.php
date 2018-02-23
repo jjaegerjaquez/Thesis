@@ -28,6 +28,7 @@ class Home extends CI_Controller
     $this->data['tagline'] = $this->Homes->get_tagline();
     $this->data['localities'] = $this->Homes->get_localities();
     $this->data['priority_ads'] = $this->Homes->get_priority_ad();
+    $this->data['events'] = $this->Homes->get_events();
     if (!$this->session->userdata('is_logged_in') && !$this->session->userdata('traveller_is_logged_in'))
     {
       $allowed = array(

@@ -259,4 +259,10 @@ class Homes extends CI_Model
     }
   }
 
+  public function get_events()
+  {
+    $query = $this->db->query("select * from events limit 3");
+    return $query->result();
+  }
+
 }

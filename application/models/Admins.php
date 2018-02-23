@@ -257,8 +257,29 @@ class Admins extends CI_Model
     $this->db->where('content_id', $content_id);
     $this->db->update('layout', $Google);
   }
-
-
   // END OF LAYOUT
+
+  // EVENTS
+  public function get_events()
+  {
+    $query = $this->db->query("select * from events");
+    return $query->result();
+  }
+
+  public function get_event($event_id)
+  {
+    $query = $this->db->get_where('events', ['event_id' => $event_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
+  public function update_event($Event,$event_id)
+  {
+    $this->db->where('event_id', $event_id);
+    return $this->db->update('events', $Event);
+  }
+  // END OF EVENTS
 
 }

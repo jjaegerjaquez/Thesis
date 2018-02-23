@@ -1594,6 +1594,351 @@ class Admin extends CI_Controller
   }
   // END OF ADVERTISEMENTS
 
+  // EVENTS
+  public function events()
+  {
+    $query = $this->db->get('events','5', $this->uri->segment(3));
+		$this->data['events'] = $query->result();
+
+		$query2= $this->db->get('events');
+
+		$config['base_url'] = '/Admin/events';
+		$config['total_rows'] = $query2->num_rows();
+		$config['per_page'] = 5;
+
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+
+		$this->pagination->initialize($config);
+
+    $this->load->view('admin/dashboard/events/index',$this->data);
+  }
+
+  public function add_event()
+  {
+    $this->load->view('admin/dashboard/events/create',$this->data);
+  }
+
+  public function save_event()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'start', 'Start Date',
+        'required',
+        array(
+                'required'      => 'Please select start date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter event title'
+        )
+    );
+    $this->form_validation->set_rules(
+        'type', 'Type of event',
+        'trim|required',
+        array(
+                'required'      => 'Please specify what kind of event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'place', 'Place',
+        'trim|required',
+        array(
+                'required'      => 'Please enter the location of the event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'description', 'Description',
+        'trim|required',
+        array(
+                'required'      => 'Please enter description for the event'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('admin/dashboard/events/create',$this->data);
+    }
+    else
+    {
+      if(!empty($_FILES['picture']['name']))
+      {
+        $config['upload_path'] = 'public/img/events';
+        $config['overwrite'] = TRUE;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['file_name'] = $_FILES['picture']['name'];
+
+        //Load upload library and initialize configuration
+        $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('picture')){
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+
+            $Event = [
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'type' => $this->input->post('type'),
+              'place' => $this->input->post('place'),
+              'description' => $this->input->post('description'),
+              'image' => '/'.$config['upload_path'].'/'.$picture
+            ];
+
+            if ($this->db->insert('events',$Event)) {
+              echo '<script>alert("Event added!");</script>';
+              redirect('/Admin/events', 'refresh');
+            }else {
+              echo '<script>alert("Event not added!");</script>';
+              redirect('/Admin/add_event', 'refresh');
+            }
+        }
+        else
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg'
+          ];
+
+          if ($this->db->insert('events',$Event)) {
+            echo '<script>alert("Event added!");</script>';
+            redirect('/Admin/events', 'refresh');
+          }else {
+            echo '<script>alert("Event not added!");</script>';
+            redirect('/Admin/add_event', 'refresh');
+          }
+        }
+      }
+      else
+      {
+        if (empty($this->input->post('end')))
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => NULL,
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg'
+          ];
+        }
+        else
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg'
+          ];
+        }
+
+        if ($this->db->insert('events',$Event)) {
+          echo '<script>alert("Event added!");</script>';
+          redirect('/Admin/events', 'refresh');
+        }else {
+          echo '<script>alert("Event not added!");</script>';
+          redirect('/Admin/add_event', 'refresh');
+        }
+      }
+    }
+  }
+
+  public function view_event($event_id)
+  {
+    $this->data['event'] = $this->Admins->get_event($event_id);
+    $this->load->view('admin/dashboard/events/view',$this->data);
+  }
+
+  public function edit_event($event_id='')
+  {
+    $this->data['event'] = $this->Admins->get_event($event_id);
+    $this->load->view('admin/dashboard/events/edit',$this->data);
+  }
+
+  public function update_event($event_id)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'start', 'Start Date',
+        'required',
+        array(
+                'required'      => 'Please select start date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter event title'
+        )
+    );
+    $this->form_validation->set_rules(
+        'type', 'Type of event',
+        'trim|required',
+        array(
+                'required'      => 'Please specify what kind of event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'place', 'Place',
+        'trim|required',
+        array(
+                'required'      => 'Please enter the location of the event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'description', 'Description',
+        'trim|required',
+        array(
+                'required'      => 'Please enter description for the event'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('admin/dashboard/events/edit',$this->data);
+    }
+    else
+    {
+      if(!empty($_FILES['picture']['name']))
+      {
+        $config['upload_path'] = 'public/img/events';
+        $config['overwrite'] = TRUE;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['file_name'] = $_FILES['picture']['name'];
+
+        //Load upload library and initialize configuration
+        $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('picture')){
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+
+            $Event = [
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'type' => $this->input->post('type'),
+              'place' => $this->input->post('place'),
+              'description' => $this->input->post('description'),
+              'image' => '/'.$config['upload_path'].'/'.$picture
+            ];
+
+            if ($this->Admins->update_event($Event,$event_id))
+            {
+              echo '<script>alert("Event updated!");</script>';
+              redirect('/Admin/events', 'refresh');
+            }
+            else
+            {
+              echo '<script>alert("Event cannot be updated...");</script>';
+              redirect('/Admin/edit_event/'.$event_id, 'refresh');
+            }
+        }
+        else
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description'),
+            'image' => '/public/img/default-img.jpg'
+          ];
+
+          if ($this->Admins->update_event($Event,$event_id))
+          {
+            echo '<script>alert("Event updated!");</script>';
+            redirect('/Admin/events', 'refresh');
+          }
+          else
+          {
+            echo '<script>alert("Image cannot be updated...");</script>';
+            redirect('/Admin/edit_event/'.$event_id, 'refresh');
+          }
+        }
+      }
+      else
+      {
+        if (empty($this->input->post('end')))
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => NULL,
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description')
+          ];
+        }
+        else
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description')
+          ];
+        }
+
+        if ($this->Admins->update_event($Event,$event_id))
+        {
+          echo '<script>alert("Event updated!");</script>';
+          redirect('/Admin/events', 'refresh');
+        }
+        else
+        {
+          echo '<script>alert("Event cannot be updated...");</script>';
+          redirect('/Admin/edit_event/'.$event_id, 'refresh');
+        }
+      }
+    }
+  }
+
+  public function delete_event($event_id)
+  {
+    $this->db->where('event_id', $event_id);
+    $this->db->delete('events');
+    echo '<script>alert("Event deleted!");</script>';
+    redirect('/Admin/events', 'refresh');
+  }
+  // END OF EVENTS
+
   public function logout()
   {
     if ($this->session->userdata('admin_is_logged_in')) {

@@ -620,46 +620,30 @@
         </div>
         <div class="row" style="background-color:pink;">
           <div class="spacer"></div>
-          <a href="#" class="event">
-            <div class="event-container">
-              <span class="date-container">
-                <span class="date">31<span class="month">may</span></span>
-              </span>
-              <span class="detail-container">
-                <span class="title">linden hills farmers market</span>
-              <span class="description">Every other Sunday</span>
-              </span>
-              </span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="event">
-            <div class="event-container">
-              <span class="date-container">
-                <span class="date">31<span class="month">may</span></span>
-              </span>
-              <span class="detail-container">
-                <span class="title">linden hills farmers market</span>
-              <span class="description">Every other Sunday</span>
-              </span>
-              </span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="event">
-            <div class="event-container">
-              <span class="date-container">
-                <span class="date">31<span class="month">may</span></span>
-              </span>
-              <span class="detail-container">
-                <span class="title">linden hills farmers market</span>
-              <span class="description">Every other Sunday</span>
-              </span>
-              </span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="event">
+          <?php if (!empty($events)): ?>
+            <?php foreach ($events as $key => $event): ?>
+              <a href="/Event/preview/<?php echo $event->event_id?>" class="event">
+                <div class="event-container">
+                  <span class="date-container">
+                    <span class="date"><?php $start = strtotime($event->start_date); echo date('j',$start)?>
+                      <span class="month"><?php $start = strtotime($event->start_date); echo date('F',$start)?></span>
+                    </span>
+                  </span>
+                  <span class="detail-container">
+                    <span class="title"><?php echo $event->title?></span>
+                  <span class="description">
+                      <?php echo $event->type?> - Click to learn more.
+                  </span>
+                  </span>
+                  </span>
+                </div>
+              </a>
+              <div class="spacer"></div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <?php echo "0 results" ?>
+          <?php endif; ?>
+          <a href="/Event/all" class="event">
             <div class="see-all-container text-center">
               <span class="">
                 <span class="title">SEE ALL</span>
