@@ -295,17 +295,7 @@
       <span class="content-title"></span>
     </div>
     <div class="row content">
-      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <!-- <label>Filters</label>
-        <div class="separator"></div>
-        <label>Sort By</label>
-        <ul class="sort-list">
-          <li><a href="#">Popularity - <span>high to low</span></a></li>
-          <li><a href="#">Rating - <span>high to low</span></a></li>
-          <li><a href="#">Recently Added</a></li>
-        </ul> -->
-      </div>
-      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
+      <div class="col-xs-12 main-content">
         <!-- <div class="col-lg-12" style="background-color:pink;padding:15px 15px 15px 15px;">
           <div class="col-lg-2" style="background-color:tomato;padding:0;border-radius:5px;">
             <img src="/uploads/images/user.jpg" width="200px" height="200px" alt="">

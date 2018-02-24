@@ -52,7 +52,7 @@ class Category extends CI_Controller
     // print_r($this->data['votes']);
     $this->data['ctr']=$count;
     $this->data['category'] = $category;
-    $this->load->view('home/result',$this->data);
+    $this->load->view('categories/result/result',$this->data);
   }
 
   public function search()
@@ -76,12 +76,7 @@ class Category extends CI_Controller
     $this->data['vote'] = $this->Categories->get_vote($this->data['business']->user_id);
     $this->data['reviews'] = $this->Categories->get_reviews($this->data['business']->user_id);
     $this->data['review_count'] = $this->Categories->get_review_count($this->data['business']->user_id);
-    $this->load->view('home/view_business/index',$this->data);
-  }
-
-  public function check_vote()
-  {
-    echo "Voted";
+    $this->load->view('categories/view_business/index',$this->data);
   }
 
   public function add_review()

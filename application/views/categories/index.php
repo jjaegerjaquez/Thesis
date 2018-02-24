@@ -37,7 +37,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Categories</a></li>
+            <li><a href="/Category/all">Categories</a></li>
             <li><a href="#">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
@@ -82,7 +82,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="#">Categories</a></li>
+          <li class=""><a href="/Category/all">Categories</a></li>
           <li><a href="#">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
@@ -288,19 +288,9 @@
   <!-- CONTENT -->
   <div class="container">
     <div class="row content">
-      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <!-- <label>Filters</label>
-        <div class="separator"></div>
-        <label>Sort By</label>
-        <ul class="sort-list">
-          <li><a href="#">Popularity - <span>high to low</span></a></li>
-          <li><a href="#">Rating - <span>high to low</span></a></li>
-          <li><a href="#">Recently Added</a></li>
-        </ul> -->
-      </div>
-      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
         <?php foreach ($categories as $key => $category): ?>
-          <div class="col-lg-3 col-md-3 col-sm-3 text-center" style="padding-top:5px;">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center" style="padding-top:5px;">
   				  <a href="/Category/result/<?php echo str_replace(' ', '_', $category->category)?>" >
   					<img src="/public/img/icons/<?php echo $category->image?>"alt="Fjords"  width="100px" height="100px">
   				  </a>
