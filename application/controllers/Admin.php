@@ -27,8 +27,8 @@ class Admin extends CI_Controller
     }
     else
     {
-      $username = $_SESSION['username'];
-      $this->data['user'] = $this->Admins->validate_user($username);
+      $this->username = $_SESSION['username'];
+      $this->data['user'] = $this->Admins->validate_user($this->username);
       $this->data['title'] = $this->Admins->get_title();
       $this->data['tagline'] = $this->Admins->get_tagline();
     }
@@ -105,9 +105,6 @@ class Admin extends CI_Controller
   // LOCALITY
   public function localities()
   {
-    $username = $_SESSION['username'];
-    $this->data['user'] = $this->Admins->validate_user($username);
-
     $query = $this->db->get('localities','7', $this->uri->segment(3));
 		$this->data['localities'] = $query->result();
 
@@ -1938,6 +1935,126 @@ class Admin extends CI_Controller
     redirect('/Admin/events', 'refresh');
   }
   // END OF EVENTS
+
+  // FORUM
+  public function forum()
+  {
+    $query = $this->db->get('topics','7', $this->uri->segment(3));
+		$this->data['topics'] = $query->result();
+
+		$query2= $this->db->get('topics');
+
+		$config['base_url'] = '/Admin/forum';
+		$config['total_rows'] = $query2->num_rows();
+		$config['per_page'] = 7;
+
+		$config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+
+		$this->pagination->initialize($config);
+
+    $this->load->view('admin/dashboard/forums/index',$this->data);
+  }
+
+  public function add_topic()
+  {
+    $this->load->view('admin/dashboard/forums/create',$this->data);
+  }
+
+  public function create_topic()
+  {
+    $this->form_validation->set_rules(
+        'topic', 'Topic',
+        'trim|required',
+        array(
+                'required'      => 'Please enter a topic'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('admin/dashboard/forums/create',$this->data);
+    }
+    else
+    {
+      $Topic = [
+        'topic' => $this->input->post('topic'),
+        'date_created' => date("Y-m-d")
+      ];
+
+      if ($this->db->insert('topics',$Topic)) {
+        echo '<script>alert("Topic added!");</script>';
+        redirect('/Admin/forum', 'refresh');
+      }else {
+        echo '<script>alert("Cannot save topic...");</script>';
+        redirect('/Admin/add_topic', 'refresh');
+      }
+    }
+  }
+
+  public function edit_topic($topic_id)
+  {
+    $this->data['topic'] = $this->Admins->get_topic($topic_id);
+    $this->load->view('admin/dashboard/forums/update', $this->data);
+  }
+
+  public function update_topic($topic_id)
+  {
+    $this->form_validation->set_rules(
+        'topic', 'Topic',
+        'trim|required',
+        array(
+                'required'      => 'Please enter a topic'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->data['topic'] = $this->Admins->get_topic($topic_id);
+      $this->load->view('admin/dashboard/forums/update', $this->data);
+    }
+    else
+    {
+      $Topic = [
+        'topic' => $this->input->post('topic')
+      ];
+
+      if ($this->Admins->update_topic($Topic,$topic_id)) {
+        echo '<script>alert("Topic updated!");</script>';
+        redirect('/Admin/forum', 'refresh');
+      }else {
+        echo '<script>alert("Topic cannot be updated...");</script>';
+        redirect('/Admin/edit_topic/'.$topic_id, 'refresh');
+      }
+    }
+  }
+
+  public function delete_topic($topic_id)
+  {
+    $this->db->where('topic_id', $topic_id);
+    $this->db->delete('topics');
+     echo '<script>alert("Topic deleted!");</script>';
+     redirect('/Admin/forum', 'refresh');
+  }
+  // END OF FORUM
 
   public function logout()
   {

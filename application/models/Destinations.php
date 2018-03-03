@@ -21,6 +21,12 @@ class Destinations extends CI_Model
     return $query->result();
   }
 
+  public function get_categories()
+  {
+    $query = $this->db->query("select * from categories order by category asc");
+    return $query->result();
+  }
+
   public function get__localities($letter)
   {
     $query = $this->db->query("SELECT locality as locality FROM localities WHERE locality LIKE '$letter%' ORDER BY locality");
@@ -37,6 +43,14 @@ class Destinations extends CI_Model
   {
     $lclty = str_replace('_', ' ', $locality);
     $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
+    return $query->result();
+  }
+
+  public function get_locality_result_by_category($locality,$category)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    $query = $this->db->query("select * from basic_info where locality = '$lclty' and category = '$ctgry'");
     return $query->result();
   }
 
@@ -104,8 +118,59 @@ class Destinations extends CI_Model
 
   public function get_votes($business_id)
   {
-    $query = $this->db->query("select count(business_id) as vote from votes WHERE business_id = '$business_id'");
+    $query = $this->db->query("select count(business_id) as vote,business_id from votes WHERE business_id = '$business_id'");
+
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if ($res->vote == '0') {
+        $business = new stdClass;
+        $business->vote = "0";
+        $business->business_id = $business_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
+  }
+
+  public function get_business_details($user_id)
+  {
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id'");
     return $query->row();
+  }
+
+  public function get_rates($business_id)
+  {
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    // return $query->row();
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if (empty($res->rate)) {
+        $business = new stdClass;
+        $business->rate = "0";
+        $business->business_id = $business_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
+  }
+
+  public function get_locality_result_by_date($locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    return $query->result();
+  }
+
+  public function get_locality_result_by_date_by_category($locality,$category)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' and category = '$ctgry' ORDER by u.date_joined desc");
+    return $query->result();
   }
 
 }

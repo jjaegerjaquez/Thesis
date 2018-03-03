@@ -38,20 +38,78 @@ class Category extends CI_Controller
     $this->load->view('categories/index',$this->data);
   }
 
-  public function result($category)
+  public function result($category,$filter='')
   {
     $count = 0;
-    $this->data['results'] = $this->Categories->get_category_result($category);
-    foreach ($this->data['results'] as $key => $result) {
-      $count++;
-    }
+    if ($filter == 'popular') {
+      $this->data['results'] = $this->Categories->get_category_result($category);
+      foreach ($this->data['results'] as $key => $result) {
+        $count++;
+      }
 
-    for ($i=0; $i <$count ; $i++) {
-      $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+      }
+      rsort($this->data['votes']);
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['results'][$i] = $this->Categories->get_business_details($this->data['votes'][$i]->business_id);
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['votes'][$i]->business_id);
+      }
     }
-    // print_r($this->data['votes']);
+    elseif ($filter == 'ratings')
+    {
+      $this->data['results'] = $this->Categories->get_category_result($category);
+      foreach ($this->data['results'] as $key => $result) {
+        $count++;
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+      }
+      rsort($this->data['rates']);
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['results'][$i] = $this->Categories->get_business_details($this->data['rates'][$i]->business_id);
+      }
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['rates'][$i]->business_id);
+      }
+    }
+    elseif ($filter == 'recent')
+    {
+      $this->data['results'] = $this->Categories->get_category_result_by_date($category);
+      foreach ($this->data['results'] as $key => $result) {
+        $count++;
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+      }
+    }
+    else
+    {
+      $this->data['results'] = $this->Categories->get_category_result($category);
+      foreach ($this->data['results'] as $key => $result) {
+        $count++;
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+      }
+
+      for ($i=0; $i <$count ; $i++) {
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+      }
+    }
     $this->data['ctr']=$count;
     $this->data['category'] = $category;
+    $this->data['filter'] = $filter;
     $this->load->view('categories/result/result',$this->data);
   }
 
@@ -73,6 +131,7 @@ class Category extends CI_Controller
       }
     }
     $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
+    $this->data['rate'] = $this->Categories->get_rates($this->data['business']->user_id);
     $this->data['vote'] = $this->Categories->get_vote($this->data['business']->user_id);
     $this->data['reviews'] = $this->Categories->get_reviews($this->data['business']->user_id);
     $this->data['review_count'] = $this->Categories->get_review_count($this->data['business']->user_id);

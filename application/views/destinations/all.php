@@ -296,14 +296,6 @@
     </div>
     <div class="row content">
       <div class="col-xs-12 main-content">
-        <!-- <div class="col-lg-12" style="background-color:pink;padding:15px 15px 15px 15px;">
-          <div class="col-lg-2" style="background-color:tomato;padding:0;border-radius:5px;">
-            <img src="/uploads/images/user.jpg" width="200px" height="200px" alt="">
-          </div>
-        </div>
-        <div class="col-lg-12" style="background-color:gray;padding:50px;">
-
-        </div> -->
           <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
             <div class="pull-left visible-lg visible-md visible-sm media-left"></div>
 				<div class="row">

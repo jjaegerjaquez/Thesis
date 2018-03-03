@@ -300,9 +300,25 @@
         <div class="separator"></div>
         <label>Sort By</label>
         <ul class="sort-list">
-          <li><a href="#">Popularity - <span>high to low</span></a></li>
-          <li><a href="#">Rating - <span>high to low</span></a></li>
-          <li><a href="#">Recently Added</a></li>
+          <?php if (!empty($filter)): ?>
+            <?php if ($filter == 'popular'): ?>
+              <li style="font-weight:bold;color:blue;"><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
+            <?php elseif ($filter == 'ratings'):?>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
+              <li style="font-weight:bold;color:blue;"><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
+            <?php elseif ($filter == 'recent'):?>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
+              <li style="font-weight:bold;color:blue;"><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
+            <?php endif; ?>
+            <?php else: ?>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
+              <li><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
+          <?php endif; ?>
         </ul>
       </div>
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
@@ -318,12 +334,12 @@
               </div>
               <div class="media-body rating">
                 <?php if (!empty($results[$i]->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/uploads/<?php echo $results[$i]->username?>/<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
                 <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
-                <span class="badge pull-right rating-style" style="">4.5</span>
+                <span class="badge pull-right rating-style" style=""><?php echo number_format($rates[$i]->rate, 1)?></span>
                 <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
                 <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
                 <label for="toggle-heart">❤</label> -->
@@ -335,7 +351,7 @@
                 </ul>
                 <div class="row">
                   <div class="col-xs-6">
-                    <a href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
+                    <a target="" href="https://<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
                       <div class="space"></div>
       			        <span class="" style="color: #f37430;">Visit Website</span>
       		          </a>

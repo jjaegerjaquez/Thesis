@@ -92,8 +92,26 @@ class Categories extends CI_Model
 
   public function get_votes($business_id)
   {
-    $query = $this->db->query("select count(business_id) as vote from votes WHERE business_id = '$business_id'");
+    $query = $this->db->query("select count(business_id) as vote,business_id from votes WHERE business_id = '$business_id'");
     return $query->row();
+  }
+
+  public function get_rates($business_id)
+  {
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    return $query->row();
+  }
+
+  public function get_business_details($user_id)
+  {
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id'");
+    return $query->row();
+  }
+
+  public function get_category_result_by_date($category)
+  {
+    $query = $this->db->query("select bi.user_id,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where category = '$category' ORDER by u.date_joined desc");
+    return $query->result();
   }
 
 }

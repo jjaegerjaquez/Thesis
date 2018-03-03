@@ -282,4 +282,21 @@ class Admins extends CI_Model
   }
   // END OF EVENTS
 
+  // FORUM
+  public function get_topic($topic_id)
+  {
+    $query = $this->db->get_where('topics', ['topic_id' => $topic_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+    return FALSE;
+  }
+
+  public function update_topic($Topic,$topic_id)
+  {
+    $this->db->where('topic_id', $topic_id);
+    return $this->db->update('topics', $Topic);
+  }
+  // END OF FORUM
 }

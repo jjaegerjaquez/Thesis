@@ -348,7 +348,7 @@
           <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
             <ul class="rating-vote">
               <li><i class="ion-ios-star" style="color:#FFC400;"></i></li>
-              <li class="">Rating: 4.5</li>
+              <li class="">Ratings: <?php echo number_format($rate->rate, 1)?></li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
@@ -397,7 +397,7 @@
                 </div>
                 <li class="col-lg-12 media">
                   <a class="pull-left" href="#">
-                    <img class="media-object img-circle" src="/uploads/<?php echo $review->username?>/<?php echo $review->image?>" width="100px" height="100px" alt="profile">
+                    <img class="media-object img-circle" src="<?php if (!empty($review->image)): ?> <?php echo $review->image?> <?php else: ?> /public/img/default-img.jpg <?php endif; ?>" width="100px" height="100px" alt="profile">
                   </a>
                   <div class="media-body">
                     <div class="well well-lg">
