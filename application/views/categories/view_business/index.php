@@ -17,11 +17,10 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/view_page/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/categories/view_page/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -402,9 +401,6 @@
                   <div class="media-body">
                     <div class="well well-lg">
                         <h4 class="media-heading text-uppercase reviews"><?php echo $review->username?> </h4>
-                        <!-- <ul class="media-date text-uppercase reviews list-inline">
-                          <li>February 11, 2018</li>
-                        </ul> -->
                         <p class="media-comment">
                           <?php echo $review->review?>
                         </p>
@@ -450,7 +446,7 @@
 
         <div class="form-group input-width center-block">
           <span style="color:red" class="help-block"><?php echo form_error('review'); ?></span>
-          <textarea class="form-control" name="review" id="review"></textarea>
+          <textarea class="form-control" name="review" id="review" maxlength="180"></textarea>
         </div>
         <div class="pull-left" style="margin-top:5px;">
           <span id="count"> </span>
@@ -659,7 +655,7 @@ $('#toggle-heart').on('click',function () {
     }
 });
 $('#review').keyup(function () {
-  var max = 100;
+  var max = 180;
   var len = $(this).val().length;
   if (len >= max) {
     $('#count').text('');
@@ -749,7 +745,6 @@ $('#Add_Review').click(function() {
           else {
             $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
           }
-          // alert('Success');
         }
     });
   }else {
@@ -763,12 +758,6 @@ $('#Add_Review').click(function() {
         type: 'POST',
         data: review,
         success: function(message) {
-          // alert(message);
-          // if (message > 1) {
-          //   $('#vote').html('Votes: '+message);
-          // }else {
-          //   $('#vote').html('Vote: '+message);
-          // }
           if (message == 'Voted') {
 
           }else if (message=='Unsucessful') {
@@ -779,7 +768,6 @@ $('#Add_Review').click(function() {
           else {
             $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
           }
-          // alert('Success');
         }
     });
   }

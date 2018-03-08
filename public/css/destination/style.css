@@ -13,9 +13,9 @@ body{
 }
 .nav.navbar-nav li a {
      color: #fff;
-     font-family: 'Fjalla One', sans-serif;
+     font-family: 'Roboto Condensed', sans-serif;
      font-size: 16px;
-     font-weight: 400;
+     font-weight: 700;
  }
  .nav.navbar-nav li a:hover {
       color: #fff;
@@ -87,10 +87,35 @@ input[type=radio]:checked + label {
   border-left:15px solid #ebe9e9;
   border-right: 5px solid #ebe9e9;
 }
+.side-content ul li {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 15px;
+}
+.side-header{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1.1em;
+  margin-bottom: 4px;
+}
+.side-header .filter{
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  /*letter-spacing: 1px;*/
+  font-size: 18px;
+  color: #212121;
+}
+.side-header span{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+}
 .separator{
-  padding:1px;
-  background-color:gray;
+  padding:0.5px;
+  background-color:#bdbdbd;
   margin-bottom:10px;
+}
+.category-dropdown{
+  border: none;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 .votes-style{
   margin-top:5px;margin-right:5px;display:block;

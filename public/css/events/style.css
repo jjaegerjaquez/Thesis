@@ -13,9 +13,9 @@ body{
 }
 .nav.navbar-nav li a {
      color: #fff;
-     font-family: 'Fjalla One', sans-serif;
+     font-family: 'Roboto Condensed', sans-serif;
      font-size: 16px;
-     font-weight: 400;
+     font-weight: 700;
  }
  .nav.navbar-nav li a:hover {
       color: #fff;

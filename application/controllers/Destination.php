@@ -109,7 +109,7 @@ class Destination extends CI_Controller
                        data: filters,
                        success: function(message) {
                          $("#main").html(message);
-                         $("input:radio[name=category]").each(function () { $(this).prop("checked", false); });
+                         $("option:selected").prop("selected", false);
                        }
                    });
                });
@@ -246,7 +246,7 @@ class Destination extends CI_Controller
                        data: filters,
                        success: function(message) {
                          $("#main").html(message);
-                         $("input:radio[name=category]").each(function () { $(this).prop("checked", false); });
+                         $("option:selected").prop("selected", false);
                        }
                    });
                });
@@ -377,7 +377,7 @@ class Destination extends CI_Controller
                        data: filters,
                        success: function(message) {
                          $("#main").html(message);
-                         $("input:radio[name=category]").each(function () { $(this).prop("checked", false); });
+                         $("option:selected").prop("selected", false);
                        }
                    });
                });
@@ -835,7 +835,7 @@ class Destination extends CI_Controller
                      data: category,
                      success: function(message) {
                        $("#main").html(message);
-                       $("input:radio[name=category]").each(function () { $(this).prop("checked", false); });
+                       $("option:selected").prop("selected", false);
                      }
                  });
               });

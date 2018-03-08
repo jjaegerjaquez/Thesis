@@ -13,8 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
   <!-- Style -->
@@ -294,27 +293,24 @@
          <li>Destinations</li>
          <li><?php echo $destination?></li>
   		</ul>
-      <div class="container-fluid text-center header-style " style="background-image:url('/public/img/destination-bg.jpg');">
+      <?php if (!empty($destination->image)): ?>
+        <div class="container-fluid text-center header-style " style="background-image:url('<?php echo $destination->image?>');">
+      <?php else: ?>
+        <div class="container-fluid text-center header-style " style="background-image:url('/public/img/def-img-l.jpg');">
+      <?php endif; ?>
   		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
       </div>
 
       <!-- <span class="content-title"><?php echo $category?></span> -->
     </div>
     <div class="row content">
-      <div class="row" id="filters">
-
-      </div>
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <label>Filters</label>
-        <div class="separator"></div>
-        <label>Sort By</label>
+        <div class="side-header text-center">
+          <span class="filter">Filters</span>
+          <div class="separator"></div>
+          <span>Sort by</span>
+        </div>
         <ul class="sort-list">
-          <!-- <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $destination)?>" id="filter" value="popular">Popularity - <span>high to low</span></a></li>
-          <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $destination)?>" id="filter" value="rating">Rating - <span>high to low</span></a></li>
-          <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $destination)?>" id="filter" value="recent">Recently Added</a></li> -->
-          <!-- <li><input class="filter-style" type="checkbox" name="" id="filter1" value="popular" /><label for="#filter1">Popularity - <span>high to low</span></label>​</li>
-          <li><input class="filter-style" type="checkbox" name="" id="filter2" value="rating" /><label for="#filter2">Rating - <span>high to low</span></label>​</li>
-          <li><input class="filter-style" type="checkbox" name="" id="filter3" value="recent" /><label for="#filter3">Recent</label>​</li> -->
           <form id="_filter" action="" method="post">
             <div class="filters">
               <li><label><input class="filter-style" type="radio" name="filter" value="popular">Popularity - <span>high to low</span></label></li>
@@ -323,15 +319,18 @@
             </div>
           </form>
         </ul>
-        <label>Categories:</label>
+        <div class="side-header text-center">
+          <span>Categories</span>
+        </div>
         <ul class="sort-list">
           <?php if (!empty($categories)): ?>
             <form id="_category" action="" method="post">
-              <?php foreach ($categories as $key => $category): ?>
-                <!-- <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $category->category)?>" id="category" value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></a></li> -->
-                <!-- <li><input type="checkbox" name="locality" value=""></li> -->
-                <li><label><input class="filter-style" type="radio" name="category" value="<?php echo str_replace(' ', '_', $category->category)?>"> <?php echo $category->category ?> </label></li>
-              <?php endforeach; ?>
+              <select class="category-dropdown" name="category" id="category-filters">
+                <option value="">Select a category</option>
+                <?php foreach ($categories as $key => $category): ?>
+                  <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>
+                <?php endforeach; ?>
+              </select>
             </form>
           <?php else: ?>
             <li>0 results</li>
@@ -340,9 +339,6 @@
       </div>
 
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content" id="main">
-        <!-- <ul class="list-inline">
-          <li>Popularity <button class="deleteMe">X</button></li>
-        </ul> -->
         <?php if (!empty($ctr)): ?>
           <?php for ($i=0; $i <$ctr ; $i++) { ?>
             <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
@@ -362,14 +358,11 @@
                 <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
                 <span class="badge pull-right rating-style" style=""><?php echo number_format($rates[$i]->rate, 1)?></span>
                 <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
-                <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
-                <label for="toggle-heart">❤</label> -->
                 <div class="separator"></div>
                 <ul>
                   <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $results[$i]->address?></li>
                   <li class="detail-list"><i class="ion-ios-pricetag icons"></i>&nbsp; <?php echo $results[$i]->category?></li>
                   <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $results[$i]->cellphone?></li>
-                  <!-- <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $results[$i]->telephone?></li> -->
                 </ul>
                 <div class="row">
                   <div class="col-xs-6">
@@ -377,7 +370,6 @@
                       <div class="space"></div>
       			        <span class="" style="color: #f37430;">Visit Website</span>
       		          </a>
-                    <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
                   </div>
                   <div class="col-xs-6">
                     <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn btn-lg btn-primary btn-style">
@@ -434,7 +426,6 @@
   <!-- Bootstrap 3.3.6 -->
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <script>
-
   $('#Submit').click(function() {
       $('#error_message').show();
       var form_data = {
@@ -533,61 +524,6 @@
       $(this).find('form').trigger('reset');
       $('#register_error_message').hide();
   })
-  // $('#toggle-heart').on('click',function () {
-  //     var ckbox = $('#toggle-heart');
-  //     if (ckbox.is(':checked'))
-  //     {
-  //         // alert($('#toggle-heart').attr('name'));
-  //         var vote = {
-  //             business_id: $('#toggle-heart').attr('name')
-  //         };
-  //         $.ajax({
-  //             url: "/Home/vote",
-  //             type: 'POST',
-  //             data: vote,
-  //             success: function(message) {
-  //               // alert(message);
-  //               if (message == 'Voted') {
-  //                 $('#toggle-heart').prop('checked', true);
-  //               }
-  //               }else if (message=='Unsucessful') {
-  //                 $('#toggle-heart').prop('checked', false);
-  //               }
-  //               // else {
-  //               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-  //               // }
-  //               // alert('Success');
-  //             }
-  //         });
-  //         // return false;
-  //     }
-  //     else
-  //     {
-  //       var vote = {
-  //           business_id: $('#toggle-heart').attr('name')
-  //       };
-  //       $.ajax({
-  //           url: "/Home/unvote",
-  //           type: 'POST',
-  //           data: vote,
-  //           success: function(message) {
-  //             alert(message);
-  //             // }else if (message=='Unsucessful') {
-  //             //   $('#register').hide();
-  //             //   $(location).attr('href','/Verify/not_sent');
-  //             // }
-  //             // else {
-  //             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-  //             // }
-  //             // alert('Success');
-  //           }
-  //       });
-  //         // alert('You Un-Checked it');
-  //     }
-  // });
-  // $('#filter1').click(function() {
-  //   alert($('#filter1').val() +  ' ' +$('#category').val());
-  // });
   $(document).ready(function(){
     $("input[name='filter']").on("click", function() {
       var destination = "<?php echo str_replace(' ', '_', $destination)?>";
@@ -601,62 +537,22 @@
               type: 'POST',
               data: $("#_filter,#_category").serialize(),
               success: function(message) {
-                // if (message=='Successful') {
-                //   $('#register').hide();
-                //   $(location).attr('href','/Verify');
-                // }else if (message=='Unsucessful') {
-                //   $('#register').hide();
-                //   $(location).attr('href','/Verify/not_sent');
-                // }
-                // else {
                   $('#main').html(message);
-                // }
-                // alert(message);
               }
           });
       });
-      $("input[name='category']").on("click", function() {
-            // alert($(this).val());
-            // var filter = {
-            //     register_email: $('#traveller_register_email').val(),
-            // };
-            var destination = "<?php echo str_replace(' ', '_', $destination)?>";
-            $.ajax({
-                url: "/Destination/result/"+destination,
-                type: 'POST',
-                data: $("#_filter,#_category").serialize(),
-                success: function(message) {
-                  // if (message=='Successful') {
-                  //   $('#register').hide();
-                  //   $(location).attr('href','/Verify');
-                  // }else if (message=='Unsucessful') {
-                  //   $('#register').hide();
-                  //   $(location).attr('href','/Verify/not_sent');
-                  // }
-                  // else {
-                  //   $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-                  // }
-                  // alert(message);
-                  $('#main').html(message);
-                }
-            });
+      $('#category-filters').change(function() {
+        var destination = "<?php echo str_replace(' ', '_', $destination)?>";
+        $.ajax({
+            url: "/Destination/result/"+destination,
+            type: 'POST',
+            data: $("#_filter,#_category").serialize(),
+            success: function(message) {
+              $('#main').html(message);
+            }
         });
+      });
   });
-  // $(".deleteMe").on("click", function(){
-  //      $(this).closest("li").remove();
-  //      var destination = "<?php echo str_replace(' ', '_', $destination)?>";
-  //      var filter = {
-  //                  filter: "popular"
-  //              };
-  //      $.ajax({
-  //          url: "/Destination/result/"+destination,
-  //          type: 'POST',
-  //          data: filter,
-  //          success: function(message) {
-  //            $('#main').html(message);
-  //          }
-  //      });
-  //   });
   </script>
 </body>
 </html>

@@ -13,8 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
@@ -296,9 +295,11 @@
     </div>
     <div class="row content">
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <label>Filters</label>
-        <div class="separator"></div>
-        <label>Sort By</label>
+        <div class="side-header text-center">
+          <span class="filter">Filters</span>
+          <div class="separator"></div>
+          <span>Sort by</span>
+        </div>
         <ul class="sort-list">
           <?php if (!empty($filter)): ?>
             <?php if ($filter == 'popular'): ?>
