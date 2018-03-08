@@ -265,4 +265,10 @@ class Homes extends CI_Model
     return $query->result();
   }
 
+  public function get_topics()
+  {
+    $query = $this->db->query("select * from topics limit 5");
+    return $query->result();
+  }
+
 }

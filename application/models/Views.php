@@ -11,7 +11,7 @@ class Views extends CI_Model
     parent::__construct();
   }
 
-  public function get_account_details($username)
+  public function get_account_details($business_name)
   {
     // $query = $this->db->get_where('basic_info', ['username' => $username]);
     //
@@ -19,7 +19,25 @@ class Views extends CI_Model
     //   return $query->row();
     // }
     // return FALSE;
-    $query = $this->db->query("select * from users u join basic_info bi on u.username=bi.username where u.username='$username'");
+    $query = $this->db->query("SELECT * FROM `basic_info` where business_name = '$business_name'");
+    // $query = $this->db->query("select * from users u join basic_info bi on u.username=bi.bus where u.username='$username'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return $query->row();
+    }
+  }
+
+  public function get_theme($business_id)
+  {
+    // $query = $this->db->get_where('basic_info', ['username' => $username]);
+    //
+    // if ($query->num_rows() > 0) {
+    //   return $query->row();
+    // }
+    // return FALSE;
+    $query = $this->db->query("SELECT template FROM `users` where user_id = '$business_id'");
+    // $query = $this->db->query("select * from users u join basic_info bi on u.username=bi.bus where u.username='$username'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {

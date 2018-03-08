@@ -351,7 +351,7 @@
                 </ul>
                 <div class="row">
                   <div class="col-xs-6">
-                    <a target="" href="https://<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
+                    <a target="" href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
                       <div class="space"></div>
       			        <span class="" style="color: #f37430;">Visit Website</span>
       		          </a>

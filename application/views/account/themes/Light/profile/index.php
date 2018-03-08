@@ -145,6 +145,11 @@
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
           <div class="form-group">
+            <label>Contact Person:</label>
+            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($business->contact_person)): ?> <?php echo $business->contact_person ?> <?php endif; ?>" maxlength="50">
+            <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
+          </div>
+          <div class="form-group">
             <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </form>

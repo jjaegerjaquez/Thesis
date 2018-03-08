@@ -44,16 +44,20 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/View/home/<?php echo $details->username?>">Home</a></li>
-          <li><a href="/View/about/<?php echo $details->username?>">About</a></li>
-          <li><a href="/View/gallery/<?php echo $details->username?>">Gallery</a></li>
-          <li><a href="/View/contacts/<?php echo $details->username?>">Contact</a></li>
+          <li><a href="/View/home/<?php echo str_replace(' ', '_', $details->business_name)?>">Home</a></li>
+          <li><a href="/View/about/<?php echo str_replace(' ', '_', $details->business_name)?>">About</a></li>
+          <li><a href="/View/gallery/<?php echo str_replace(' ', '_', $details->business_name)?>">Gallery</a></li>
+          <li><a href="/View/contacts/<?php echo str_replace(' ', '_', $details->business_name)?>">Contact</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div class="container-fluid text-center about-header" style="background-image:url('<?php echo $about_header_image->value?>');">
+  <?php if (!empty($about_header_image)): ?>
+    <div class="container-fluid text-center about-header" style="background-image:url('<?php echo $about_header_image->value?>');">
+  <?php else: ?>
+        <div class="container-fluid text-center about-header" style="background-image:url('/public/img/Neutral/bg.jpg');">
+  <?php endif; ?>
     <h1><span class="section-heading-lower">ABOUT</span></h1>
   </div>
 

@@ -654,42 +654,24 @@
       </div>
       <div class="col-lg-4 col-md-12">
         <div class="row text-title header-row">
-          <h1 class="lato text-header">TOP FORUM</h1>
+          <h1 class="lato text-header">TOPICS</h1>
           <!-- <p>Discover great finds and deals for a discounted price</p> -->
         </div>
         <div class="row">
+          <?php if (!empty($topics)): ?>
+            <?php foreach ($topics as $key => $topic): ?>
+              <div class="spacer"></div>
+              <a href="/Forum/topic/<?php echo $topic->topic_id?>" class="forum">
+                <div class="forum-container">
+                  <span class="forum-title"><?php echo $topic->topic ?></span>
+                </div>
+              </a>
+            <?php endforeach; ?>
+          <?php else: ?>
+            0 results
+          <?php endif; ?>
           <div class="spacer"></div>
-          <a href="#" class="forum">
-            <div class="forum-container">
-              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="forum">
-            <div class="forum-container">
-              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="forum">
-            <div class="forum-container">
-              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="forum">
-            <div class="forum-container">
-              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="forum">
-            <div class="forum-container">
-              <span class="forum-title">Tips for a stress free vacationnnnnnnnn?</span>
-            </div>
-          </a>
-          <div class="spacer"></div>
-          <a href="#" class="event">
+          <a href="/Forum/all" class="event">
             <div class="see-all-container-forum text-center">
               <span class="">
                 <span class="title">SEE ALL</span>

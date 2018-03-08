@@ -325,9 +325,12 @@ html, body {
   background: #fff;
   border-left: 3px solid;
   border-right: 10px solid #ebe9e9;
-  padding-top: 10px;
+  padding-top: 13px;
   padding-bottom: 15px;
   font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .see-all-container-forum {
@@ -349,7 +352,7 @@ html, body {
   text-transform:uppercase;
   font-family:Oswald;
   font-weight:400;
-  font-size:1.5em;
+  font-size:1.3em;
   color:#8D6E63;
   margin-left: 5px;
 }

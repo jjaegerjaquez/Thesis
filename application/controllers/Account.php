@@ -143,6 +143,14 @@ class Account extends CI_Controller
         )
     );
 
+    $this->form_validation->set_rules(
+        'contact_person', 'Contact Person',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your contact person'
+        )
+    );
+
     if ($website == 'Yes') {
       $this->form_validation->set_rules(
           'website_address', 'Website Address',
@@ -197,6 +205,7 @@ class Account extends CI_Controller
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
+                  'contact_person' => $this->input->post('contact_person'),
                   'website_url' => $this->input->post('website_address'),
                   'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
@@ -233,6 +242,7 @@ class Account extends CI_Controller
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
+                  'contact_person' => $this->input->post('contact_person'),
                   'website_url' => $this->input->post('website_address'),
                   'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
@@ -260,6 +270,7 @@ class Account extends CI_Controller
               'address' => $this->input->post('address'),
               'cellphone' => $this->input->post('cellphone_number'),
               'telephone' => $this->input->post('telephone_number'),
+              'contact_person' => $this->input->post('contact_person'),
               'website_url' => $this->input->post('website_address')
             ];
             if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
@@ -278,6 +289,7 @@ class Account extends CI_Controller
               'address' => $this->input->post('address'),
               'cellphone' => $this->input->post('cellphone_number'),
               'telephone' => $this->input->post('telephone_number'),
+              'contact_person' => $this->input->post('contact_person'),
               'website_url' => $this->input->post('website_address')
             ];
             if ($this->db->insert('basic_info', $Business_Details)) {
@@ -316,7 +328,8 @@ class Account extends CI_Controller
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
-                  'website_url' => base_url().'View/home/'.$this->data['account']->username,
+                  'contact_person' => $this->input->post('contact_person'),
+                  'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name')),
                   'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
@@ -352,7 +365,8 @@ class Account extends CI_Controller
                   'address' => $this->input->post('address'),
                   'cellphone' => $this->input->post('cellphone_number'),
                   'telephone' => $this->input->post('telephone_number'),
-                  'website_url' => base_url().'View/home/'.$this->data['account']->username,
+                  'contact_person' => $this->input->post('contact_person'),
+                  'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name')),
                   'image' => '/'.$config['upload_path'].'/'.$picture
                 ];
                 if ($this->db->insert('basic_info', $Business_Details)) {
@@ -379,7 +393,8 @@ class Account extends CI_Controller
               'address' => $this->input->post('address'),
               'cellphone' => $this->input->post('cellphone_number'),
               'telephone' => $this->input->post('telephone_number'),
-              'website_url' => base_url().'View/home/'.$this->data['account']->username
+              'contact_person' => $this->input->post('contact_person'),
+              'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
             ];
             if ($this->Accounts->save_profile($Business_Details,$this->user_id)) {
               // redirect('/Account/home', 'refresh');
@@ -397,7 +412,8 @@ class Account extends CI_Controller
               'address' => $this->input->post('address'),
               'cellphone' => $this->input->post('cellphone_number'),
               'telephone' => $this->input->post('telephone_number'),
-              'website_url' => base_url().'View/home/'.$this->data['account']->username
+              'contact_person' => $this->input->post('contact_person'),
+              'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
             ];
             if ($this->db->insert('basic_info', $Business_Details)) {
               // redirect('/Account/home', 'refresh');

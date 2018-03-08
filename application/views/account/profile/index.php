@@ -138,6 +138,11 @@
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
           <div class="form-group">
+            <label>Contact Person:</label>
+            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($business->contact_person)): ?> <?php echo $business->contact_person ?> <?php endif; ?>" maxlength="50">
+            <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
+          </div>
+          <div class="form-group">
             <label>Website URL:</label>
             <input type="text" name="website_address" class="form-control" value="<?php if (!empty($business->website_url)): ?> <?php echo $business->website_url ?> <?php endif; ?>">
             <span style="color:red" class="help-block"><?php echo form_error("website_address");?></span>

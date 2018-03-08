@@ -22,13 +22,15 @@ class View extends CI_Controller
   // }
   public function index()
   {
-    
+
   }
 
-  public function home($username)
+  public function home($business_name)
   {
-    $data['account'] = $this->Views->get_account_details($username);
+    $business_name = str_replace('_', ' ', $business_name);
+    $data['account'] = $this->Views->get_account_details($business_name);
     $business_id = $data['account']->user_id;
+    $data['theme'] = $this->Views->get_theme($business_id);
     $data['site_title'] = $this->Views->get_site_title($business_id);
     $data['site_tagline'] = $this->Views->get_site_tagline($business_id);
     $data['home_title'] = $this->Views->get_home_title($business_id);
@@ -42,47 +44,53 @@ class View extends CI_Controller
     $data['instagram'] = $this->Views->get_instagram($business_id);
     $data['image_sliders'] = $this->Views->get_image_slider($business_id);
     $data['gallery_images'] = $this->Views->get_gallery_images($business_id);
-    $theme = $data['account']->template;
+    $theme = $data['theme']->template;
     // print_r($data['facebook']);
     $this->load->view('account/themes/'.$theme.'/index',$data);
   }
 
-  public function about($username)
+  public function about($business_name)
   {
-    $data['account'] = $this->Views->get_account_details($username);
+    $business_name = str_replace('_', ' ', $business_name);
+    $data['account'] = $this->Views->get_account_details($business_name);
     $business_id = $data['account']->user_id;
+    $data['theme'] = $this->Views->get_theme($business_id);
     $data['site_title'] = $this->Views->get_site_title($business_id);
     $data['about_featured_image'] = $this->Views->get_about_featured_image($business_id);
     $data['about_title'] = $this->Views->get_about_title($business_id);
     $data['about_description'] = $this->Views->get_about_description($business_id);
     $data['about_header_image'] = $this->Views->get_about_header_image($business_id);
     $data['details'] = $this->Views->get_details($business_id);
-    $theme = $data['account']->template;
-    // print_r($data['facebook']);
+    $theme = $data['theme']->template;
+    // print_r($data['site_title']);
     $this->load->view('account/themes/'.$theme.'/about',$data);
   }
 
-  public function gallery($username)
+  public function gallery($business_name)
   {
-    $data['account'] = $this->Views->get_account_details($username);
+    $business_name = str_replace('_', ' ', $business_name);
+    $data['account'] = $this->Views->get_account_details($business_name);
     $business_id = $data['account']->user_id;
+    $data['theme'] = $this->Views->get_theme($business_id);
     $data['site_title'] = $this->Views->get_site_title($business_id);
     $data['gallery_images'] = $this->Views->get_gallery_images($business_id);
     $data['details'] = $this->Views->get_details($business_id);
-    $theme = $data['account']->template;
+    $theme = $data['theme']->template;
     $this->load->view('account/themes/'.$theme.'/gallery',$data);
   }
 
-  public function contacts($username)
+  public function contacts($business_name)
   {
-    $data['account'] = $this->Views->get_account_details($username);
+    $business_name = str_replace('_', ' ', $business_name);
+    $data['account'] = $this->Views->get_account_details($business_name);
     $business_id = $data['account']->user_id;
+    $data['theme'] = $this->Views->get_theme($business_id);
     $data['site_title'] = $this->Views->get_site_title($business_id);
     $data['facebook'] = $this->Views->get_facebook($business_id);
     $data['instagram'] = $this->Views->get_instagram($business_id);
     $data['twitter'] = $this->Views->get_twitter($business_id);
     $data['details'] = $this->Views->get_details($business_id);
-    $theme = $data['account']->template;
+    $theme = $data['theme']->template;
     $this->load->view('account/themes/'.$theme.'/contacts',$data);
   }
 
