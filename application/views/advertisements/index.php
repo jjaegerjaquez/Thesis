@@ -13,7 +13,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
 
@@ -290,15 +290,9 @@
   <div class="container">
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
-  	     <li><a href="">Home</a></li>
+  	     <li><a href="<?php echo base_url()?>">Home</a></li>
          <li>Hot Deals</li>
-         <!-- <li><?php echo $destination?></li> -->
   		</ul>
-      <!-- <div class="container-fluid text-center header-style " style="background-image:url('/public/img/destination-bg.jpg');">
-  		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
-      </div> -->
-
-      <!-- <span class="content-title"><?php echo $category?></span> -->
     </div>
     <div class="row content">
       <div class="col-lg-12 col-md-12 col-sm-10 col-xs-12 main-content">

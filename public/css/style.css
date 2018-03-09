@@ -9,6 +9,15 @@ html, body {
   background-color: #ebe9e9;
   /*padding-bottom: 40px;*/
 }
+.none{
+  background: #fff;
+  padding: 119px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid #ebe9e9;
+}
+.none span{
+  font-family: 'Roboto Condensed', sans-serif;
+}
 .text-header{
   margin-bottom: 0;
   padding-top: 20px;

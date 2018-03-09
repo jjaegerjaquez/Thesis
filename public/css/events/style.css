@@ -41,6 +41,7 @@ body{
 /*BREADCRUMB*/
 .breadcrumb{
   background-color: transparent;
+  font-size: 12px;
 }
 .breadcrumb li a {
   color: #3c3734;
@@ -76,9 +77,10 @@ body{
   font-family: 'Roboto', sans-serif;
 }
 .separator{
-  padding:2px;
-  /*background-color:gray;*/
-  margin-bottom:10px;
+  padding: 2px;
+  background-color:#bdbdbd;
+  margin-top:20px;
+  margin-bottom:20px;
 }
 .votes-style{
   margin-top:5px;margin-right:5px;display:block;
@@ -102,18 +104,15 @@ font-family: 'Roboto Condensed', sans-serif;
   font-family: 'Fjalla One', sans-serif;
   font-size: 22px;
 }
-.list li span{
-  font-family: 'Oswald', sans-serif;
-  font-size: 25px;
-}
 .event-description{
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 16px;
   text-indent: 28px;
   /*text-align: justify;*/
 }
-.container{
-  padding: 0;
+.list .event-title span{
+  font-family: 'Playfair Display', sans-serif;
+  font-size: 45px;
 }
 .main-content{
   margin-top: 5px;
@@ -122,30 +121,6 @@ font-family: 'Roboto Condensed', sans-serif;
   border-radius: 5px;
   /*border-left: 15px solid #ebe9e9;*/
   /*border-right: 15px solid #ebe9e9;*/
-}
-.main-content .rating a {
-  text-decoration:none;
-  width:100%;
-  height:100%;
-  display:block;
-  margin:0;
-  padding:0;
-}
-
-.main-content .rating a span{
-  color:black;
-  font-size:15px;
-  padding:5px 0 10px 0;
-  display:block;
-  /*text-transform:uppercase;*/
-  /*font-family:'Josefin Sans';*/
-  /*letter-spacing:1px;*/
-}
-.badge{
-  background-color: #f37430;
-  padding: 8px;
-  border-radius: 5px;
-  margin-right: 5px;
 }
 .detail-list{
   font-size: 15px;

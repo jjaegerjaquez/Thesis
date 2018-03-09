@@ -9,6 +9,11 @@ class Admins extends CI_Model
 
   }
 
+  public function delete_ads()
+  {
+    $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");
+  }
+
   public function validate_user($username)
   {
     $query = $this->db->get_where('admin', ['username' => $username]);

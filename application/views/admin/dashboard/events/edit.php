@@ -117,12 +117,15 @@
             <div class="box-body">
               <form class="" action="/Admin/update_event/<?php echo $event->event_id?>" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label>Image:
-                      <br>
-                      <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
-                    </label>
-                    <input class="" type="file" name="picture" />
+                  <label>Image:
+                    <br>
+                    <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
+                  </label>
+                  <input class="" type="file" name="picture" />
                 </div>
+                <?php if ($this->session->flashdata('image_error')) { ?>
+                    <div class="alert alert-danger"> <?= $this->session->flashdata('image_error') ?> </div>
+                <?php } ?>
                 <div class="form-inline">
                   <div class="form-group">
                     <label>Start:</label>

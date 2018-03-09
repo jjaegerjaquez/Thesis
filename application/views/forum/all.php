@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($site_icon->value)) { echo $site_icon->value; } else { echo "";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -13,11 +14,12 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/advertisements/all/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/forum/all/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -289,34 +291,93 @@
   <div class="container">
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
-  	     <li><a href="<?php echo base_url()?>">Home</a></li>
-         <li>Hot Deals</li>
-         <li>All</li>
+  	     <li><a href="<?php echo base_url() ?>">Home</a></li>
+         <li>Forum</li>
+         <li>All topics</li>
+         <!-- <li><?php echo $destination?></li> -->
   		</ul>
     </div>
     <div class="row content">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 forum-header text-center">
+        <h1>Topics</h1>
+        <form class="" action="/Forum/result" method="post">
+          <div class="col-lg-6 col-lg-offset-3">
+            <div class="input-group">
+              <input type="text" name="keyword" class="form-control" placeholder="Type to search" id="search">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="ion-ios-search-strong"></i></button>
+              </span>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </form>
+      </div>
+      <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+        <div class="create-div pull-right">
+          <button type="button" class="btn" name="button">Create topic</button>
+        </div>
+      <?php endif; ?>
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
-        <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
-            <?php if (!empty($advertisements)): ?>
-              <?php foreach ($advertisements as $key => $ad): ?>
-                <div class="col-lg-3 col-md-3 col-sm-4">
-                  <div class="date">
-                    <span>
-                      <?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?>
-                    </span>
-                  </div>
-                  <div class="thumbnail">
-                    <a href="/Advertisement/result/<?php echo $ad->advertisement_id?>"><img src="<?php echo $ad->image?>" alt="image"></a>
-                    <br>
-                    <div class="text-center">
-                      <p><strong ><?php echo $ad->title?></strong></p>
+        <div class="tabbable-panel">
+          <div class="tabbable-line">
+            <ul class="nav nav-tabs ">
+              <li class="active">
+                <a href="#tab_default_1" data-toggle="tab">
+                Topics </a>
+              </li>
+              <li>
+                <a href="#tab_default_2" data-toggle="tab">
+                FAQ's </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tab_default_1">
+              </div>
+              <div class="tab-pane" id="tab_default_2">
+                <div class="row search-box">
+                  <form class="" action="/Forum/result" method="post">
+                    <div class="col-lg-4 pull-right">
+                      <div class="input-group">
+                        <input type="text" name="keyword" class="form-control" placeholder="Type to search" id="search">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="ion-ios-search-strong"></i></button>
+                        </span>
+                      </div><!-- /input-group -->
                     </div>
-                  </div>
-          			</div>
-              <?php endforeach; ?>
-            <?php else: ?>
-              0 results
-            <?php endif; ?>
+                  </form>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <!-- <thead>
+                      <tr>
+                        <th style="border-bottom:2px solid #f37430;"></th>
+                        <th style="border-bottom:2px solid gray;">Date created</th>
+                      </tr>
+                    </thead> -->
+                    <tbody id="table">
+                      <?php if (!empty($topics)): ?>
+                        <?php foreach ($topics as $key => $topic): ?>
+                          <tr>
+                            <td>
+                              <ul class="topics">
+                                <li><a href="/Forum/topic/<?php echo $topic->topic_id?>"><h4><?php echo $topic->topic ?></h4></a></li>
+                                <ul class="list-inline topic-details">
+                                  <li><span><i class="ion-android-person"></i> </span>Added by: <?php echo $topic->created_by ?></li>
+                                  <li><span><i class="ion-ios-calendar"></i> </span><?php $date = strtotime($topic->date_created); echo date('F j Y',$date)?></li>
+                                </ul>
+                              </ul>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+                <nav class="pull-right table-footer">
+                  <?php echo $this->pagination->create_links();?>
+                </nav>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -458,6 +519,18 @@
       $(this).find('form').trigger('reset');
       $('#register_error_message').hide();
   })
+  $("#search").keyup(function(){
+       var str=  $("#search").val();
+       if(str == "") {
+         $.get( "<?php echo base_url();?>Forum/search?keyword=all", function( data ){
+             $( "#table" ).html( data );
+           });
+       }else {
+               $.get( "<?php echo base_url();?>Forum/search?keyword="+str, function( data ){
+                   $( "#table" ).html( data );
+            });
+       }
+   });
   </script>
 </body>
 </html>

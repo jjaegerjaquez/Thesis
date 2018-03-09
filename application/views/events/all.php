@@ -13,10 +13,9 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
-
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/events/all/style.css">
 </head>
@@ -293,22 +292,26 @@
   	     <li><a href="<?php echo base_url()?>">Home</a></li>
          <li>Events</li>
          <li>All</li>
-         <!-- <li><?php echo $destination?></li> -->
   		</ul>
-      <!-- <div class="container-fluid text-center header-style " style="background-image:url('/public/img/destination-bg.jpg');">
-  		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
-      </div> -->
-
-      <!-- <span class="content-title"><?php echo $category?></span> -->
+    </div>
+    <div class="previous">
+      <form class="" action="/Event/result?key=previous" method="post">
+        <button class="btn" type="submit" name="button">Previous Events</button>
+      </form>
     </div>
     <div class="row content">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content text-center">
         <div class="text-center title">
-          <h2>Events <?php echo date("Y"); ?></h2>
+          <h2>Events of <?php echo date("Y"); ?></h2>
         </div>
         <?php if (!empty($events)): ?>
           <?php foreach ($events as $key => $event): ?>
             <div class="col-sm-4" >
+              <div class="date">
+                <span>
+                  <?php $start = strtotime($event->start_date); echo date('F j',$start)?>
+                </span>
+              </div>
         		  <div class="thumbnail">
                 <a href="/Event/preview/<?php echo $event->event_id?>">  <img src="<?php echo $event->image?>" alt="image"> </a>
                 <span class="event-title"><?php echo $event->title ?></span>
@@ -317,7 +320,9 @@
         		</div>
           <?php endforeach; ?>
         <?php else: ?>
-          0 results
+          <div class="none-div">
+            <span class="none">No current events yet</span>
+          </div>
         <?php endif; ?>
       </div>
     </div>

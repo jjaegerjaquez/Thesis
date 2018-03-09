@@ -17,7 +17,7 @@ class Advertisements extends CI_Model
 
   public function get_advertisements()
   {
-    $query = $this->db->query("select * from advertisements order by type");
+    $query = $this->db->query("select * from advertisements order by type, start_date asc");
     return $query->result();
   }
 

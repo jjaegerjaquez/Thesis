@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/advertisements/all/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/events/all/style.css">
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
@@ -290,34 +290,40 @@
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
   	     <li><a href="<?php echo base_url()?>">Home</a></li>
-         <li>Hot Deals</li>
-         <li>All</li>
+         <li>Events</li>
+         <li>Previous events</li>
   		</ul>
     </div>
+    <div class="previous">
+      <form class="" action="/Event/all" method="post">
+        <button class="btn" type="submit" name="button">Current Events</button>
+      </form>
+    </div>
     <div class="row content">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
-        <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
-            <?php if (!empty($advertisements)): ?>
-              <?php foreach ($advertisements as $key => $ad): ?>
-                <div class="col-lg-3 col-md-3 col-sm-4">
-                  <div class="date">
-                    <span>
-                      <?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?>
-                    </span>
-                  </div>
-                  <div class="thumbnail">
-                    <a href="/Advertisement/result/<?php echo $ad->advertisement_id?>"><img src="<?php echo $ad->image?>" alt="image"></a>
-                    <br>
-                    <div class="text-center">
-                      <p><strong ><?php echo $ad->title?></strong></p>
-                    </div>
-                  </div>
-          			</div>
-              <?php endforeach; ?>
-            <?php else: ?>
-              0 results
-            <?php endif; ?>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content text-center">
+        <div class="text-center title">
+          <h2>Previous Events</h2>
         </div>
+        <?php if (!empty($events)): ?>
+          <?php foreach ($events as $key => $event): ?>
+            <div class="col-sm-4" >
+              <div class="date">
+                <span>
+                  <?php $start = strtotime($event->start_date); echo date('F j',$start)?>
+                </span>
+              </div>
+        		  <div class="thumbnail">
+                <a href="/Event/preview/<?php echo $event->event_id?>">  <img src="<?php echo $event->image?>" alt="image"> </a>
+                <span class="event-title"><?php echo $event->title ?></span>
+                <p><?php echo $event->type ?></p>
+        		   </div>
+        		</div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div class="none-div">
+            <span class="none">No events yet</span>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -360,6 +366,7 @@
   <!-- Bootstrap 3.3.6 -->
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <script>
+
   $('#Submit').click(function() {
       $('#error_message').show();
       var form_data = {
@@ -458,6 +465,58 @@
       $(this).find('form').trigger('reset');
       $('#register_error_message').hide();
   })
+  // $('#toggle-heart').on('click',function () {
+  //     var ckbox = $('#toggle-heart');
+  //     if (ckbox.is(':checked'))
+  //     {
+  //         // alert($('#toggle-heart').attr('name'));
+  //         var vote = {
+  //             business_id: $('#toggle-heart').attr('name')
+  //         };
+  //         $.ajax({
+  //             url: "/Home/vote",
+  //             type: 'POST',
+  //             data: vote,
+  //             success: function(message) {
+  //               // alert(message);
+  //               if (message == 'Voted') {
+  //                 $('#toggle-heart').prop('checked', true);
+  //               }
+  //               }else if (message=='Unsucessful') {
+  //                 $('#toggle-heart').prop('checked', false);
+  //               }
+  //               // else {
+  //               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+  //               // }
+  //               // alert('Success');
+  //             }
+  //         });
+  //         // return false;
+  //     }
+  //     else
+  //     {
+  //       var vote = {
+  //           business_id: $('#toggle-heart').attr('name')
+  //       };
+  //       $.ajax({
+  //           url: "/Home/unvote",
+  //           type: 'POST',
+  //           data: vote,
+  //           success: function(message) {
+  //             alert(message);
+  //             // }else if (message=='Unsucessful') {
+  //             //   $('#register').hide();
+  //             //   $(location).attr('href','/Verify/not_sent');
+  //             // }
+  //             // else {
+  //             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
+  //             // }
+  //             // alert('Success');
+  //           }
+  //       });
+  //         // alert('You Un-Checked it');
+  //     }
+  // });
   </script>
 </body>
 </html>

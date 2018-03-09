@@ -43,7 +43,6 @@ class Advertisement extends CI_Controller
   {
     $this->data['ad'] = $this->Advertisements->get_advertisement($ad_id);
     $this->data['business_details'] = $this->Advertisements->get_business_details($this->data['ad']->business_id);
-    // print_r($this->data['ad']);
     $this->load->view('advertisements/index',$this->data);
   }
 

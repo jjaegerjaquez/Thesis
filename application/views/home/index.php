@@ -618,7 +618,7 @@
           <h1 class="lato text-header">EVENTS</h1>
           <!-- <p>Discover great finds and deals for a discounted price</p> -->
         </div>
-        <div class="row" style="background-color:pink;">
+        <div class="row">
           <div class="spacer"></div>
           <?php if (!empty($events)): ?>
             <?php foreach ($events as $key => $event): ?>
@@ -640,16 +640,26 @@
               </a>
               <div class="spacer"></div>
             <?php endforeach; ?>
+            <a href="/Event/all" class="event">
+              <div class="see-all-container text-center">
+                <span class="">
+                  <span class="title">SEE ALL</span>
+                </span>
+              </div>
+            </a>
           <?php else: ?>
-            <?php echo "0 results" ?>
-          <?php endif; ?>
-          <a href="/Event/all" class="event">
-            <div class="see-all-container text-center">
-              <span class="">
-                <span class="title">SEE ALL</span>
-              </span>
+            <div class="none text-center">
+              <span>No current events</span>
             </div>
-          </a>
+            <div class="spacer"></div>
+            <a href="/Event/all" class="event">
+              <div class="see-all-container text-center">
+                <span class="">
+                  <span class="title">SEE ALL</span>
+                </span>
+              </div>
+            </a>
+          <?php endif; ?>
         </div>
       </div>
       <div class="col-lg-4 col-md-12">
@@ -772,7 +782,6 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
-
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {

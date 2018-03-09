@@ -22,6 +22,11 @@ class Homes extends CI_Model
     }
   }
 
+  public function delete_ads()
+  {
+    $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");
+  }
+
   public function get_priority_ad()
   {
     $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Priority'");
@@ -261,7 +266,7 @@ class Homes extends CI_Model
 
   public function get_events()
   {
-    $query = $this->db->query("select * from events limit 3");
+    $query = $this->db->query("SELECT * FROM `events` WHERE start_date >= curdate() limit 3");
     return $query->result();
   }
 

@@ -17,7 +17,13 @@ class Events extends CI_Model
 
   public function get_events()
   {
-    $query = $this->db->query("select * from events");
+    $query = $this->db->query("SELECT * FROM `events` WHERE start_date >= curdate() order by start_date asc");
+    return $query->result();
+  }
+
+  public function get_previous_events()
+  {
+    $query = $this->db->query("SELECT * FROM `events` WHERE start_date < curdate() order by start_date asc");
     return $query->result();
   }
 

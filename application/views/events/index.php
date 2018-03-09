@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/events/style.css">
 </head>
@@ -294,21 +295,31 @@
          <li><?php echo $event->title ?></li>
   		</ul>
     </div>
-    <div class="row content">
-      <div class="col-lg-12 col-md-12 col-sm-10 col-xs-12 main-content">
-        <div class="container event-holder">
-          <img class="img-responsive" alt="image" src="<?php echo $event->image?>" width="1366px" height="768px">
-          <div class="separator"></div>
-          <ul class="list">
-            <li><span><i class="ion-help-circled"></i></span> <?php echo $event->title?></li>
-            <li><span><i class="ion-calendar"></i></span></span> <?php $start = strtotime($event->start_date); echo date('F j Y',$start)?><?php if (!empty($event->end_date)): ?> - <?php $end = strtotime($event->end_date); echo date('F j Y',$end)?> <?php endif; ?></li>
-            <li><span>&nbsp;<i class="ion-location"></i></span> <?php echo $event->place?></li>
-            <li><span><span> <i class="ion-information-circled"></i></span> Description:</span></li>
-            <li>
-              <p class="event-description"><?php echo $event->description?></p>
-            </li>
+    <div class="row content main-content">
+      <div class="col-lg-7 col-md-7 col-xs-12">
+        <img class="img-responsive" alt="image" src="<?php echo $event->image?>">
+      </div>
+      <div class="col-lg-5 col-md-5 col-xs-12 text-center">
+        <ul class="list">
+          <li class="event-title"><span><?php echo $event->title?></span></li>
+          <ul class="list-inline">
+            <li><span><i class="ion-calendar"></i> </span><?php $start = strtotime($event->start_date); echo date('F j Y',$start)?><?php if (!empty($event->end_date)): ?> - <?php $end = strtotime($event->end_date); echo date('F j Y',$end)?> <?php endif; ?></li>
+            <li>|</li>
+            <li><span><i class="ion-location"></i> </span><?php echo $event->place?></li>
           </ul>
-        </div>
+          <li>
+            <div class="row">
+              <div class="col-xs-5">
+              </div>
+              <div class="col-xs-2">
+                <div class="separator"></div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <p class="event-description"><?php echo $event->description?></p>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

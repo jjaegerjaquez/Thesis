@@ -29,6 +29,7 @@ class Home extends CI_Controller
     $this->data['localities'] = $this->Homes->get_localities();
     $this->data['priority_ads'] = $this->Homes->get_priority_ad();
     $this->data['events'] = $this->Homes->get_events();
+    $this->data['event_count'] = count($this->data['events']);
     $this->data['topics'] = $this->Homes->get_topics();
     if (!$this->session->userdata('is_logged_in') && !$this->session->userdata('traveller_is_logged_in'))
     {
@@ -70,6 +71,7 @@ class Home extends CI_Controller
     // $this->session->unset_userdata('traveller_email');
     // $this->session->unset_userdata('traveller_is_logged_in');
     // $this->session->unset_userdata('traveller_id');
+    $deleted = $this->Homes->delete_ads();
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;
@@ -93,14 +95,6 @@ class Home extends CI_Controller
           redirect('/Home/redirect');
         }
     }
-    // elseif ($this->session->userdata('traveller_is_logged_in'))
-    // {
-    //   $this->load->view('home/index',$this->data);
-    // }
-    // else
-    // {
-    //   $this->load->view('home/index',$this->data);
-    // }
     $this->load->view('home/index',$this->data);
   }
 

@@ -107,6 +107,7 @@ body{
 /* Breadcrumb & Header*/
 .breadcrumb{
   background-color: transparent;
+  font-size: 12px;
 }
 .breadcrumb li a {
   color: #3c3734;
@@ -179,6 +180,8 @@ body{
 	background: #fff;
 	color: #6b6e80;
 	position: relative;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .blog-comment .meta {

@@ -47,9 +47,10 @@ class Event extends CI_Controller
     $this->load->view('events/index',$this->data);
   }
 
-  public function search()
+  public function result()
   {
-    $this->load->view('home/search');
+    $this->data['events'] = $this->Events->get_previous_events();
+    $this->load->view('events/previous',$this->data);
   }
 
 }

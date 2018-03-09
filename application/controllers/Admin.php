@@ -99,6 +99,7 @@ class Admin extends CI_Controller
 
   public function dashboard()
   {
+    $deleted = $this->Admins->delete_ads();
     $this->load->view('admin/dashboard/index',$this->data);
   }
 
@@ -1685,7 +1686,10 @@ class Admin extends CI_Controller
         $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = $_FILES['picture']['name'];
-
+        $config['min_width'] = '1366';
+        $config['min_height'] = '768';
+        $config['max_width'] = '1692';
+        $config['max_height'] = '812';
         //Load upload library and initialize configuration
         $this->load->library('upload',$config);
         $this->upload->initialize($config);
@@ -1693,44 +1697,55 @@ class Admin extends CI_Controller
         if($this->upload->do_upload('picture')){
             $uploadData = $this->upload->data();
             $picture = $uploadData['file_name'];
+            $path = 'public/img/events';
+            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
+            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $source_path;
+            $config['new_image'] = $target_path;
+            $config['maintain_ratio'] = FALSE;
+            $config['width'] = '1366';
+            $config['height'] = '768';
+            $this->load->library('image_lib');
+            $this->image_lib->initialize($config);
+            if ($this->image_lib->crop())
+            {
+              $this->image_lib->clear();
+              if (empty($this->input->post('end'))) {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$path.'/cropped_'.$picture
+                ];
+              }else {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$path.'/cropped_'.$picture
+                ];
+              }
 
-            $Event = [
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'type' => $this->input->post('type'),
-              'place' => $this->input->post('place'),
-              'description' => $this->input->post('description'),
-              'image' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->db->insert('events',$Event)) {
-              echo '<script>alert("Event added!");</script>';
-              redirect('/Admin/events', 'refresh');
-            }else {
-              echo '<script>alert("Event not added!");</script>';
-              redirect('/Admin/add_event', 'refresh');
+              if ($this->db->insert('events',$Event)) {
+                echo '<script>alert("Event added!");</script>';
+                redirect('/Admin/events', 'refresh');
+              }else {
+                echo '<script>alert("Event not added!");</script>';
+                redirect('/Admin/add_event', 'refresh');
+              }
             }
         }
         else
         {
-          $Event = [
-            'start_date' => $this->input->post('start'),
-            'end_date' => $this->input->post('end'),
-            'title' => $this->input->post('title'),
-            'type' => $this->input->post('type'),
-            'place' => $this->input->post('place'),
-            'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg'
-          ];
-
-          if ($this->db->insert('events',$Event)) {
-            echo '<script>alert("Event added!");</script>';
-            redirect('/Admin/events', 'refresh');
-          }else {
-            echo '<script>alert("Event not added!");</script>';
-            redirect('/Admin/add_event', 'refresh');
-          }
+          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
+          redirect('/Admin/add_event/');
         }
       }
       else
@@ -1744,7 +1759,7 @@ class Admin extends CI_Controller
             'type' => $this->input->post('type'),
             'place' => $this->input->post('place'),
             'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg'
+            'image' => '/public/img/def-img-l.jpg'
           ];
         }
         else
@@ -1756,7 +1771,7 @@ class Admin extends CI_Controller
             'type' => $this->input->post('type'),
             'place' => $this->input->post('place'),
             'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg'
+            'image' => '/public/img/def-img-l.jpg'
           ];
         }
 
@@ -1834,7 +1849,10 @@ class Admin extends CI_Controller
         $config['overwrite'] = TRUE;
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['file_name'] = $_FILES['picture']['name'];
-
+        $config['min_width'] = '1366';
+        $config['min_height'] = '768';
+        $config['max_width'] = '1692';
+        $config['max_height'] = '812';
         //Load upload library and initialize configuration
         $this->load->library('upload',$config);
         $this->upload->initialize($config);
@@ -1842,50 +1860,58 @@ class Admin extends CI_Controller
         if($this->upload->do_upload('picture')){
             $uploadData = $this->upload->data();
             $picture = $uploadData['file_name'];
-
-            $Event = [
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'type' => $this->input->post('type'),
-              'place' => $this->input->post('place'),
-              'description' => $this->input->post('description'),
-              'image' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->Admins->update_event($Event,$event_id))
+            $path = 'public/img/events';
+            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
+            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $source_path;
+            $config['new_image'] = $target_path;
+            $config['maintain_ratio'] = FALSE;
+            $config['width'] = '1366';
+            $config['height'] = '768';
+            $this->load->library('image_lib');
+            $this->image_lib->initialize($config);
+            if ($this->image_lib->crop())
             {
-              echo '<script>alert("Event updated!");</script>';
-              redirect('/Admin/events', 'refresh');
-            }
-            else
-            {
-              echo '<script>alert("Event cannot be updated...");</script>';
-              redirect('/Admin/edit_event/'.$event_id, 'refresh');
+              $this->image_lib->clear();
+              if (empty($this->input->post('end'))) {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$config['upload_path'].'/'.$picture
+                ];
+              }else {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$config['upload_path'].'/'.$picture
+                ];
+              }
+
+              if ($this->Admins->update_event($Event,$event_id))
+              {
+                echo '<script>alert("Event updated!");</script>';
+                redirect('/Admin/events', 'refresh');
+              }
+              else
+              {
+                echo '<script>alert("Event cannot be updated...");</script>';
+                redirect('/Admin/edit_event/'.$event_id, 'refresh');
+              }
             }
         }
         else
         {
-          $Event = [
-            'start_date' => $this->input->post('start'),
-            'end_date' => $this->input->post('end'),
-            'title' => $this->input->post('title'),
-            'type' => $this->input->post('type'),
-            'place' => $this->input->post('place'),
-            'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg'
-          ];
-
-          if ($this->Admins->update_event($Event,$event_id))
-          {
-            echo '<script>alert("Event updated!");</script>';
-            redirect('/Admin/events', 'refresh');
-          }
-          else
-          {
-            echo '<script>alert("Image cannot be updated...");</script>';
-            redirect('/Admin/edit_event/'.$event_id, 'refresh');
-          }
+          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
+          redirect('/Admin/edit_event/'.$event_id);
         }
       }
       else
