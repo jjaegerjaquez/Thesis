@@ -293,38 +293,38 @@
       <ul class="breadcrumb navbar-bottom">
   	     <li><a href="<?php echo base_url() ?>">Home</a></li>
          <li>Forum</li>
+         <li>Add topic</li>
   		</ul>
     </div>
-    <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-      <div class="create-div pull-left">
-          <a href="/Forum/add_topic" class="btn">Create topic</a>
-          <!-- <button type="submit" class="btn" name="button">Create topic</button> -->
-      </div>
-    <?php endif; ?>
     <div class="row content">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
-        <div class="tabbable-panel">
-          <div class="tabbable-line">
-            <ul class="nav nav-tabs ">
-              <li class="active">
-                <a href="/Forum/all?filter=topics" class="tab">
-                Topics </a>
-              </li>
-              <li>
-                <a href="/Forum/all?filter=faqs" class="tab">
-                FAQ's </a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane active" id="tab_default_1">
-                <h1>Hey</h1>
-              </div>
-              <div class="tab-pane" id="tab_default_2">
-                <h1>World</h1>
-              </div>
-            </div>
-          </div>
+      <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 forum-header text-center">
+        <h1>Topics</h1>
+      </div> -->
+      <!-- <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+        <div class="create-div pull-right">
+          <form class="" action="/Forum/add_topic" method="post">
+            <button type="submit" class="btn" name="button">Create topic</button>
+          </form>
         </div>
+      <?php endif; ?> -->
+      <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12 main-content">
+        <form class="" action="/Forum/save_topic" method="post">
+          <div class="form-group">
+            <label>Title:<span style="color:red"> *</span></label>
+            <input type="text" name="title" class="form-control" value="<?php echo set_value('title'); ?>" maxlength="80">
+            <span style="color:red" class="help-block"><?php echo form_error('title'); ?></span>
+          </div>
+          <div class="form-group">
+            <label>Description:</label>
+            <textarea class="form-control" rows="7" maxlength="500" name="description" id="description"><?php echo set_value('description'); ?></textarea>
+          </div>
+          <div id="count" class="pull-right">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" name="button">Submit</button>
+            <a href="/Forum/all" class="btn btn-danger">Back</a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -476,6 +476,16 @@
                    $( "#table" ).html( data );
             });
        }
+   });
+   $('#description').keyup(function () {
+     var max = 500;
+     var len = $(this).val().length;
+     if (len >= max) {
+       $('#count').text('');
+     } else {
+       var char = max - len;
+       $('#count').text(char + ' characters left');
+     }
    });
   </script>
 </body>

@@ -1142,9 +1142,7 @@ class Admin extends CI_Controller
   public function advertisements()
   {
     $this->data['priorities'] = $this->Admins->get_priority_ad();
-    // $this->data['regulars'] = $this->Admins->get_regular_ad();
     $query2= $this->db->get_where('advertisements', ['type' => 'Regular']);
-    // echo $query2->num_rows();
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;

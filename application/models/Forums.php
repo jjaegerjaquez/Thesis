@@ -75,6 +75,28 @@ class Forums extends CI_Model
                 ->db
                 ->select('*')
                 ->from('topics')
+                ->join('users','topics.created_by=users.user_id')
+                ->where('created_by !=', 'Admin')
+                ->like('topic',$keyword)
+                ->get();
+
+        if($query->num_rows()>0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return $query->result();
+        }
+  }
+
+  public function get_faqs_search_result($keyword)
+  {
+    $query = $this
+                ->db
+                ->select('*')
+                ->from('topics')
+                ->where('created_by', 'Admin')
                 ->like('topic',$keyword)
                 ->get();
 
@@ -105,5 +127,29 @@ class Forums extends CI_Model
     $query = $this->db->query("select count(topic_id) as reply_count from comments where topic_id = '$topic_id'");
     return $query->row();
   }
+
+  function function_pagination($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by !=', 'Admin');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_faqs($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->where('created_by', 'Admin');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
 
 }

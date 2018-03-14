@@ -306,25 +306,57 @@
         <div class="tabbable-panel">
           <div class="tabbable-line">
             <ul class="nav nav-tabs ">
-              <li class="active">
-                <a href="/Forum/all?filter=topics" class="tab">
+              <li>
+                <a href="/Forum/all" class="tab">
                 Topics </a>
               </li>
-              <li>
-                <a href="/Forum/all?filter=faqs" class="tab">
-                FAQ's </a>
+              <li class="active">
+                <a href="/Forum/faqs" class="tab">
+                FAQs </a>
               </li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_default_1">
-                <h1>Hey</h1>
-              </div>
-              <div class="tab-pane" id="tab_default_2">
-                <h1>World</h1>
+                <div class="row search-box">
+                  <form class="" action="/Forum/result" method="post">
+                    <div class="col-lg-4 pull-right">
+                      <div class="input-group">
+                        <input type="text" name="keyword" class="form-control" placeholder="Type to search" id="search">
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="submit"><i class="ion-ios-search-strong"></i></button>
+                        </span>
+                      </div><!-- /input-group -->
+                    </div>
+                  </form>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <tbody id="table">
+                      <?php if (!empty($faqs)): ?>
+                        <?php foreach ($faqs as $key => $faq): ?>
+                          <tr>
+                            <td>
+                              <ul class="topics">
+                                <li><a href="/Forum/topic/<?php echo $faq->topic_id?>"><h4><?php echo $faq->topic ?></h4></a></li>
+                                <ul class="list-inline topic-details">
+                                  <li><span><i class="ion-android-person"></i> </span>Added by: <?php echo $faq->created_by ?></li>
+                                  <li><span><i class="ion-ios-calendar"></i> </span><?php $date = strtotime($faq->date_created); echo date('F j Y',$date)?></li>
+                                </ul>
+                              </ul>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <nav class="pull-right table-footer">
+          <?php echo $this->pagination->create_links();?>
+        </nav>
       </div>
     </div>
   </div>
@@ -468,11 +500,9 @@
   $("#search").keyup(function(){
        var str=  $("#search").val();
        if(str == "") {
-         $.get( "<?php echo base_url();?>Forum/search?keyword=all", function( data ){
-             $( "#table" ).html( data );
-           });
+         $(location).attr('href','/Forum/faqs');
        }else {
-               $.get( "<?php echo base_url();?>Forum/search?keyword="+str, function( data ){
+               $.get( "<?php echo base_url();?>Forum/search?filter=faqs&keyword="+str, function( data ){
                    $( "#table" ).html( data );
             });
        }

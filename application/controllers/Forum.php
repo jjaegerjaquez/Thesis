@@ -54,38 +54,132 @@ class Forum extends CI_Controller
 
   public function all()
   {
-    $query = $this->db->get('topics','10', $this->uri->segment(3));
-		$this->data['topics'] = $query->result();
+    // $query = $this->db->get('topics','5', $this->uri->segment(3));
+		// $this->data['topics'] = $query->result();
+    //
+		// $query2= $this->db->get('topics');
+    //
+		// $config['base_url'] = '/Forum/all';
+		// $config['total_rows'] = $query2->num_rows();
+		// $config['per_page'] = 5;
+    //
+		// $config['full_tag_open'] = '<ul class="pagination">';
+		// $config['full_tag_close'] = '</ul>';
+    //
+		// $config['first_tag_open'] = '<li>';
+		// $config['last_tag_open'] = '<li>';
+    //
+		// $config['next_tag_open'] = '<li>';
+		// $config['prev_tag_open'] = '<li>';
+    //
+		// $config['num_tag_open'] = '<li>';
+		// $config['num_tag_close'] = '</li>';
+    //
+		// $config['first_tag_close'] = '</li>';
+		// $config['last_tag_close'] = '</li>';
+    //
+		// $config['next_tag_close'] = '</li>';
+		// $config['prev_tag_close'] = '</li>';
+    //
+		// $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		// $config['cur_tag_close'] = '</b></span></li>';
+    //
+		// $this->pagination->initialize($config);
+    // // $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin']);
+    // // $limit = 2;
+    // // $offset = $this->uri->segment(3);
+    // // $config['uri_segment'] = 3;
+    // // $config['base_url'] = '/Forum/all';
+    // // $config['total_rows'] = $query2->num_rows();
+    // // $config['per_page'] = $limit;
+    // // $config['full_tag_open'] = '<ul class="pagination">';
+    // // $config['full_tag_close'] = '</ul>';
+    // //
+    // // $config['first_tag_open'] = '<li>';
+    // // $config['last_tag_open'] = '<li>';
+    // //
+    // // $config['next_tag_open'] = '<li>';
+    // // $config['prev_tag_open'] = '<li>';
+    // //
+    // // $config['num_tag_open'] = '<li>';
+    // // $config['num_tag_close'] = '</li>';
+    // //
+    // // $config['first_tag_close'] = '</li>';
+    // // $config['last_tag_close'] = '</li>';
+    // //
+    // // $config['next_tag_close'] = '</li>';
+    // // $config['prev_tag_close'] = '</li>';
+    // //
+    // // $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    // // $config['cur_tag_close'] = '</b></span></li>';
+    // // $this->pagination->initialize($config);
+    // // $this->data['topics'] = $this->Forums->function_pagination($limit, $offset);
+    // $this->load->view('forum/all',$this->data);
 
-		$query2= $this->db->get('topics');
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Forum/all';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$config['base_url'] = '/Forum/all';
-		$config['total_rows'] = $query2->num_rows();
-		$config['per_page'] = 10;
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
 
-		$config['first_tag_open'] = '<li>';
-		$config['last_tag_open'] = '<li>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		$config['next_tag_open'] = '<li>';
-		$config['prev_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
 
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
 
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_close'] = '</li>';
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['topics'] = $this->Forums->function_pagination($limit, $offset);
+    $this->load->view('forum/topics/all',$this->data);
+  }
 
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_close'] = '</li>';
+  public function faqs()
+  {
+    $query2= $this->db->get_where('topics', ['created_by' => 'Admin']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Forum/faqs';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-		$config['cur_tag_close'] = '</b></span></li>';
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$this->pagination->initialize($config);
-    $this->load->view('forum/all',$this->data);
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['faqs'] = $this->Forums->function_pagination_faqs($limit, $offset);
+    $this->load->view('forum/faqs/all',$this->data);
   }
 
   public function result()
@@ -99,15 +193,23 @@ class Forum extends CI_Controller
   {
     if (!empty($this->input->get('keyword')))
     {
-      if ($this->input->get('keyword') =='all') {
-        $this->data['topics'] = $this->Forums->get_topics();
-        if (!empty($this->data['topics']))
+      if ($this->input->get('filter') == 'all')
+      {
+        $this->data['results'] = $this->Forums->get_search_result($this->input->get('keyword'));
+        if (!empty($this->data['results']))
         {
-          foreach ($this->data['topics'] as $key => $topic) {
+          foreach ($this->data['results'] as $key => $result) {
             echo '
               <tr>
-                <td>'.$topic->topic.'</td>
-                <td>'.date('F j Y',$date = strtotime($topic->date_created)).'</td>
+                <td>
+                  <ul class="topics">
+                    <li><a href="/Forum/topic/'.$result->topic_id.'"><h4>'.$result->topic.'</h4></a></li>
+                    <ul class="list-inline topic-details">
+                      <li><span><i class="ion-android-person"></i> </span>Added by: '.$result->username.'</li>
+                      <li><span><i class="ion-ios-calendar"></i> </span>'.date("F j Y",$date = strtotime($result->date_created)).'</li>
+                    </ul>
+                  </ul>
+                </td>
               </tr>
             ';
           }
@@ -120,15 +222,23 @@ class Forum extends CI_Controller
           ";
         }
       }
-      else {
-        $this->data['results'] = $this->Forums->get_search_result($this->input->get('keyword'));
+      else
+      {
+        $this->data['results'] = $this->Forums->get_faqs_search_result($this->input->get('keyword'));
         if (!empty($this->data['results']))
         {
           foreach ($this->data['results'] as $key => $result) {
             echo '
               <tr>
-                <td>'.$result->topic.'</td>
-                <td>'.date('F j Y',$date = strtotime($result->date_created)).'</td>
+                <td>
+                  <ul class="topics">
+                    <li><a href="/Forum/topic/'.$result->topic_id.'"><h4>'.$result->topic.'</h4></a></li>
+                    <ul class="list-inline topic-details">
+                      <li><span><i class="ion-android-person"></i> </span>Added by: '.$result->created_by.'</li>
+                      <li><span><i class="ion-ios-calendar"></i> </span>'.date("F j Y",$date = strtotime($result->date_created)).'</li>
+                    </ul>
+                  </ul>
+                </td>
               </tr>
             ';
           }
@@ -209,6 +319,39 @@ class Forum extends CI_Controller
       if ($this->db->insert('comments',$Comment)) {
         echo '<script>alert("Reply sucessfully submitted!");</script>';
         redirect('/Forum/topic/'.$topic_id, 'refresh');
+      }
+    }
+  }
+
+  public function add_topic()
+  {
+    $this->load->view('forum/add/index',$this->data);
+  }
+
+  public function save_topic()
+  {
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter a descriptive title for your question'
+        )
+    );
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('forum/add/index',$this->data);
+    }
+    else
+    {
+      $Topic = [
+        'created_by' => $this->traveller_id,
+        'topic' => $this->input->post('title'),
+        'description' => $this->input->post('description'),
+        'date_created' => date("Y-m-d")
+      ];
+      if ($this->db->insert('topics',$Topic)) {
+        echo '<script>alert("Topic created!");</script>';
+        redirect('/Forum/add_topic', 'refresh');
       }
     }
   }

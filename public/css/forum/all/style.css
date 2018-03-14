@@ -1,5 +1,5 @@
 body{
-  padding-top: 100px;
+  padding-top: 80px;
   margin: 0;
   background-color: #ebe9e9;
 }
@@ -126,6 +126,10 @@ body{
 /* END of Breadcrumb & Header*/
 
 /* CONTENT*/
+.box{
+  background-color:#fff;
+  border-left: 5px solid #ebe9e9;
+}
 /* Tabs panel */
 .tabbable-panel {
   border:1px solid #eee;
@@ -189,18 +193,18 @@ body{
 .forum-header{
   margin-bottom: 50px;
 }
-.forum-header h1{
+.forum-header h3{
   font-family: 'Playfair Display', serif;
   font-weight: 700;
 }
-.create-div button{
-  margin-right:15px;
+.create-div a{
+  margin-left:15px;
   background-color: #f37430;
   color: #fff;
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: bold;
 }
-.create-div button:hover{
+.create-div a:hover{
   color: #fff;
 }
 .search-box{
@@ -231,12 +235,19 @@ body{
   margin-top: 5px;
 }
 .main-content{
+  font-family: 'Roboto Condensed', sans-serif;
   margin-top: 5px;
   /*padding: 50px;*/
   /*background-color: #fff;*/
   border-radius: 5px;
   border-left: 15px solid #ebe9e9;
   /*border-right: 15px solid #ebe9e9;*/
+}
+.main-content button{
+  font-weight: bold;
+}
+.main-content a{
+  font-weight: bold;
 }
 .content ul {
   margin: 0;
