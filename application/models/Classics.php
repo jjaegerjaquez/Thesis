@@ -96,9 +96,9 @@ class Classics extends CI_Model
     }
   }
 
-  public function get_home_title($user_id)
+  public function get_home_title($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'home_title'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'home_title'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -106,9 +106,9 @@ class Classics extends CI_Model
     }
   }
 
-  public function get_home_description($user_id)
+  public function get_home_description($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'home_description'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'home_description'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -128,9 +128,9 @@ class Classics extends CI_Model
     return $this->db->update('contents', $Home_Description);
   }
 
-  public function get_featured_image($user_id)
+  public function get_featured_image($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'about_featured_image'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'about_featured_image'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -138,9 +138,9 @@ class Classics extends CI_Model
     }
   }
 
-  public function get_about_description($user_id)
+  public function get_about_description($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'about_description'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'about_description'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {

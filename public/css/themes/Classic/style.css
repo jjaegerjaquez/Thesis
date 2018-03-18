@@ -76,9 +76,24 @@ html, body {
 /*END OF SWITCH*/
 
 /* MENU */
+.btn-style{
+   margin-top:20px;
+   background-color: #f37430;
+   border: none;
+}
+.btn-style:hover{
+   background-color: #f37430;
+}
+.btn-style span{
+  font-family: 'Roboto Condensed', sans-serif;
+}
+.theme-ul{
+  list-style: none;
+}
 .vertical-menu{
   margin-top: 20px;
   padding-bottom: 20px;
+  padding-top: 20px;
 }
 .vertical-menu a {
     /*background-color: #FFFFFF;*/

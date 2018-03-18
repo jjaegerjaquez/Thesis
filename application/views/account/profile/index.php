@@ -133,7 +133,7 @@
           <div class="form-group">
             <label>Business Category:</label>
             <select class="form-control" name="category" id="category">
-              <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category?> <?php endif; ?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
+              <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category?><?php endif;?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
               <?php foreach ($categories as $key => $category): ?>
                 <option value ="<?php echo $category->category?>"><?php echo $category->category?></option>
               <?php endforeach; ?>
@@ -143,7 +143,7 @@
           <div class="form-group">
             <label>City/Province:</label>
             <select class="form-control" name="city_province" id="city_province">
-              <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?> <?php endif; ?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
+              <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
               <?php foreach ($localities as $key => $locality): ?>
                 <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
               <?php endforeach; ?>
@@ -152,35 +152,35 @@
           </div>
           <div class="form-group">
             <label>Business Name:</label>
-            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?> <?php endif; ?>" maxlength="25">
+            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name?><?php endif; ?>" maxlength="25">
             <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
           </div>
           <div class="form-group">
             <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?> <?php endif; ?>" maxlength="50">
+            <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
           </div>
           <div class="form-group">
             <label>Cellphone Number: (Do NOT include the leading 0)</label>
             <div class="input-group">
               <div class="input-group-addon"><i>+63</i></div>
-              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone ?> <?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
+              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone?><?php endif;?>" placeholder="917XXXXXXX" maxlength="10">
             </div>
             <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Telephone Number:</label>
-            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?> <?php endif; ?>" maxlength="11">
+            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif;?>" maxlength="11">
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Contact Person:</label>
-            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?> <?php endif; ?>" maxlength="50">
+            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
           </div>
           <div class="form-group">
             <label>Website URL:</label>
-            <input type="text" name="website_address" class="form-control" value="<?php if (!empty($details->website_url)): ?> <?php echo $details->website_url ?> <?php endif; ?>">
+            <input type="text" name="website_address" class="form-control" value="<?php if (!empty($details->website_url)): ?> <?php echo $details->website_url ?><?php endif; ?>">
             <span style="color:red" class="help-block"><?php echo form_error("website_address");?></span>
           </div>
           <div class="form-group">

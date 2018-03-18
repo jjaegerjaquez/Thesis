@@ -23,7 +23,7 @@
     <h4>Travel Hub</h4>
   </div>
   <div class="container text-center setup-header">
-    <span>Step 3 of 3</span>
+    <span>Step 3</span>
     <h3>Let's set up your site look</h3>
     <p>Choose which theme your site will use</p>
   </div>
@@ -39,7 +39,7 @@
             <div class = "caption">
               <h3><?php echo $theme->theme?></h3>
               <p>
-                <form class="" action="/Account/save_template" method="post">
+                <form class="" action="/Account/new_theme" method="post">
                   <a target="_blank" href = "/Theme/preview/<?php echo $theme->theme?>" class = "btn btn-primary" role = "button">Preview</a>
                   <button type="submit" name="template" class = "btn btn-primary" value="<?php echo $theme->theme?>">Apply</button>
                 </form>

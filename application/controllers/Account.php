@@ -35,6 +35,7 @@ class Account extends CI_Controller
       $this->data['businesses'] = $this->Accounts->get_businesses($this->user_id);
       $this->data['localities'] = $this->Accounts->get_localities();
       $this->data['categories'] = $this->Accounts->get_categories();
+      $this->data['themes'] = $this->Accounts->get_themes();
     }
 	}
 
@@ -713,6 +714,29 @@ class Account extends CI_Controller
       }else {
         redirect('/Account/step_three', 'refresh');
       }
+    }
+  }
+
+  public function step_three()
+  {
+    $this->load->view('account/new/step3/index',$this->data);
+  }
+
+  public function new_theme()
+  {
+    $template = $this->input->post('template');
+    $Template = [
+      'theme' => $this->input->post('template')
+    ];
+
+    if ($this->Accounts->update_new_theme($Template,$this->user_id,$_SESSION['business'])) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+    {
+      redirect('/Account', 'refresh');
+    }
+    else
+    {
+      echo '<script>alert("Something went wrong...");</script>';
+      redirect('/Account/themes', 'refresh');
     }
   }
 

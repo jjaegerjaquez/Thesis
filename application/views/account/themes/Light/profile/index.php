@@ -65,17 +65,55 @@
         <li><a href="/Account">Back to Dashboard</a></li>
         <li class="active">Profile</li>
       </ul>
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="col-lg-12 switch" style="padding:0;">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <?php if (count($businesses) == 1): ?>
+                  <a href="#" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> </a>
+                <?php else: ?>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> <span class="caret"></span></a>
+                <?php endif; ?>
+                  <?php if (!empty($businesses)): ?>
+                    <ul class="dropdown-menu">
+                      <?php foreach ($businesses as $key => $business): ?>
+                        <?php if ($business->business_name == $business_name): ?>
+                        <?php else: ?>
+                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php else: ?>
+                  <?php endif; ?>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
 
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <?php if (!empty($business->image)): ?>
-          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php if (!empty($details->image)): ?>
+          <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
+        <div class="add-box pull-right">
+          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+        </div>
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile" class="active">Profile</a>
@@ -103,7 +141,7 @@
           <div class="form-group">
             <label>Business Category:</label>
             <select class="form-control" name="category" id="category">
-              <option value ="<?php if (!empty($business->category)): ?> <?php echo $business->category ?> <?php endif; ?>" selected><?php if (!empty($business->category)): ?> <?php echo $business->category ?> <?php endif; ?></option>
+              <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category ?><?php endif;?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
               <?php foreach ($categories as $key => $category): ?>
                 <option value ="<?php echo $category->category?>"><?php echo $category->category?></option>
               <?php endforeach; ?>
@@ -113,7 +151,7 @@
           <div class="form-group">
             <label>City/Province:</label>
             <select class="form-control" name="city_province" id="city_province">
-              <option value ="<?php if (!empty($business->locality)): ?> <?php echo $business->locality ?> <?php endif; ?>" selected><?php if (!empty($business->locality)): ?> <?php echo $business->locality ?> <?php endif; ?></option>
+              <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality ?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
               <?php foreach ($localities as $key => $locality): ?>
                 <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
               <?php endforeach; ?>
@@ -122,12 +160,12 @@
           </div>
           <div class="form-group">
             <label>Business Name:</label>
-            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($business->business_name)): ?> <?php echo $business->business_name ?> <?php endif; ?>" maxlength="25">
+            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
             <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
           </div>
           <div class="form-group">
             <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?php if (!empty($business->address)): ?> <?php echo $business->address ?> <?php endif; ?>" maxlength="50">
+            <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
           </div>
 
@@ -135,18 +173,18 @@
             <label>Cellphone Number: (Do NOT include the leading 0)</label>
             <div class="input-group">
               <div class="input-group-addon"><i>+63</i></div>
-              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($business->cellphone)): ?> <?php echo $business->cellphone ?> <?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
+              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone ?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
             </div>
             <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Telephone Number:</label>
-            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($business->telephone)): ?> <?php echo $business->telephone ?> <?php endif; ?>" maxlength="11">
+            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif; ?>" maxlength="11">
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Contact Person:</label>
-            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($business->contact_person)): ?> <?php echo $business->contact_person ?> <?php endif; ?>" maxlength="50">
+            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
           </div>
           <div class="form-group">

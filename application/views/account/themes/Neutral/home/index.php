@@ -152,7 +152,7 @@
           </div>
           <div class="form-group input-width center-block">
             <label>Description:</label>
-            <textarea class="form-control" name="description"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
+            <textarea class="form-control" name="description" rows="8"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
             <span style="color:red" class="help-block"><?php echo form_error('home_page_description'); ?></span>
           </div>
           <div class="form-group">

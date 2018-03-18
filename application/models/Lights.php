@@ -11,6 +11,23 @@ class Lights extends CI_Model
     parent::__construct();
   }
 
+  public function get_theme($business)
+  {
+    $query = $this->db->get_where('basic_info', ['business_name' => $business]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
+  public function get_businesses($user_id)
+  {
+    $query = $this->db->query("select * from basic_info where user_id = '$user_id'");
+    return $query->result();
+  }
+
   public function get_title()
   {
     $query = $this->db->query("select * from layout where meta_key = 'site_title'");
@@ -57,9 +74,9 @@ class Lights extends CI_Model
     return FALSE;
   }
 
-  public function get_business_details($user_id)
+  public function get_business_details($user_id,$business)
   {
-    $query = $this->db->get_where('basic_info', ['user_id' => $user_id]);
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id' and business_name = '$business'");
 
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -79,9 +96,9 @@ class Lights extends CI_Model
     }
   }
 
-  public function get_home_title($user_id)
+  public function get_home_title($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'home_title'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'home_title'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -89,9 +106,9 @@ class Lights extends CI_Model
     }
   }
 
-  public function get_home_description($user_id)
+  public function get_home_description($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'home_description'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'home_description'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -99,9 +116,9 @@ class Lights extends CI_Model
     }
   }
 
-  public function get_home_background_image($user_id)
+  public function get_home_background_image($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'home_background_image'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'home_background_image'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -181,9 +198,9 @@ class Lights extends CI_Model
     return $this->db->update('contents', $Featured_Image);
   }
 
-  public function get_gallery_images($user_id)
+  public function get_gallery_images($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'gallery_image'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'gallery_image'");
     if ($query->num_rows() > 0) {
       return $query->result();
     }
@@ -207,9 +224,9 @@ class Lights extends CI_Model
     return $this->db->update('contents', $Image);
   }
 
-  public function get_facebook_url($user_id)
+  public function get_facebook_url($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'facebook_url'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$this->BusinessName' and meta_key = 'facebook_url'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -217,9 +234,9 @@ class Lights extends CI_Model
     }
   }
 
-  public function get_instagram_url($user_id)
+  public function get_instagram_url($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'instagram_url'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$this->BusinessName' and meta_key = 'instagram_url'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -227,9 +244,9 @@ class Lights extends CI_Model
     }
   }
 
-  public function get_twitter_url($user_id)
+  public function get_twitter_url($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'twitter_url'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$this->BusinessName' and meta_key = 'twitter_url'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -291,10 +308,11 @@ class Lights extends CI_Model
     return $query->result();
   }
 
-  public function update_user_template($Template,$user_id)
+  public function update_user_template($Template,$user_id,$business_name)
   {
     $this->db->where('user_id', $user_id);
-    return $this->db->update('users', $Template);
+    $this->db->where('business_name', $business_name);
+    return $this->db->update('basic_info', $Template);
   }
 
 }

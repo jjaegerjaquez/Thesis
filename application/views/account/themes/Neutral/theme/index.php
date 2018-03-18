@@ -126,7 +126,12 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-bottom:30px;">
         <div class="row text-title header-row">
-          <h2 class="">Themes</h2>
+          <ul class="list-inline theme-ul">
+            <li><h2 class="">Theme</h2></li>
+            <li class="pull-right">
+              <a target="_blank" href="<?php echo $details->website_url ?>" class="btn btn-primary btn-style"><span>Preview my site</span></a>
+            </li>
+          </ul>
           <hr>
         </div>
           <div class="col-lg-12">

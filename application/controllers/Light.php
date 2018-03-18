@@ -26,9 +26,13 @@ class Light extends CI_Controller
     else
     {
       $this->user_id = $_SESSION['user_id'];
+      $this->data['business_name'] = $_SESSION['business'];
+      $this->BusinessName = $_SESSION['business'];
       $this->data['account'] = $this->Lights->get_account_details($this->user_id);
-      $this->data['business'] = $this->Lights->get_business_details($this->user_id);
-      $this->theme = $this->data['account']->template;
+      $this->data['details'] = $this->Lights->get_business_details($this->user_id,$this->BusinessName);
+      $this->data['theme'] = $this->Lights->get_theme($this->data['business_name']);
+      $this->theme = $this->data['theme']->theme;
+      $this->data['businesses'] = $this->Lights->get_businesses($this->user_id);
       $this->data['title'] = $this->Lights->get_title();
       $this->data['tagline'] = $this->Lights->get_tagline();
       $this->data['facebook'] = $this->Lights->get_facebook();
@@ -45,9 +49,9 @@ class Light extends CI_Controller
 
   public function home()
   {
-    $this->data['home_title'] = $this->Lights->get_home_title($this->user_id);
-    $this->data['home_description'] = $this->Lights->get_home_description($this->user_id);
-    $this->data['home_bg'] = $this->Lights->get_home_background_image($this->user_id);
+    $this->data['home_title'] = $this->Lights->get_home_title($this->user_id,$this->BusinessName);
+    $this->data['home_description'] = $this->Lights->get_home_description($this->user_id,$this->BusinessName);
+    $this->data['home_bg'] = $this->Lights->get_home_background_image($this->user_id,$this->BusinessName);
     $this->load->view('account/themes/'.$this->theme.'/home/index',$this->data);
   }
 
@@ -68,7 +72,7 @@ class Light extends CI_Controller
     if ($this->form_validation->run() == TRUE)
     {
       if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'home_background_image'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'home_background_image'");
         if ($query->num_rows() > 0)
         {
           $data['home_bg'] = $query->row();
@@ -112,6 +116,7 @@ class Light extends CI_Controller
 
               $Bg = [
                 'user_id' => $this->user_id,
+                'business_name' => $this->BusinessName,
                 'meta_key' => 'home_background_image',
                 'content_title' => '',
                 'description' => '',
@@ -127,10 +132,10 @@ class Light extends CI_Controller
 
       if (!empty($this->input->post('title')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'home_title'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'home_title'");
         if ($query->num_rows() > 0)
         {
-          $data['home_title'] = $this->Lights->get_home_title($this->user_id);
+          $data['home_title'] = $this->Lights->get_home_title($this->user_id,$this->BusinessName);
           $Home_Title = [
             'value' => $this->input->post('title')
           ];
@@ -142,6 +147,7 @@ class Light extends CI_Controller
         {
           $Home_Title = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'home_title',
             'content_title' => '',
             'description' => '',
@@ -156,10 +162,10 @@ class Light extends CI_Controller
 
       if (!empty($this->input->post('description')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'home_description'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'home_description'");
         if ($query->num_rows() > 0)
         {
-          $data['home_description'] = $this->Lights->get_home_description($this->user_id);
+          $data['home_description'] = $this->Lights->get_home_description($this->user_id,$this->BusinessName);
           $Home_Description = [
             'value' => $this->input->post('description')
           ];
@@ -171,6 +177,7 @@ class Light extends CI_Controller
         {
           $Home_Description = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'home_description',
             'content_title' => '',
             'description' => '',
@@ -188,9 +195,9 @@ class Light extends CI_Controller
 
   public function about()
   {
-    $this->data['about_bg'] = $this->Lights->get_about_background_image($this->user_id);
-    $this->data['about_title'] = $this->Lights->get_about_title($this->user_id);
-    $this->data['about_description'] = $this->Lights->get_about_description($this->user_id);
+    $this->data['about_bg'] = $this->Lights->get_about_background_image($this->user_id,$this->BusinessName);
+    $this->data['about_title'] = $this->Lights->get_about_title($this->user_id,$this->BusinessName);
+    $this->data['about_description'] = $this->Lights->get_about_description($this->user_id,$this->BusinessName);
     $this->load->view('account/themes/'.$this->theme.'/about/index',$this->data);
   }
 
@@ -211,7 +218,7 @@ class Light extends CI_Controller
     if ($this->form_validation->run() == TRUE)
     {
       if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'about_background_image'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'about_background_image'");
         if ($query->num_rows() > 0)
         {
           $data['about_bg'] = $query->row();
@@ -255,6 +262,7 @@ class Light extends CI_Controller
 
               $Bg = [
                 'user_id' => $this->user_id,
+                'business_name' => $this->BusinessName,
                 'meta_key' => 'about_background_image',
                 'content_title' => '',
                 'description' => '',
@@ -270,7 +278,7 @@ class Light extends CI_Controller
 
       if (!empty($this->input->post('title')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'about_title'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'about_title'");
         if ($query->num_rows() > 0) {
 
           $data['about_title'] = $this->Lights->get_about_title($this->user_id);
@@ -285,6 +293,7 @@ class Light extends CI_Controller
 
           $Title = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'about_title',
             'content_title' => '',
             'description' => '',
@@ -300,7 +309,7 @@ class Light extends CI_Controller
 
       if (!empty($this->input->post('description')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'about_description'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'about_description'");
         if ($query->num_rows() > 0) {
 
           $data['about_description'] = $this->Lights->get_about_description($this->user_id);
@@ -315,6 +324,7 @@ class Light extends CI_Controller
 
           $About_Description = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'about_description',
             'content_title' => '',
             'description' => '',
@@ -333,7 +343,7 @@ class Light extends CI_Controller
 
   public function gallery()
   {
-    $this->data['gallery_images'] = $this->Lights->get_gallery_images($this->user_id);
+    $this->data['gallery_images'] = $this->Lights->get_gallery_images($this->user_id,$this->BusinessName);
     $this->load->view('account/themes/'.$this->theme.'/gallery/index',$this->data);
   }
 
@@ -344,7 +354,7 @@ class Light extends CI_Controller
 
   public function save_image()
   {
-    $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and meta_key = 'gallery_image'");
+    $query = $this->db->query("select count(value) as count from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'gallery_image'");
     $count = $query->row();
     if ($count->count < 9)
     {
@@ -365,6 +375,7 @@ class Light extends CI_Controller
 
               $Image = [
                 'user_id' => $this->user_id,
+                'business_name' => $this->BusinessName,
                 'meta_key' => 'gallery_image',
                 'content_title' => '',
                 'description' => '',
@@ -437,6 +448,7 @@ class Light extends CI_Controller
   {
     $this->db->where('content_id', $content_id);
     $this->db->where('user_id', $this->user_id);
+    $this->db->where('business_name', $this->BusinessName);
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
@@ -445,9 +457,9 @@ class Light extends CI_Controller
 
   public function contacts()
   {
-    $this->data['facebook'] = $this->Lights->get_facebook_url($this->user_id);
-    $this->data['instagram'] = $this->Lights->get_instagram_url($this->user_id);
-    $this->data['twitter'] = $this->Lights->get_twitter_url($this->user_id);
+    $this->data['facebook'] = $this->Lights->get_facebook_url($this->user_id,$this->BusinessName);
+    $this->data['instagram'] = $this->Lights->get_instagram_url($this->user_id,$this->BusinessName);
+    $this->data['twitter'] = $this->Lights->get_twitter_url($this->user_id,$this->BusinessName);
     $this->load->view('account/themes/'.$this->theme.'/contacts/index',$this->data);
   }
 
@@ -474,7 +486,7 @@ class Light extends CI_Controller
     {
       if (!empty($this->input->post('facebook')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'facebook_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'facebook_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -497,6 +509,7 @@ class Light extends CI_Controller
         {
           $Facebook = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'facebook_url',
             'content_title' => '',
             'description' => '',
@@ -516,7 +529,7 @@ class Light extends CI_Controller
       }
       if (!empty($this->input->post('instagram')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'instagram_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'instagram_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -539,6 +552,7 @@ class Light extends CI_Controller
         {
           $Instagram = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'instagram_url',
             'content_title' => '',
             'description' => '',
@@ -558,7 +572,7 @@ class Light extends CI_Controller
       }
       if (!empty($this->input->post('twitter')))
       {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and meta_key = 'twitter_url'");
+        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and business_name = '$this->BusinessName' and meta_key = 'twitter_url'");
 
         if ($query->num_rows() > 0)
         {
@@ -581,6 +595,7 @@ class Light extends CI_Controller
         {
           $Twitter = [
             'user_id' => $this->user_id,
+            'business_name' => $this->BusinessName,
             'meta_key' => 'twitter_url',
             'content_title' => '',
             'description' => '',
@@ -612,10 +627,10 @@ class Light extends CI_Controller
   {
     $template = $this->input->post('template');
     $Template = [
-      'template' => $this->input->post('template')
+      'theme' => $this->input->post('template')
     ];
 
-    if ($this->Lights->update_user_template($Template,$this->user_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+    if ($this->Lights->update_user_template($Template,$this->user_id,$this->BusinessName)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
     {
       redirect('/'.$template.'/theme', 'refresh');
 

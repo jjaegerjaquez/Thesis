@@ -149,7 +149,7 @@
           </div>
           <div class="form-group input-width center-block">
             <label>Description:</label>
-            <textarea class="form-control" name="description"><?php if (!empty($about_description->value)) { echo $about_description->value; } ?></textarea>
+            <textarea class="form-control" name="description" rows="8"><?php if (!empty($about_description->value)) { echo $about_description->value; } ?></textarea>
           </div>
           <div class="form-group">
             <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>

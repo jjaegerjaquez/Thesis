@@ -93,6 +93,13 @@ class Accounts extends CI_Model
     return $this->db->update('basic_info', $Template);
   }
 
+  public function update_new_theme($Template,$user_id,$business_name)
+  {
+    $this->db->where('user_id', $user_id);
+    $this->db->where('business_name', $business_name);
+    return $this->db->update('basic_info', $Template);
+  }
+
   public function get_business_template($user_id,$business)
   {
     $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id' and business_name = '$business'");

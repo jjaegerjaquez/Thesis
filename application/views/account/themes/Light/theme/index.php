@@ -63,19 +63,56 @@
     <div class="row">
       <ul class="breadcrumb">
         <li><a href="/Account">Back to Dashboard</a></li>
-        <li class="active">Customizing Contacts Page</li>
+        <li class="active">Themes</li>
       </ul>
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="col-lg-12 switch" style="padding:0;">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <?php if (count($businesses) == 1): ?>
+                  <a href="#" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> </a>
+                <?php else: ?>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> <span class="caret"></span></a>
+                <?php endif; ?>
+                  <?php if (!empty($businesses)): ?>
+                    <ul class="dropdown-menu">
+                      <?php foreach ($businesses as $key => $business): ?>
+                        <?php if ($business->business_name == $business_name): ?>
+                        <?php else: ?>
+                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php else: ?>
+                  <?php endif; ?>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <?php if (!empty($business->image)): ?>
-          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php if (!empty($details->image)): ?>
+          <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
+        <div class="add-box pull-right">
+          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+        </div>
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>
@@ -89,14 +126,19 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="">Theme</h2>
+          <ul class="list-inline theme-ul">
+            <li><h2 class="">Theme</h2></li>
+            <li class="pull-right">
+              <a target="_blank" href="<?php echo $details->website_url ?>" class="btn btn-primary btn-style"><span>Preview my site</span></a>
+            </li>
+          </ul>
           <hr>
         </div>
-          <div class="col-lg-12" style="">
+          <div class="col-lg-12" style="padding-bottom:30px;">
             <?php foreach ($themes as $key => $theme): ?>
               <div class="col-lg-4" style="background-color:#3c3734;padding:20px 10px 10px 10px;border-radius:5px;border-right:5px solid #fff;border-left:5px solid #fff;">
                 <div class = "thumbnail">
-                  <img src = "/uploads/images/admin/themes/<?php echo $theme->image?>" alt = "Generic placeholder thumbnail">
+                  <img src = "/public/img/themes/<?php echo $theme->image?>" alt = "image">
                 </div>
                 <div class = "caption">
                   <h3 style="color:#fff;"><?php echo $theme->theme?></h3>
