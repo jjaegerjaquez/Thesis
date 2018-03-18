@@ -9,6 +9,26 @@ class Accounts extends CI_Model
 
   }
 
+  public function BusinessNameExists($business_name)
+  {
+    $this->db->select('user_id');
+    $this->db->where('business_name', $business_name);
+    $query = $this->db->get('basic_info');
+
+    if ($query->num_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  public function update_business_name($user_id,$Business_Name)
+  {
+    $this->db->where('user_id', $user_id);
+    $this->db->where('position', 'Primary');
+    return $this->db->update('basic_info', $Business_Name);
+  }
+
   public function get_account_details($user_id)
   {
     $query = $this->db->get_where('users', ['user_id' => $user_id]);
@@ -29,11 +49,29 @@ class Accounts extends CI_Model
       return FALSE;
     }
   }
+  public function get_website($user_id,$business)
+  {
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id' and business_name = '$business'");
 
-  public function save_profile($Business_Details,$user_id)
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
+  public function save_profile($Business_Details,$user_id,$Business)
   {
     $this->db->where('user_id', $user_id);
+    $this->db->where('business_name', $Business);
     return $this->db->update('basic_info', $Business_Details);
+  }
+
+  public function update_business_status($user_id,$business_name,$Status)
+  {
+    $this->db->where('user_id', $user_id);
+    $this->db->where('business_name', $business_name);
+    return $this->db->update('basic_info', $Status);
   }
 
   public function get_localities()
@@ -51,12 +89,24 @@ class Accounts extends CI_Model
   public function update_user_template($Template,$user_id)
   {
     $this->db->where('user_id', $user_id);
-    return $this->db->update('users', $Template);
+    $this->db->where('position', 'Primary');
+    return $this->db->update('basic_info', $Template);
   }
 
-  public function get_business_template($user_id)
+  public function get_business_template($user_id,$business)
   {
-    $query = $this->db->get_where('basic_info', ['user_id' => $user_id]);
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id' and business_name = '$business'");
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
+  public function get_theme($business)
+  {
+    $query = $this->db->get_where('basic_info', ['business_name' => $business]);
 
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -71,9 +121,15 @@ class Accounts extends CI_Model
     return $query->result();
   }
 
-  public function get_site_logo($user_id)
+  public function get_businesses($user_id)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'site_logo'");
+    $query = $this->db->query("select * from basic_info where user_id = '$user_id'");
+    return $query->result();
+  }
+
+  public function get_site_logo($user_id,$business_name)
+  {
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_logo'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -81,9 +137,9 @@ class Accounts extends CI_Model
     }
   }
 
-  public function get_site_title($user_id)
+  public function get_site_title($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'site_title'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_title'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -91,9 +147,9 @@ class Accounts extends CI_Model
     }
   }
 
-  public function get_site_tagline($user_id)
+  public function get_site_tagline($user_id,$business_name)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and meta_key = 'site_tagline'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_tagline'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {

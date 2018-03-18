@@ -26,8 +26,19 @@ class Classic extends CI_Controller
     else
     {
       $this->user_id = $_SESSION['user_id'];
+      $this->data['business_name'] = $_SESSION['business'];
+      $this->BusinessName = $_SESSION['business'];
       $this->data['account'] = $this->Classics->get_account_details($this->user_id);
-      $this->data['business'] = $this->Classics->get_business_details($this->user_id);
+      $this->data['details'] = $this->Classics->get_business_details($this->user_id,$this->BusinessName);
+      $this->data['theme'] = $this->Classics->get_theme($this->data['business_name']);
+      $this->theme = $this->data['theme']->theme;
+      $this->data['businesses'] = $this->Classics->get_businesses($this->user_id);
+      $this->data['title'] = $this->Classics->get_title();
+      $this->data['tagline'] = $this->Classics->get_tagline();
+      $this->data['facebook'] = $this->Classics->get_facebook();
+      $this->data['instagram'] = $this->Classics->get_instagram();
+      $this->data['twitter'] = $this->Classics->get_twitter();
+      $this->data['google'] = $this->Classics->get_google();
     }
 	}
 
@@ -234,9 +245,8 @@ class Classic extends CI_Controller
 
   public function gallery()
   {
-    $theme = $this->data['account']->template;
-    $this->data['gallery_images'] = $this->Classics->get_gallery_images($this->user_id);
-    $this->load->view('account/themes/'.$theme.'/gallery/index',$this->data);
+    $this->data['gallery_images'] = $this->Classics->get_gallery_images($this->user_id,$this->BusinessName);
+    $this->load->view('account/themes/'.$this->theme.'/gallery/index',$this->data);
   }
 
   public function add_image()
@@ -353,11 +363,10 @@ class Classic extends CI_Controller
 
   public function contacts()
   {
-    $theme = $this->data['account']->template;
-    $this->data['facebook'] = $this->Classics->get_facebook_url($this->user_id);
-    $this->data['instagram'] = $this->Classics->get_instagram_url($this->user_id);
-    $this->data['twitter'] = $this->Classics->get_twitter_url($this->user_id);
-    $this->load->view('account/themes/'.$theme.'/contacts/index',$this->data);
+    $this->data['facebook'] = $this->Classics->get_facebook_url($this->user_id,$this->BusinessName);
+    $this->data['instagram'] = $this->Classics->get_instagram_url($this->user_id,$this->BusinessName);
+    $this->data['twitter'] = $this->Classics->get_twitter_url($this->user_id,$this->BusinessName);
+    $this->load->view('account/themes/'.$this->theme.'/contacts/index',$this->data);
   }
 
   public function save_contacts()
@@ -513,15 +522,13 @@ class Classic extends CI_Controller
 
   public function image_slider()
   {
-    $theme = $this->data['account']->template;
-    $this->data['slider_images'] = $this->Classics->get_slider_images($this->user_id);
-    $this->load->view('account/themes/'.$theme.'/image_slider/index',$this->data);
+    $this->data['slider_images'] = $this->Classics->get_slider_images($this->user_id,$this->BusinessName);
+    $this->load->view('account/themes/'.$this->theme.'/image_slider/index',$this->data);
   }
 
   public function add_image_slider()
   {
-    $theme = $this->data['account']->template;
-    $this->load->view('account/themes/'.$theme.'/image_slider/add',$this->data);
+    $this->load->view('account/themes/'.$this->theme.'/image_slider/add',$this->data);
   }
 
   public function save_image_slider()
@@ -632,19 +639,18 @@ class Classic extends CI_Controller
 
   public function theme()
   {
-    $theme = $this->data['account']->template;
     $this->data['themes'] = $this->Classics->get_themes();
-    $this->load->view('account/themes/'.$theme.'/theme/index',$this->data);
+    $this->load->view('account/themes/'.$this->theme.'/theme/index',$this->data);
   }
 
   public function save_template()
   {
     $template = $this->input->post('template');
     $Template = [
-      'template' => $this->input->post('template')
+      'theme' => $this->input->post('template')
     ];
 
-    if ($this->Classics->update_user_template($Template,$this->user_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
+    if ($this->Classics->update_user_template($Template,$this->user_id,$this->BusinessName)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
     {
       redirect('/'.$template.'/theme', 'refresh');
 

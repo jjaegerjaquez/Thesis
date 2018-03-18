@@ -18,7 +18,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Classic/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Neutral/style.css">
 </head>
 <body>
 
@@ -64,19 +64,56 @@
       <ul class="breadcrumb">
         <li><a href="/Account">Back to Dashboard</a></li>
         <li><a href="/Neutral/gallery">Customize Gallery</a></li>
-        <li class="active">View Image</li>
+        <li class="active">View image</li>
       </ul>
+      <div class="col-lg-3">
+        <div class="row">
+          <div class="col-lg-12 switch" style="padding:0;">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <?php if (count($businesses) == 1): ?>
+                  <a href="#" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> </a>
+                <?php else: ?>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <?php echo $business_name?>
+                  <?php else: ?>
+                    Business
+                  <?php endif; ?> <span class="caret"></span></a>
+                <?php endif; ?>
+                  <?php if (!empty($businesses)): ?>
+                    <ul class="dropdown-menu">
+                      <?php foreach ($businesses as $key => $business): ?>
+                        <?php if ($business->business_name == $business_name): ?>
+                        <?php else: ?>
+                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    </ul>
+                  <?php else: ?>
+                  <?php endif; ?>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <section class="container">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-        <?php if (!empty($business->image)): ?>
-          <img src="<?php echo $business->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <?php if (!empty($details->image)): ?>
+          <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
+        <div class="add-box pull-right">
+          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+        </div>
         <div class="vertical-menu">
           <a href="/Account">Dashboard</a>
           <a href="/Account/profile">Profile</a>

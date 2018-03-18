@@ -121,6 +121,21 @@ class Homes extends CI_Model
     }
   }
 
+  public function fetch_basic_info($user_id)
+  {
+    // $this->db->select('*');
+    // $this->db->where('user_id', $user_id);
+    // $this->db->where('position', 'Primary');
+    // $query = $this->db->get('basic_info');
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id' and position = 'Primary'");
+
+    if ($query->num_rows() > 0) {
+        return $query->row();
+    } else {
+        return false;
+    }
+  }
+
   public function get_traveller_details($traveller_id)
   {
     $query = $this->db->get_where('users', ['user_id' => $traveller_id]);
@@ -177,9 +192,9 @@ class Homes extends CI_Model
     return FALSE;
   }
 
-  public function update_set_up($user_id,$status)
+  public function update_set_up($user_id)
   {
-    $data = array('website' => $status, 'set_up' => '1' );
+    $data = array('set_up' => '1' );
     $this->db->where('user_id', $user_id);
     return $this->db->update('users', $data);
   }

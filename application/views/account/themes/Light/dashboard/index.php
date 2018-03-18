@@ -62,7 +62,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li class="active">Welcome to Travel Hub > Light</li>
+        <li class="active">Welcome to Travel Hub</li>
       </ul>
     </div>
   </div>

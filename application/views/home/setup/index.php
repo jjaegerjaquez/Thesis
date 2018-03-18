@@ -20,29 +20,34 @@
 </head>
 <body>
   <div class="container-fluid header">
-    <h3>Travel Hub</h3>
+    <h4>Travel Hub</h4>
   </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <div class="jumbotron jumbo-style">
-          <h2 class="jumbo-header">Get Started.</h2>
-          <p>Welcome to <span class="get-started-logo">Travel Hub!</span>To get you started, we need to ask you if you have an existing website.</p>
-          <form class="" action="/Home/set_up_save" method="post">
+  <div class="container text-center setup-header">
+    <span>Step 2 of 3</span>
+    <h3>Let's give your site a name</h3>
+    <p>Please answer the question below so we can get you started</p>
+  </div>
+  <form class="" action="/Home/set_up_save" method="post">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6 box">
             <div class="form-group">
+              <label>Do you have an existing business website?</label>
               <select class="form-control" name="select">
                 <option value="Yes">Yes, I have an existing website.</option>
                 <option value="No">No, I currently don't have an existing website.</option>
               </select>
             </div>
-            <p><input class="btn btn-primary btn-lg back-btn" type="submit" name="update" id="save" value="Save"></input></p>
-          </form>
         </div>
       </div>
-      <div class="col-md-2"></div>
+      <div class="row">
+        <div class="col-lg-6 col-lg-offset-3 footer-setup text-center">
+          <input class="btn btn-primary btn-lg back-btn" type="submit" name="update" id="save" value="Next"></input>
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>

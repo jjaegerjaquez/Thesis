@@ -234,6 +234,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Supplier" value="Register" id="Register">
@@ -278,6 +281,9 @@
                     <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
                     <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
                   </div>
+                </div>
+                <div class="agreement-box">
+                  <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
                 </div>
               </form>
             </div>
