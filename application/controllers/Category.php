@@ -48,7 +48,7 @@ class Category extends CI_Controller
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
       }
       rsort($this->data['votes']);
       for ($i=0; $i <$count ; $i++) {
@@ -65,10 +65,10 @@ class Category extends CI_Controller
       foreach ($this->data['results'] as $key => $result) {
         $count++;
       }
-
       for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
       }
+      // print_r($this->data['rates']);
       rsort($this->data['rates']);
       for ($i=0; $i <$count ; $i++) {
         $this->data['results'][$i] = $this->Categories->get_business_details($this->data['rates'][$i]->business_id);
@@ -80,16 +80,17 @@ class Category extends CI_Controller
     elseif ($filter == 'recent')
     {
       $this->data['results'] = $this->Categories->get_category_result_by_date($category);
+
       foreach ($this->data['results'] as $key => $result) {
         $count++;
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
       }
     }
     else
@@ -100,11 +101,11 @@ class Category extends CI_Controller
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->user_id);
+        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->user_id);
+        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
       }
     }
     $this->data['ctr']=$count;
@@ -121,7 +122,7 @@ class Category extends CI_Controller
   public function view($business_name)
   {
     $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
-    $business_id = $this->data['business']->user_id;
+    $business_id = $this->data['business']->id;
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $query = $this->db->query("select * from votes where voter_id = '$this->traveller_id' and business_id = '$business_id'");
@@ -130,11 +131,11 @@ class Category extends CI_Controller
         $this->data['voted'] = 'Voted';
       }
     }
-    $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
-    $this->data['rate'] = $this->Categories->get_rates($this->data['business']->user_id);
-    $this->data['vote'] = $this->Categories->get_vote($this->data['business']->user_id);
-    $this->data['reviews'] = $this->Categories->get_reviews($this->data['business']->user_id);
-    $this->data['review_count'] = $this->Categories->get_review_count($this->data['business']->user_id);
+    // $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
+    $this->data['rate'] = $this->Categories->get_rates($business_id);
+    $this->data['vote'] = $this->Categories->get_vote($business_id);
+    $this->data['reviews'] = $this->Categories->get_reviews($business_id);
+    $this->data['review_count'] = $this->Categories->get_review_count($business_id);
     $this->load->view('categories/view_business/index',$this->data);
   }
 

@@ -77,7 +77,7 @@ class Categories extends CI_Model
 
   public function get_business_by_Id($business_id)
   {
-    $query = $this->db->get_where('basic_info', ['user_id' => $business_id]);
+    $query = $this->db->get_where('basic_info', ['id' => $business_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -93,24 +93,48 @@ class Categories extends CI_Model
   public function get_votes($business_id)
   {
     $query = $this->db->query("select count(business_id) as vote,business_id from votes WHERE business_id = '$business_id'");
-    return $query->row();
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if ($res->vote == '0') {
+        $business = new stdClass;
+        $business->vote = "0";
+        $business->business_id = $business_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
   }
 
   public function get_rates($business_id)
   {
     $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
-    return $query->row();
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if (empty($res->rate)) {
+        $business = new stdClass;
+        $business->rate = "0";
+        $business->business_id = $business_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
   }
 
   public function get_business_details($user_id)
   {
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id'");
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE id = '$user_id'");
     return $query->row();
   }
 
   public function get_category_result_by_date($category)
   {
-    $query = $this->db->query("select bi.user_id,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where category = '$category' ORDER by u.date_joined desc");
+    // $query = $this->db->query("select bi.user_id,bi.id,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where category = '$category' ORDER by bi.date_created desc");
+    $ctgry = str_replace('_', ' ', $category);
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry' ORDER by date_created desc");
     return $query->result();
   }
 

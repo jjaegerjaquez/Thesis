@@ -68,9 +68,17 @@
   <div id="slider" class="carousel slide" data-ride="carousel">
     <!-- indicators dot nav -->
     <ol class="carousel-indicators">
-      <li data-target="#slider" data-slide-to="0" class="active"></li>
-      <li data-target="#slider" data-slide-to="1"></li>
-      <li data-target="#slider" data-slide-to="2"></li>
+      <?php if (!empty($image_sliders)): ?>
+        <?php $ctr = 1;?>
+        <?php foreach ($image_sliders as $key => $image_slider): ?>
+          <li data-target="#slider" data-slide-to="<?php echo $ctr ?>" class="<?php if($ctr <=1 ){ echo 'active';}?>"></li>
+          <?php $ctr++;?>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <li data-target="#slider" data-slide-to="0" class="active"></li>
+        <li data-target="#slider" data-slide-to="1"></li>
+        <li data-target="#slider" data-slide-to="2"></li>
+      <?php endif; ?>
     </ol>
     <!-- wrapper for slides -->
     <div class="carousel-inner" role="listbox">

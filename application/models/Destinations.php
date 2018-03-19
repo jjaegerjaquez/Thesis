@@ -136,7 +136,7 @@ class Destinations extends CI_Model
 
   public function get_business_details($user_id)
   {
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE user_id = '$user_id'");
+    $query = $this->db->query("SELECT * FROM `basic_info` WHERE id = '$user_id'");
     return $query->row();
   }
 
@@ -161,7 +161,8 @@ class Destinations extends CI_Model
   public function get_locality_result_by_date($locality)
   {
     $lclty = str_replace('_', ' ', $locality);
-    $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
     return $query->result();
   }
 
@@ -169,7 +170,8 @@ class Destinations extends CI_Model
   {
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
-    $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' and category = '$ctgry' ORDER by u.date_joined desc");
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' and category = '$ctgry' ORDER by u.date_joined desc");
+    $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' and category = '$ctgry' ORDER by date_created desc");
     return $query->result();
   }
 

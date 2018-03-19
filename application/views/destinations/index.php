@@ -289,7 +289,7 @@
   <div class="container">
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
-  	     <li><a href="">Home</a></li>
+  	     <li><a href="<?php echo base_url() ?>">Home</a></li>
          <li>Destinations</li>
          <li><?php echo $destination?></li>
   		</ul>
@@ -527,11 +527,6 @@
   $(document).ready(function(){
     $("input[name='filter']").on("click", function() {
       var destination = "<?php echo str_replace(' ', '_', $destination)?>";
-          // alert($(this).val());
-          // $(this).classList.add("mystyle");
-          // var filter = {
-          //     register_email: $('#traveller_register_email').val(),
-          // };
           $.ajax({
               url: "/Destination/result/"+destination,
               type: 'POST',

@@ -320,7 +320,7 @@
                 <span style="font-size:25px;">
                   <?php echo $business->business_name?>
                   <div class="pull-right">
-                    <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $business->user_id?>"/>
+                    <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $business->id?>"/>
                     <label for="toggle-heart">❤</label>
                   </div>
                 </span>
@@ -418,7 +418,7 @@
         <div id="review_error_msg"></div>
         <!-- Rating Stars Box -->
         <div class='rating-stars text-center'>
-          <ul id='stars' name="<?php echo $business->user_id?>">
+          <ul id='stars' name="<?php echo $business->id?>">
             <li class='star' title='Poor' data-value='1'>
               <i class='fa fa-star fa-fw'></i>
             </li>
@@ -635,23 +635,13 @@ $('#toggle-heart').on('click',function () {
           type: 'POST',
           data: vote,
           success: function(message) {
-            // alert(message);
             if (message > 1) {
               $('#vote').html('Votes: '+message);
             }else {
               $('#vote').html('Vote: '+message);
             }
-            // }else if (message=='Unsucessful') {
-            //   $('#register').hide();
-            //   $(location).attr('href','/Verify/not_sent');
-            // }
-            // else {
-            //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-            // }
-            // alert('Success');
           }
       });
-        // alert('You Un-Checked it');
     }
 });
 $('#review').keyup(function () {
@@ -709,7 +699,7 @@ $(document).ready(function(){
         msg = "Thanks! You rated this " + ratingValue + " stars.";
     }
     else {
-        msg = "We will improve ourselves. You rated this " + ratingValue + " stars.";
+        msg = "You rated this " + ratingValue + " stars.";
     }
     responseMessage(msg);
 

@@ -60,7 +60,7 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
         }
 
         if (!empty($this->data['votes'])) {
@@ -199,7 +199,7 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
         }
 
         if (!empty($this->data['rates'])) {
@@ -336,11 +336,11 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
         }
 
         if (!empty($count))
@@ -469,7 +469,7 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
         }
 
         rsort($this->data['votes']);
@@ -585,7 +585,7 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
         }
 
         rsort($this->data['rates']);
@@ -700,11 +700,11 @@ class Destination extends CI_Controller
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+          $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
         }
 
         for ($i=0; $i <$count ; $i++) {
-          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+          $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
         }
 
         if (!empty($count))
@@ -812,11 +812,11 @@ class Destination extends CI_Controller
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+        $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+        $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
       }
 
       if (!empty($count))
@@ -924,11 +924,11 @@ class Destination extends CI_Controller
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+        $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
       }
 
       for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+        $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
       }
 
       // print_r($this->data['rates']);
@@ -936,80 +936,9 @@ class Destination extends CI_Controller
       $this->data['ctr'] = $count;
       $this->load->view('destinations/index',$this->data);
     }
-    // $count = 0;
-    // $this->data['results'] = $this->Destinations->get_locality_result($locality);
-    // foreach ($this->data['results'] as $key => $result) {
-    //   $count++;
-    // }
-    //
-    // for ($i=0; $i <$count ; $i++) {
-    //   $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
-    // }
-  //   if ($filter == 'popular')
-  //   {
-  //     $this->data['results'] = $this->Destinations->get_locality_result($locality);
-  //     foreach ($this->data['results'] as $key => $result) {
-  //       $count++;
-  //     }
-  //
-  //     for ($i=0; $i <$count ; $i++) {
-  //       $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
-  //     }
-  //     rsort($this->data['votes']);
-  //     for ($i=0; $i <$count ; $i++) {
-  //       $this->data['results'][$i] = $this->Destinations->get_business_details($this->data['votes'][$i]->business_id);
-  //     }
-  //
-  //     for ($i=0; $i <$count ; $i++) {
-  //       $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['votes'][$i]->business_id);
-  //     }
-  //   }
-  //   elseif ($filter == 'ratings')
-  //   {
-  //
-  //   }
-  //   elseif ($filter == 'recent')
-  //   {
-  //
-  //   }
-  //   else
-  //   {
-  //     $this->data['results'] = $this->Destinations->get_locality_result($locality);
-  //     foreach ($this->data['results'] as $key => $result) {
-  //       $count++;
-  //     }
-  //
-  //     for ($i=0; $i <$count ; $i++) {
-  //       $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
-  //     }
-  //
-  //     for ($i=0; $i <$count ; $i++) {
-  //       $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
-  //     }
-  //   }
-  //   if (condition) {
-  //     # code...
-  //   }
-  //   $this->data['ctr']=$count;
 
-    // $filter = $_GET['filter'];
-    // $locality = $_GET['locality'];
-    // if (!empty($filter) && !empty($locality)) {
-    //   echo $filter;
-    //   echo $locality;
-    // }
-    // foreach ($_GET as $key=>$value) {
-    //   $val[]=$value;
-    // }
-    // for ($i=0; $i <2 ; $i++) {
-    //   echo $val[$i];
-    // }
   }
-  //
-  // public function search()
-  // {
-  //   $this->load->view('home/search');
-  // }
+
 
   public function original_result($locality)
   {
@@ -1020,11 +949,11 @@ class Destination extends CI_Controller
     }
 
     for ($i=0; $i <$count ; $i++) {
-      $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->user_id);
+      $this->data['votes'][$i] = $this->Destinations->get_votes($this->data['results'][$i]->id);
     }
 
     for ($i=0; $i <$count ; $i++) {
-      $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->user_id);
+      $this->data['rates'][$i] = $this->Destinations->get_rates($this->data['results'][$i]->id);
     }
 
     if (!empty($count))

@@ -592,6 +592,9 @@ html, body {
 .agreement-box span{
   color: #7FB3E1;
 }
+.dropdown-menu .header{
+  margin-bottom: 0;
+}
 .header{
   background-color:#f37430;
   padding-top: 5px;

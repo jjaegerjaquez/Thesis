@@ -317,8 +317,6 @@ class Home extends CI_Controller
                   'username' => $this->input->post('username'),
                   'password' => md5($this->input->post('register_password')),
                   'date_joined' => date("Y-m-d"),
-                  'website' => 'NA',
-                  'template' => 'NA',
                   'set_up' => '1',
                   'status' => '1',
                   'type' => $this->input->post('type')
