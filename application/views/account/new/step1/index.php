@@ -14,9 +14,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/setup/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/style.css">
 </head>
 <body>
   <div class="container-fluid header">
@@ -24,23 +24,26 @@
   </div>
   <div class="container text-center setup-header">
     <span>Step 1</span>
-    <h3>Tell us your business name</h3>
-    <p>Enter the name of your business - your business name will appear on client search</p>
+    <h3>Let's get you started</h3>
+    <p>Please answer the question below so we can get you started</p>
   </div>
-  <form class="" action="/Account/save_business_name" method="post">
+  <form class="" action="/Account/save_step_one" method="post">
     <div class="container">
       <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6 box">
-          <div class="form-group">
-            <input type="text" name="business_name" class="form-control" value="" maxlength="50" placeholder="e.g. Jam's Cafe, Villa Excellence Resort">
-            <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
-          </div>
+            <div class="form-group">
+              <label>Do you have an existing business website?</label>
+              <select class="form-control" name="select">
+                <option value="Yes">Yes, I have an existing website.</option>
+                <option value="No">No, I currently don't have an existing website.</option>
+              </select>
+            </div>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-6 col-lg-offset-3 footer-setup text-center">
-          <input class="btn btn-primary btn-lg back-btn" type="submit" name="update" id="save" value="Continue"></input>
+          <input class="btn btn-primary btn-lg back-btn" type="submit" name="update" id="save" value="Next"></input>
         </div>
       </div>
     </div>

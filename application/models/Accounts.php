@@ -134,9 +134,9 @@ class Accounts extends CI_Model
     return $query->result();
   }
 
-  public function get_site_logo($user_id,$business_name)
+  public function get_site_logo($user_id,$id)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_logo'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and id = '$id' and meta_key = 'site_logo'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -144,9 +144,9 @@ class Accounts extends CI_Model
     }
   }
 
-  public function get_site_title($user_id,$business_name)
+  public function get_site_title($user_id,$id)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_title'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and id = '$id' and meta_key = 'site_title'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {
@@ -154,9 +154,9 @@ class Accounts extends CI_Model
     }
   }
 
-  public function get_site_tagline($user_id,$business_name)
+  public function get_site_tagline($user_id,$id)
   {
-    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and business_name = '$business_name' and meta_key = 'site_tagline'");
+    $query = $this->db->query("SELECT * FROM `contents` WHERE user_id = '$user_id' and id = '$id' and meta_key = 'site_tagline'");
     if ($query->num_rows() > 0) {
       return $query->row();
     }else {

@@ -39,7 +39,7 @@
             <div class = "caption">
               <h3><?php echo $theme->theme?></h3>
               <p>
-                <form class="" action="/Account/new_theme" method="post">
+                <form class="" action="/Account/save_new" method="post">
                   <a target="_blank" href = "/Theme/preview/<?php echo $theme->theme?>" class = "btn btn-primary" role = "button">Preview</a>
                   <button type="submit" name="template" class = "btn btn-primary" value="<?php echo $theme->theme?>">Apply</button>
                 </form>

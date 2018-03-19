@@ -517,89 +517,15 @@ class Home extends CI_Controller
     $status = $this->input->post('select');
     if ($status == 'Yes')
     {
-      $Basic_info = [
-        'user_id' => $_SESSION['user_id'],
-        'username' => '',
-        'business_name' => '',
-        'category' => '',
-        'locality' => '',
-        'address' => '',
-        'cellphone' => '',
-        'telephone' => '',
-        'website_url' => '',
-        'contact_person' => '',
-        'theme' => '',
-        'image' => '',
-        'position' => 'Primary',
-        'website' => $status
-      ];
-      if ($this->db->insert('basic_info',$Basic_info)) {
-        $this->Homes->update_set_up($user_id);
-        $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
-        // redirect('/Account/themes', 'refresh');
-        $this->session->set_userdata('business', '');
-        redirect('/Account/start', 'refresh');
-      }
-      // if($this->Homes->update_set_up($user_id,$status))
-      // {
-      //   $Template = [
-      //     'template' => 'NA'
-      //   ];
-      //   $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
-      //   if ($this->Homes->update_user_template($Template,$user_id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
-      //   {
-      //     redirect('/Account', 'refresh');
-      //   }
-      //   // redirect('/Account', 'refresh');
-      // }
-      else
-      {
-          $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Something went wrong...</div>');
-          $this->session->unset_userdata('email');
-          $this->session->unset_userdata('is_logged_in');
-          $this->session->unset_userdata('user_id');
-          redirect('/Home', 'refresh');
-      }
+      $this->session->set_userdata('primary_website', 'Yes');
+      $this->session->set_userdata('business', '');
+      redirect('/Account/start', 'refresh');
     }
     else
     {
-      $Basic_info = [
-        'user_id' => $_SESSION['user_id'],
-        'username' => '',
-        'business_name' => '',
-        'category' => '',
-        'locality' => '',
-        'address' => '',
-        'cellphone' => '',
-        'telephone' => '',
-        'website_url' => '',
-        'contact_person' => '',
-        'theme' => '',
-        'image' => '',
-        'position' => 'Primary',
-        'website' => $status
-      ];
-      if ($this->db->insert('basic_info',$Basic_info)) {
-        $this->Homes->update_set_up($user_id);
-        $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
-        // redirect('/Account/themes', 'refresh');
-        $this->session->set_userdata('business', '');
-        redirect('/Account/start', 'refresh');
-      }
-      // if($this->Homes->update_set_up($user_id,$status))
-      // {
-      //     $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Okay! You are good to go!</div>');
-      //     // redirect('/Account/themes', 'refresh');
-      //     redirect('/Account/start', 'refresh');
-      // }
-      else
-      {
-          $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Something went wrong...</div>');
-          $this->session->unset_userdata('email');
-          $this->session->unset_userdata('is_logged_in');
-          $this->session->unset_userdata('user_id');
-          redirect('/Home', 'refresh');
-      }
+      $this->session->set_userdata('primary_website', 'No');
+      $this->session->set_userdata('business', '');
+      redirect('/Account/start', 'refresh');
     }
   }
 

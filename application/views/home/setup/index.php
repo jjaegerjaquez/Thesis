@@ -23,8 +23,8 @@
     <h4>Travel Hub</h4>
   </div>
   <div class="container text-center setup-header">
-    <span>Step 2 of 3</span>
-    <h3>Let's give your site a name</h3>
+    <span>Step 1 of 3</span>
+    <h3>Welcome to Travel Hub</h3>
     <p>Please answer the question below so we can get you started</p>
   </div>
   <form class="" action="/Home/set_up_save" method="post">
