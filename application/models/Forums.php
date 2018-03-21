@@ -15,6 +15,36 @@ class Forums extends CI_Model
     return $query->row();
   }
 
+  public function get_tagline()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+    return $query->row();
+  }
+
+  public function get_facebook()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+    return $query->row();
+  }
+
+  public function get_instagram()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+    return $query->row();
+  }
+
+  public function get_twitter()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+    return $query->row();
+  }
+
+  public function get_google()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    return $query->row();
+  }
+
   public function get_topic($topic_id)
   {
     $query = $this->db->query("select t.topic_id,topic,count(p.user_id) as count from topics t join posts p on (t.topic_id=p.topic_id) where t.topic_id = '$topic_id'");
@@ -77,6 +107,7 @@ class Forums extends CI_Model
                 ->from('topics')
                 ->join('users','topics.created_by=users.user_id')
                 ->where('created_by !=', 'Admin')
+                ->where('topics.status', '1')
                 ->like('topic',$keyword)
                 ->get();
 
@@ -134,6 +165,22 @@ class Forums extends CI_Model
     $this->db->from('topics');
     $this->db->join('users','topics.created_by=users.user_id');
     $this->db->where('created_by !=', 'Admin');
+    $this->db->where('topics.status', '1');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function get_approved_user_topics($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by !=', 'Admin');
+    $this->db->where('topics.status', '1');
     //$query = $this->db->get();
     // $this->db->order_by('nim','ASC');
     //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);

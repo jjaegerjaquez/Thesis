@@ -1963,38 +1963,35 @@ class Admin extends CI_Controller
   // FORUM
   public function forum()
   {
-    $query = $this->db->get('topics','7', $this->uri->segment(3));
-		$this->data['topics'] = $query->result();
+    $query2= $this->db->get_where('topics', ['created_by' => 'Admin']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/forum';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$query2= $this->db->get('topics');
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$config['base_url'] = '/Admin/forum';
-		$config['total_rows'] = $query2->num_rows();
-		$config['per_page'] = 7;
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		$config['first_tag_open'] = '<li>';
-		$config['last_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
 
-		$config['next_tag_open'] = '<li>';
-		$config['prev_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
 
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-		$config['cur_tag_close'] = '</b></span></li>';
-
-		$this->pagination->initialize($config);
-
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['topics'] = $this->Admins->function_pagination_topics($limit, $offset);
     $this->load->view('admin/dashboard/forums/index',$this->data);
   }
 
@@ -2021,7 +2018,9 @@ class Admin extends CI_Controller
     {
       $Topic = [
         'topic' => $this->input->post('topic'),
-        'date_created' => date("Y-m-d")
+        'date_created' => date("Y-m-d"),
+        'created_by' => 'Admin',
+        'status' => '1'
       ];
 
       if ($this->db->insert('topics',$Topic)) {
@@ -2077,6 +2076,110 @@ class Admin extends CI_Controller
     $this->db->delete('topics');
      echo '<script>alert("Topic deleted!");</script>';
      redirect('/Admin/forum', 'refresh');
+  }
+
+  public function approve()
+  {
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '0']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/forum';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['topics'] = $this->Admins->function_pagination_user_topics($limit, $offset);
+    $this->load->view('admin/dashboard/forums/approve/index',$this->data);
+  }
+
+  public function approve_topic($topic_id)
+  {
+    if ($this->Admins->approve_topic($topic_id))
+    {
+      echo '<script>alert("Topic approved!");</script>';
+      redirect('/Admin/approve', 'refresh');
+    }
+    else
+    {
+      echo '<script>alert("Cannot approve..");</script>';
+      redirect('/Admin/approve', 'refresh');
+    }
+  }
+
+  public function delete_user_topic($topic_id)
+  {
+    $this->db->where('topic_id', $topic_id);
+    $this->db->delete('topics');
+     echo '<script>alert("Topic deleted!");</script>';
+     redirect('/Admin/approve', 'refresh');
+  }
+
+  public function view_approved()
+  {
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '1']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/view_approved';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['topics'] = $this->Admins->get_approved_user_topics($limit, $offset);
+    $this->load->view('admin/dashboard/forums/approve/view',$this->data);
+  }
+
+  public function disapprove($topic_id)
+  {
+    if ($this->Admins->disapprove_topic($topic_id))
+    {
+      echo '<script>alert("Topic disapproved!");</script>';
+      redirect('/Admin/view_approved', 'refresh');
+    }
+    else
+    {
+      echo '<script>alert("Cannot disapprove..");</script>';
+      redirect('/Admin/view_approved', 'refresh');
+    }
   }
   // END OF FORUM
 

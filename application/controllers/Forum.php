@@ -16,7 +16,12 @@ class Forum extends CI_Controller
 		$this->load->model('Forums');
     // $this->data['advertisements'] = $this->Advertisements->get_advertisements();
     $this->data['title'] = $this->Forums->get_title();
-    $this->data['site_icon'] = $this->Forums->get_site_icon();
+    $this->data['icon'] = $this->Forums->get_site_icon();
+    $this->data['tagline'] = $this->Forums->get_tagline();
+    $this->data['facebook'] = $this->Forums->get_facebook();
+    $this->data['instagram'] = $this->Forums->get_instagram();
+    $this->data['twitter'] = $this->Forums->get_twitter();
+    $this->data['google'] = $this->Forums->get_google();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
@@ -116,7 +121,7 @@ class Forum extends CI_Controller
     // // $this->data['topics'] = $this->Forums->function_pagination($limit, $offset);
     // $this->load->view('forum/all',$this->data);
 
-    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin']);
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '1']);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
@@ -347,10 +352,11 @@ class Forum extends CI_Controller
         'created_by' => $this->traveller_id,
         'topic' => $this->input->post('title'),
         'description' => $this->input->post('description'),
-        'date_created' => date("Y-m-d")
+        'date_created' => date("Y-m-d"),
+        'status' => '0'
       ];
       if ($this->db->insert('topics',$Topic)) {
-        echo '<script>alert("Topic created!");</script>';
+        echo '<script>alert("The topic you created has been sent and will undergo review.");</script>';
         redirect('/Forum/add_topic', 'refresh');
       }
     }

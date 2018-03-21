@@ -15,6 +15,42 @@ class Events extends CI_Model
     return $query->row();
   }
 
+  public function get_tagline()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+    return $query->row();
+  }
+
+  public function get_facebook()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+    return $query->row();
+  }
+
+  public function get_instagram()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+    return $query->row();
+  }
+
+  public function get_twitter()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+    return $query->row();
+  }
+
+  public function get_google()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    return $query->row();
+  }
+
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
   public function get_events()
   {
     $query = $this->db->query("SELECT * FROM `events` WHERE start_date >= curdate() order by start_date asc");

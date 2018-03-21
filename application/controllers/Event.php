@@ -16,6 +16,12 @@ class Event extends CI_Controller
 		$this->load->model('Events');
     // $this->data['Events'] = $this->Events->get_Events();
     $this->data['title'] = $this->Events->get_title();
+    $this->data['icon'] = $this->Events->get_site_icon();
+    $this->data['tagline'] = $this->Events->get_tagline();
+    $this->data['facebook'] = $this->Events->get_facebook();
+    $this->data['instagram'] = $this->Events->get_instagram();
+    $this->data['twitter'] = $this->Events->get_twitter();
+    $this->data['google'] = $this->Events->get_google();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];

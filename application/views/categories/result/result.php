@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -13,7 +14,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,500,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/search-page/style.css">
@@ -37,13 +38,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/Category/all">Categories</a></li>
-            <li><a href="#">Destinations</a></li>
+            <li><a href="/Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Deals</a></li>
+                <li><a href="/Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">Forum</a></li>
+                <li><a href="/Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -82,13 +83,13 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="#">Destinations</a></li>
+          <li><a href="/Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Deals</a></li>
+              <li><a href="/Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Forum</a></li>
+              <li><a href="/Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -224,6 +225,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Supplier" value="Register" id="Register">
@@ -270,6 +274,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
@@ -289,7 +296,8 @@
     <div class="row content-header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li>Categories</li>
+        <li><a href="/Category/all">Categories</a></li>
+        <li><?php echo str_replace('_', ' ', $category)?></li>
       </ul>
       <span class="content-title"><?php echo str_replace('_', ' ', $category)?></span>
     </div>
@@ -339,30 +347,37 @@
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
+                <span class="category-style"><?php echo $results[$i]->category?></span>
                 <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
                 <span class="badge pull-right rating-style" style=""><?php echo number_format($rates[$i]->rate, 1)?></span>
-                <h3 class="media-heading business-title"><?php echo $results[$i]->business_name?></h3>
-                <!-- <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $result->user_id?>"/>
-                <label for="toggle-heart">❤</label> -->
+                <h2 class="media-heading business-title"><?php echo $results[$i]->business_name?></h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $results[$i]->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $results[$i]->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $results[$i]->telephone?></li>
-                </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a target="" href="<?php echo $results[$i]->website_url?>" class="btn btn-lg btn-primary btn-style">
-                      <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
-                    <!-- <button type="button" name="button" class="form-control">Visit Website</button> -->
+                  <div class="list-text">
+                    <li class="detail-list"><?php echo $results[$i]->address?></li>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn btn-lg btn-primary btn-style">
-                    <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                  <?php if (!empty($results[$i]->cellphone)): ?>
+                    <li class="detail-list">+63<?php echo $results[$i]->cellphone?></li>
+                  <?php else: ?>
+                    <li class="detail-list"><?php echo $results[$i]->telephone?></li>
+                  <?php endif; ?>
+                </ul>
+                <div class="row button-div">
+                  <div class="col-lg-12">
+                    <div class="col-xs-6 btn-style1">
+                      <a target="" href="<?php echo $results[$i]->website_url?>" class="btn">
+                      <div class="space"></div>
+                      <span><i class="ion-earth"></i> Visit Website</span>
+        			        <!-- <span class="btn-text-style">Visit Website</span> -->
+        		          </a>
+                    </div>
+                    <div class="col-xs-6 btn-style2">
+                      <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn">
+                      <div class="space"></div>
+                      <span><i class="ion-information-circled"></i> More</span>
+        			        <!-- <span class=""></span> -->
+        		          </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -383,17 +398,23 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="footer-desc text-center">
-                        <img src="logo" width="82" height="48" alt="">
+                      <div class="col-lg-6 col-lg-offset-3">
                         <p>
-                            <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
+                            <?php if (!empty($tagline->value)): ?>
+                              <?php echo $tagline->value ?>
+                              <?php else: ?>
+                                Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            <?php endif; ?> <a href="/About">Learn More</a>
                         </p>
+                      </div>
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <ul class="social">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                      <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                      <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
                     </ul>
                 </div>
             </div> <!--/.row-->
@@ -512,58 +533,6 @@ $('#register').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
 })
-// $('#toggle-heart').on('click',function () {
-//     var ckbox = $('#toggle-heart');
-//     if (ckbox.is(':checked'))
-//     {
-//         // alert($('#toggle-heart').attr('name'));
-//         var vote = {
-//             business_id: $('#toggle-heart').attr('name')
-//         };
-//         $.ajax({
-//             url: "/Home/vote",
-//             type: 'POST',
-//             data: vote,
-//             success: function(message) {
-//               // alert(message);
-//               if (message == 'Voted') {
-//                 $('#toggle-heart').prop('checked', true);
-//               }
-//               }else if (message=='Unsucessful') {
-//                 $('#toggle-heart').prop('checked', false);
-//               }
-//               // else {
-//               //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//               // }
-//               // alert('Success');
-//             }
-//         });
-//         // return false;
-//     }
-//     else
-//     {
-//       var vote = {
-//           business_id: $('#toggle-heart').attr('name')
-//       };
-//       $.ajax({
-//           url: "/Home/unvote",
-//           type: 'POST',
-//           data: vote,
-//           success: function(message) {
-//             alert(message);
-//             // }else if (message=='Unsucessful') {
-//             //   $('#register').hide();
-//             //   $(location).attr('href','/Verify/not_sent');
-//             // }
-//             // else {
-//             //   $('#msg').html('<div class="alert alert-danger">'+ message +'</div>');
-//             // }
-//             // alert('Success');
-//           }
-//       });
-//         // alert('You Un-Checked it');
-//     }
-// });
 </script>
 </body>
 </html>

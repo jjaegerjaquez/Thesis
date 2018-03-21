@@ -16,6 +16,12 @@ class Advertisement extends CI_Controller
 		$this->load->model('Advertisements');
     // $this->data['advertisements'] = $this->Advertisements->get_advertisements();
     $this->data['title'] = $this->Advertisements->get_title();
+    $this->data['icon'] = $this->Advertisements->get_site_icon();
+    $this->data['tagline'] = $this->Advertisements->get_tagline();
+    $this->data['facebook'] = $this->Advertisements->get_facebook();
+    $this->data['instagram'] = $this->Advertisements->get_instagram();
+    $this->data['twitter'] = $this->Advertisements->get_twitter();
+    $this->data['google'] = $this->Advertisements->get_google();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];

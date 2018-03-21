@@ -21,6 +21,12 @@ class Classics extends CI_Model
     return FALSE;
   }
 
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
   public function get_theme($business)
   {
     $query = $this->db->get_where('basic_info', ['business_name' => $business]);

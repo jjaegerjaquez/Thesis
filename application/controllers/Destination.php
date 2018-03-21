@@ -17,6 +17,12 @@ class Destination extends CI_Controller
     $this->data['destinations'] = $this->Destinations->get_localities();
     $this->data['categories'] = $this->Destinations->get_categories();
     $this->data['title'] = $this->Destinations->get_title();
+    $this->data['icon'] = $this->Destinations->get_site_icon();
+    $this->data['tagline'] = $this->Destinations->get_tagline();
+    $this->data['facebook'] = $this->Destinations->get_facebook();
+    $this->data['instagram'] = $this->Destinations->get_instagram();
+    $this->data['twitter'] = $this->Destinations->get_twitter();
+    $this->data['google'] = $this->Destinations->get_google();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
@@ -148,7 +154,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -159,26 +166,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -285,7 +300,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -296,26 +312,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -416,7 +440,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -427,26 +452,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -534,7 +567,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -545,26 +579,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -649,7 +691,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -660,26 +703,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -760,7 +811,8 @@ class Destination extends CI_Controller
               ';
             }
             echo '
-                <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+                <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -771,26 +823,34 @@ class Destination extends CI_Controller
             }
             echo '
                 <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-                <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+                <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                  <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                  <div class="list-text">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                  </div>';
+              if (!empty($this->data['results'][$i]->cellphone)) {
+                echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+              }else {
+                echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+              }
+            echo '
                 </ul>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+                <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                       <div class="space"></div>
-      			        <span class="" style="color: #f37430;">Visit Website</span>
-      		          </a>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    </a>
                   </div>
-                  <div class="col-xs-6">
-                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                  <div class="col-xs-6 btn-style2">
+                    <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                     <div class="space"></div>
-      			        <span class="" style="color: #f37430;">View</span>
-      		          </a>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    </a>
                   </div>
+                </div>
                 </div>
               </div>
             </div>
@@ -873,7 +933,8 @@ class Destination extends CI_Controller
             ';
           }
           echo '
-              <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+              <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+              <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
           ';
           if ($this->data['votes'][$i]->vote > 1)
           {
@@ -884,26 +945,34 @@ class Destination extends CI_Controller
           }
           echo '
               <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-              <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+              <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
               <div class="separator"></div>
               <ul>
-                <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-                <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-                <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+                <div class="list-text">
+                  <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+                </div>';
+            if (!empty($this->data['results'][$i]->cellphone)) {
+              echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+            }else {
+              echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+            }
+          echo '
               </ul>
-              <div class="row">
-                <div class="col-xs-6">
-                  <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+              <div class="row button-div">
+              <div class="col-lg-12">
+                <div class="col-xs-6 btn-style1">
+                  <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                     <div class="space"></div>
-                  <span class="" style="color: #f37430;">Visit Website</span>
+                  <span><i class="ion-earth"></i> Visit Website</span>
                   </a>
                 </div>
-                <div class="col-xs-6">
-                  <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+                <div class="col-xs-6 btn-style2">
+                  <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                   <div class="space"></div>
-                  <span class="" style="color: #f37430;">View</span>
+                  <span><i class="ion-information-circled"></i> More</span>
                   </a>
                 </div>
+              </div>
               </div>
             </div>
           </div>
@@ -987,7 +1056,8 @@ class Destination extends CI_Controller
           ';
         }
         echo '
-            <span class="pull-right votes-style" style="">'.$this->data['votes'][$i]->vote.'
+            <span class="category-style">'.$this->data['results'][$i]->category.'</span>
+            <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
         ';
         if ($this->data['votes'][$i]->vote > 1)
         {
@@ -998,26 +1068,34 @@ class Destination extends CI_Controller
         }
         echo '
             <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
-            <h3 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h3>
+            <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
             <div class="separator"></div>
             <ul>
-              <li class="detail-list"><i class="ion-location icons"></i>&nbsp; '.$this->data['results'][$i]->address.'</li>
-              <li class="detail-list"><i class="ion-ios-pricetag icons">&nbsp;</i>   '.$this->data['results'][$i]->category.'</li>
-              <li class="detail-list"><i class="ion-ios-telephone icons"></i> '.$this->data['results'][$i]->telephone.'</li>
+              <div class="list-text">
+                <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
+              </div>';
+          if (!empty($this->data['results'][$i]->cellphone)) {
+            echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
+          }else {
+            echo '<li class="detail-list">'.$this->data['results'][$i]->telephone.'</li>';
+          }
+        echo '
             </ul>
-            <div class="row">
-              <div class="col-xs-6">
-                <a href="'.$this->data['results'][$i]->website_url.'" class="btn btn-lg btn-primary btn-style">
+            <div class="row button-div">
+            <div class="col-lg-12">
+              <div class="col-xs-6 btn-style1">
+                <a href="'.$this->data['results'][$i]->website_url.'" class="btn">
                   <div class="space"></div>
-                <span class="" style="color: #f37430;">Visit Website</span>
+                <span><i class="ion-earth"></i> Visit Website</span>
                 </a>
               </div>
-              <div class="col-xs-6">
-                <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn btn-lg btn-primary btn-style">
+              <div class="col-xs-6 btn-style2">
+                <a href="/Category/view/'.str_replace(' ', '_', $this->data['results'][$i]->business_name).'" class="btn">
                 <div class="space"></div>
-                <span class="" style="color: #f37430;">View</span>
+                <span><i class="ion-information-circled"></i> More</span>
                 </a>
               </div>
+            </div>
             </div>
           </div>
         </div>

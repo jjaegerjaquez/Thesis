@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- jQuery 2.2.3 -->
@@ -228,6 +229,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Supplier" value="Register" id="Register">
@@ -274,6 +278,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
@@ -297,7 +304,6 @@
         <li><a href="/Category/result/<?php echo str_replace(' ', '_', $business->category)?>"><?php echo str_replace('_', ' ', $business->category)?></a></li>
         <li class="active"><?php echo str_replace('_', ' ', $business->business_name)?></li>
       </ul>
-      <!-- <span class="content-title"><?php echo str_replace('_', ' ', $business->category)?></span> -->
     </div>
     <div class="row content">
       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 main-content">
@@ -317,11 +323,11 @@
                 <?php else: ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
-                <span style="font-size:25px;">
-                  <?php echo $business->business_name?>
+                <span>
+                  <span class="business-title"><?php echo $business->business_name?></span>
                   <div class="pull-right">
                     <input class="toggle-heart" id="toggle-heart" type="checkbox" name="<?php echo $business->id?>"/>
-                    <label for="toggle-heart">❤</label>
+                    <label for="toggle-heart" class="fave-icon">❤</label>
                   </div>
                 </span>
                 <?php if (!empty($voted)): ?>
@@ -335,40 +341,44 @@
                 <?php endif; ?>
                 <div class="separator"></div>
                 <ul>
-                  <li class="detail-list"><i class="ion-location icons"></i>&nbsp; <?php echo $business->address?></li>
-                  <li class="detail-list"><i class="ion-iphone icons">&nbsp;</i>   <?php echo $business->cellphone?></li>
-                  <li class="detail-list"><i class="ion-ios-telephone icons"></i> <?php echo $business->telephone?></li>
+                  <div class="list-text">
+                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?></li>
+                  </div>
+                  <!-- <li class="detail-list"><?php echo $business->locality?></li> -->
+                  <li class="detail-list"><span>Cellphone:</span> +63<?php echo $business->cellphone?></li>
+                  <li class="detail-list"><span>Telephone:</span> <?php echo $business->telephone?></li>
+                  <li class="detail-list"><span>Please look for:</span> <?php echo $business->contact_person?></li>
                 </ul>
               </div>
             </div>
           <?php endif; ?>
         </div>
         <div class="col-xs-12 rating-vote-div">
-          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
             <ul class="rating-vote">
-              <li><i class="ion-ios-star" style="color:#FFC400;"></i></li>
+              <li><i class="ion-ios-star rating-icon"></i></li>
               <li class="">Ratings: <?php echo number_format($rate->rate, 1)?></li>
             </ul>
           </div>
-          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
             <ul class="rating-vote">
-              <li><i class="ion-heart" style="color:#C32F10;"></i></li>
+              <li><i class="ion-heart heart-icon"></i></li>
               <li id="vote">
                 <?php if (!empty($vote->vote)): ?>
                   <?php if ($vote->vote > 1): ?>
-                    Votes: <?php echo $vote->vote?>
+                    Faves: <?php echo $vote->vote?>
                   <?php else: ?>
-                    Vote: <?php echo $vote->vote?>
+                    Fave: <?php echo $vote->vote?>
                   <?php endif; ?>
                 <?php else: ?>
-                  Vote: 0
+                  Fave: 0
                 <?php endif; ?>
               </li>
             </ul>
           </div>
-          <div class="col-lg-4 col-md-4 col-xs-4 text-center" style="background-color:#fff;padding-top:10px;padding-bottom:20px;border:1px solid #E2E2E2;">
+          <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
             <ul class="rating-vote">
-              <li><i class="ion-edit" style="color:#52BD52;"></i></li>
+              <li><i class="ion-edit review-icon"></i></li>
               <li>
                 <?php if (!empty($review_count)): ?>
                   <?php if ($review_count->reviews > 1): ?>
@@ -385,13 +395,11 @@
         </div>
         <div class="col-xs-12 comment">
           <ul class="media-list">
-
             <?php if (!empty($reviews)): ?>
               <?php foreach ($reviews as $key => $review): ?>
                 <div class="row comment-header" style="">
                   <ul>
-                    <li><span class="badge rating-style" style=""><?php echo $review->rate?> </span></li>
-                    <li class="pull-right"><?php echo $review->date_created?></li>
+                    <li class="pull-right date-style"><?php echo $review->date_created?></li>
                   </ul>
                 </div>
                 <li class="col-lg-12 media">
@@ -400,7 +408,10 @@
                   </a>
                   <div class="media-body">
                     <div class="well well-lg">
-                        <h4 class="media-heading text-uppercase reviews"><?php echo $review->username?> </h4>
+                        <ul class="list-inline">
+                          <li><span class="badge rating-style" style=""><?php echo number_format($review->rate, 1)?> </span></li>
+                          <li><h4 class="media-heading text-uppercase reviews"><?php echo $review->username?> </h4></li>
+                        </ul>
                         <p class="media-comment">
                           <?php echo $review->review?>
                         </p>
@@ -467,17 +478,24 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="footer-desc text-center">
+                      <div class="col-lg-6 col-lg-offset-3">
                         <p>
-                            <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
+                            <?php if (!empty($tagline->value)): ?>
+                              <?php echo $tagline->value ?>
+                              <?php else: ?>
+                                Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            <?php endif; ?> <a href="/About">Learn More</a>
                         </p>
+                      </div>
                     </div>
                 </div>
                 <div class="col-xs-12">
                     <ul class="social">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    </ul>
+                      <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                      <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                      <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                      <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                  </ul>
                 </div>
             </div> <!--/.row-->
         </div> <!--/.container-->

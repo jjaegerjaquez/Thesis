@@ -35,6 +35,7 @@ class Classic extends CI_Controller
       $this->theme = $this->data['theme']->theme;
       $this->data['businesses'] = $this->Classics->get_businesses($this->user_id);
       $this->data['title'] = $this->Classics->get_title();
+      $this->data['icon'] = $this->Classics->get_site_icon();
       $this->data['tagline'] = $this->Classics->get_tagline();
       $this->data['facebook'] = $this->Classics->get_facebook();
       $this->data['instagram'] = $this->Classics->get_instagram();

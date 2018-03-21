@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -34,11 +35,52 @@
           <span class="icon-bar"></span>
         </button>
         <a class="" href="">
-          <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px">
+          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px"> -->
         </a>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown notifications-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning">10</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="header">You have 10 notifications</li>
+            <li>
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu">
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                    page and may cause design problems
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-red"></i> 5 new members joined
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-red"></i> You changed your username
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="footer"><a href="#">View all</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
           <?php echo $account->username?>
@@ -132,7 +174,7 @@
           <hr>
         </div>
         <div class="row" style="padding: 0 20px 20px 20px;">
-          <img src="<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" alt="">
+          <img src="<?php if (!empty($image->value)) { echo $image->value; } else { echo 'default-img.jpg'; }?>" class="img-responsive" width="800px" height="600px">
         </div>
       </div>
     </div>

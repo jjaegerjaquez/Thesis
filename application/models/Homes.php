@@ -22,14 +22,15 @@ class Homes extends CI_Model
     }
   }
 
-  public function delete_ads()
+  public function get_site_icon()
   {
-    $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
   }
 
   public function get_priority_ad()
   {
-    $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Priority'");
+    $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority'");
     return $query->result();
   }
 

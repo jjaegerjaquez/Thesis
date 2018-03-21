@@ -35,6 +35,7 @@ class Neutral extends CI_Controller
       $this->theme = $this->data['theme']->theme;
       $this->data['businesses'] = $this->Neutrals->get_businesses($this->user_id);
       $this->data['title'] = $this->Neutrals->get_title();
+      $this->data['icon'] = $this->Neutrals->get_site_icon();
       $this->data['tagline'] = $this->Neutrals->get_tagline();
       $this->data['facebook'] = $this->Neutrals->get_facebook();
       $this->data['instagram'] = $this->Neutrals->get_instagram();

@@ -9,6 +9,100 @@ class Accounts extends CI_Model
 
   }
 
+  public function get_title()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_title'");
+    return $query->row();
+  }
+
+  public function get_tagline()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+    return $query->row();
+  }
+
+  public function get_facebook()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+    return $query->row();
+  }
+
+  public function get_instagram()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+    return $query->row();
+  }
+
+  public function get_twitter()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+    return $query->row();
+  }
+
+  public function get_google()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    return $query->row();
+  }
+
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
+  public function get_vote_count($business_id)
+  {
+    $query = $this->db->query("SELECT count(voter_id) as vote from votes where business_id = '$business_id'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
+  public function get_review_count($business_id)
+  {
+    $query = $this->db->query("SELECT count(user_id) as review from reviews where business_id = '$business_id'");
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }else {
+      return FALSE;
+    }
+  }
+
+  public function get_rate($business_id)
+  {
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if (empty($res->rate)) {
+        $business = new stdClass;
+        $business->rate = "0";
+        $business->business_id = $business_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
+  }
+
+  public function get_reviews($business_id)
+  {
+    $query = $this->db->query("select username,p.firstname,p.lastname,review,rate,r.date_created,image from users u join reviews r join rates ra join profile p on (u.user_id=r.user_id and u.user_id = ra.user_id and u.user_id = p.user_id and r.business_id = ra.business_id) where r.business_id = '$business_id'");
+    return $query->result();
+  }
+
+      function store_logo($file,$user_id)
+    {
+      // $insert = $this->db->update('logo', $file);
+      // return $insert;
+      $this->db->where('id', $user_id);
+      // $this->db->where('position', 'Primary');
+      return $this->db->update('basic_info', $File);
+    }
+
   public function BusinessNameExists($business_name)
   {
     $this->db->select('user_id');

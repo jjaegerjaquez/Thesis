@@ -15,6 +15,42 @@ class Advertisements extends CI_Model
     return $query->row();
   }
 
+  public function get_tagline()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_tagline'");
+    return $query->row();
+  }
+
+  public function get_facebook()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'facebook_link'");
+    return $query->row();
+  }
+
+  public function get_instagram()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'instagram_link'");
+    return $query->row();
+  }
+
+  public function get_twitter()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
+    return $query->row();
+  }
+
+  public function get_google()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    return $query->row();
+  }
+
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
   public function get_advertisements()
   {
     $query = $this->db->query("select * from advertisements order by type, start_date asc");
@@ -50,7 +86,7 @@ class Advertisements extends CI_Model
 
   public function get_business_details($business_id)
   {
-    $query = $this->db->get_where('basic_info', ['user_id' => $business_id]);
+    $query = $this->db->get_where('basic_info', ['id' => $business_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();

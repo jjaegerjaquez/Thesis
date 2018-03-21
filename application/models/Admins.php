@@ -14,6 +14,36 @@ class Admins extends CI_Model
     $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");
   }
 
+  function function_pagination_topics($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    // $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by', 'Admin');
+    // $this->db->where('topics.status', '1');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_user_topics($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by !=', 'Admin');
+    $this->db->where('topics.status', '0');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
   public function validate_user($username)
   {
     $query = $this->db->get_where('admin', ['username' => $username]);
@@ -26,7 +56,7 @@ class Admins extends CI_Model
   public function BusinessIdExists($business_id)
   {
     $this->db->select('business_name');
-    $this->db->where('user_id', $business_id);
+    $this->db->where('id', $business_id);
     $query = $this->db->get('basic_info');
 
     if ($query->num_rows() > 0) {
@@ -63,9 +93,38 @@ class Admins extends CI_Model
     return $this->db->update('accounts', $data);
   }
 
+  public function approve_topic($topic_id)
+  {
+    $data = array('status' => '1');
+    $this->db->where('topic_id', $topic_id);
+    return $this->db->update('topics', $data);
+  }
+
+  public function disapprove_topic($topic_id)
+  {
+    $data = array('status' => '0');
+    $this->db->where('topic_id', $topic_id);
+    return $this->db->update('topics', $data);
+  }
+
+  function get_approved_user_topics($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by !=', 'Admin');
+    $this->db->where('topics.status', '1');
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
   public function get_priority_ad()
   {
-    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.user_id=a.business_id) where type = 'Priority'");
+    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority'");
     return $query->result();
   }
 

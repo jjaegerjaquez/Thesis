@@ -35,6 +35,7 @@ class Light extends CI_Controller
       $this->theme = $this->data['theme']->theme;
       $this->data['businesses'] = $this->Lights->get_businesses($this->user_id);
       $this->data['title'] = $this->Lights->get_title();
+      $this->data['icon'] = $this->Lights->get_site_icon();
       $this->data['tagline'] = $this->Lights->get_tagline();
       $this->data['facebook'] = $this->Lights->get_facebook();
       $this->data['instagram'] = $this->Lights->get_instagram();

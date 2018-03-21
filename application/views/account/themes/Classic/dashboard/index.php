@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -34,11 +35,52 @@
           <span class="icon-bar"></span>
         </button>
         <a class="" href="">
-          <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px">
+          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px"> -->
         </a>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown notifications-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning">10</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="header">You have 10 notifications</li>
+            <li>
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu">
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                    page and may cause design problems
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-red"></i> 5 new members joined
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-red"></i> You changed your username
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="footer"><a href="#">View all</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
           <?php echo $account->username?>
@@ -62,7 +104,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li class="active">Welcome to Travel Hub</li>
+        <li class="active">Welcome to Travel Hub > Classic</li>
       </ul>
       <div class="col-lg-3">
         <div class="row">
@@ -129,30 +171,57 @@
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">
               <span class="info-box-icon bg-red"><i class="fa fa-heart"></i></span>
-
               <div class="info-box-content">
-                <span class="info-box-text">Votes</span>
-                <span class="info-box-number">139</span>
+                <?php if (!empty($vote_count->vote)): ?>
+                  <?php if ($vote_count->vote > 1): ?>
+                    <span class="info-box-text">Faves</span>
+                    <span class="info-box-number"><?php echo $vote_count->vote ?></span>
+                  <?php else: ?>
+                    <span class="info-box-text">Fave</span>
+                    <span class="info-box-number"><?php echo $vote_count->vote ?></span>
+                  <?php endif; ?>
+                <?php else: ?>
+                  <span class="info-box-text">Fave</span>
+                  <span class="info-box-number"><?php echo $vote_count->vote ?></span>
+                <?php endif; ?>
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">
               <span class="info-box-icon bg-green"><i class="fa fa-comment"></i></span>
-
               <div class="info-box-content">
-                <span class="info-box-text">Reviews</span>
-                <span class="info-box-number">150</span>
+                <?php if (!empty($review_count->review)): ?>
+                  <?php if ($review_count->review > 1): ?>
+                    <span class="info-box-text">Reviews</span>
+                    <span class="info-box-number"><?php echo $review_count->review ?></span>
+                  <?php else: ?>
+                    <span class="info-box-text">Review</span>
+                    <span class="info-box-number"><?php echo $review_count->review ?></span>
+                  <?php endif; ?>
+                <?php else: ?>
+                  <span class="info-box-text">Review</span>
+                  <span class="info-box-number"><?php echo $review_count->review ?></span>
+                <?php endif; ?>
               </div>
             </div>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">
               <span class="info-box-icon bg-aqua"><i class="fa  fa-bar-chart"></i></span>
-
               <div class="info-box-content">
-                <span class="info-box-text">Rating</span>
-                <span class="info-box-number">4.7</span>
+                <?php if (!empty($rating->rate)): ?>
+                  <?php if ($rating->rate > 1): ?>
+                    <span class="info-box-text">Rating</span>
+                    <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
+                  <?php else: ?>
+                    <span class="info-box-text">Rating</span>
+                    <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
+                  <?php endif; ?>
+                <?php else: ?>
+                  <span class="info-box-text">Rating</span>
+                  <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
+                <?php endif; ?>
               </div>
             </div>
           </div>
@@ -166,70 +235,29 @@
               </div>
               <!-- /.box-header -->
               <div class="box-footer box-comments">
-                <div class="box-comment">
-                  <!-- User image -->
-                  <img class="img-circle img-sm" src="/uploads/images/maria.jpg" alt="User Image">
-
-                  <div class="comment-text">
-                        <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                        </span><!-- /.username -->
-                    I am inlove with their food! Super yummy and the place, super
-                    beautiful and comfortable.
-                  </div>
-                  <!-- /.comment-text -->
-                </div>
-                <!-- /.box-comment -->
-                <div class="box-comment">
-                  <!-- User image -->
-                  <img class="img-circle img-sm" src="/uploads/images/james.jpg" alt="User Image">
-
-                  <div class="comment-text">
-                        <span class="username">
-                          James Reid
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                        </span><!-- /.username -->
-                    Delicious food, nice ambiance, and very friendly staffs. Will definitely
-                    go back here again.
-                  </div>
-                  <!-- /.comment-text -->
-                </div>
-                <!-- /.box-comment -->
+                <?php if (!empty($reviews)): ?>
+                  <?php foreach ($reviews as $key => $review): ?>
+                    <div class="box-comment">
+                      <!-- User image -->
+                      <?php if (!empty($review->image)): ?>
+                        <img class="img-circle img-sm" src="<?php echo $review->image ?>" alt="User Image">
+                      <?php else: ?>
+                        <img class="img-circle img-sm" src="/public/img/default-img.jpg" alt="User Image">
+                      <?php endif; ?>
+                      <div class="comment-text">
+                            <span class="username">
+                              <?php echo $review->firstname ?> <?php echo $review->lastname ?>
+                              <span class="text-muted pull-right"><?php echo date('F j Y',strtotime($review->date_created))?></span>
+                            </span><!-- /.username -->
+                        <?php echo $review->review ?>
+                      </div>
+                      <!-- /.comment-text -->
+                    </div>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  You have no reviews yet
+                <?php endif; ?>
               </div>
-              <!-- /.box-footer -->
-              <div class="box-footer box-comments">
-                <div class="box-comment">
-                  <!-- User image -->
-                  <img class="img-circle img-sm" src="/uploads/images/abel.jpg" alt="User Image">
-
-                  <div class="comment-text">
-                        <span class="username">
-                          The Weeknd
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                        </span><!-- /.username -->
-                  Very nice place, food and staff. But the service took so long.
-                  </div>
-                  <!-- /.comment-text -->
-                </div>
-            </div>
-            <!-- /.box -->
-            <div class="box-footer box-comments">
-              <div class="box-comment">
-                <!-- User image -->
-                <img class="img-circle img-sm" src="/uploads/images/Maddie.jpg" alt="User Image">
-
-                <div class="comment-text">
-                      <span class="username">
-                        Maddie Madayag
-                        <span class="text-muted pull-right">8:03 PM Today</span>
-                      </span><!-- /.username -->
-                The best restaurant eveeer! I can't help but be addicted. The food is
-                superb! The staffs are very accomodating. I love the place sooo much!
-                </div>
-                <!-- /.comment-text -->
-              </div>
-          </div>
         </div>
       </div>
     </section>

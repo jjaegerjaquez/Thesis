@@ -22,6 +22,12 @@ class Lights extends CI_Model
     }
   }
 
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
   public function get_businesses($user_id)
   {
     $query = $this->db->query("select * from basic_info where user_id = '$user_id'");

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -47,13 +48,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/Category/all">Categories</a></li>
-            <li><a href="#">Destinations</a></li>
+            <li><a href="/Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Deals</a></li>
+                <li><a href="/Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">Forum</a></li>
+                <li><a href="/Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -133,13 +134,13 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="#">Destinations</a></li>
+          <li><a href="/Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Deals</a></li>
+              <li><a href="/Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Forum</a></li>
+              <li><a href="/Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -799,7 +800,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/about/">Learn More</a>
+                              <?php endif; ?> <a href="/About">Learn More</a>
                           </p>
                         </div>
                     </div>

@@ -16,6 +16,12 @@ class Category extends CI_Controller
 		$this->load->model('Categories');
     $this->data['categories'] = $this->Categories->get_categories();
     $this->data['title'] = $this->Categories->get_title();
+    $this->data['icon'] = $this->Categories->get_site_icon();
+    $this->data['tagline'] = $this->Categories->get_tagline();
+    $this->data['facebook'] = $this->Categories->get_facebook();
+    $this->data['instagram'] = $this->Categories->get_instagram();
+    $this->data['twitter'] = $this->Categories->get_twitter();
+    $this->data['google'] = $this->Categories->get_google();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
@@ -131,7 +137,6 @@ class Category extends CI_Controller
         $this->data['voted'] = 'Voted';
       }
     }
-    // $this->data['business'] = $this->Categories->get_business(str_replace('_', ' ', $business_name));
     $this->data['rate'] = $this->Categories->get_rates($business_id);
     $this->data['vote'] = $this->Categories->get_vote($business_id);
     $this->data['reviews'] = $this->Categories->get_reviews($business_id);

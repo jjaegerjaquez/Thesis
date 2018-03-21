@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -37,13 +38,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="/Category/all">Categories</a></li>
-            <li><a href="#">Destinations</a></li>
+            <li><a href="/Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Deals</a></li>
+                <li><a href="/Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">Forum</a></li>
+                <li><a href="/Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -82,13 +83,13 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="#">Destinations</a></li>
+          <li><a href="/Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Deals</a></li>
+              <li><a href="/Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Forum</a></li>
+              <li><a href="/Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -224,6 +225,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Supplier" value="Register" id="Register">
@@ -270,6 +274,9 @@
                   </div>
                 </div>
               </form>
+              <div class="agreement-box">
+                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+              </div>
             </div>
             <div class="modal-footer">
               <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
@@ -286,12 +293,19 @@
 
   <!-- CONTENT -->
   <div class="container">
+    <div class="row content-header">
+      <ul class="breadcrumb">
+        <li><a href="<?php echo base_url()?>">Home</a></li>
+        <li><a href="/Category/all">Categories</a></li>
+        <li class="active">All</li>
+      </ul>
+    </div>
     <div class="row content">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
         <?php foreach ($categories as $key => $category): ?>
-          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center" style="padding-top:5px;">
+          <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center category-div">
   				  <a href="/Category/result/<?php echo str_replace(' ', '_', $category->category)?>" >
-  					<img src="/public/img/icons/<?php echo $category->image?>"alt="Fjords"  width="100px" height="100px">
+  					<img src="/public/img/icons/<?php echo $category->image?>"alt="/public/img/icons/def-icon.jpg"  width="100px" height="100px">
   				  </a>
   				 <p class=""><?php echo $category->category?></p>
   			  </div>
@@ -308,18 +322,24 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="footer-desc text-center">
-                        <img src="logo" width="82" height="48" alt="">
+                      <div class="col-lg-6 col-lg-offset-3">
                         <p>
-                            <a href="/" rel="home" title="Travel Hub">Travel Hub</a> is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/about/">Learn More</a>
+                            <?php if (!empty($tagline->value)): ?>
+                              <?php echo $tagline->value ?>
+                              <?php else: ?>
+                                Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            <?php endif; ?> <a href="/About">Learn More</a>
                         </p>
+                      </div>
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <ul class="social">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                    </ul>
+                  <ul class="social">
+                    <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                  </ul>
                 </div>
             </div> <!--/.row-->
         </div> <!--/.container-->

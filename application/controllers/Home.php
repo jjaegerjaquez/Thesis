@@ -17,15 +17,12 @@ class Home extends CI_Controller
 
     $this->data['categories'] = $this->Homes->get_categories();
     $this->data['title'] = $this->Homes->get_title();
+    $this->data['icon'] = $this->Homes->get_site_icon();
     $this->data['tagline'] = $this->Homes->get_tagline();
     $this->data['facebook'] = $this->Homes->get_facebook();
     $this->data['instagram'] = $this->Homes->get_instagram();
     $this->data['twitter'] = $this->Homes->get_twitter();
     $this->data['google'] = $this->Homes->get_google();
-    $this->data['title'] = $this->Homes->get_title();
-    $this->data['tagline'] = $this->Homes->get_tagline();
-    $this->data['title'] = $this->Homes->get_title();
-    $this->data['tagline'] = $this->Homes->get_tagline();
     $this->data['localities'] = $this->Homes->get_localities();
     $this->data['priority_ads'] = $this->Homes->get_priority_ad();
     $this->data['events'] = $this->Homes->get_events();
@@ -71,7 +68,6 @@ class Home extends CI_Controller
     // $this->session->unset_userdata('traveller_email');
     // $this->session->unset_userdata('traveller_is_logged_in');
     // $this->session->unset_userdata('traveller_id');
-    $deleted = $this->Homes->delete_ads();
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;

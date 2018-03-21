@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/profile/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/croppic/croppic.css">
 </head>
 <body>
 
@@ -34,11 +35,52 @@
           <span class="icon-bar"></span>
         </button>
         <a class="" href="">
-          <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px">
+          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px"> -->
         </a>
       </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown notifications-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning">10</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="header">You have 10 notifications</li>
+            <li>
+              <!-- inner menu: contains the actual data -->
+              <ul class="menu">
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                    page and may cause design problems
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-users text-red"></i> 5 new members joined
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-red"></i> You changed your username
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="footer"><a href="#">View all</a></li>
+          </ul>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?> <?php echo $account->username?>
           <?php else: ?>
@@ -123,12 +165,16 @@
           <hr>
         </div>
         <form class="" action="/Account/save_profile" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>Profile Image:
+          <div class="form-group cropHeaderWrapper">
+            <!-- <label>Profile Image:
               <br>
               <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
             </label>
-            <input class="" type="file" name="picture" />
+            <input class="" type="file" name="picture" /> -->
+            <!-- <h4 class="centered" style="color:#CC0000">DEMO/ OUTPUT </h4> -->
+            <p class="centered">( display url after cropping )</p>
+            <div id="croppic"></div>
+            <input type="text" name="" value="" id="cropOutput">
           </div>
           <div class="form-group">
             <label>Business Category:</label>
@@ -203,7 +249,78 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script src="<?php echo base_url(); ?>public/js/croppic/croppic.js"></script>
+<script src="<?php echo base_url(); ?>public/js/croppic/croppic.min.js"></script>
 <script>
+$( document ).ready(function() {
+  var cropperOptions = {
+    cropUrl: '<?php echo base_url() . "Account/crop_url" ?>',
+      outputUrlId: 'cropOutput',
+      modal: false,
+      processInline:true,
+      onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
+      onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
+      onImgDrag: function(){ console.log('onImgDrag') },
+      onImgZoom: function(){ console.log('onImgZoom') },
+      onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
+      onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
+      onReset:function(){ console.log('onReset') },
+      onError:function(errormessage){ console.log('onError:'+errormessage) }
+		}
+    var cropperHeader = new Croppic('croppic', cropperOptions);
+  // var croppicContaineroutputMinimal = {
+	// 			uploadUrl:'img_save_to_file.php',
+	// 			cropUrl:'img_crop_to_file.php',
+	// 			modal:false,
+	// 			doubleZoomControls:false,
+	// 		  rotateControls: false,
+  //       processInline:true,
+  //       outputUrlId:'myOutputId',
+	// 			onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
+	// 			onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
+	// 			onImgDrag: function(){ console.log('onImgDrag') },
+	// 			onImgZoom: function(){ console.log('onImgZoom') },
+	// 			onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
+	// 			onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
+	// 			onReset:function(){ console.log('onReset') },
+	// 			onError:function(errormessage){ console.log('onError:'+errormessage) }
+	// 	}
+	// 	var cropContaineroutput = new Croppic('croppic', croppicContaineroutputMinimal);
+  // var croppicContaineroutputOptions = {
+  //                      uploadUrl: '/Account/image_upload',
+  //                      cropUrl: '/Account/crop_url',
+  //                      outputUrlId: 'cropOutput',
+  //                      modal: false,
+  //                     //  loaderHtml: '<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
+  //                      onBeforeImgUpload: function () { console.log('onBeforeImgUpload')},
+  //                      onAfterImgUpload: function () {console.log('onAfterImgUpload')},
+  //                      onImgDrag: function () {console.log('onImgDrag')},
+  //                      onImgZoom: function () {console.log('onImgZoom')},
+  //                      onBeforeImgCrop: function () {console.log('onBeforeImgCrop')},
+  //                      onAfterImgCrop: function () {console.log('onAfterImgCrop')},
+  //                      onReset: function () {console.log('onReset')},
+  //                      onError: function (errormessage) {console.log('onError:' + errormessage)}
+  //                  }
+  //
+  //                  var cropContaineroutput = new Croppic('croppic', croppicContaineroutputOptions);
+  // var croppicContaineroutputOptions = {
+  //     cropUrl: '<?php echo base_url() . "Account/crop_url" ?>',
+  //      uploadUrl: '<?php echo base_url() . "Account/image_upload" ?>',
+  //      outputUrlId: 'cropOutput',
+  //      modal: false,
+  //      loaderHtml: '<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
+  //      onBeforeImgUpload: function () { console.log('onBeforeImgUpload')},
+  //      onAfterImgUpload: function () {console.log('onAfterImgUpload')},
+  //      onImgDrag: function () {console.log('onImgDrag')},
+  //      onImgZoom: function () {console.log('onImgZoom')},
+  //      onBeforeImgCrop: function () {console.log('onBeforeImgCrop')},
+  //      onAfterImgCrop: function () {console.log('onAfterImgCrop')},
+  //      onReset: function () {console.log('onReset')},
+  //      onError: function (errormessage) {console.log('onError:' + errormessage)}
+  //   }
+  //
+  //   var cropContaineroutput = new Croppic('croppic', croppicContaineroutputOptions);
+});
 </script>
 </body>
 </html>

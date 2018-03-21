@@ -8,25 +8,21 @@ html, body {
   border-radius: 0;
   background-color: #f37430;
   border: none;
-  padding: 10px 80px 10px 80px;
+  padding: 5px 80px;
 }
 .nav.navbar-nav li a {
      color: #fff;
-     font-family: 'Roboto', sans-serif;
+     font-family: 'Roboto Condensed', sans-serif;
      font-size: 16px;
-     font-weight: 400;
+     font-weight: 700;
      padding: 10px;
      margin-right: 5px;
      background-color: transparent;
-     border: 2px solid #fff;
-     border-radius: 5px;
      margin-top:1px;
  }
  .nav.navbar-nav li a:hover {
    color: #fff;
    background-color: transparent;
-   border: 2px solid #fff;
-   border-radius: 5px;
 }
 .navbar-default .navbar-nav .dropdown-menu> li > a, .navbar-default .navbar-nav .dropdown-menu {
     background-color: #FFFFFF;
@@ -35,15 +31,29 @@ html, body {
 /* END OF NAV*/
 
 
-/* BREADCRUMB*/
-.breadcrumb {
+/* Breadcrumb & Header*/
+.breadcrumb{
   background-color: transparent;
+  font-size: 11px;
+  font-family: 'Roboto Condensed', sans-serif;
+  /*font-weight: 700;*/
+  color: #757575;
 }
 .breadcrumb li a {
-  text-decoration: none;
-  color: #323339;
+  color: #757575;
 }
-/* END OF BREADCRUMB*/
+.breadcrumb li a:hover {
+  color: #757575;
+  text-decoration: underline;
+}
+.content-title{
+  margin-left: 15px;
+  color: #3c3734;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bolder;
+}
+/* END of Breadcrumb & Header*/
 
 /*SWITCH*/
 .switch{
