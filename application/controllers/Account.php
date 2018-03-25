@@ -953,6 +953,181 @@ class Account extends CI_Controller
     print json_encode($response);
   }
 
+  public function security()
+  {
+    $this->load->view('account/security/index', $this->data);
+  }
+
+  public function update_username()
+  {
+    // $this->form_validation->set_rules(
+    //     'username', 'Username',
+    //     'trim|callback_UsernameExists',
+    //     array()
+    // );
+    // if ($this->form_validation->run() == FALSE)
+    // {
+    //
+    //   $this->load->view('account/security/index', $this->data);
+    // }
+    // else
+    // {
+    //   // $Username = [
+    //   //   'username' => $this->input->post('username')
+    //   // ];
+    //   // if ($this->Accounts->update_username($Username,$this->user_id)) {
+    //   //   redirect('/Account/security', 'refresh');
+    //   // }
+    // }
+    $this->form_validation->set_rules(
+        'username', 'Username',
+        'trim|callback_UsernameExists',
+        array()
+    );
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('account/security/index', $this->data);
+    }
+    else
+    {
+      $old_username = $this->data['account']->username;
+      $Username = [
+          'username' => $this->input->post('username')
+        ];
+        if ($this->Accounts->update_username($Username,$this->user_id)) {
+          rename('./uploads/'.$old_username, './uploads/'.$this->input->post('username'));
+          redirect('/Account/security', 'refresh');
+
+        }
+    }
+  }
+
+  public function UsernameExists()
+  {
+    $username = $this->input->post('username');
+    $exists = $this->Accounts->UsernameExists($username);
+
+    if ($exists) {
+        $this->form_validation->set_message('UsernameExists', 'Username is already taken.');
+        return false;
+    } else {
+        return true;
+    }
+  }
+
+  public function update_password()
+  {
+    $this->form_validation->set_rules(
+        'old_password', 'Old Password',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your old password'
+        )
+    );
+    $this->form_validation->set_rules(
+        'new_password', 'New Password',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your new password'
+        )
+    );
+    $this->form_validation->set_rules(
+        'confirm', 'Confirm Password',
+        'trim|required',
+        array(
+                'required'      => 'Please confirm your new password'
+        )
+    );
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('account/security/index', $this->data);
+    }
+    else
+    {
+      $this->form_validation->set_rules(
+          'old_password', 'Old Password',
+          'callback_ValidateOldPassword',
+          array()
+      );
+      $this->form_validation->set_rules(
+          'confirm', 'Confirm Password',
+          'matches[new_password]',
+          array(
+                  'matches'      => 'The new password does not match with confirm password'
+          )
+      );
+      if ($this->form_validation->run() == FALSE)
+      {
+        $this->load->view('account/security/index', $this->data);
+      }
+      else
+      {
+        $Password = [
+          'password' => md5($this->input->post('new_password'))
+        ];
+        if ($this->Accounts->update_password($Password,$this->user_id)) {
+          redirect('/Account/security', 'refresh');
+        }
+      }
+    }
+  }
+
+  public function ValidateOldPassword()
+  {
+    $old = $this->data['account']->password;
+    if ($old !== md5($this->input->post('old_password')))
+    {
+      $this->form_validation->set_message('ValidateOldPassword', 'The old password you entered is incorrect');
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  public function details()
+  {
+    $this->load->view('account/details/index', $this->data);
+  }
+
+  public function update_email()
+  {
+    $this->form_validation->set_rules(
+        'email', 'Email',
+        'trim|callback_EmailExists',
+        array()
+    );
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('account/security/index', $this->data);
+    }
+    else
+    {
+      $Email = [
+        'email' => $this->input->post('email')
+      ];
+      if ($this->Accounts->update_email($Email,$this->user_id)) {
+        $this->session->unset_userdata('email');
+        $this->session->set_userdata('email', $this->input->post('email'));
+        redirect('/Account/security', 'refresh');
+      }
+    }
+  }
+
+  public function EmailExists()
+  {
+    $email = $this->input->post('email');
+    $exists = $this->Accounts->EmailExists($email);
+
+    if ($exists) {
+        $this->form_validation->set_message('EmailExists', 'Email address is taken already.');
+        return false;
+    } else {
+        return true;
+    }
+  }
+
 
   public function logout()
   {

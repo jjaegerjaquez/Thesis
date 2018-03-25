@@ -444,4 +444,48 @@ class Accounts extends CI_Model
     return $this->db->update('contents', $Image);
   }
 
+  public function update_username($Username,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Username);
+  }
+
+  public function UsernameExists($username)
+  {
+    $this->db->select('*');
+    $this->db->where('username', $username);
+    $query = $this->db->get('users');
+
+    if ($query->num_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  public function update_password($Password,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Password);
+  }
+
+  public function EmailExists($email)
+  {
+    $this->db->select('user_id');
+    $this->db->where('email', $email);
+    $query = $this->db->get('users');
+
+    if ($query->num_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  public function update_email($Email,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Email);
+  }
+
 }

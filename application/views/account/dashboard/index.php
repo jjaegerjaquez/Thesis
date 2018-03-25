@@ -88,8 +88,8 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
+            <li><a href="/Account/security">Security</a></li>
+            <li><a href="/Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/Account/logout">Logout</a></li>

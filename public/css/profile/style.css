@@ -36,7 +36,7 @@ html, body {
   background-color: transparent;
   font-size: 11px;
   font-family: 'Roboto Condensed', sans-serif;
-  /*font-weight: 700;*/
+  font-weight: 700;
   color: #757575;
 }
 .breadcrumb li a {
@@ -120,6 +120,21 @@ html, body {
 			height: 500px;
 			position:relative; /* or fixed or absolute */
 		}
+    .title{
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      color: #f37430;
+    }
+    .content h4{
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      color: #f37430;
+    }
+    .content span{
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 700;
+      color: #424242;
+    }
 /*END OF MAIN*/
 
 /* PROFILE CONTENT*/

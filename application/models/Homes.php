@@ -9,6 +9,24 @@ class Homes extends CI_Model
 
   }
 
+  public function update_email($Email,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Email);
+  }
+
+  public function GetRow($keyword) {
+        $this->db->order_by('locality', 'ASC');
+        $this->db->like("locality", $keyword);
+        return $this->db->get('localities')->result_array();
+    }
+
+    public function get_look_result($keyword) {
+          $this->db->order_by('category', 'DESC');
+          $this->db->like("category", $keyword);
+          return $this->db->get('categories')->result_array();
+      }
+
   public function EmailExists($email)
   {
     $this->db->select('user_id');
@@ -20,6 +38,24 @@ class Homes extends CI_Model
     } else {
         return false;
     }
+  }
+
+  public function get_notif_count($user_id)
+  {
+    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");
+    return $query->row();
+  }
+
+  public function get_notifications($user_id)
+  {
+    $query = $this->db->query("select * from notifications where recipient_id = '$user_id' order by created_time DESC");
+    return $query->result();
+  }
+
+  public function set_read($Notif,$user_id)
+  {
+    $this->db->where('recipient_id', $user_id);
+    return $this->db->update('notifications', $Notif);
   }
 
   public function get_site_icon()

@@ -199,4 +199,13 @@ class Forums extends CI_Model
     return $query->result();
 	}
 
+  public function get_topic_info($topic_id)
+  {
+    $query = $this->db->get_where('topics', ['topic_id' => $topic_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
 }

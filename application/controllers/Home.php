@@ -35,7 +35,10 @@ class Home extends CI_Controller
             'login',
             'register',
             'logout',
-            'vote'
+            'vote',
+            'look_result',
+            'search',
+            'search_location'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -60,14 +63,13 @@ class Home extends CI_Controller
       $this->traveller_id = $_SESSION['traveller_id'];
       $this->data['traveller_details'] = $this->Homes->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Homes->get_traveller_profile($this->traveller_id);
+      $this->data['notif_count'] = $this->Homes->get_notif_count($this->traveller_id);
+      $this->data['notifications'] = $this->Homes->get_notifications($this->traveller_id);
     }
 	}
 
   public function index()
   {
-    // $this->session->unset_userdata('traveller_email');
-    // $this->session->unset_userdata('traveller_is_logged_in');
-    // $this->session->unset_userdata('traveller_id');
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;
@@ -734,19 +736,38 @@ class Home extends CI_Controller
     $this->load->view('traveller/security/index',$this->data);
   }
 
-  public function update_username()
+  public function IfEmailExists()
+  {
+    $email = $this->input->post('email');
+    $exists = $this->Homes->EmailExists($email);
+
+    if ($exists) {
+        $this->form_validation->set_message('IfEmailExists', 'Email address is taken already.');
+        return false;
+    } else {
+        return true;
+    }
+  }
+
+  public function update_email()
   {
     $this->form_validation->set_rules(
-        'username', 'Username',
-        'trim',
+        'email', 'Email',
+        'trim|callback_IfEmailExists',
         array()
     );
-    if ($this->form_validation->run() == TRUE)
+    if ($this->form_validation->run() == FALSE)
     {
-      $Username = [
-        'username' => $this->input->post('username')
+      $this->load->view('traveller/security/index',$this->data);
+    }
+    else
+    {
+      $Email = [
+        'email' => $this->input->post('email')
       ];
-      if ($this->Homes->update_username($Username,$this->traveller_id)) {
+      if ($this->Homes->update_email($Email,$this->traveller_id)) {
+        $this->session->unset_userdata('traveller_email');
+        $this->session->set_userdata('traveller_email', $this->input->post('email'));
         redirect('/Home/security', 'refresh');
       }
     }
@@ -829,6 +850,10 @@ class Home extends CI_Controller
     // }
   }
 
+  public function details()
+  {
+    $this->load->view('traveller/details/index',$this->data);
+  }
   public function vote()
   {
     if ($this->session->userdata('traveller_is_logged_in'))
@@ -862,6 +887,19 @@ class Home extends CI_Controller
     }
   }
 
+  public function search_location(){
+        $keyword=$this->input->post('keyword');
+        $data=$this->Homes->GetRow($keyword);
+        echo json_encode($data);
+    }
+
+
+    public function look_result(){
+          $keyword=$this->input->post('keyword');
+          $data=$this->Homes->get_look_result($keyword);
+          echo json_encode($data);
+      }
+
   public function unvote()
   {
     $this->db->where('voter_id', $this->traveller_id);
@@ -874,9 +912,59 @@ class Home extends CI_Controller
     //  redirect('/Admin/localities', 'refresh');
   }
 
-  public function search()
+  // public function search()
+  // {
+  //   $this->load->view('home/search');
+  // }
+
+  public function get_notif()
   {
-    $this->load->view('home/search');
+    $this->data['notif__count'] = $this->Homes->get_notif_count($this->input->post('user_id'));
+    $this->data['notifications'] = $this->Homes->get_notifications($this->input->post('user_id'));
+    echo '
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>';
+        if (!empty($this->data['notif__count'])) {
+          echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
+        }
+      echo '</a>';
+      echo '<ul class="dropdown-menu">
+        <li>
+          <ul class="menu">';
+          foreach ($this->data['notifications'] as $key => $notification) {
+            if ($notification->type_of_notification == 'Comment') {
+              echo '
+              <li>
+                <a href="'.$notification->href.'">
+                  <i class="ion-chatbubble"></i> '.$notification->title_content.'
+                </a>
+              </li>
+              ';
+            }elseif ($notification->type_of_notification == 'Reply') {
+              echo '
+              <li>
+                <a href="'.$notification->href.'">
+                  <i class="ion-chatbubbles"></i> '.$notification->title_content.'
+                </a>
+              </li>
+              ';
+            }
+          }
+          echo '
+            </ul>
+          </li>
+        </ul>
+      ';
+  }
+
+  public function is_unread()
+  {
+    $Notif = [
+      'is_unread' => '1'
+    ];
+    if ($this->Homes->set_read($Notif,$this->input->post('user_id'))) {
+        echo '0';
+    }
   }
 
   public function logout()

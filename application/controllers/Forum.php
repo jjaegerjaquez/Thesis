@@ -277,6 +277,8 @@ class Forum extends CI_Controller
       }
       else
       {
+        $data['topic_info'] = $this->Forums->get_topic_info($this->input->post('topic_id'));
+        $my_date = date("Y-m-d h:i:s");
         $Post = [
           'topic_id' => $this->input->post('topic_id'),
           'user_id' => $this->traveller_id,
@@ -284,7 +286,18 @@ class Forum extends CI_Controller
           'date_created' => date("Y-m-d"),
           'date_updated' => NULL
         ];
-        if ($this->db->insert('posts',$Post)) {
+        $my_date = date("Y-m-d h:i:s");
+        $Notif = [
+          'sender_id' => $this->traveller_id,
+          'type_of_notification' => 'Comment',
+          'title_content' => $this->data['traveller_details']->username.' commented on your post.',
+          'body_content' => $this->input->post('comment'),
+          'href' => base_url().'Forum/topic/'.$this->input->post('topic_id'),
+          'recipient_id' => $data['topic_info']->created_by,
+          'is_unread' => '0',
+          'created_time' => $my_date
+        ];
+        if ($this->db->insert('posts',$Post) && $this->db->insert('notifications', $Notif)) {
           echo "Successful";
         }
       }
@@ -321,7 +334,18 @@ class Forum extends CI_Controller
         'date_created' => date("Y-m-d"),
         'date_updated' => NULL
       ];
-      if ($this->db->insert('comments',$Comment)) {
+      $my_date = date("Y-m-d h:i:s");
+      $Notif = [
+        'sender_id' => $this->traveller_id,
+        'type_of_notification' => 'Reply',
+        'title_content' => $this->data['traveller_details']->username.' replied on your comment.',
+        'body_content' => '@'.$this->input->get('username').'- '.$this->input->post('reply'),
+        'href' => base_url().'Forum/topic/'.$topic_id,
+        'recipient_id' => $this->input->get('user_id'),
+        'is_unread' => '0',
+        'created_time' => $my_date
+      ];
+      if ($this->db->insert('comments',$Comment) && $this->db->insert('notifications',$Notif)) {
         echo '<script>alert("Reply sucessfully submitted!");</script>';
         redirect('/Forum/topic/'.$topic_id, 'refresh');
       }

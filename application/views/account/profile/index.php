@@ -35,7 +35,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="" href="">
-          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="50px" width="100px"> -->
+          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="25px" width="50px"> -->
         </a>
       </div>
 
@@ -82,13 +82,14 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?> <?php echo $account->username?>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+          <?php echo $account->username?>
           <?php else: ?>
             Admin
-          <?php endif; ?><span class="caret"></span></a>
+          <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
+            <li><a href="/Account/security">Security</a></li>
+            <li><a href="/Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="/Account/logout">Logout</a></li>

@@ -9,6 +9,8 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <!-- jQuery 2.2.3 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -29,7 +31,6 @@
   <![endif]-->
 </head>
 <body>
-
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
     <!-- NAVBAR -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -59,54 +60,47 @@
                 <li><a href="#">Most Viewed</a></li>
               </ul>
             </li>
-            <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+            <li>
+              <a href="#"><span class="ion-ios-search-strong"></span></a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown notifications-menu">
+            <li class="dropdown notifications-menu" id="notif-div">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-warning">10</span>
+                <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+                <?php endif; ?>
               </a>
               <ul class="dropdown-menu">
-                <li class="header">You have 10 notifications</li>
+                <!-- <li class="header">You have 10 notifications</li> -->
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                        page and may cause design problems
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-users text-red"></i> 5 new members joined
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-user text-red"></i> You changed your username
-                      </a>
-                    </li>
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
                   </ul>
                 </li>
-                <li class="footer"><a href="#">View all</a></li>
+                <!-- <li class="footer"><a href="#">View all</a></li> -->
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/Home/profile">Account Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/Home/logout">Logout</a></li>
               </ul>
@@ -145,13 +139,40 @@
               <li><a href="#">Most Viewed</a></li>
             </ul>
           </li>
-          <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+          <li>
+            <button type="button" class="buttonsearch" id="buttonsearch">
+               <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+            </button>
+          </li>
+          <!-- <li><a href="#"><span class="ion-ios-search-strong"></span></a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="" data-toggle="modal" data-target="#login"> Login</a></li>
+          <li><a href="" data-toggle="modal" data-target="#login" id="login-btn"> Login</a></li>
           <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
         </ul>
       </div>
+    </div>
+    <div class="container searchbardiv" id="formsearch">
+      <form role="search" method="get" id="searchform">
+        <div class="row">
+          <div class="col-lg-5 no-padding">
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+              <input type="text" class="form-control input-style" placeholder="Location" id="location">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="input-group">
+              <input type="text" id="searchbox" class="form-control" name="s" id="s" placeholder="Search for...">
+              <div class="input-group-btn">
+                <button class="btn btn-default"  id="searchsubmit"  type="submit">
+                  <strong>Search</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     </nav>
     <!-- END NAVBAR -->
@@ -343,21 +364,23 @@
 
   <!-- IMAGE SLIDER -->
   <div id="slider" class="carousel slide" data-ride="carousel">
-    <form class="search-panel" action="" method="post">
+    <form class="search-panel" action="/Search/result" method="post">
       <div class="container">
         <div class="row">
-          <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter">
-            <div class="input-group">
-              <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-              <input type="text" class="form-control input-style" placeholder="Location">
+            <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+                <input style="" type="text" id="locality-search" autocomplete="off" name="locality-search" class="form-control" placeholder="Location" value="">
+                <ul class="dropdown-menu txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLocality"></ul>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter">
-            <input type="text" class="form-control input-style" placeholder="Search for...">
-          </div>
-          <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter">
-            <input class="btn search-btn btn-block" type="submit" value="Search">
-          </div>
+            <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter">
+              <input style="" type="text" id="look_for" autocomplete="off" name="category" class="form-control" placeholder="Search for..">
+              <ul class="dropdown-menu txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLookFor"></ul>
+            </div>
+            <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter">
+              <input class="btn search-btn btn-block" type="submit" value="Search">
+            </div>
         </div>
       </div>
     </form>
@@ -825,11 +848,45 @@
   </footer>
   <!-- END FOOTER -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
+<?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+(function() {
+  var notif = function(){
+    var user_id = {
+        user_id: "<?php echo $traveller_details->user_id ?>"
+    };
+    $.ajax({
+      url: "/Home/get_notif",
+      type: "POST",
+      data: user_id,
+      success: function (data){
+        // alert('Kumuha na ng notif');
+          $('#notif-div').html(data);
+      }
+    });
+  };
+  setInterval(function(){
+    notif();
+  }, 60000);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+      $.ajax({
+          url: "/Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
+<?php endif; ?>
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {
@@ -928,6 +985,73 @@ $('#register').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
 })
+$('#buttonsearch').click(function(){
+  $('#formsearch').slideToggle( "fast",function(){
+     $( '#content' ).toggleClass( "moremargin" );
+  });
+  $('#location').focus();
+  $('.openclosesearch').toggle(); 
+});
+$("#locality-search").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "/Home/search_location",
+        data: {
+            keyword: $("#locality-search").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#DropdownLocality').empty();
+                $('#locality-search').attr("data-toggle", "dropdown");
+                $('#DropdownLocality').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#locality-search').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">' + value['locality'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul.txtlocality').on('click', 'li a', function () {
+    $('#locality-search').val($(this).text());
+    $('#look-for').focus(); 
+});
+$("#look_for").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "/Home/look_result",
+        data: {
+            keyword: $("#look_for").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#DropdownLookFor').empty();
+                $('#look_for').attr("data-toggle", "dropdown");
+                $('#DropdownLookFor').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#look_for').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#DropdownLookFor').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">' + value['category'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul.txtlookfor').on('click', 'li a', function () {
+    $('#look_for').val($(this).text());
+    // $('#look-for').focus(); 
+});
 </script>
 </body>
 </html>

@@ -316,7 +316,6 @@
           <div class="form-group">
             <label>Title:<span style="color:red"> *</span></label>
             <input type="text" name="title" class="form-control" value="<?php echo set_value('title'); ?>" maxlength="80">
-            <span style="color:red" class="help-block"><?php echo form_error('title'); ?></span>
           </div>
           <div class="form-group">
             <label>Description:</label>
