@@ -9,12 +9,12 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
@@ -23,8 +23,8 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-default">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -34,78 +34,83 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="" href="">
-          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="25px" width="50px"> -->
-        </a>
       </div>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown notifications-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">10</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="header">You have 10 notifications</li>
-            <li>
-              <!-- inner menu: contains the actual data -->
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                    page and may cause design problems
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-red"></i> 5 new members joined
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> You changed your username
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer"><a href="#">View all</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
-          <?php echo $account->username?>
-          <?php else: ?>
-            Admin
-          <?php endif; ?> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
-
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/Category/all">Categories</a></li>
+          <li><a href="/Destination/all">Destinations</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/Advertisement/all">Deals</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/Forum/all">Forum</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Most Viewed</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#"><span class="ion-ios-search-strong"></span></a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown notifications-menu" id="notif-div">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+              <?php endif; ?>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- <li class="header">You have 10 notifications</li> -->
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <?php if (!empty($notifications)): ?>
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    You have no new notifications
+                  <?php endif; ?>
+                </ul>
+              </li>
+              <!-- <li class="footer"><a href="#">View all</a></li> -->
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $account->username?> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/Account/security">Security</a></li>
+              <li><a href="/Account/details">Account Details</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/Account/logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-  <!-- END OF NAV -->
+  <!-- END NAVBAR -->
 
   <div class="container">
     <div class="row">
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-12 header">
             <ul class="breadcrumb">
               <li class="active">Welcome to Travel Hub > No website</li>
             </ul>
@@ -267,15 +272,43 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+<?php if ($this->session->userdata('is_logged_in')): ?>
+(function() {
+  var notif = function(){
+    var user_id = {
+        user_id: "<?php echo $details->id ?>"
+    };
+    $.ajax({
+      url: "/Home/get_notif",
+      type: "POST",
+      data: user_id,
+      success: function (data){
+        // alert('Kumuha na ng notif');
+          $('#notif-div').html(data);
+      }
+    });
+  };
+  setInterval(function(){
+    notif();
+  }, 60000);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $details->id ?>"
+         };
+      $.ajax({
+          url: "/Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
+<?php endif; ?>
 </script>
 </body>
 </html>

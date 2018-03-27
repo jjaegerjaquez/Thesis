@@ -31,6 +31,9 @@ class Admin extends CI_Controller
       $this->data['user'] = $this->Admins->validate_user($this->username);
       $this->data['title'] = $this->Admins->get_title();
       $this->data['tagline'] = $this->Admins->get_tagline();
+      $this->data['review_count'] = $this->Admins->get_reviews_count();
+      $this->data['vote_count'] = $this->Admins->get_vote_count();
+      $this->data['supplier_count'] = $this->Admins->get_supplier_count();
     }
 	}
 
@@ -99,8 +102,138 @@ class Admin extends CI_Controller
 
   public function dashboard()
   {
-    $deleted = $this->Admins->delete_ads();
     $this->load->view('admin/dashboard/index',$this->data);
+  }
+
+  public function suppliers()
+  {
+    $query2= $this->db->get('basic_info');
+    $limit = 7;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/suppliers';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['suppliers'] = $this->Admins->function_pagination_suppliers($limit, $offset);
+    $this->load->view('admin/dashboard/suppliers/index',$this->data);
+  }
+
+  public function view_supplier($id)
+  {
+    $this->data['supplier'] = $this->Admins->get_supplier($id);
+    $this->load->view('admin/dashboard/suppliers/view',$this->data);
+  }
+
+  public function delete_supplier($id)
+  {
+    $this->db->where('id', $id);
+    $this->db->delete('basic_info');
+     echo '<script>alert("Business deleted!");</script>';
+     redirect('/Admin/suppliers', 'refresh');
+  }
+
+  public function faves()
+  {
+    $query2= $this->db->get('votes');
+    $limit = 7;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/faves';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['faves'] = $this->Admins->function_pagination_faves($limit, $offset);
+    $this->load->view('admin/dashboard/faves/index',$this->data);
+  }
+
+  public function delete_fave($id)
+  {
+    $this->db->where('vote_id', $id);
+    $this->db->delete('votes');
+     echo '<script>alert("Fave deleted!");</script>';
+     redirect('/Admin/faves', 'refresh');
+  }
+
+  public function reviews()
+  {
+    $query2= $this->db->get('reviews');
+    $limit = 7;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/reviews';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['reviews'] = $this->Admins->function_pagination_reviews($limit, $offset);
+    $this->load->view('admin/dashboard/reviews/index',$this->data);
+  }
+
+  public function view_review($id)
+  {
+    $this->data['review'] = $this->Admins->get_review($id);
+    print_r($this->data['review']);
+    // $this->load->view('admin/dashboard/reviews/view',$this->data);
   }
 
   // LOCALITY
@@ -1172,6 +1305,56 @@ class Admin extends CI_Controller
     $this->pagination->initialize($config);
     $this->data['regulars'] = $this->Admins->function_pagination($limit, $offset);
     $this->load->view('admin/dashboard/advertisements/index',$this->data);
+    // print_r($this->data['priorities']);
+  }
+
+  public function ending()
+  {
+    $date = new DateTime("tomorrow");
+    $tom = $date->format('Y-m-d');
+    $cur = new DateTime("now");
+    $curdate = $cur->format('Y-m-d');
+    $query2= $this->db->get_where('advertisements', ['end_date' => $tom],['or start_date' => $tom]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/ending';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['endings'] = $this->Admins->function_pagination_ending($limit, $offset);
+    $this->load->view('admin/dashboard/advertisements/ending',$this->data);
+    // print_r($this->data['endings']);
+  }
+
+  public function notify()
+  {
+    $email = 'cifercuatro04@gmail.com';
+    if ($this->Admins->sendemail($email)) {
+      echo '<script>alert("EMail sent!");</script>';
+    }else {
+      echo $this->email->print_debugger();
+    }
   }
 
   public function add_ad($type)
@@ -1196,13 +1379,13 @@ class Admin extends CI_Controller
                 'required'      => 'Please select start date'
         )
     );
-    $this->form_validation->set_rules(
-        'end', 'End Date',
-        'required',
-        array(
-                'required'      => 'Please select end date'
-        )
-    );
+    // $this->form_validation->set_rules(
+    //     'end', 'End Date',
+    //     'required',
+    //     array(
+    //             'required'      => 'Please select end date'
+    //     )
+    // );
     $this->form_validation->set_rules(
         'business_id', 'Business ID',
         'trim|required|callback_BusinessIdExists',
@@ -1283,16 +1466,29 @@ class Admin extends CI_Controller
           }
           else
           {
-            $Ad = [
-              'business_id' => $this->input->post('business_id'),
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'subtext' => $this->input->post('subtext'),
-              'description' => $this->input->post('description'),
-              'image' => '/public/img/default-img.jpg',
-              'type' => $type
-            ];
+            if (empty($this->input->post('end'))) {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => NULL,
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'image' => '/public/img/default-img.jpg',
+                'type' => $type
+              ];
+            }else {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'image' => '/public/img/default-img.jpg',
+                'type' => $type
+              ];
+            }
 
             if ($this->db->insert('advertisements',$Ad)) {
               echo '<script>alert("Advertisement added!");</script>';
@@ -1305,16 +1501,29 @@ class Admin extends CI_Controller
         }
         else
         {
-          $Ad = [
-            'business_id' => $this->input->post('business_id'),
-            'start_date' => $this->input->post('start'),
-            'end_date' => $this->input->post('end'),
-            'title' => $this->input->post('title'),
-            'subtext' => $this->input->post('subtext'),
-            'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg',
-            'type' => $type
-          ];
+          if (empty($this->input->post('end'))) {
+            $Ad = [
+              'business_id' => $this->input->post('business_id'),
+              'start_date' => $this->input->post('start'),
+              'end_date' => NULL,
+              'title' => $this->input->post('title'),
+              'subtext' => $this->input->post('subtext'),
+              'description' => $this->input->post('description'),
+              'image' => '/public/img/default-img.jpg',
+              'type' => $type
+            ];
+          }else {
+            $Ad = [
+              'business_id' => $this->input->post('business_id'),
+              'start_date' => $this->input->post('start'),
+              'end_date' => $this->input->post('end'),
+              'title' => $this->input->post('title'),
+              'subtext' => $this->input->post('subtext'),
+              'description' => $this->input->post('description'),
+              'image' => '/public/img/default-img.jpg',
+              'type' => $type
+            ];
+          }
 
           if ($this->db->insert('advertisements',$Ad)) {
             echo '<script>alert("Advertisement added!");</script>';
@@ -1593,38 +1802,69 @@ class Admin extends CI_Controller
   // EVENTS
   public function events()
   {
-    $query = $this->db->get('events','5', $this->uri->segment(3));
-		$this->data['events'] = $query->result();
+    // $query = $this->db->get('events','5', $this->uri->segment(3));
+		// $this->data['events'] = $query->result();
+    //
+		// $query2= $this->db->get('events');
+    //
+		// $config['base_url'] = '/Admin/events';
+		// $config['total_rows'] = $query2->num_rows();
+		// $config['per_page'] = 5;
+    //
+		// $config['full_tag_open'] = '<ul class="pagination">';
+		// $config['full_tag_close'] = '</ul>';
+    //
+		// $config['first_tag_open'] = '<li>';
+		// $config['last_tag_open'] = '<li>';
+    //
+		// $config['next_tag_open'] = '<li>';
+		// $config['prev_tag_open'] = '<li>';
+    //
+		// $config['num_tag_open'] = '<li>';
+		// $config['num_tag_close'] = '</li>';
+    //
+		// $config['first_tag_close'] = '</li>';
+		// $config['last_tag_close'] = '</li>';
+    //
+		// $config['next_tag_close'] = '</li>';
+		// $config['prev_tag_close'] = '</li>';
+    //
+		// $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		// $config['cur_tag_close'] = '</b></span></li>';
+    //
+		// $this->pagination->initialize($config);
+    // start_date < curdate()
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d');
+    $query2= $this->db->get_where('events', ['start_date >=' => $cur_date]);
+    $limit = 2;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/events';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$query2= $this->db->get('events');
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$config['base_url'] = '/Admin/events';
-		$config['total_rows'] = $query2->num_rows();
-		$config['per_page'] = 5;
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		$config['first_tag_open'] = '<li>';
-		$config['last_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
 
-		$config['next_tag_open'] = '<li>';
-		$config['prev_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
 
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-		$config['cur_tag_close'] = '</b></span></li>';
-
-		$this->pagination->initialize($config);
-
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['events'] = $this->Admins->pagination_events($limit, $offset);
     $this->load->view('admin/dashboard/events/index',$this->data);
   }
 
@@ -1957,6 +2197,217 @@ class Admin extends CI_Controller
     $this->db->delete('events');
     echo '<script>alert("Event deleted!");</script>';
     redirect('/Admin/events', 'refresh');
+  }
+
+  public function finished()
+  {
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d');
+    $query2= $this->db->get_where('events', ['start_date <' => $cur_date]);
+    $limit = 2;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/finished';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['events'] = $this->Admins->pagination_finished_events($limit, $offset);
+    $this->load->view('admin/dashboard/events/finished/index',$this->data);
+  }
+
+  public function view_finished_event($event_id)
+  {
+    $this->data['event'] = $this->Admins->get_event($event_id);
+    $this->load->view('admin/dashboard/events/finished/view',$this->data);
+  }
+
+  public function edit_finished_event($event_id='')
+  {
+    $this->data['event'] = $this->Admins->get_event($event_id);
+    $this->load->view('admin/dashboard/events/finished/edit',$this->data);
+  }
+
+  public function update_finished_event($event_id)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'start', 'Start Date',
+        'required',
+        array(
+                'required'      => 'Please select start date'
+        )
+    );
+    $this->form_validation->set_rules(
+        'title', 'Title',
+        'trim|required',
+        array(
+                'required'      => 'Please enter event title'
+        )
+    );
+    $this->form_validation->set_rules(
+        'type', 'Type of event',
+        'trim|required',
+        array(
+                'required'      => 'Please specify what kind of event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'place', 'Place',
+        'trim|required',
+        array(
+                'required'      => 'Please enter the location of the event'
+        )
+    );
+    $this->form_validation->set_rules(
+        'description', 'Description',
+        'trim|required',
+        array(
+                'required'      => 'Please enter description for the event'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('admin/dashboard/events/finished/edit',$this->data);
+    }
+    else
+    {
+      if(!empty($_FILES['picture']['name']))
+      {
+        $config['upload_path'] = 'public/img/events';
+        $config['overwrite'] = TRUE;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['file_name'] = $_FILES['picture']['name'];
+        $config['min_width'] = '1366';
+        $config['min_height'] = '768';
+        $config['max_width'] = '1692';
+        $config['max_height'] = '812';
+        //Load upload library and initialize configuration
+        $this->load->library('upload',$config);
+        $this->upload->initialize($config);
+
+        if($this->upload->do_upload('picture')){
+            $uploadData = $this->upload->data();
+            $picture = $uploadData['file_name'];
+            $path = 'public/img/events';
+            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
+            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $source_path;
+            $config['new_image'] = $target_path;
+            $config['maintain_ratio'] = FALSE;
+            $config['width'] = '1366';
+            $config['height'] = '768';
+            $this->load->library('image_lib');
+            $this->image_lib->initialize($config);
+            if ($this->image_lib->crop())
+            {
+              $this->image_lib->clear();
+              if (empty($this->input->post('end'))) {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$config['upload_path'].'/'.$picture
+                ];
+              }else {
+                $Event = [
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'type' => $this->input->post('type'),
+                  'place' => $this->input->post('place'),
+                  'description' => $this->input->post('description'),
+                  'image' => '/'.$config['upload_path'].'/'.$picture
+                ];
+              }
+
+              if ($this->Admins->update_event($Event,$event_id))
+              {
+                echo '<script>alert("Event updated!");</script>';
+                redirect('/Admin/finished', 'refresh');
+              }
+              else
+              {
+                echo '<script>alert("Event cannot be updated...");</script>';
+                redirect('/Admin/edit_finished_event/'.$event_id, 'refresh');
+              }
+            }
+        }
+        else
+        {
+          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
+          redirect('/Admin/edit_finished_event/'.$event_id);
+        }
+      }
+      else
+      {
+        if (empty($this->input->post('end')))
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => NULL,
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description')
+          ];
+        }
+        else
+        {
+          $Event = [
+            'start_date' => $this->input->post('start'),
+            'end_date' => $this->input->post('end'),
+            'title' => $this->input->post('title'),
+            'type' => $this->input->post('type'),
+            'place' => $this->input->post('place'),
+            'description' => $this->input->post('description')
+          ];
+        }
+
+        if ($this->Admins->update_event($Event,$event_id))
+        {
+          echo '<script>alert("Event updated!");</script>';
+          redirect('/Admin/finished', 'refresh');
+        }
+        else
+        {
+          echo '<script>alert("Event cannot be updated...");</script>';
+          redirect('/Admin/edit_finished_event/'.$event_id, 'refresh');
+        }
+      }
+    }
+  }
+
+  public function delete_finished_event($event_id)
+  {
+    $this->db->where('event_id', $event_id);
+    $this->db->delete('events');
+    echo '<script>alert("Event deleted!");</script>';
+    redirect('/Admin/finished', 'refresh');
   }
   // END OF EVENTS
 

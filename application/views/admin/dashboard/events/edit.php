@@ -119,7 +119,6 @@
                 <div class="form-group">
                   <label>Image:
                     <br>
-                    <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
                   </label>
                   <input class="" type="file" name="picture" />
                 </div>
@@ -155,7 +154,7 @@
                 </div>
                 <div class="form-group input-width center-block">
                   <label>Description:</label>
-                  <textarea class="form-control" name="description"><?php echo $event->description?></textarea>
+                  <textarea class="form-control" name="description" rows="8"><?php echo $event->description?></textarea>
                   <span style="color:red" class="help-block"><?php echo form_error('description'); ?></span>
                 </div>
                 </div>

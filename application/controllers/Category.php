@@ -27,6 +27,8 @@ class Category extends CI_Controller
       $this->traveller_id = $_SESSION['traveller_id'];
       $this->data['traveller_details'] = $this->Categories->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Categories->get_traveller_profile($this->traveller_id);
+      $this->data['notif_count'] = $this->Categories->get_notif_count($this->traveller_id);
+      $this->data['notifications'] = $this->Categories->get_notifications($this->traveller_id);
     }
     else
     {

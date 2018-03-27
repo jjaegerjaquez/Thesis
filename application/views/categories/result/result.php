@@ -9,6 +9,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -49,13 +50,47 @@
                 <li><a href="#">Most Viewed</a></li>
               </ul>
             </li>
-            <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+            <li>
+              <a href="#"><span class="ion-ios-search-strong"></span></a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown notifications-menu" id="notif-div">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+                <?php endif; ?>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- <li class="header">You have 10 notifications</li> -->
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </ul>
+                </li>
+                <!-- <li class="footer"><a href="#">View all</a></li> -->
+              </ul>
+            </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/Home/profile">Account Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/Home/logout">Logout</a></li>
               </ul>
@@ -434,7 +469,42 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
-
+<?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+(function() {
+  var notif = function(){
+    var user_id = {
+        user_id: "<?php echo $traveller_details->user_id ?>"
+    };
+    $.ajax({
+      url: "/Home/get_notif",
+      type: "POST",
+      data: user_id,
+      success: function (data){
+        // alert('Kumuha na ng notif');
+          $('#notif-div').html(data);
+      }
+    });
+  };
+  setInterval(function(){
+    notif();
+  }, 60000);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+      $.ajax({
+          url: "/Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
+<?php endif; ?>
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {

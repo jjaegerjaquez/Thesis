@@ -139,7 +139,9 @@
               </tr>
               <tr>
                 <td><label>Period:</label></td>
-                <td><?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?> - <?php $end = strtotime($ad->end_date); echo date('F j Y',$end)?></td>
+                <td><?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?><?php if (!empty($ad->end_date)): ?>
+                - <?php $end = strtotime($ad->end_date); echo date('F j Y',$end)?>
+                <?php endif; ?></td>
               </tr>
               <tr>
                 <td><label>Business Name:</label></td>

@@ -27,6 +27,8 @@ class Advertisement extends CI_Controller
       $this->traveller_id = $_SESSION['traveller_id'];
       $this->data['traveller_details'] = $this->Advertisements->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Advertisements->get_traveller_profile($this->traveller_id);
+      $this->data['notif_count'] = $this->Advertisements->get_notif_count($this->traveller_id);
+      $this->data['notifications'] = $this->Advertisements->get_notifications($this->traveller_id);
     }
     else
     {

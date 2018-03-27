@@ -9,6 +9,24 @@ class Forums extends CI_Model
 
   }
 
+  public function get_notif_count($user_id)
+  {
+    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");
+    return $query->row();
+  }
+
+  public function get_notifications($user_id)
+  {
+    $query = $this->db->query("select * from notifications where recipient_id = '$user_id' order by created_time DESC");
+    return $query->result();
+  }
+
+  public function set_read($Notif,$user_id)
+  {
+    $this->db->where('recipient_id', $user_id);
+    return $this->db->update('notifications', $Notif);
+  }
+
   public function get_title()
   {
     $query = $this->db->query("select * from layout where meta_key = 'site_title'");

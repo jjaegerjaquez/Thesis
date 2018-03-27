@@ -135,6 +135,9 @@ html, body {
       font-weight: 700;
       color: #424242;
     }
+    .header{
+      margin-top: 60px;
+    }
 /*END OF MAIN*/
 
 /* PROFILE CONTENT*/

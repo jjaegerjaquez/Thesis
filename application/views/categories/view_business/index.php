@@ -13,6 +13,7 @@
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
@@ -41,25 +42,59 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="#">Categories</a></li>
-            <li><a href="#">Destinations</a></li>
+            <li><a href="/Category/all">Categories</a></li>
+            <li><a href="/Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Deals</a></li>
+                <li><a href="/Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">Forum</a></li>
+                <li><a href="/Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
             </li>
-            <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+            <li>
+              <a href="#"><span class="ion-ios-search-strong"></span></a>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown notifications-menu" id="notif-div">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+                <?php endif; ?>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- <li class="header">You have 10 notifications</li> -->
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </ul>
+                </li>
+                <!-- <li class="footer"><a href="#">View all</a></li> -->
+              </ul>
+            </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/Home/profile">Account Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="/Home/logout">Logout</a></li>
               </ul>
@@ -300,7 +335,7 @@
     <div class="row content-header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url()?>">Home</a></li>
-        <li>Categories</li>
+        <li><a href="/Category/all">Categories</a></li>
         <li><a href="/Category/result/<?php echo str_replace(' ', '_', $business->category)?>"><?php echo str_replace('_', ' ', $business->category)?></a></li>
         <li class="active"><?php echo str_replace('_', ' ', $business->business_name)?></li>
       </ul>
@@ -425,7 +460,7 @@
 
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 side-content">
-        <h3>Write a Review</h3>
+        <h3 class="review-title">Write a Review</h3>
         <div id="review_error_msg"></div>
         <!-- Rating Stars Box -->
         <div class='rating-stars text-center'>
@@ -510,6 +545,42 @@
   <!-- END FOOTER -->
 
 <script>
+<?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+(function() {
+  var notif = function(){
+    var user_id = {
+        user_id: "<?php echo $traveller_details->user_id ?>"
+    };
+    $.ajax({
+      url: "/Home/get_notif",
+      type: "POST",
+      data: user_id,
+      success: function (data){
+        // alert('Kumuha na ng notif');
+          $('#notif-div').html(data);
+      }
+    });
+  };
+  setInterval(function(){
+    notif();
+  }, 60000);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+      $.ajax({
+          url: "/Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
+<?php endif; ?>
 $('#Submit').click(function() {
     $('#error_message').show();
     var form_data = {

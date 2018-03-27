@@ -1,5 +1,5 @@
 body{
-  padding-top: 70px;
+  padding-top: 60px;
   margin: 0;
   background-color: #ebe9e9;
 }
@@ -34,7 +34,8 @@ body{
 	padding:100px;
 	color:#fff;
 	font-family: 'Abril Fatface', cursive;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 /*END OF HEADER*/
 
@@ -55,23 +56,11 @@ body{
 }
 /*END OF BREADCRUMB*/
 
-/* LIKE BUTTON*/
-[id='toggle-heart'] {
-  position: absolute;
-  left: -100vw;
-}
-
-[for='toggle-heart'] {
-  color: #aab8c2;
-}
-
-[id='toggle-heart']:checked + label {
-  color: #e2264d;
-}
-/*END LIKE BUTTON*/
-
 
 /* CONTENT*/
+.content-header{
+  /*margin-bottom: 20px;*/
+}
 .sort-list label{
   font-weight: normal;
 }

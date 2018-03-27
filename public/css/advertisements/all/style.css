@@ -1,5 +1,5 @@
 body{
-  padding-top: 70px;
+  padding-top: 60px;
   margin: 0;
   background-color: #ebe9e9;
 }
@@ -137,6 +137,9 @@ input[type=text],input[type=email],input[type=password] {
 /* END of Breadcrumb & Header*/
 
 /* CONTENT*/
+.content-header{
+  margin-bottom: 20px;
+}
 .list-text{
   white-space: nowrap;
   overflow: hidden;

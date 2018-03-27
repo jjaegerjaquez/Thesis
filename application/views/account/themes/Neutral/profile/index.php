@@ -190,26 +190,31 @@
             <span style="color:red" class="help-block"><?php echo form_error('category'); ?></span>
           </div>
           <div class="form-group">
-            <label>City/Province:</label>
-            <select class="form-control" name="city_province" id="city_province">
-              <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
-              <?php foreach ($localities as $key => $locality): ?>
-                <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
-              <?php endforeach; ?>
-            </select>
-            <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
-          </div>
-          <div class="form-group">
             <label>Business Name:</label>
             <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
             <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
           </div>
-          <div class="form-group">
-            <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+          <div class="row">
+            <div class="col-lg-8" style="padding-right:0px;">
+              <div class="form-group">
+                <label>Address:</label>
+                <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
+                <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>City/Province:</label>
+                <select class="form-control" name="city_province" id="city_province">
+                  <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
+                  <?php foreach ($localities as $key => $locality): ?>
+                    <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
+                  <?php endforeach; ?>
+                </select>
+                <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
+              </div>
+            </div>
           </div>
-
           <div class="form-group">
             <label>Cellphone Number: (Do NOT include the leading 0)</label>
             <div class="input-group">

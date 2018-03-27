@@ -120,6 +120,7 @@
         <div class="box">
           <div class="box-header with-border">
             <a href="/Admin/add_ad/Priority" class="btn btn-success"><i class="fa fa-plus"></i> Add priority ad</a>
+            <a href="/Admin/ending" class="btn btn-success"><i class="ion-alert-circled"></i> Ending ads</a>
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                 <i class="fa fa-minus"></i></button>

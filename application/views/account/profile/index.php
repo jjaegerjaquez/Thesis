@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/profile/style.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/croppic/croppic.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/jquery.guillotine.css">
 </head>
 <body>
 
@@ -40,45 +40,38 @@
       </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown notifications-menu">
+        <li class="dropdown notifications-menu" id="notif-div">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">10</span>
+            <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+            <?php endif; ?>
           </a>
           <ul class="dropdown-menu">
-            <li class="header">You have 10 notifications</li>
+            <!-- <li class="header">You have 10 notifications</li> -->
             <li>
               <!-- inner menu: contains the actual data -->
               <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                    page and may cause design problems
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-red"></i> 5 new members joined
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> You changed your username
-                  </a>
-                </li>
+                <?php if (!empty($notifications)): ?>
+                  <?php foreach ($notifications as $key => $notification): ?>
+                    <?php if ($notification->type_of_notification == 'Comment'): ?>
+                      <li>
+                        <a href="<?php echo $notification->href ?>">
+                          <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                        </a>
+                      </li>
+                    <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                      <li>
+                        <a href="<?php echo $notification->href ?>">
+                          <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                        </a>
+                      </li>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  You have no new notifications
+                <?php endif; ?>
               </ul>
             </li>
-            <li class="footer"><a href="#">View all</a></li>
+            <!-- <li class="footer"><a href="#">View all</a></li> -->
           </ul>
         </li>
         <li class="dropdown">
@@ -96,7 +89,6 @@
           </ul>
         </li>
       </ul>
-
     </div><!-- /.container-fluid -->
   </nav>
   <!-- END OF NAV -->
@@ -165,17 +157,22 @@
           <h2 class="">Basic Info</h2>
           <hr>
         </div>
-        <form class="" action="/Account/save_profile" method="post" enctype="multipart/form-data">
+        <form class="" action="" method="post" enctype="multipart/form-data">
           <div class="form-group cropHeaderWrapper">
-            <!-- <label>Profile Image:
+            <label>Profile Image:
               <br>
-              <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
+              <!-- <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span> -->
             </label>
-            <input class="" type="file" name="picture" /> -->
-            <!-- <h4 class="centered" style="color:#CC0000">DEMO/ OUTPUT </h4> -->
-            <p class="centered">( display url after cropping )</p>
-            <div id="croppic"></div>
-            <input type="text" name="" value="" id="cropOutput">
+            <input class="" type="file" name="picture" />
+            <div class="col-lg-5">
+              <div id="theparent">
+                <img id="thepicture" src="/public/img/barkadabg.jpg">
+              </div>
+            </div>
+
+            <div id="lol">
+
+            </div>
           </div>
           <div class="form-group">
             <label>Business Category:</label>
@@ -188,50 +185,56 @@
             <span style="color:red" class="help-block"><?php echo form_error('category'); ?></span>
           </div>
           <div class="form-group">
-            <label>City/Province:</label>
-            <select class="form-control" name="city_province" id="city_province">
-              <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
-              <?php foreach ($localities as $key => $locality): ?>
-                <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
-              <?php endforeach; ?>
-            </select>
-            <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
-          </div>
-          <div class="form-group">
             <label>Business Name:</label>
-            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name?><?php endif; ?>" maxlength="25">
+            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?><?php echo $details->business_name?><?php endif; ?>" maxlength="25">
             <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
           </div>
-          <div class="form-group">
-            <label>Address:</label>
-            <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+          <div class="row">
+            <div class="col-lg-8" style="padding-right:0;">
+              <div class="form-group">
+                <label>Address:</label>
+                <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?><?php echo $details->address ?><?php endif; ?>" maxlength="100">
+                <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>City/Province:</label>
+                <select class="form-control" name="city_province" id="city_province">
+                  <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
+                  <?php foreach ($localities as $key => $locality): ?>
+                    <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
+                  <?php endforeach; ?>
+                </select>
+                <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label>Cellphone Number: (Do NOT include the leading 0)</label>
             <div class="input-group">
               <div class="input-group-addon"><i>+63</i></div>
-              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone?><?php endif;?>" placeholder="917XXXXXXX" maxlength="10">
+              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?><?php echo $details->cellphone?><?php endif;?>" placeholder="917XXXXXXX" maxlength="10">
             </div>
             <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Telephone Number:</label>
-            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif;?>" maxlength="11">
+            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?><?php echo $details->telephone ?><?php endif;?>" maxlength="15">
             <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
           </div>
           <div class="form-group">
             <label>Contact Person:</label>
-            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
+            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?><?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
             <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
           </div>
           <div class="form-group">
             <label>Website URL:</label>
-            <input type="text" name="website_address" class="form-control" value="<?php if (!empty($details->website_url)): ?> <?php echo $details->website_url ?><?php endif; ?>">
+            <input type="text" name="website_address" class="form-control" value="<?php if (!empty($details->website_url)): ?><?php echo $details->website_url ?><?php endif; ?>">
             <span style="color:red" class="help-block"><?php echo form_error("website_address");?></span>
           </div>
           <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
+            <button id="save" type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </form>
       </div>
@@ -242,85 +245,56 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
-<script src="<?php echo base_url(); ?>public/js/croppic/croppic.js"></script>
-<script src="<?php echo base_url(); ?>public/js/croppic/croppic.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/jquery.guillotine.js"></script>
 <script>
-$( document ).ready(function() {
-  var cropperOptions = {
-    cropUrl: '<?php echo base_url() . "Account/crop_url" ?>',
-      outputUrlId: 'cropOutput',
-      modal: false,
-      processInline:true,
-      onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
-      onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
-      onImgDrag: function(){ console.log('onImgDrag') },
-      onImgZoom: function(){ console.log('onImgZoom') },
-      onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
-      onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
-      onReset:function(){ console.log('onReset') },
-      onError:function(errormessage){ console.log('onError:'+errormessage) }
-		}
-    var cropperHeader = new Croppic('croppic', cropperOptions);
-  // var croppicContaineroutputMinimal = {
-	// 			uploadUrl:'img_save_to_file.php',
-	// 			cropUrl:'img_crop_to_file.php',
-	// 			modal:false,
-	// 			doubleZoomControls:false,
-	// 		  rotateControls: false,
-  //       processInline:true,
-  //       outputUrlId:'myOutputId',
-	// 			onBeforeImgUpload: function(){ console.log('onBeforeImgUpload') },
-	// 			onAfterImgUpload: function(){ console.log('onAfterImgUpload') },
-	// 			onImgDrag: function(){ console.log('onImgDrag') },
-	// 			onImgZoom: function(){ console.log('onImgZoom') },
-	// 			onBeforeImgCrop: function(){ console.log('onBeforeImgCrop') },
-	// 			onAfterImgCrop:function(){ console.log('onAfterImgCrop') },
-	// 			onReset:function(){ console.log('onReset') },
-	// 			onError:function(errormessage){ console.log('onError:'+errormessage) }
-	// 	}
-	// 	var cropContaineroutput = new Croppic('croppic', croppicContaineroutputMinimal);
-  // var croppicContaineroutputOptions = {
-  //                      uploadUrl: '/Account/image_upload',
-  //                      cropUrl: '/Account/crop_url',
-  //                      outputUrlId: 'cropOutput',
-  //                      modal: false,
-  //                     //  loaderHtml: '<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
-  //                      onBeforeImgUpload: function () { console.log('onBeforeImgUpload')},
-  //                      onAfterImgUpload: function () {console.log('onAfterImgUpload')},
-  //                      onImgDrag: function () {console.log('onImgDrag')},
-  //                      onImgZoom: function () {console.log('onImgZoom')},
-  //                      onBeforeImgCrop: function () {console.log('onBeforeImgCrop')},
-  //                      onAfterImgCrop: function () {console.log('onAfterImgCrop')},
-  //                      onReset: function () {console.log('onReset')},
-  //                      onError: function (errormessage) {console.log('onError:' + errormessage)}
-  //                  }
-  //
-  //                  var cropContaineroutput = new Croppic('croppic', croppicContaineroutputOptions);
-  // var croppicContaineroutputOptions = {
-  //     cropUrl: '<?php echo base_url() . "Account/crop_url" ?>',
-  //      uploadUrl: '<?php echo base_url() . "Account/image_upload" ?>',
-  //      outputUrlId: 'cropOutput',
-  //      modal: false,
-  //      loaderHtml: '<div class="loader bubblingG"><span id="bubblingG_1"></span><span id="bubblingG_2"></span><span id="bubblingG_3"></span></div> ',
-  //      onBeforeImgUpload: function () { console.log('onBeforeImgUpload')},
-  //      onAfterImgUpload: function () {console.log('onAfterImgUpload')},
-  //      onImgDrag: function () {console.log('onImgDrag')},
-  //      onImgZoom: function () {console.log('onImgZoom')},
-  //      onBeforeImgCrop: function () {console.log('onBeforeImgCrop')},
-  //      onAfterImgCrop: function () {console.log('onAfterImgCrop')},
-  //      onReset: function () {console.log('onReset')},
-  //      onError: function (errormessage) {console.log('onError:' + errormessage)}
-  //   }
-  //
-  //   var cropContaineroutput = new Croppic('croppic', croppicContaineroutputOptions);
+<?php if ($this->session->userdata('is_logged_in')): ?>
+// (function() {
+//   var notif = function(){
+//     var user_id = {
+//         user_id: "<?php echo $details->id ?>"
+//     };
+//     $.ajax({
+//       url: "/Home/get_notif",
+//       type: "POST",
+//       data: user_id,
+//       success: function (data){
+//         // alert('Kumuha na ng notif');
+//           $('#notif-div').html(data);
+//       }
+//     });
+//   };
+//   setInterval(function(){
+//     notif();
+//   }, 60000);
+// })();
+// $('#notif-div').on('click', '#notif-count', function() {
+//     // alert('clicked');
+//     var user_id = {
+//              user_id: "<?php echo $details->id ?>"
+//          };
+//       $.ajax({
+//           url: "/Home/is_unread",
+//           type: 'POST',
+//           data: user_id,
+//           success: function(msg) {
+//             // alert("Na read na");
+//             $('#notif-count').html(msg);
+//           }
+//       });
+// });
+<?php endif; ?>
+var picture = $('#thepicture');  // Must be already loaded or cached!
+picture.guillotine({width: 500, height: 500});
+$('#save').click(function() {
+  var data = picture.guillotine('getData');
+  $.ajax({
+      url: "/Account/test",
+      type: 'POST',
+      data: data,
+      success: function(msg) {
+        alert("Success!");
+      }
+  });
 });
 </script>
 </body>

@@ -45,22 +45,10 @@ class Home extends CI_Controller
           redirect('/Home');
         }
     }
-    // if (!$this->session->userdata('traveller_is_logged_in'))
-    // {
-    //   $allowed = array(
-    //         'index',
-    //         'login',
-    //         'register',
-    //         'logout'
-    //     );
-    //     if ( ! in_array($this->router->fetch_method(), $allowed))
-    //     {
-    //       redirect('/Home');
-    //     }
-    // }
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
+      $this->data['image_crop'] = "";
       $this->data['traveller_details'] = $this->Homes->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Homes->get_traveller_profile($this->traveller_id);
       $this->data['notif_count'] = $this->Homes->get_notif_count($this->traveller_id);
@@ -729,6 +717,66 @@ class Home extends CI_Controller
       }
       redirect('/Home/profile', 'refresh');
     }
+  }
+
+  public function image()
+  {
+    $this->load->view('traveller/profile_image/index',$this->data);
+  }
+
+  public function upload_img()
+  {
+    if(!empty($_FILES['picture']['name']))
+      {
+            $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
+            $config['overwrite'] = TRUE;
+            $config['allowed_types'] = 'jpg|jpeg|png|gif';
+            $config['file_name'] = $_FILES['picture']['name'];
+
+            //Load upload library and initialize configuration
+            $this->load->library('upload',$config);
+            $this->upload->initialize($config);
+
+            if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
+                $uploadData = $this->upload->data();
+                $picture = $uploadData['file_name'];
+                // $this->data['image_crop'] = '/'.$config['upload_path'].'/'.$picture;
+                  $this->session->set_userdata('image_crop', '/'.$config['upload_path'].'/'.$picture);
+                  $this->session->set_userdata('image_name', $picture);
+                 echo '<script>alert("Image uploaded!");</script>';
+                 redirect('/Home/image', 'refresh');
+            }
+          }
+  }
+
+  public function crop()
+  {
+      $x_axis = $this->input->post('x');
+      $y_axis = $this->input->post('y');
+      $scale = $this->input->post('scale');
+         $target_path = './uploads'.'/'.$this->data['traveller_details']->username.'/crop_'.$_SESSION['image_name'];
+         $config['image_library'] = 'gd2';
+         $config['source_image'] = '.'.$_SESSION['image_crop'];
+         $config['new_image'] = $target_path;
+         $config['maintain_ratio'] = TRUE;
+        //  $config['scale'] = $scale;
+         $config['height'] = '300';
+         $config['width'] = '300';
+         $config['x_axis'] = $x_axis;
+         $config['y_axis'] = $y_axis;
+         $this->load->library('image_lib');
+         $this->image_lib->initialize($config);
+
+          if ( ! $this->image_lib->crop())
+          {
+            echo $this->image_lib->display_errors();
+          }else
+          {
+            $this->image_lib->clear();
+            $this->session->unset_userdata('image_crop');
+            $this->session->unset_userdata('image_name');
+            echo "Success";
+          }
   }
 
   public function security()

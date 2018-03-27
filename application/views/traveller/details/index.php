@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/traveller/style.css">
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -55,45 +54,34 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown notifications-menu">
+          <li class="dropdown notifications-menu" id="notif-div">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
+              <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+              <?php endif; ?>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <!-- <li class="header">You have 10 notifications</li> -->
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                      page and may cause design problems
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-users text-red"></i> 5 new members joined
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> You changed your username
-                    </a>
-                  </li>
+                  <?php foreach ($notifications as $key => $notification): ?>
+                    <?php if ($notification->type_of_notification == 'Comment'): ?>
+                      <li>
+                        <a href="<?php echo $notification->href ?>">
+                          <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                        </a>
+                      </li>
+                    <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                      <li>
+                        <a href="<?php echo $notification->href ?>">
+                          <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                        </a>
+                      </li>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
                 </ul>
               </li>
-              <li class="footer"><a href="#">View all</a></li>
+              <!-- <li class="footer"><a href="#">View all</a></li> -->
             </ul>
           </li>
           <li class="dropdown">
@@ -111,7 +99,6 @@
     </div><!-- /.container-fluid -->
   </nav>
   <!-- END NAVBAR -->
-  <!-- END NAVBAR -->
 
   <div class="container" style="margin-top:80px;">
     <div class="row">
@@ -126,7 +113,7 @@
     <div class="row">
       <div class="col-lg-offset-2 col-lg-8" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="title">Account details</h2>
+          <h3 class="title">Account details</h3>
           <hr>
         </div>
         <div class="content">
@@ -195,15 +182,43 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+<?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+(function() {
+  var notif = function(){
+    var user_id = {
+        user_id: "<?php echo $traveller_details->user_id ?>"
+    };
+    $.ajax({
+      url: "/Home/get_notif",
+      type: "POST",
+      data: user_id,
+      success: function (data){
+        // alert('Kumuha na ng notif');
+          $('#notif-div').html(data);
+      }
+    });
+  };
+  setInterval(function(){
+    notif();
+  }, 60000);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+      $.ajax({
+          url: "/Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
+<?php endif; ?>
 </script>
 </body>
 </html>

@@ -139,6 +139,9 @@ input[type=text],input[type=email],input[type=password] {
 /* END of Breadcrumb & Header*/
 
 /* CONTENT*/
+.content-header{
+  margin-bottom: 20px;
+}
 .box{
   background-color:#fff;
   border-left: 5px solid #ebe9e9;
@@ -224,7 +227,11 @@ input[type=text],input[type=email],input[type=password] {
   margin-bottom: 10px;
   font-family: 'Roboto Condensed', sans-serif;
 }
+.topic-details{
+  font-family: 'Roboto Condensed', sans-serif;
+}
 .topics h4{
+  font-family: 'Roboto Condensed', sans-serif;
   font-weight: bold;
 }
 .list-inline{

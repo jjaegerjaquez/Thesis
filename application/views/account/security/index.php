@@ -114,23 +114,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-12" style="">
-        <div class="col-lg-4" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
-          <div class="row text-title header-row">
-            <h3 class="">Change username</h3>
-            <hr>
-          </div>
-          <form class="" action="/Account/update_username" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Username:</label>
-              <input type="text" name="username" class="form-control" value="<?php if (!empty($account->username)): ?><?php echo $account->username?><?php endif; ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Update</button>
-            </div>
-          </form>
-        </div>
-        <div class="col-lg-4" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
+        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
           <div class="row text-title header-row">
             <h3 class="">Change email</h3>
             <hr>
@@ -146,7 +130,7 @@
             </div>
           </form>
         </div>
-        <div class="col-lg-4" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
+        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
           <div class="row text-title header-row">
             <h3 class="">Change password</h3>
             <hr>

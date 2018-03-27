@@ -119,7 +119,6 @@
                 <div class="form-group">
                   <label>Image:
                     <br>
-                    <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
                   </label>
                   <input class="" type="file" name="picture" />
                 </div>

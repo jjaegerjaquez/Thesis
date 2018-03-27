@@ -112,14 +112,20 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3><?php if (!empty($supplier_count->supplier_count)): ?>
+                <?php echo $supplier_count->supplier_count ?>
+              <?php endif; ?></h3>
 
-              <p>New suppliers</p>
+              <p><?php if ($supplier_count->supplier_count > 1): ?>
+                Suppliers
+              <?php else: ?>
+                Supplier
+              <?php endif; ?></p>
             </div>
             <div class="icon">
               <i class="fa fa-user-plus"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="<?php echo base_url() ?>Admin/suppliers" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -144,14 +150,20 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>358</h3>
+              <h3><?php if (!empty($vote_count->vote_count)): ?>
+                <?php echo $vote_count->vote_count ?>
+              <?php endif; ?></h3>
 
-              <p>Votes</p>
+              <p><?php if ($vote_count->vote_count > 1): ?>
+                Faves
+              <?php else: ?>
+                Fave
+              <?php endif; ?></p>
             </div>
             <div class="icon">
               <i class="fa fa-heart"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="<?php echo base_url() ?>Admin/faves" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -160,14 +172,20 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>915</h3>
+              <h3><?php if (!empty($review_count->review_count)): ?>
+                <?php echo $review_count->review_count ?>
+              <?php endif; ?></h3>
 
-              <p>Reviews</p>
+              <p><?php if ($review_count->review_count > 1): ?>
+                Reviews
+              <?php else: ?>
+                Review
+              <?php endif; ?></p>
             </div>
             <div class="icon">
               <i class="fa fa-pencil-square-o"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="<?php echo base_url() ?>Admin/reviews" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>

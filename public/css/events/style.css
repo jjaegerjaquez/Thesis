@@ -79,6 +79,9 @@ body{
 
 
 /* CONTENT*/
+.content-header{
+  margin-bottom: 50px;
+}
 .box{
   background-color: #fff;
   padding-left:0;

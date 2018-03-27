@@ -852,40 +852,40 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-(function() {
-  var notif = function(){
-    var user_id = {
-        user_id: "<?php echo $traveller_details->user_id ?>"
-    };
-    $.ajax({
-      url: "/Home/get_notif",
-      type: "POST",
-      data: user_id,
-      success: function (data){
-        // alert('Kumuha na ng notif');
-          $('#notif-div').html(data);
-      }
-    });
-  };
-  setInterval(function(){
-    notif();
-  }, 60000);
-})();
-$('#notif-div').on('click', '#notif-count', function() {
-    // alert('clicked');
-    var user_id = {
-             user_id: "<?php echo $traveller_details->user_id ?>"
-         };
-      $.ajax({
-          url: "/Home/is_unread",
-          type: 'POST',
-          data: user_id,
-          success: function(msg) {
-            // alert("Na read na");
-            $('#notif-count').html(msg);
-          }
-      });
-});
+// (function() {
+//   var notif = function(){
+//     var user_id = {
+//         user_id: "<?php echo $traveller_details->user_id ?>"
+//     };
+//     $.ajax({
+//       url: "/Home/get_notif",
+//       type: "POST",
+//       data: user_id,
+//       success: function (data){
+//         // alert('Kumuha na ng notif');
+//           $('#notif-div').html(data);
+//       }
+//     });
+//   };
+//   setInterval(function(){
+//     notif();
+//   }, 60000);
+// })();
+// $('#notif-div').on('click', '#notif-count', function() {
+//     // alert('clicked');
+//     var user_id = {
+//              user_id: "<?php echo $traveller_details->user_id ?>"
+//          };
+//       $.ajax({
+//           url: "/Home/is_unread",
+//           type: 'POST',
+//           data: user_id,
+//           success: function(msg) {
+//             // alert("Na read na");
+//             $('#notif-count').html(msg);
+//           }
+//       });
+// });
 <?php endif; ?>
 $('#Submit').click(function() {
     $('#error_message').show();

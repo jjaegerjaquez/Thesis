@@ -121,6 +121,7 @@
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
           <a href="/Admin/add_event" class="btn btn-success"><i class="fa fa-plus"></i> Add Event</a>
+          <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>

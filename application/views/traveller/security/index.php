@@ -127,7 +127,7 @@
       <div class="col-lg-9" style="">
         <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
           <div class="row text-title header-row">
-            <h3 class="">Change email</h3>
+            <h3 class="title">Change email</h3>
             <hr>
           </div>
           <form class="" action="/Home/update_email" method="post" enctype="multipart/form-data">
@@ -143,7 +143,7 @@
         </div>
         <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
           <div class="row text-title header-row">
-            <h3 class="">Change password</h3>
+            <h3 class="title">Change password</h3>
             <hr>
           </div>
           <form class="" action="/Home/update_password" method="post" enctype="multipart/form-data">
