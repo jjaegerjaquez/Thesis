@@ -576,144 +576,17 @@ class Home extends CI_Controller
     }
     else
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $query = $this->db->query("select * from profile where user_id = '$this->traveller_id'");
-        if ($query->num_rows() > 0)
-        {
-          $data['traveller_profile'] = $query->row();
-          if (empty($data['traveller_profile']->image))
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Profile = [
-                  'firstname' => $this->input->post('firstname'),
-                  'middlename' => $this->input->post('middlename'),
-                  'lastname' => $this->input->post('lastname'),
-                  'locality' => $this->input->post('locality'),
-                  'gender' => $this->input->post('gender'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
-                  // redirect('/Account/home', 'refresh');
-                }
-            }
-          }
-          else
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Profile = [
-                  'firstname' => $this->input->post('firstname'),
-                  'middlename' => $this->input->post('middlename'),
-                  'lastname' => $this->input->post('lastname'),
-                  'locality' => $this->input->post('locality'),
-                  'gender' => $this->input->post('gender'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
-                  // redirect('/Account/home', 'refresh');
-                }
-            }
-          }
-        }
-        else
-        {
-          $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Profile = [
-                'user_id' => $this->traveller_id,
-                'firstname' => $this->input->post('firstname'),
-                'middlename' => $this->input->post('middlename'),
-                'lastname' => $this->input->post('lastname'),
-                'locality' => $this->input->post('locality'),
-                'gender' => $this->input->post('gender'),
-                'address' => $this->input->post('address'),
-                'cellphone' => $this->input->post('cellphone'),
-                'image' => '/'.$config['upload_path'].'/'.$picture
-              ];
-              if ($this->db->insert('profile',$Profile)) {
-                // redirect('/Account/home', 'refresh');
-              }
-          }
-          else {
-            echo "Mali yung path";
-          }
-        }
-      }
-      else
-      {
-        $query = $this->db->query("select * from profile where user_id = '$this->traveller_id'");
-        if ($query->num_rows() > 0)
-        {
-          $data['traveller_profile'] = $query->row();
-          $Profile = [
-            'firstname' => $this->input->post('firstname'),
-            'middlename' => $this->input->post('middlename'),
-            'lastname' => $this->input->post('lastname'),
-            'locality' => $this->input->post('locality'),
-            'gender' => $this->input->post('gender'),
-            'address' => $this->input->post('address'),
-            'cellphone' => $this->input->post('cellphone')
-          ];
-          if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
-            // redirect('/Account/home', 'refresh');
-          }
-        }
-        else
-        {
-          $Profile = [
-            'user_id' => $this->traveller_id,
-            'firstname' => $this->input->post('firstname'),
-            'middlename' => $this->input->post('middlename'),
-            'lastname' => $this->input->post('lastname'),
-            'locality' => $this->input->post('locality'),
-            'gender' => $this->input->post('gender'),
-            'address' => $this->input->post('address'),
-            'cellphone' => $this->input->post('cellphone')
-          ];
-          if ($this->db->insert('profile', $Profile))
-          {
-
-          }
-        }
+      $Profile = [
+        'firstname' => $this->input->post('firstname'),
+        'middlename' => $this->input->post('middlename'),
+        'lastname' => $this->input->post('lastname'),
+        'locality' => $this->input->post('locality'),
+        'gender' => $this->input->post('gender'),
+        'address' => $this->input->post('address'),
+        'cellphone' => $this->input->post('cellphone')
+      ];
+      if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
+        // redirect('/Account/home', 'refresh');
       }
       redirect('/Home/profile', 'refresh');
     }
@@ -724,59 +597,53 @@ class Home extends CI_Controller
     $this->load->view('traveller/profile_image/index',$this->data);
   }
 
+  // public function upload_img()
+  // {
+  //   if(!empty($_FILES['picture']['name']))
+  //     {
+  //           $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
+  //           $config['overwrite'] = TRUE;
+  //           $config['allowed_types'] = 'jpg|jpeg|png|gif';
+  //           $config['file_name'] = $_FILES['picture']['name'];
+  //
+  //           //Load upload library and initialize configuration
+  //           $this->load->library('upload',$config);
+  //           $this->upload->initialize($config);
+  //
+  //           if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
+  //               $uploadData = $this->upload->data();
+  //               $picture = $uploadData['file_name'];
+  //               // $this->data['image_crop'] = '/'.$config['upload_path'].'/'.$picture;
+  //                 $this->session->set_userdata('image_crop', '/'.$config['upload_path'].'/'.$picture);
+  //                 $this->session->set_userdata('image_name', $picture);
+  //                echo '<script>alert("Image uploaded!");</script>';
+  //                redirect('/Home/image', 'refresh');
+  //           }
+  //         }
+  // }
+
   public function upload_img()
-  {
-    if(!empty($_FILES['picture']['name']))
-      {
-            $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
+ {
+   $path = 'uploads/'.$this->data['traveller_details']->username.'/';
+   $croped_image = $_POST['image'];
+    list($type, $croped_image) = explode(';', $croped_image);
+    list(, $croped_image)      = explode(',', $croped_image);
+    $croped_image = base64_decode($croped_image);
+    $image_name = time().'.png';
+    // upload cropped image to server
+    file_put_contents($path.$image_name, $croped_image);
+    $Profile = [
+                'image' => base_url().'/uploads'.'/'.$this->data['traveller_details']->username.'/'.$image_name
+              ];
+              if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
+                echo 'Profile image updated!';
+              }
 
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-                // $this->data['image_crop'] = '/'.$config['upload_path'].'/'.$picture;
-                  $this->session->set_userdata('image_crop', '/'.$config['upload_path'].'/'.$picture);
-                  $this->session->set_userdata('image_name', $picture);
-                 echo '<script>alert("Image uploaded!");</script>';
-                 redirect('/Home/image', 'refresh');
-            }
-          }
-  }
+ }
 
   public function crop()
   {
-      $x_axis = $this->input->post('x');
-      $y_axis = $this->input->post('y');
-      $scale = $this->input->post('scale');
-         $target_path = './uploads'.'/'.$this->data['traveller_details']->username.'/crop_'.$_SESSION['image_name'];
-         $config['image_library'] = 'gd2';
-         $config['source_image'] = '.'.$_SESSION['image_crop'];
-         $config['new_image'] = $target_path;
-         $config['maintain_ratio'] = TRUE;
-        //  $config['scale'] = $scale;
-         $config['height'] = '300';
-         $config['width'] = '300';
-         $config['x_axis'] = $x_axis;
-         $config['y_axis'] = $y_axis;
-         $this->load->library('image_lib');
-         $this->image_lib->initialize($config);
 
-          if ( ! $this->image_lib->crop())
-          {
-            echo $this->image_lib->display_errors();
-          }else
-          {
-            $this->image_lib->clear();
-            $this->session->unset_userdata('image_crop');
-            $this->session->unset_userdata('image_name');
-            echo "Success";
-          }
   }
 
   public function security()

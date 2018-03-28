@@ -245,7 +245,6 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>public/js/crop/jquery.guillotine.js"></script>
 <script>
 <?php if ($this->session->userdata('is_logged_in')): ?>
 // (function() {

@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
   <!-- jQuery 2.2.3 -->
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
-  <script src="<?php echo base_url(); ?>public/js/crop/jquery.guillotine.js"></script>
-  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js" type="text/javascript"></script>  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -22,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/traveller/style.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/jquery.guillotine.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.css">
 </head>
 <body>
 
@@ -42,14 +41,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li><a href="<?php echo base_url() ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url() ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url() ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url() ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -92,11 +91,11 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Home/profile">Account Settings</a></li>
+              <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/details">Account Details</a></li>
+              <li><a href="<?php echo base_url() ?>Home/details">Account Details</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/logout">Logout</a></li>
+              <li><a href="<?php echo base_url() ?>Home/logout">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -108,7 +107,7 @@
   <div class="container" style="margin-top:80px;">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Home">Home</a></li>
+        <li><a href="<?php echo base_url() ?>Home">Home</a></li>
         <li class="active">Profile</li>
       </ul>
     </div>
@@ -120,7 +119,7 @@
         <?php if (!empty($traveller_profile->image)): ?>
           <img src="<?php echo $traveller_profile->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="vertical-menu">
           <a href="/Home/image" class="active">Profile Image</a>
@@ -133,32 +132,17 @@
           <h2 class="title">Profile Image</h2>
           <hr>
         </div>
-        <form class="" action="/Home/upload_img" method="post" enctype="multipart/form-data">
-          <div class="col-lg-4">
+        <div class="col-lg-12 text-center">
+          <div class="col-lg-offset-3 col-lg-6 text-center">
             <div class="form-group">
-              <input class="" type="file" name="picture" />
+              <div id="upload-image"></div>
             </div>
             <div class="form-group">
-              <button id="upload" type="submit" name="upload" class="btn btn-success form-control"><i class="ion-upload"></i> Upload</button>
+              <label for="">Select image:</label>
+              <input type="file" id="images" class="form-control">
+              <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
             </div>
           </div>
-        </form>
-        <div class="col-lg-12 text-center" style="width:50%;">
-          <?php if (!empty($_SESSION['image_crop'])): ?>
-            <p><?php if (!empty($_SESSION['image_crop'])): ?><?php echo $_SESSION['image_crop'] ?><?php else: ?>/public/img/image-icon-300px.jpg<?php endif; ?></p>
-              <div class="form-group">
-                <img id="thepicture" src="<?php if (!empty($_SESSION['image_crop'])): ?><?php echo $_SESSION['image_crop'] ?><?php else: ?>/public/img/image-icon-300px.jpg<?php endif; ?>" alt="your image" />
-              </div>
-              <div class="form-group">
-                <div id='controls'>
-                  <button id='zoom_in' class="btn" type='button' title='Zoom in'> <i class="fa fa-search-plus"></i> </button>
-                  <button id='zoom_out'class="btn" type='button' title='Zoom out'> <i class="fa fa-search-minus"></i> </button>
-                </div>
-              </div>
-              <div class="form-group">
-                <button id="crop" type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save & crop</button>
-              </div>
-          <?php endif; ?>
         </div>
       </div>
     </div>
@@ -257,38 +241,80 @@
 //         $('#thepicture').attr('src', e.target.result);
 //     };
 // var defaultPicture = 'http://matiasgagliano.github.io/guillotine/img/unsplash.com_25.jpg';
-jQuery(function() {
-  var picture = $('#thepicture');
-  picture.on('load', function() {
-    var picture = $('#thepicture');
-    picture.guillotine({width: 300, height: 300});
-    $('#zoom_in').click(function(){
-      picture.guillotine('zoomIn');
-    });
-    $('#zoom_out').click(function(){
-      picture.guillotine('zoomOut');
-    });
-  })
+// jQuery(function() {
+//   var picture = $('#thepicture');
+//   picture.on('load', function() {
+//     var picture = $('#thepicture');
+//     picture.guillotine({width: 200, height: 200});
+//     $('#zoom_in').click(function(){
+//       picture.guillotine('zoomIn');
+//     });
+//     $('#zoom_out').click(function(){
+//       picture.guillotine('zoomOut');
+//     });
+//   })
+//
+//   $('#crop').click(function() {
+//     var data = picture.guillotine('getData');
+//     $.ajax({
+//         url: "/Home/crop",
+//         type: 'POST',
+//         data: data,
+//         success: function(msg) {
+//
+//           if (msg == 'Success') {
+//             alert('Success');
+//             $(location).attr('href','/Home/image');
+//             // $('#thepicture').attr('src', e.target.result);
+//           }else {
+//             alert(msg);
+//           }
+//         }
+//     });
+//   });
+// })
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+		width: 200,
+		height: 200,
+		type: 'square'
+	},
+	boundary: {
+		width: 300,
+		height: 300
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log('<?php echo base_url() ?>');
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
 
-  $('#crop').click(function() {
-    var data = picture.guillotine('getData');
-    $.ajax({
-        url: "/Home/crop",
-        type: 'POST',
-        data: data,
-        success: function(msg) {
-
-          if (msg == 'Success') {
-            alert('Success');
-            $(location).attr('href','/Home/image');
-            // $('#thepicture').attr('src', e.target.result);
-          }else {
-            alert(msg);
-          }
-        }
-    });
-  });
-})
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (response) {
+		$.ajax({
+			url: "<?php echo base_url() ?>Home/upload_img",
+			type: "POST",
+			data: {"image":response},
+			success: function (data) {
+        alert(data);
+        $(location).attr('href','<?php echo base_url() ?>Home/image');
+				// html = '<img src="' + response + '" />';
+				// $("#upload-image-i").html(html);
+			}
+		});
+	});
+});
 <?php endif; ?>
 </script>
 </body>

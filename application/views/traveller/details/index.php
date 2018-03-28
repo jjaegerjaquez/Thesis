@@ -37,14 +37,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li><a href="<?php echo base_url() ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url() ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url() ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url() ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -87,11 +87,11 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Home/profile">Account Settings</a></li>
+              <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/details">Account Details</a></li>
+              <li><a href="<?php echo base_url() ?>Home/details">Account Details</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/logout">Logout</a></li>
+              <li><a href="<?php echo base_url() ?>Home/logout">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -103,7 +103,7 @@
   <div class="container" style="margin-top:80px;">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Home">Home</a></li>
+        <li><a href="<?php echo base_url() ?>Home">Home</a></li>
         <li class="active">Account details</li>
       </ul>
     </div>
@@ -184,40 +184,40 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-(function() {
-  var notif = function(){
-    var user_id = {
-        user_id: "<?php echo $traveller_details->user_id ?>"
-    };
-    $.ajax({
-      url: "/Home/get_notif",
-      type: "POST",
-      data: user_id,
-      success: function (data){
-        // alert('Kumuha na ng notif');
-          $('#notif-div').html(data);
-      }
-    });
-  };
-  setInterval(function(){
-    notif();
-  }, 60000);
-})();
-$('#notif-div').on('click', '#notif-count', function() {
-    // alert('clicked');
-    var user_id = {
-             user_id: "<?php echo $traveller_details->user_id ?>"
-         };
-      $.ajax({
-          url: "/Home/is_unread",
-          type: 'POST',
-          data: user_id,
-          success: function(msg) {
-            // alert("Na read na");
-            $('#notif-count').html(msg);
-          }
-      });
-});
+// (function() {
+//   var notif = function(){
+//     var user_id = {
+//         user_id: "<?php echo $traveller_details->user_id ?>"
+//     };
+//     $.ajax({
+//       url: "/Home/get_notif",
+//       type: "POST",
+//       data: user_id,
+//       success: function (data){
+//         // alert('Kumuha na ng notif');
+//           $('#notif-div').html(data);
+//       }
+//     });
+//   };
+//   setInterval(function(){
+//     notif();
+//   }, 60000);
+// })();
+// $('#notif-div').on('click', '#notif-count', function() {
+//     // alert('clicked');
+//     var user_id = {
+//              user_id: "<?php echo $traveller_details->user_id ?>"
+//          };
+//       $.ajax({
+//           url: "/Home/is_unread",
+//           type: 'POST',
+//           data: user_id,
+//           success: function(msg) {
+//             // alert("Na read na");
+//             $('#notif-count').html(msg);
+//           }
+//       });
+// });
 <?php endif; ?>
 </script>
 </body>

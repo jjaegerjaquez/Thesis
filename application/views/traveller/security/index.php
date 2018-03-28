@@ -39,14 +39,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li><a href="<?php echo base_url() ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url() ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url() ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url() ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -89,11 +89,11 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Home/profile">Account Settings</a></li>
+              <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/details">Account Details</a></li>
+              <li><a href="<?php echo base_url() ?>Home/details">Account Details</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Home/logout">Logout</a></li>
+              <li><a href="<?php echo base_url() ?>Home/logout">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -105,7 +105,7 @@
   <div class="container" style="margin-top:80px;">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Home">Home</a></li>
+        <li><a href="<?php echo base_url() ?>Home">Home</a></li>
         <li class="active">Security</li>
       </ul>
     </div>
@@ -117,11 +117,12 @@
         <?php if (!empty($traveller_profile->image)): ?>
           <img src="<?php echo $traveller_profile->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="vertical-menu">
-          <a href="/Home/profile">Edit Profile</a>
-          <a href="/Home/security" class="active">Security</a>
+          <a href="<?php echo base_url() ?>Home/image">Profile Image</a>
+          <a href="<?php echo base_url() ?>Home/profile">Edit Profile</a>
+          <a href="<?php echo base_url() ?>Home/security" class="active">Security</a>
         </div>
       </div>
       <div class="col-lg-9" style="">
@@ -130,7 +131,7 @@
             <h3 class="title">Change email</h3>
             <hr>
           </div>
-          <form class="" action="/Home/update_email" method="post" enctype="multipart/form-data">
+          <form class="" action="<?php echo base_url() ?>Home/update_email" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label>Email:</label>
               <input type="text" name="email" class="form-control" value="<?php if (!empty($traveller_details->email)): ?><?php echo $traveller_details->email?><?php endif; ?>" maxlength="25">
@@ -146,7 +147,7 @@
             <h3 class="title">Change password</h3>
             <hr>
           </div>
-          <form class="" action="/Home/update_password" method="post" enctype="multipart/form-data">
+          <form class="" action="<?php echo base_url() ?>Home/update_password" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label>Enter old password:</label>
               <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
@@ -185,7 +186,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/about/">Learn More</a>
+                              <?php endif; ?> <a href="<?php echo base_url() ?>About/">Learn More</a>
                           </p>
                         </div>
                     </div>
@@ -216,40 +217,40 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-(function() {
-  var notif = function(){
-    var user_id = {
-        user_id: "<?php echo $traveller_details->user_id ?>"
-    };
-    $.ajax({
-      url: "/Home/get_notif",
-      type: "POST",
-      data: user_id,
-      success: function (data){
-        // alert('Kumuha na ng notif');
-          $('#notif-div').html(data);
-      }
-    });
-  };
-  setInterval(function(){
-    notif();
-  }, 60000);
-})();
-$('#notif-div').on('click', '#notif-count', function() {
-    // alert('clicked');
-    var user_id = {
-             user_id: "<?php echo $traveller_details->user_id ?>"
-         };
-      $.ajax({
-          url: "/Home/is_unread",
-          type: 'POST',
-          data: user_id,
-          success: function(msg) {
-            // alert("Na read na");
-            $('#notif-count').html(msg);
-          }
-      });
-});
+// (function() {
+//   var notif = function(){
+//     var user_id = {
+//         user_id: "<?php echo $traveller_details->user_id ?>"
+//     };
+//     $.ajax({
+//       url: "/Home/get_notif",
+//       type: "POST",
+//       data: user_id,
+//       success: function (data){
+//         // alert('Kumuha na ng notif');
+//           $('#notif-div').html(data);
+//       }
+//     });
+//   };
+//   setInterval(function(){
+//     notif();
+//   }, 60000);
+// })();
+// $('#notif-div').on('click', '#notif-count', function() {
+//     // alert('clicked');
+//     var user_id = {
+//              user_id: "<?php echo $traveller_details->user_id ?>"
+//          };
+//       $.ajax({
+//           url: "/Home/is_unread",
+//           type: 'POST',
+//           data: user_id,
+//           success: function(msg) {
+//             // alert("Na read na");
+//             $('#notif-count').html(msg);
+//           }
+//       });
+// });
 <?php endif; ?>
 </script>
 </body>

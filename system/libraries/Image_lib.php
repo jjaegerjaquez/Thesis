@@ -425,7 +425,7 @@ class CI_Image_lib {
 
 		$this->image_library 		= 'gd2';
 		$this->dynamic_output 		= FALSE;
-		$this->quality 				= 90;
+		$this->quality 				= 100;
 		$this->create_thumb 		= FALSE;
 		$this->thumb_marker 		= '_thumb';
 		$this->maintain_ratio 		= TRUE;
