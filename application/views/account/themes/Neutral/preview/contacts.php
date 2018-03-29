@@ -38,10 +38,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/Theme/preview/Neutral">Home</a></li>
-          <li><a href="/Theme/about/Neutral">About</a></li>
-          <li><a href="/Theme/gallery/Neutral">Gallery</a></li>
-          <li><a href="/Theme/contacts/Neutral">Contact</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/preview/Neutral">Home</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/about/Neutral">About</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/gallery/Neutral">Gallery</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/contacts/Neutral">Contact</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

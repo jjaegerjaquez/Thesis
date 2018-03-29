@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -57,7 +58,7 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="/uploads/images/<?php echo $user->image?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url(); ?>uploads/images/<?php echo $user->image?>" class="img-circle" alt="User Image">
 
                 <p>
                   Admin<small>Member since <?php $joined = strtotime($user->date_joined);
@@ -69,7 +70,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="/Admin/logout" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?php echo base_url(); ?>Admin/logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -87,14 +88,14 @@
     <section class="sidebar">
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
-        <li class="active treeview"><a href="/Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="treeview"><a href="/Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
-        <li class="treeview"><a href="/Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
-        <li class="treeview"><a href="/Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
-        <li class="treeview"><a href="/Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
-        <li class="treeview"><a href="/Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
-        <li class="treeview"><a href="/Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
-        <li class="treeview"><a href="/Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->

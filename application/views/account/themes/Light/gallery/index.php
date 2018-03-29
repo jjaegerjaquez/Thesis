@@ -167,7 +167,7 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="title">Gallery</h2>
+          <h3 class="title">Gallery</h3>
           <a href="<?php echo base_url(); ?>Light/add_image" class="btn btn-success"><i class="fa fa-plus"></i> Add Image</a>
           <hr>
         </div>

@@ -22,7 +22,7 @@ class Admin extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Admin');
+          redirect(base_url().'Admin');
         }
     }
     else
@@ -30,6 +30,7 @@ class Admin extends CI_Controller
       $this->username = $_SESSION['username'];
       $this->data['user'] = $this->Admins->validate_user($this->username);
       $this->data['title'] = $this->Admins->get_title();
+      $this->data['icon'] = $this->Admins->get_site_icon();
       $this->data['tagline'] = $this->Admins->get_tagline();
       $this->data['review_count'] = $this->Admins->get_reviews_count();
       $this->data['vote_count'] = $this->Admins->get_vote_count();
@@ -41,7 +42,7 @@ class Admin extends CI_Controller
   {
     if ($this->session->userdata('admin_is_logged_in'))
     {
-      redirect('/Admin/dashboard');
+      redirect(base_url().'Admin/dashboard');
     }
     $data['error'] = '';
     $this->load->view('admin/index',$data);
@@ -89,7 +90,7 @@ class Admin extends CI_Controller
           $this->session->set_userdata('admin_id', $data['user']->admin_id);
           $this->session->set_userdata('username', $data['user']->username);
           $this->session->set_userdata('admin_is_logged_in', true);
-          redirect('/Admin/dashboard');
+          redirect(base_url().'Admin/dashboard');
         }
       }
       else //If hindi existing yung username sa db
@@ -150,7 +151,7 @@ class Admin extends CI_Controller
     $this->db->where('id', $id);
     $this->db->delete('basic_info');
      echo '<script>alert("Business deleted!");</script>';
-     redirect('/Admin/suppliers', 'refresh');
+     redirect(base_url().'Admin/suppliers', 'refresh');
   }
 
   public function faves()
@@ -192,7 +193,7 @@ class Admin extends CI_Controller
     $this->db->where('vote_id', $id);
     $this->db->delete('votes');
      echo '<script>alert("Fave deleted!");</script>';
-     redirect('/Admin/faves', 'refresh');
+     redirect(base_url().'Admin/faves', 'refresh');
   }
 
   public function reviews()
@@ -325,10 +326,10 @@ class Admin extends CI_Controller
 
               if ($this->db->insert('localities',$Locality)) {
                 echo '<script>alert("Locality added!");</script>';
-                redirect('/Admin/localities', 'refresh');
+                redirect(base_url().'Admin/localities', 'refresh');
               }else {
                 echo '<script>alert("Locality not added!");</script>';
-                redirect('/Admin/localities', 'refresh');
+                redirect(base_url().'Admin/localities', 'refresh');
               }
           }else{
             $Locality = [
@@ -339,10 +340,10 @@ class Admin extends CI_Controller
 
             if ($this->db->insert('localities',$Locality)) {
               echo '<script>alert("Locality added!");</script>';
-              redirect('/Admin/localities', 'refresh');
+              redirect(base_url().'Admin/localities', 'refresh');
             }else {
               echo '<script>alert("Locality not added!");</script>';
-              redirect('/Admin/localities', 'refresh');
+              redirect(base_url().'Admin/localities', 'refresh');
             }
           }
       }else{
@@ -354,10 +355,10 @@ class Admin extends CI_Controller
 
         if ($this->db->insert('localities',$Locality)) {
           echo '<script>alert("Locality added!");</script>';
-          redirect('/Admin/localities', 'refresh');
+          redirect(base_url().'Admin/localities', 'refresh');
         }else {
           echo '<script>alert("Locality not added!");</script>';
-          redirect('/Admin/localities', 'refresh');
+          redirect(base_url().'Admin/localities', 'refresh');
         }
       }
     }
@@ -423,7 +424,7 @@ class Admin extends CI_Controller
 
               $this->Admins->update_locality($Locality,$locality_id);
               echo '<script>alert("Locality updated!");</script>';
-              redirect('/Admin/localities', 'refresh');
+              redirect(base_url().'Admin/localities', 'refresh');
           }else{
             $Locality = [
               'locality' => $this->input->post('locality'),
@@ -432,7 +433,7 @@ class Admin extends CI_Controller
 
             $this->Admins->update_locality($Locality,$locality_id);
             echo '<script>alert("Your image size is not appropriate..");</script>';
-            redirect('/Admin/localities', 'refresh');
+            redirect(base_url().'Admin/localities', 'refresh');
           }
       } //END NG KAPAG MAY LAMAN NA IMAGE
       else //KAPAG WALANG LAMAN NA IMAGE
@@ -444,7 +445,7 @@ class Admin extends CI_Controller
 
         $this->Admins->update_locality($Locality,$locality_id);
         echo '<script>alert("Locality updated!");</script>';
-        redirect('/Admin/localities', 'refresh');
+        redirect(base_url().'Admin/localities', 'refresh');
       }
     }
   }
@@ -454,7 +455,7 @@ class Admin extends CI_Controller
     $this->db->where('locality_id', $locality_id);
     $this->db->delete('localities');
      echo '<script>alert("Locality deleted!");</script>';
-     redirect('/Admin/localities', 'refresh');
+     redirect(base_url().'Admin/localities', 'refresh');
   }
   // END OF LOCALITY
 
@@ -547,10 +548,10 @@ class Admin extends CI_Controller
 
               if ($this->db->insert('categories',$Category)) {
                 echo '<script>alert("Category added!");</script>';
-                redirect('/Admin/categories', 'refresh');
+                redirect(base_url().'Admin/categories', 'refresh');
               }else {
                 echo '<script>alert("Category not added!");</script>';
-                redirect('/Admin/categories', 'refresh');
+                redirect(base_url().'Admin/categories', 'refresh');
               }
           }else{
             $Category = [
@@ -561,10 +562,10 @@ class Admin extends CI_Controller
 
             if ($this->db->insert('categories',$Category)) {
               echo '<script>alert("Category added!");</script>';
-              redirect('/Admin/categories', 'refresh');
+              redirect(base_url().'Admin/categories', 'refresh');
             }else {
               echo '<script>alert("Category not added!");</script>';
-              redirect('/Admin/categories', 'refresh');
+              redirect(base_url().'Admin/categories', 'refresh');
             }
           }
       }else{
@@ -576,10 +577,10 @@ class Admin extends CI_Controller
 
         if ($this->db->insert('categories',$Category)) {
           echo '<script>alert("Category added!");</script>';
-          redirect('/Admin/categories', 'refresh');
+          redirect(base_url().'Admin/categories', 'refresh');
         }else {
           echo '<script>alert("Category not added!");</script>';
-          redirect('/Admin/categories', 'refresh');
+          redirect(base_url().'Admin/categories', 'refresh');
         }
       }
     }
@@ -645,7 +646,7 @@ class Admin extends CI_Controller
 
               $this->Admins->update_category($Category,$category_id);
               echo '<script>alert("Category updated!");</script>';
-              redirect('/Admin/categories', 'refresh');
+              redirect(base_url().'Admin/categories', 'refresh');
           }else{
             $Category = [
               'category' => $this->input->post('category'),
@@ -654,7 +655,7 @@ class Admin extends CI_Controller
 
             $this->Admins->update_category($Category,$category_id);
             echo '<script>alert("Your image size is not appropriate..");</script>';
-            redirect('/Admin/categories', 'refresh');
+            redirect(base_url().'Admin/categories', 'refresh');
           }
       } //END NG KAPAG MAY LAMAN NA IMAGE
       else //KAPAG WALANG LAMAN NA IMAGE
@@ -666,7 +667,7 @@ class Admin extends CI_Controller
 
         $this->Admins->update_category($Category,$category_id);
         echo '<script>alert("Category updated!");</script>';
-        redirect('/Admin/categories', 'refresh');
+        redirect(base_url().'Admin/categories', 'refresh');
       }
     }
   }
@@ -676,7 +677,7 @@ class Admin extends CI_Controller
     $this->db->where('category_id', $category_id);
     $this->db->delete('categories');
      echo '<script>alert("Category deleted!");</script>';
-     redirect('/Admin/categories', 'refresh');
+     redirect(base_url().'Admin/categories', 'refresh');
   }
   // END OF CATEGORY
 
@@ -783,10 +784,10 @@ class Admin extends CI_Controller
                 if (!is_dir($path)) { //create the folder if it's not already exists
                     mkdir($path, 0755, TRUE);
                 }
-                redirect('/Admin/add_theme', 'refresh');
+                redirect(base_url().'Admin/add_theme', 'refresh');
               }else {
                 echo '<script>alert("Theme not added!");</script>';
-                redirect('/Admin/add_theme', 'refresh');
+                redirect(base_url().'Admin/add_theme', 'refresh');
               }
           }else{
             $Theme = [
@@ -803,10 +804,10 @@ class Admin extends CI_Controller
               if (!is_dir($path)) { //create the folder if it's not already exists
                   mkdir($path, 0755, TRUE);
               }
-              redirect('/Admin/add_theme', 'refresh');
+              redirect(base_url().'Admin/add_theme', 'refresh');
             }else {
               echo '<script>alert("Theme not added!");</script>';
-              redirect('/Admin/add_theme', 'refresh');
+              redirect(base_url().'Admin/add_theme', 'refresh');
             }
           }
       }else{
@@ -824,10 +825,10 @@ class Admin extends CI_Controller
           if (!is_dir($path)) { //create the folder if it's not already exists
               mkdir($path, 0755, TRUE);
           }
-          redirect('/Admin/add_theme', 'refresh');
+          redirect(base_url().'Admin/add_theme', 'refresh');
         }else {
           echo '<script>alert("Theme not added!");</script>';
-          redirect('/Admin/add_theme', 'refresh');
+          redirect(base_url().'Admin/add_theme', 'refresh');
         }
       }
     }
@@ -899,10 +900,10 @@ class Admin extends CI_Controller
 
               $this->Admins->update_theme($Theme,$theme_id);
               echo '<script>alert("Theme updated!");</script>';
-              redirect('/Admin/edit_theme/'.$theme_id, 'refresh');
+              redirect(base_url().'Admin/edit_theme/'.$theme_id, 'refresh');
           }else{
             echo '<script>alert("Something went wrong, theme not updated!");</script>';
-            redirect('/Admin/themes', 'refresh');
+            redirect(base_url().'Admin/themes', 'refresh');
           }
       }else{
         $Theme = [
@@ -913,7 +914,7 @@ class Admin extends CI_Controller
 
         $this->Admins->update_theme($Theme,$theme_id);
         echo '<script>alert("Theme updated!");</script>';
-        redirect('/Admin/edit_theme/'.$theme_id, 'refresh');
+        redirect(base_url().'Admin/edit_theme/'.$theme_id, 'refresh');
       }
     }
   }
@@ -923,7 +924,7 @@ class Admin extends CI_Controller
     $this->db->where('theme_id', $theme_id);
     $this->db->delete('themes');
      echo '<script>alert("Theme deleted!");</script>';
-     redirect('/Admin/themes', 'refresh');
+     redirect(base_url().'Admin/themes', 'refresh');
   }
   // END OF THEMES
 
@@ -1140,7 +1141,7 @@ class Admin extends CI_Controller
           }
         }
       }
-      redirect('/Admin/layout', 'refresh');
+      redirect(base_url().'Admin/layout', 'refresh');
     }
   }
 
@@ -1266,7 +1267,7 @@ class Admin extends CI_Controller
           }
         }
       }
-      redirect('/Admin/layout', 'refresh');
+      redirect(base_url().'Admin/layout', 'refresh');
     }
   }
   // END OF LAYOUT
@@ -1458,10 +1459,10 @@ class Admin extends CI_Controller
 
               if ($this->db->insert('advertisements',$Ad)) {
                 echo '<script>alert("Advertisement added!");</script>';
-                redirect('/Admin/advertisements', 'refresh');
+                redirect(base_url().'Admin/advertisements', 'refresh');
               }else {
                 echo '<script>alert("Advertisement not added!");</script>';
-                redirect('/Admin/advertisements', 'refresh');
+                redirect(base_url().'Admin/advertisements', 'refresh');
               }
           }
           else
@@ -1492,10 +1493,10 @@ class Admin extends CI_Controller
 
             if ($this->db->insert('advertisements',$Ad)) {
               echo '<script>alert("Advertisement added!");</script>';
-              redirect('/Admin/advertisements', 'refresh');
+              redirect(base_url().'Admin/advertisements', 'refresh');
             }else {
               echo '<script>alert("Advertisement not added!");</script>';
-              redirect('/Admin/advertisements', 'refresh');
+              redirect(base_url().'Admin/advertisements', 'refresh');
             }
           }
         }
@@ -1527,10 +1528,10 @@ class Admin extends CI_Controller
 
           if ($this->db->insert('advertisements',$Ad)) {
             echo '<script>alert("Advertisement added!");</script>';
-            redirect('/Admin/advertisements', 'refresh');
+            redirect(base_url().'Admin/advertisements', 'refresh');
           }else {
             echo '<script>alert("Advertisement not added!");</script>';
-            redirect('/Admin/advertisements', 'refresh');
+            redirect(base_url().'Admin/advertisements', 'refresh');
           }
         }
       }
@@ -1568,10 +1569,10 @@ class Admin extends CI_Controller
 
                 if ($this->db->insert('advertisements',$Ad)) {
                   echo '<script>alert("Advertisement added!");</script>';
-                  redirect('/Admin/advertisements', 'refresh');
+                  redirect(base_url().'Admin/advertisements', 'refresh');
                 }else {
                   echo '<script>alert("Advertisement not added!");</script>';
-                  redirect('/Admin/advertisements', 'refresh');
+                  redirect(base_url().'Admin/advertisements', 'refresh');
                 }
             }
             else
@@ -1589,10 +1590,10 @@ class Admin extends CI_Controller
 
               if ($this->db->insert('advertisements',$Ad)) {
                 echo '<script>alert("Advertisement added!");</script>';
-                redirect('/Admin/advertisements', 'refresh');
+                redirect(base_url().'Admin/advertisements', 'refresh');
               }else {
                 echo '<script>alert("Advertisement not added!");</script>';
-                redirect('/Admin/advertisements', 'refresh');
+                redirect(base_url().'Admin/advertisements', 'refresh');
               }
             }
           }
@@ -1611,17 +1612,17 @@ class Admin extends CI_Controller
 
             if ($this->db->insert('advertisements',$Ad)) {
               echo '<script>alert("Advertisement added!");</script>';
-              redirect('/Admin/advertisements', 'refresh');
+              redirect(base_url().'Admin/advertisements', 'refresh');
             }else {
               echo '<script>alert("Advertisement not added!");</script>';
-              redirect('/Admin/advertisements', 'refresh');
+              redirect(base_url().'Admin/advertisements', 'refresh');
             }
           }
         }
         else
         {
           echo '<script>alert("You have reached the maximum number of priority ads..");</script>';
-          redirect('/Admin/add_ad/'.$type, 'refresh');
+          redirect(base_url().'Admin/add_ad/'.$type, 'refresh');
         }
       }
     }
@@ -1736,7 +1737,7 @@ class Admin extends CI_Controller
             if ($this->Admins->update_ad($Ad,$ad_id))
             { //KAPAG NAUPDATE YUNG Image at data
               echo '<script>alert("Advertisement updated!");</script>';
-              redirect('/Admin/advertisements', 'refresh');
+              redirect(base_url().'Admin/advertisements', 'refresh');
             }
             else
             { //KAPAG DI NAUPDATE YUNG Image at data
@@ -1758,7 +1759,7 @@ class Admin extends CI_Controller
           if ($this->Admins->update_ad($Ad,$ad_id))
           { //KAPAG NAUPDATE YUNG Image at data
             echo '<script>alert("Advertisement updated!");</script>';
-            redirect('/Admin/advertisements', 'refresh');
+            redirect(base_url().'Admin/advertisements', 'refresh');
           }
           else
           { //KAPAG DI NAUPDATE YUNG Image at data
@@ -1780,7 +1781,7 @@ class Admin extends CI_Controller
         if ($this->Admins->update_ad($Ad,$ad_id))
         { //KAPAG NAUPDATE YUNG Image at data
           echo '<script>alert("Advertisement updated!");</script>';
-          redirect('/Admin/advertisements', 'refresh');
+          redirect(base_url().'Admin/advertisements', 'refresh');
         }
         else
         { //KAPAG DI NAUPDATE YUNG Image at data
@@ -1795,7 +1796,7 @@ class Admin extends CI_Controller
     $this->db->where('advertisement_id', $advertisement_id);
     $this->db->delete('advertisements');
     echo '<script>alert("Advertisement deleted!");</script>';
-    redirect('/Admin/advertisements', 'refresh');
+    redirect(base_url().'Admin/advertisements', 'refresh');
   }
   // END OF ADVERTISEMENTS
 
@@ -1973,17 +1974,17 @@ class Admin extends CI_Controller
 
               if ($this->db->insert('events',$Event)) {
                 echo '<script>alert("Event added!");</script>';
-                redirect('/Admin/events', 'refresh');
+                redirect(base_url().'Admin/events', 'refresh');
               }else {
                 echo '<script>alert("Event not added!");</script>';
-                redirect('/Admin/add_event', 'refresh');
+                redirect(base_url().'Admin/add_event', 'refresh');
               }
             }
         }
         else
         {
           $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect('/Admin/add_event/');
+          redirect(base_url().'Admin/add_event/');
         }
       }
       else
@@ -2015,10 +2016,10 @@ class Admin extends CI_Controller
 
         if ($this->db->insert('events',$Event)) {
           echo '<script>alert("Event added!");</script>';
-          redirect('/Admin/events', 'refresh');
+          redirect(base_url().'Admin/events', 'refresh');
         }else {
           echo '<script>alert("Event not added!");</script>';
-          redirect('/Admin/add_event', 'refresh');
+          redirect(base_url().'Admin/add_event', 'refresh');
         }
       }
     }
@@ -2137,19 +2138,19 @@ class Admin extends CI_Controller
               if ($this->Admins->update_event($Event,$event_id))
               {
                 echo '<script>alert("Event updated!");</script>';
-                redirect('/Admin/events', 'refresh');
+                redirect(base_url().'Admin/events', 'refresh');
               }
               else
               {
                 echo '<script>alert("Event cannot be updated...");</script>';
-                redirect('/Admin/edit_event/'.$event_id, 'refresh');
+                redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
               }
             }
         }
         else
         {
           $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect('/Admin/edit_event/'.$event_id);
+          redirect(base_url().'Admin/edit_event/'.$event_id);
         }
       }
       else
@@ -2180,12 +2181,12 @@ class Admin extends CI_Controller
         if ($this->Admins->update_event($Event,$event_id))
         {
           echo '<script>alert("Event updated!");</script>';
-          redirect('/Admin/events', 'refresh');
+          redirect(base_url().'Admin/events', 'refresh');
         }
         else
         {
           echo '<script>alert("Event cannot be updated...");</script>';
-          redirect('/Admin/edit_event/'.$event_id, 'refresh');
+          redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
         }
       }
     }
@@ -2196,7 +2197,7 @@ class Admin extends CI_Controller
     $this->db->where('event_id', $event_id);
     $this->db->delete('events');
     echo '<script>alert("Event deleted!");</script>';
-    redirect('/Admin/events', 'refresh');
+    redirect(base_url().'Admin/events', 'refresh');
   }
 
   public function finished()
@@ -2348,19 +2349,19 @@ class Admin extends CI_Controller
               if ($this->Admins->update_event($Event,$event_id))
               {
                 echo '<script>alert("Event updated!");</script>';
-                redirect('/Admin/finished', 'refresh');
+                redirect(base_url().'Admin/finished', 'refresh');
               }
               else
               {
                 echo '<script>alert("Event cannot be updated...");</script>';
-                redirect('/Admin/edit_finished_event/'.$event_id, 'refresh');
+                redirect(base_url().'Admin/edit_finished_event/'.$event_id, 'refresh');
               }
             }
         }
         else
         {
           $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect('/Admin/edit_finished_event/'.$event_id);
+          redirect(base_url().'Admin/edit_finished_event/'.$event_id);
         }
       }
       else
@@ -2391,12 +2392,12 @@ class Admin extends CI_Controller
         if ($this->Admins->update_event($Event,$event_id))
         {
           echo '<script>alert("Event updated!");</script>';
-          redirect('/Admin/finished', 'refresh');
+          redirect(base_url().'Admin/finished', 'refresh');
         }
         else
         {
           echo '<script>alert("Event cannot be updated...");</script>';
-          redirect('/Admin/edit_finished_event/'.$event_id, 'refresh');
+          redirect(base_url().'Admin/edit_finished_event/'.$event_id, 'refresh');
         }
       }
     }
@@ -2407,7 +2408,7 @@ class Admin extends CI_Controller
     $this->db->where('event_id', $event_id);
     $this->db->delete('events');
     echo '<script>alert("Event deleted!");</script>';
-    redirect('/Admin/finished', 'refresh');
+    redirect(base_url().'Admin/finished', 'refresh');
   }
   // END OF EVENTS
 
@@ -2476,10 +2477,10 @@ class Admin extends CI_Controller
 
       if ($this->db->insert('topics',$Topic)) {
         echo '<script>alert("Topic added!");</script>';
-        redirect('/Admin/forum', 'refresh');
+        redirect(base_url().'Admin/forum', 'refresh');
       }else {
         echo '<script>alert("Cannot save topic...");</script>';
-        redirect('/Admin/add_topic', 'refresh');
+        redirect(base_url().'Admin/add_topic', 'refresh');
       }
     }
   }
@@ -2513,10 +2514,10 @@ class Admin extends CI_Controller
 
       if ($this->Admins->update_topic($Topic,$topic_id)) {
         echo '<script>alert("Topic updated!");</script>';
-        redirect('/Admin/forum', 'refresh');
+        redirect(base_url().'Admin/forum', 'refresh');
       }else {
         echo '<script>alert("Topic cannot be updated...");</script>';
-        redirect('/Admin/edit_topic/'.$topic_id, 'refresh');
+        redirect(base_url().'Admin/edit_topic/'.$topic_id, 'refresh');
       }
     }
   }
@@ -2526,7 +2527,7 @@ class Admin extends CI_Controller
     $this->db->where('topic_id', $topic_id);
     $this->db->delete('topics');
      echo '<script>alert("Topic deleted!");</script>';
-     redirect('/Admin/forum', 'refresh');
+     redirect(base_url().'Admin/forum', 'refresh');
   }
 
   public function approve()
@@ -2568,12 +2569,12 @@ class Admin extends CI_Controller
     if ($this->Admins->approve_topic($topic_id))
     {
       echo '<script>alert("Topic approved!");</script>';
-      redirect('/Admin/approve', 'refresh');
+      redirect(base_url().'Admin/approve', 'refresh');
     }
     else
     {
       echo '<script>alert("Cannot approve..");</script>';
-      redirect('/Admin/approve', 'refresh');
+      redirect(base_url().'Admin/approve', 'refresh');
     }
   }
 
@@ -2582,7 +2583,7 @@ class Admin extends CI_Controller
     $this->db->where('topic_id', $topic_id);
     $this->db->delete('topics');
      echo '<script>alert("Topic deleted!");</script>';
-     redirect('/Admin/approve', 'refresh');
+     redirect(base_url().'Admin/approve', 'refresh');
   }
 
   public function view_approved()
@@ -2624,12 +2625,12 @@ class Admin extends CI_Controller
     if ($this->Admins->disapprove_topic($topic_id))
     {
       echo '<script>alert("Topic disapproved!");</script>';
-      redirect('/Admin/view_approved', 'refresh');
+      redirect(base_url().'Admin/view_approved', 'refresh');
     }
     else
     {
       echo '<script>alert("Cannot disapprove..");</script>';
-      redirect('/Admin/view_approved', 'refresh');
+      redirect(base_url().'Admin/view_approved', 'refresh');
     }
   }
   // END OF FORUM
@@ -2641,6 +2642,6 @@ class Admin extends CI_Controller
           $this->session->unset_userdata('admin_is_logged_in');
           $this->session->unset_userdata('username');
         }
-        redirect('/Admin');
+        redirect(base_url().'Admin');
   }
 }

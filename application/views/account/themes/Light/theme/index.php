@@ -169,7 +169,7 @@
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
           <ul class="list-inline theme-ul">
-            <li><h2 class="">Theme</h2></li>
+            <li><h3 class="title">Theme</h3></li>
             <li class="pull-right">
               <a target="_blank" href="<?php echo $details->website_url ?>" class="btn btn-primary btn-style"><span>Preview my site</span></a>
             </li>

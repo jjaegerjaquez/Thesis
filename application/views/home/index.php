@@ -48,14 +48,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -98,11 +98,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -127,14 +127,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -364,7 +364,7 @@
 
   <!-- IMAGE SLIDER -->
   <div id="slider" class="carousel slide" data-ride="carousel">
-    <form class="search-panel" action="/Search/result" method="post">
+    <form class="search-panel" action="<?php echo base_url(); ?>Search/result" method="post">
       <div class="container">
         <div class="row">
             <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter">
@@ -393,13 +393,13 @@
     <!-- wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img class="carousel-img" src="/public/img/image1.jpg" style="height:80vh;width:100%;">
+        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image1.jpg" style="height:80vh;width:100%;">
       </div>
       <div class="item">
-        <img class="carousel-img" src="/public/img/image2.jpg" style="height:80vh;width:100%;">
+        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image2.jpg" style="height:80vh;width:100%;">
       </div>
       <div class="item">
-        <img class="carousel-img" src="/public/img/image3.jpg" style="height:80vh;width:100%;">
+        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image3.jpg" style="height:80vh;width:100%;">
       </div>
     </div>
     <!-- controls or next and prev btn -->
@@ -415,79 +415,6 @@
   <!-- END IMAGE SLIDER -->
 
 
-  <!-- REGISTER MODAL -->
-  <!-- <div class="modal fade" id="register">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 style="color:#FFFFFF" class="login-logo text-center">Travel Hub | Register</h3>
-        </div>
-        <div class="modal-body">
-          <form class="" action="/Lol" method="post" enctype="multipart/form-data">
-            <div id="register_error_message"></div>
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                <input type="email" name="register_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="register_email" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="username" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                <input type="password" name="register_password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="register_password" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="register_confirm_password" required>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <input class="btn btn-warning login-btn" type="submit" name="register" value="Register" id="Register">
-          <button class="btn btn-default close-btn" type="button" name="button" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!-- END REGISTER -->
-  <!-- <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          <div role="tabpanel">
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#uploadTab" aria-controls="uploadTab" role="tab" data-toggle="tab">Supplier</a></li>
-              <li role="presentation"><a href="#browseTab" aria-controls="browseTab" role="tab" data-toggle="tab">Traveller</a></li>
-            </ul>
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="uploadTab">upload Tab</div>
-              <div role="tabpanel" class="tab-pane" id="browseTab">browseTab</div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary save">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-
   <!-- CATEGORIES SECTION -->
   <section class="container categories-section">
     <div class="row text-title header-row">
@@ -500,98 +427,17 @@
           <?php foreach ($categories as $key => $category): ?>
             <div class="col-lg-2 col-sm-2 col-xs-12">
               <li>
-                <a href="/Category/result/<?php echo str_replace(' ', '_', $category->category)?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
-                  <img src="/public/img/icons/<?php echo $category->image?>" width="25px" height="25px" alt="">
+                <a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category->category)?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
+                  <img src="<?php echo base_url(); ?>public/img/icons/<?php echo $category->image?>" width="25px" height="25px" alt="">
                   <span><?php echo $category->category?></span>
                 </a>
               </li>
             </div>
           <?php endforeach; ?>
-
-          <!-- <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Fast Food" target="_self" rel="nofollow">
-                <img src="/public/img/icons/fast-food.png" width="25px" height="25px" alt="">
-                <span>Fast Food</span>
-              </a>
-            </li>
-          </div>
           <div class="col-lg-2 col-sm-2 col-xs-12">
             <li>
-              <a href="" title="Restaurant" target="_self" rel="nofollow">
-                <img src="/public/img/icons/restaurant.png" width="25px" height="25px" alt="">
-                <span>Restaurant</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Night Market" target="_self" rel="nofollow">
-                <img src="/public/img/icons/night.png" width="25px" height="25px" alt="">
-                <span>Night Market</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Bar" target="_self" rel="nofollow">
-                <img src="/public/img/icons/bar.png" width="25px" height="25px" alt="">
-                <span>Bar</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Lodging" target="_self" rel="nofollow">
-                <img src="/public/img/icons/lodging.png" width="25px" height="25px" alt="">
-                <span>Lodging</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Shoe Shop" target="_self" rel="nofollow">
-                <img src="/public/img/icons/shoe.png" width="25px" height="25px" alt="">
-                <span>Shop Shop</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Dress Shop" target="_self" rel="nofollow">
-                <img src="/public/img/icons/dress.png" width="25px" height="25px" alt="">
-                <span>Dress Shop</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Public Market" target="_self" rel="nofollow">
-                <img src="/public/img/icons/public-market.png" width="25px" height="25px" alt="">
-                <span>Public Market</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Spa" target="_self" rel="nofollow">
-                <img src="/public/img/icons/spa.png" width="25px" height="25px" alt="">
-                <span>Spa</span>
-              </a>
-            </li>
-          </div>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="" title="Car Rental" target="_self" rel="nofollow">
-                <img src="/public/img/icons/car.png" width="25px" height="25px" alt="">
-                <span>Car Rental</span>
-              </a>
-            </li>
-          </div> -->
-          <div class="col-lg-2 col-sm-2 col-xs-12">
-            <li>
-              <a href="/Category/all" title="See All" target="_self" rel="nofollow">
-                <img src="/public/img/icons/search.png" width="25px" height="25px" alt="">
+              <a href="<?php echo base_url(); ?>Category/all" title="See All" target="_self" rel="nofollow">
+                <img src="<?php echo base_url(); ?>public/img/icons/search.png" width="25px" height="25px" alt="">
                 <span style="color:#fba100;">See All</span>
               </a>
             </li>
@@ -615,7 +461,7 @@
             <?php for ($i=0; $i <$ctr ; $i++) { ?>
               <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                 <li>
-                  <a href="/Destination/result/<?php echo str_replace(' ', '_', $localities[$i]->locality)?>" title="<?php echo $localities[$i]->locality?>" target="_self" rel="nofollow">
+                  <a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $localities[$i]->locality)?>" title="<?php echo $localities[$i]->locality?>" target="_self" rel="nofollow">
                     <label><?php echo $localities[$i]->locality?> <span>(<?php echo $counts[$i]->count?> <?php if ($counts[$i]->count > 1): ?> places <?php else: ?> place <?php endif; ?>)</span></label>
                   </a>
                 </li>
@@ -626,7 +472,7 @@
           <?php endif; ?>
           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
             <li>
-              <a href="/Destination/all" title="See All" target="_self" rel="nofollow">
+              <a href="<?php echo base_url(); ?>Destination/all" title="See All" target="_self" rel="nofollow">
                 <label class="see-all-color">See All</label>
               </a>
             </li>
@@ -648,7 +494,7 @@
         <?php foreach ($priority_ads as $key => $ad): ?>
           <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
               <div class="info-box">
-                <a href="/Advertisement/result/<?php echo $ad->advertisement_id?>">
+                <a href="<?php echo base_url(); ?>Advertisement/result/<?php echo $ad->advertisement_id?>">
                   <span class="info-box-icon bg-aqua ad-box" style="background-image: url(<?php echo $ad->image?>);"></span>
                   <div class="info-box-content">
                     <span class="info-box-number">
@@ -669,7 +515,7 @@
       <?php endif; ?>
       <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
           <div class="info-box text-center">
-            <a href="/Advertisement/all">
+            <a href="<?php echo base_url(); ?>Advertisement/all">
               <div class="icon deal-box">
                 <i class="fa fa-tags" style="margin-top:20px;"></i>
               </div>
@@ -693,7 +539,7 @@
           <div class="spacer"></div>
           <?php if (!empty($events)): ?>
             <?php foreach ($events as $key => $event): ?>
-              <a href="/Event/preview/<?php echo $event->event_id?>" class="event">
+              <a href="<?php echo base_url(); ?>Event/preview/<?php echo $event->event_id?>" class="event">
                 <div class="event-container">
                   <span class="date-container">
                     <span class="date"><?php $start = strtotime($event->start_date); echo date('j',$start)?>
@@ -711,7 +557,7 @@
               </a>
               <div class="spacer"></div>
             <?php endforeach; ?>
-            <a href="/Event/all" class="event">
+            <a href="<?php echo base_url(); ?>Event/all" class="event">
               <div class="see-all-container text-center">
                 <span class="">
                   <span class="title">SEE ALL</span>
@@ -723,7 +569,7 @@
               <span>No current events</span>
             </div>
             <div class="spacer"></div>
-            <a href="/Event/all" class="event">
+            <a href="<?php echo base_url(); ?>Event/all" class="event">
               <div class="see-all-container text-center">
                 <span class="">
                   <span class="title">SEE ALL</span>
@@ -742,7 +588,7 @@
           <?php if (!empty($topics)): ?>
             <?php foreach ($topics as $key => $topic): ?>
               <div class="spacer"></div>
-              <a href="/Forum/topic/<?php echo $topic->topic_id?>" class="forum">
+              <a href="<?php echo base_url(); ?>Forum/topic/<?php echo $topic->topic_id?>" class="forum">
                 <div class="forum-container">
                   <span class="forum-title"><?php echo $topic->topic ?></span>
                 </div>
@@ -752,7 +598,7 @@
             0 results
           <?php endif; ?>
           <div class="spacer"></div>
-          <a href="/Forum/all" class="event">
+          <a href="<?php echo base_url(); ?>Forum/all" class="event">
             <div class="see-all-container-forum text-center">
               <span class="">
                 <span class="title">SEE ALL</span>
@@ -823,7 +669,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/About">Learn More</a>
+                              <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                           </p>
                         </div>
                     </div>
@@ -894,7 +740,7 @@ $('#Submit').click(function() {
         password: $('#password').val()
     };
     $.ajax({
-        url: "/Home/login",
+        url: "<?php echo base_url(); ?>Home/login",
         type: 'POST',
         data: form_data,
         success: function(msg) {
@@ -902,18 +748,18 @@ $('#Submit').click(function() {
               $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
             }else if (msg =="Unconfirmed") {
               $('#login').hide();
-              $(location).attr('href','/Verify/unconfirmed');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
             }else if (msg =='Incorrect') {
               $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
             }else if (msg =='Set up') {
               $('#login').hide();
-              $(location).attr('href','/Home/set_up');
+              $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
             }else if (msg == 'Dashboard') {
               $('#login').hide();
-              $(location).attr('href','/Account');
+              $(location).attr('href','<?php echo base_url(); ?>Account');
             }else if (msg == 'Login') {
               $('#login').hide();
-              $(location).attr('href','/Home');
+              $(location).attr('href','<?php echo base_url(); ?>Home');
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }
@@ -935,16 +781,16 @@ $('#Register').click(function() {
         type: $('#Register').attr('name')
     };
     $.ajax({
-        url: "/Home/register",
+        url: "<?php echo base_url(); ?>Home/register",
         type: 'POST',
         data: register_data,
         success: function(message) {
           if (message=='Successful') {
             $('#register').hide();
-            $(location).attr('href','/Verify');
+            $(location).attr('href','<?php echo base_url(); ?>Verify');
           }else if (message=='Unsucessful') {
             $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
+            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
           }
           else {
             $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -963,16 +809,16 @@ $('#Register_Traveller').click(function() {
         type: $('#Register_Traveller').attr('name')
     };
     $.ajax({
-        url: "/Home/register",
+        url: "<?php echo base_url(); ?>Home/register",
         type: 'POST',
         data: register_data,
         success: function(message) {
           if (message=='Successful') {
             $('#register').hide();
-            $(location).attr('href','/Verify');
+            $(location).attr('href','<?php echo base_url(); ?>Verify');
           }else if (message=='Unsucessful') {
             $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
+            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
           }
           else {
             $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -996,7 +842,7 @@ $("#locality-search").keyup(function () {
   // alert($("#country").val());
     $.ajax({
         type: "POST",
-        url: "/Home/search_location",
+        url: "<?php echo base_url(); ?>Home/search_location",
         data: {
             keyword: $("#locality-search").val()
         },
@@ -1026,7 +872,7 @@ $("#look_for").keyup(function () {
   // alert($("#country").val());
     $.ajax({
         type: "POST",
-        url: "/Home/look_result",
+        url: "<?php echo base_url(); ?>Home/look_result",
         data: {
             keyword: $("#look_for").val()
         },

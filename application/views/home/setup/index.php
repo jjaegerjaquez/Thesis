@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -27,7 +28,7 @@
     <h3>Welcome to Travel Hub</h3>
     <p>Please answer the question below so we can get you started</p>
   </div>
-  <form class="" action="/Home/set_up_save" method="post">
+  <form class="" action="<?php echo base_url(); ?>Home/set_up_save" method="post">
     <div class="container">
       <div class="row">
         <div class="col-lg-3"></div>

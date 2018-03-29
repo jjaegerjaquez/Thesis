@@ -38,10 +38,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/Theme/preview/Neutral">Home</a></li>
-          <li><a href="/Theme/about/Neutral">About</a></li>
-          <li><a href="/Theme/gallery/Neutral">Gallery</a></li>
-          <li><a href="/Theme/contacts/Neutral">Contact</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/preview/Neutral">Home</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/about/Neutral">About</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/gallery/Neutral">Gallery</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/contacts/Neutral">Contact</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -58,37 +58,37 @@
     </div>
     <div class="row">
       <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
-        <img src="/public/img/Neutral/party.jpg" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/party.jpg" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
         <div class="middle">
           <div class="text">Party</div>
         </div>
       </div>
       <div class="gallery_product2 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter hdpe">
-        <img src="/public/img/Neutral/weddingg.jpg" class="img-responsive"class="image2" style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/weddingg.jpg" class="img-responsive"class="image2" style="width:100%"> <!--width: 615 pixels height:409 pixels-->
         <div class="middle2">
           <div class="text2">Wedding</div>
         </div>
       </div>
       <div class="gallery_product3 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter irrigation">
-        <img src="/public/img/Neutral/birthday.jpg" class="img-responsive" class="image3" style="width:100%"> <!--width: 591 pixels height:400 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/birthday.jpg" class="img-responsive" class="image3" style="width:100%"> <!--width: 591 pixels height:400 pixels-->
         <div class="middle3">
           <div class="text3">Birthday</div>
         </div>
       </div>
       <div class="gallery_product4 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
-        <img src="/public/img/Neutral/valentinee.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/valentinee.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
         <div class="middle4">
           <div class="text4">Valentine</div>
         </div>
       </div>
       <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter hdpe">
-        <img src="/public/img/Neutral/newyear.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/newyear.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
         <div class="middle5">
           <div class="text5">New Year</div>
         </div>
       </div>
       <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter irrigation">
-        <img src="/public/img/Neutral/christmas.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+        <img src="<?php echo base_url() ?>public/img/Neutral/christmas.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
         <div class="middle6">
           <div class="text6">Christmas</div>
         </div>

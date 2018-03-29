@@ -39,14 +39,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -89,11 +89,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -118,14 +118,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -332,13 +332,13 @@
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
   	     <li><a href="<?php echo base_url() ?>">Home</a></li>
-         <li><a href="/Destination/all">Destinations</a></li>
+         <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
          <li><?php echo $destination?></li>
   		</ul>
       <?php if (!empty($destination->image)): ?>
         <div class="container-fluid text-center header-style" style="background-image:url('<?php echo $destination->image?>');">
       <?php else: ?>
-        <div class="container-fluid text-center header-style" style="background-image:url('/public/img/def-img-l.jpg');">
+        <div class="container-fluid text-center header-style" style="background-image:url('<?php echo base_url(); ?>public/img/def-img-l.jpg');">
       <?php endif; ?>
   		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
       </div>
@@ -366,7 +366,7 @@
           <?php if (!empty($categories)): ?>
             <form id="_category" action="" method="post">
               <select class="category-dropdown" name="category" id="category-filters">
-                <option value="">Select a category</option>
+                <option value="" selected disabled>Select a category</option>
                 <?php foreach ($categories as $key => $category): ?>
                   <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>
                 <?php endforeach; ?>
@@ -386,14 +386,14 @@
                 <?php if (!empty($results[$i]->image)): ?>
                   <img class="media-object" src="<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
                 <?php else: ?>
-                  <img class="media-object" src="/public/img/default-img.jpg" alt="image" width="200px" height="200px">
+                  <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
                 <?php endif; ?>
               </div>
               <div class="media-body rating">
                 <?php if (!empty($results[$i]->image)): ?>
                   <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php else: ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="/public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
                 <?php endif; ?>
                 <span class="category-style"><?php echo $results[$i]->category?></span>
                 <span class="pull-right votes-style" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
@@ -402,7 +402,7 @@
                 <div class="separator"></div>
                 <ul>
                   <div class="list-text">
-                    <li class="detail-list"><?php echo $results[$i]->address?></li>
+                    <li class="detail-list"><?php echo $results[$i]->address?>, <?php echo $results[$i]->locality ?></li>
                   </div>
                   <?php if (!empty($results[$i]->cellphone)): ?>
                     <li class="detail-list">+63<?php echo $results[$i]->cellphone?></li>
@@ -419,7 +419,7 @@
         		          </a>
                     </div>
                     <div class="col-xs-6 btn-style2">
-                      <a href="/Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn">
+                      <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn">
                       <div class="space"></div>
                       <span><i class="ion-information-circled"></i> More</span>
         		          </a>
@@ -450,7 +450,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="/About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                         </p>
                       </div>
                     </div>
@@ -487,7 +487,7 @@
           user_id: "<?php echo $traveller_details->user_id ?>"
       };
       $.ajax({
-        url: "/Home/get_notif",
+        url: "<?php echo base_url(); ?>Home/get_notif",
         type: "POST",
         data: user_id,
         success: function (data){
@@ -506,7 +506,7 @@
                user_id: "<?php echo $traveller_details->user_id ?>"
            };
         $.ajax({
-            url: "/Home/is_unread",
+            url: "<?php echo base_url(); ?>Home/is_unread",
             type: 'POST',
             data: user_id,
             success: function(msg) {
@@ -523,7 +523,7 @@
           password: $('#password').val()
       };
       $.ajax({
-          url: "/Home/login",
+          url: "<?php echo base_url(); ?>Home/login",
           type: 'POST',
           data: form_data,
           success: function(msg) {
@@ -531,15 +531,15 @@
                 $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
               }else if (msg =="Unconfirmed") {
                 $('#login').hide();
-                $(location).attr('href','/Verify/unconfirmed');
+                $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
               }else if (msg =='Incorrect') {
                 $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
               }else if (msg =='Set up') {
                 $('#login').hide();
-                $(location).attr('href','/Home/set_up');
+                $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
               }else if (msg == 'Dashboard') {
                 $('#login').hide();
-                $(location).attr('href','/Account');
+                $(location).attr('href','<?php echo base_url(); ?>Account');
               }else if (msg == 'Login') {
                 $('#login').hide();
                 window.location.reload();
@@ -564,16 +564,16 @@
           type: $('#Register').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -592,16 +592,16 @@
           type: $('#Register_Traveller').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -618,7 +618,7 @@
     $("input[name='filter']").on("click", function() {
       var destination = "<?php echo str_replace(' ', '_', $destination)?>";
           $.ajax({
-              url: "/Destination/result/"+destination,
+              url: "<?php echo base_url(); ?>Destination/result/"+destination,
               type: 'POST',
               data: $("#_filter,#_category").serialize(),
               success: function(message) {
@@ -629,7 +629,7 @@
       $('#category-filters').change(function() {
         var destination = "<?php echo str_replace(' ', '_', $destination)?>";
         $.ajax({
-            url: "/Destination/result/"+destination,
+            url: "<?php echo base_url(); ?>Destination/result/"+destination,
             type: 'POST',
             data: $("#_filter,#_category").serialize(),
             success: function(message) {

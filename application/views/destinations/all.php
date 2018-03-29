@@ -38,14 +38,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -88,11 +88,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -117,14 +117,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -345,7 +345,7 @@
 							<label>A</label>
               <?php if (!empty($localities0)): ?>
                 <?php foreach ($localities0 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -353,7 +353,7 @@
 							<label>B</label>
               <?php if (!empty($localities1)): ?>
                 <?php foreach ($localities1 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -361,7 +361,7 @@
 							<label>C</label>
               <?php if (!empty($localities2)): ?>
                 <?php foreach ($localities2 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -369,7 +369,7 @@
 							<label>D</label>
               <?php if (!empty($localities3)): ?>
                 <?php foreach ($localities3 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -379,7 +379,7 @@
 						 <label>E</label>
              <?php if (!empty($localities4)): ?>
                <?php foreach ($localities4 as $key => $locality): ?>
-                 <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                 <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                <?php endforeach; ?>
              <?php else: ?>
                <br>
@@ -387,7 +387,7 @@
 							<label>F</label>
               <?php if (!empty($localities5)): ?>
                 <?php foreach ($localities5 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -395,7 +395,7 @@
 							<label>G</label>
               <?php if (!empty($localities6)): ?>
                 <?php foreach ($localities6 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -403,7 +403,7 @@
 							<label>H</label>
               <?php if (!empty($localities7)): ?>
                 <?php foreach ($localities7 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -411,7 +411,7 @@
 							<label>I</label>
               <?php if (!empty($localities8)): ?>
                 <?php foreach ($localities8 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -421,7 +421,7 @@
 							<label>J</label>
               <?php if (!empty($localities9)): ?>
                 <?php foreach ($localities9 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -429,7 +429,7 @@
 							<label>K</label>
               <?php if (!empty($localities10)): ?>
                 <?php foreach ($localities10 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -437,7 +437,7 @@
 							<label>L</label>
               <?php if (!empty($localities11)): ?>
                 <?php foreach ($localities11 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -445,7 +445,7 @@
 							<label>M</label>
               <?php if (!empty($localities12)): ?>
                 <?php foreach ($localities12 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -453,7 +453,7 @@
 							<label>N</label>
               <?php if (!empty($localities13)): ?>
                 <?php foreach ($localities13 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -461,7 +461,7 @@
 							<label>O</label>
               <?php if (!empty($localities14)): ?>
                 <?php foreach ($localities14 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -469,7 +469,7 @@
 							<label>P</label>
               <?php if (!empty($localities15)): ?>
                 <?php foreach ($localities15 as $key => $locality): ?>
-                  <li><a href="/Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
+                  <li><a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $locality->locality)?>"><?php echo $locality->locality ?></a></li>
                 <?php endforeach; ?>
               <?php else: ?>
                 <br>
@@ -497,7 +497,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="/About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                         </p>
                       </div>
                     </div>
@@ -534,7 +534,7 @@
         user_id: "<?php echo $traveller_details->user_id ?>"
     };
     $.ajax({
-      url: "/Home/get_notif",
+      url: "<?php echo base_url(); ?>Home/get_notif",
       type: "POST",
       data: user_id,
       success: function (data){
@@ -553,7 +553,7 @@ $('#notif-div').on('click', '#notif-count', function() {
              user_id: "<?php echo $traveller_details->user_id ?>"
          };
       $.ajax({
-          url: "/Home/is_unread",
+          url: "<?php echo base_url(); ?>Home/is_unread",
           type: 'POST',
           data: user_id,
           success: function(msg) {
@@ -570,7 +570,7 @@ $('#Submit').click(function() {
         password: $('#password').val()
     };
     $.ajax({
-        url: "/Home/login",
+        url: "<?php echo base_url(); ?>Home/login",
         type: 'POST',
         data: form_data,
         success: function(msg) {
@@ -578,15 +578,15 @@ $('#Submit').click(function() {
               $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
             }else if (msg =="Unconfirmed") {
               $('#login').hide();
-              $(location).attr('href','/Verify/unconfirmed');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
             }else if (msg =='Incorrect') {
               $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
             }else if (msg =='Set up') {
               $('#login').hide();
-              $(location).attr('href','/Home/set_up');
+              $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
             }else if (msg == 'Dashboard') {
               $('#login').hide();
-              $(location).attr('href','/Account');
+              $(location).attr('href','<?php echo base_url(); ?>Account');
             }else if (msg == 'Login') {
               $('#login').hide();
               window.location.reload();
@@ -611,16 +611,16 @@ $('#Register').click(function() {
         type: $('#Register').attr('name')
     };
     $.ajax({
-        url: "/Home/register",
+        url: "<?php echo base_url(); ?>Home/register",
         type: 'POST',
         data: register_data,
         success: function(message) {
           if (message=='Successful') {
             $('#register').hide();
-            $(location).attr('href','/Verify');
+            $(location).attr('href','<?php echo base_url(); ?>Verify');
           }else if (message=='Unsucessful') {
             $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
+            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
           }
           else {
             $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -639,16 +639,16 @@ $('#Register_Traveller').click(function() {
         type: $('#Register_Traveller').attr('name')
     };
     $.ajax({
-        url: "/Home/register",
+        url: "<?php echo base_url(); ?>Home/register",
         type: 'POST',
         data: register_data,
         success: function(message) {
           if (message=='Successful') {
             $('#register').hide();
-            $(location).attr('href','/Verify');
+            $(location).attr('href','<?php echo base_url(); ?>Verify');
           }else if (message=='Unsucessful') {
             $('#register').hide();
-            $(location).attr('href','/Verify/not_sent');
+            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
           }
           else {
             $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');

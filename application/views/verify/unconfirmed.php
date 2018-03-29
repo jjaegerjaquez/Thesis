@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -29,7 +30,7 @@
         <div class="jumbotron jumbo-style">
           <h2 class="jumbo-header">Sorry</h2>
           <p>Please activate your account to log on to the website.</p>
-          <p><a class="btn btn-primary btn-lg back-btn" href="/Home" role="button">Back</a></p>
+          <p><a class="btn btn-primary btn-lg back-btn" href="<?php echo base_url(); ?>Home" role="button">Back</a></p>
         </div>
       </div>
       <div class="col-md-2"></div>

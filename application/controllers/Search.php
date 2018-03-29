@@ -83,7 +83,7 @@ class Search extends CI_Controller
     }
     else
     {
-      redirect('/Home', 'refresh');
+      redirect(base_url().'Home', 'refresh');
     }
   }
 

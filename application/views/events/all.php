@@ -39,14 +39,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -89,11 +89,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -118,14 +118,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -337,7 +337,7 @@
   		</ul>
     </div>
     <div class="previous">
-      <form class="" action="/Event/result?key=previous" method="post">
+      <form class="" action="<?php echo base_url(); ?>Event/result?key=previous" method="post">
         <button class="btn" type="submit" name="button">Finished Events</button>
       </form>
     </div>
@@ -356,7 +356,7 @@
                 </span>
               </div>
         		  <div class="thumbnail">
-                <a href="/Event/preview/<?php echo $event->event_id?>">  <img src="<?php echo $event->image?>" alt="image"> </a>
+                <a href="<?php echo base_url(); ?>Event/preview/<?php echo $event->event_id?>">  <img src="<?php echo $event->image?>" alt="image"> </a>
                 <div class="list-text">
                   <span class="event-title"><?php echo $event->title ?></span>
                 </div>
@@ -387,7 +387,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="/About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                         </p>
                       </div>
                     </div>
@@ -424,7 +424,7 @@
           user_id: "<?php echo $traveller_details->user_id ?>"
       };
       $.ajax({
-        url: "/Home/get_notif",
+        url: "<?php echo base_url(); ?>Home/get_notif",
         type: "POST",
         data: user_id,
         success: function (data){
@@ -443,7 +443,7 @@
                user_id: "<?php echo $traveller_details->user_id ?>"
            };
         $.ajax({
-            url: "/Home/is_unread",
+            url: "<?php echo base_url(); ?>Home/is_unread",
             type: 'POST',
             data: user_id,
             success: function(msg) {
@@ -460,7 +460,7 @@
           password: $('#password').val()
       };
       $.ajax({
-          url: "/Home/login",
+          url: "<?php echo base_url(); ?>Home/login",
           type: 'POST',
           data: form_data,
           success: function(msg) {
@@ -468,15 +468,15 @@
                 $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
               }else if (msg =="Unconfirmed") {
                 $('#login').hide();
-                $(location).attr('href','/Verify/unconfirmed');
+                $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
               }else if (msg =='Incorrect') {
                 $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
               }else if (msg =='Set up') {
                 $('#login').hide();
-                $(location).attr('href','/Home/set_up');
+                $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
               }else if (msg == 'Dashboard') {
                 $('#login').hide();
-                $(location).attr('href','/Account');
+                $(location).attr('href','<?php echo base_url(); ?>Account');
               }else if (msg == 'Login') {
                 $('#login').hide();
                 window.location.reload();
@@ -501,16 +501,16 @@
           type: $('#Register').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -529,16 +529,16 @@
           type: $('#Register_Traveller').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');

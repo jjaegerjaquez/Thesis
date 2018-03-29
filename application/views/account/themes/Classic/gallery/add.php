@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Classic/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
 </head>
 <body>
 
@@ -88,11 +89,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -104,7 +105,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Back to Dashboard</a></li>
+        <li><a href="<?php echo base_url(); ?>Account">Back to Dashboard</a></li>
         <li class="active">Upload Image</li>
       </ul>
       <div class="col-lg-3">
@@ -130,7 +131,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -150,46 +151,47 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Classic/home">Home Page Settings</a>
-          <a href="/Classic/about">About Page Settings</a>
-          <a href="/Classic/gallery" class="active">Gallery Page Settings</a>
-          <a href="/Classic/contacts">Contacts Page Settings</a>
-          <a href="/Classic/image_slider">Image Slider</a>
-          <a href="/Classic/theme">Theme</a>
+          <a href="<?php echo base_url(); ?>Account">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Classic/home">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/gallery" class="active">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/image_slider">Image Slider</a>
+          <a href="<?php echo base_url(); ?>Classic/theme">Theme</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="">Add Image</h2>
+          <h3 class="title">Add Image</h3>
           <hr>
         </div>
-        <form class="" action="/Classic/save_image" method="post" enctype="multipart/form-data">
+        <div class="form-group">
           <div class="form-group">
-            <label>Image:
-              <br>
-              <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
-            </label>
-            <input class="" type="file" name="picture" />
+            <div id="upload-image"></div>
           </div>
-          <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Upload</button>
+        </div>
+        <div class="col-lg-offset-3 col-lg-6">
+          <div class="form-group text-center">
+            <label for="">Select an image:</label>
+            <input type="file" id="images" class="form-control">
+            <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Upload</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </section>
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -201,6 +203,47 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+		width: 683,
+		height: 384,
+		type: 'square'
+	},
+	boundary: {
+		width: 750,
+		height: 450
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log($('#images').val());
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 1366, height: 768 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Classic/save_image",
+			type: "POST",
+			data: {"image":response,"file":file_input},
+			success: function (data) {
+        alert(data);
+        $(location).attr('href','<?php echo base_url() ?>Classic/gallery');
+			}
+		});
+	});
+});
 </script>
 </body>
 </html>

@@ -9,6 +9,12 @@ class Admins extends CI_Model
 
   }
 
+  public function get_site_icon()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+    return $query->row();
+  }
+
   public function delete_ads()
   {
     $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");

@@ -33,7 +33,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="" href="">
-          <img alt="Brand" src="/public/img/logo/TH-Logo.png" height="50px" width="100px">
+          <img alt="Brand" src="<?php echo base_url(); ?>public/img/logo/TH-Logo.png" height="50px" width="100px">
         </a>
       </div>
 
@@ -44,7 +44,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-4 col-lg-offset-4" style="background-color:#fff;padding:20px;margin-top:50px;border-radius:10px;">
-        <form class="" action="/Admin/login" method="post">
+        <form class="" action="<?php echo base_url(); ?>Admin/login" method="post">
           <?php
             if ($error == '' || $error == NULL)
             {

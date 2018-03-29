@@ -3,13 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>
-    <?php if (!empty($site_title)): ?>
-      <?php echo $site_title->value ?>
-    <?php else: ?>
-      Site Title
-    <?php endif; ?>
-  </title>
+  <title><?php if (!empty($site_title)): ?><?php echo $site_title->value ?><?php else: ?>Site Title<?php endif; ?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -44,10 +39,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/View/home/<?php echo str_replace(' ', '_', $details->business_name)?>">Home</a></li>
-          <li><a href="/View/about/<?php echo str_replace(' ', '_', $details->business_name)?>">About</a></li>
-          <li><a href="/View/gallery/<?php echo str_replace(' ', '_', $details->business_name)?>">Gallery</a></li>
-          <li><a href="/View/contacts/<?php echo str_replace(' ', '_', $details->business_name)?>">Contact</a></li>
+          <li><a href="<?php echo base_url(); ?>View/home/<?php echo str_replace(' ', '_', $details->business_name)?>">Home</a></li>
+          <li><a href="<?php echo base_url(); ?>View/about/<?php echo str_replace(' ', '_', $details->business_name)?>">About</a></li>
+          <li><a href="<?php echo base_url(); ?>View/gallery/<?php echo str_replace(' ', '_', $details->business_name)?>">Gallery</a></li>
+          <li><a href="<?php echo base_url(); ?>View/contacts/<?php echo str_replace(' ', '_', $details->business_name)?>">Contact</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -56,7 +51,7 @@
   <?php if (!empty($about_header_image)): ?>
     <div class="container-fluid text-center about-header" style="background-image:url('<?php echo $about_header_image->value?>');">
   <?php else: ?>
-        <div class="container-fluid text-center about-header" style="background-image:url('/public/img/Neutral/bg.jpg');">
+        <div class="container-fluid text-center about-header" style="background-image:url('<?php echo base_url(); ?>public/img/Neutral/bg.jpg');">
   <?php endif; ?>
     <h1><span class="section-heading-lower">ABOUT</span></h1>
   </div>

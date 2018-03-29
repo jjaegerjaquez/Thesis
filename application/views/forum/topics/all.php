@@ -37,14 +37,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -87,11 +87,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -116,14 +116,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -335,8 +335,7 @@
     </div>
     <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
       <div class="create-div pull-left">
-          <a href="/Forum/add_topic" class="btn">Create topic</a>
-          <!-- <button type="submit" class="btn" name="button">Create topic</button> -->
+          <a href="<?php echo base_url(); ?>Forum/add_topic" class="btn">Create topic</a>
       </div>
     <?php endif; ?>
     <div class="row content">
@@ -345,18 +344,18 @@
           <div class="tabbable-line">
             <ul class="nav nav-tabs ">
               <li class="active">
-                <a href="/Forum/all" class="tab">
+                <a href="<?php echo base_url(); ?>Forum/all" class="tab">
                 Topics </a>
               </li>
               <li>
-                <a href="/Forum/faqs" class="tab">
+                <a href="<?php echo base_url(); ?>Forum/faqs" class="tab">
                 FAQs </a>
               </li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_default_1">
                 <div class="row search-box">
-                  <form class="" action="/Forum/result" method="post">
+                  <form class="" action="<?php echo base_url(); ?>Forum/result" method="post">
                     <div class="col-lg-4 pull-right">
                       <div class="input-group">
                         <input type="text" name="keyword" class="form-control" placeholder="Type to search" id="search">
@@ -375,7 +374,7 @@
                           <tr>
                             <td>
                               <ul class="topics">
-                                <li class="topic-title"><a href="/Forum/topic/<?php echo $topic->topic_id?>"><h4><?php echo $topic->topic ?></h4></a></li>
+                                <li class="topic-title"><a href="<?php echo base_url(); ?>Forum/topic/<?php echo $topic->topic_id?>"><h4><?php echo $topic->topic ?></h4></a></li>
                                 <ul class="list-inline topic-details">
                                   <li><span><i class="ion-android-person"></i> </span>Added by: <?php echo $topic->username ?></li>
                                   <li><span><i class="ion-ios-calendar"></i> </span><?php $date = strtotime($topic->date_created); echo date('F j Y',$date)?></li>
@@ -413,7 +412,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="/About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                         </p>
                       </div>
                     </div>
@@ -450,7 +449,7 @@
           user_id: "<?php echo $traveller_details->user_id ?>"
       };
       $.ajax({
-        url: "/Home/get_notif",
+        url: "<?php echo base_url(); ?>Home/get_notif",
         type: "POST",
         data: user_id,
         success: function (data){
@@ -469,7 +468,7 @@
                user_id: "<?php echo $traveller_details->user_id ?>"
            };
         $.ajax({
-            url: "/Home/is_unread",
+            url: "<?php echo base_url(); ?>Home/is_unread",
             type: 'POST',
             data: user_id,
             success: function(msg) {
@@ -486,7 +485,7 @@
           password: $('#password').val()
       };
       $.ajax({
-          url: "/Home/login",
+          url: "<?php echo base_url(); ?>Home/login",
           type: 'POST',
           data: form_data,
           success: function(msg) {
@@ -494,15 +493,15 @@
                 $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
               }else if (msg =="Unconfirmed") {
                 $('#login').hide();
-                $(location).attr('href','/Verify/unconfirmed');
+                $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
               }else if (msg =='Incorrect') {
                 $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
               }else if (msg =='Set up') {
                 $('#login').hide();
-                $(location).attr('href','/Home/set_up');
+                $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
               }else if (msg == 'Dashboard') {
                 $('#login').hide();
-                $(location).attr('href','/Account');
+                $(location).attr('href','<?php echo base_url(); ?>Account');
               }else if (msg == 'Login') {
                 $('#login').hide();
                 window.location.reload();
@@ -527,16 +526,16 @@
           type: $('#Register').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -555,16 +554,16 @@
           type: $('#Register_Traveller').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -580,7 +579,7 @@
   $("#search").keyup(function(){
        var str=  $("#search").val();
        if(str == "") {
-         $(location).attr('href','/Forum/all');
+         $(location).attr('href','<?php echo base_url(); ?>Forum/all');
        }else {
                $.get( "<?php echo base_url();?>Forum/search?filter=all&keyword="+str, function( data ){
                    $( "#table" ).html( data );

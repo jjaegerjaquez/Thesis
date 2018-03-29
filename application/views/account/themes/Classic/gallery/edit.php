@@ -170,7 +170,7 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="">Update</h2>
+          <h3 class="title">Update</h3>
           <hr>
         </div>
         <form class="" action="/Classic/update_image/<?php echo $image->content_id?>" method="post" enctype="multipart/form-data">

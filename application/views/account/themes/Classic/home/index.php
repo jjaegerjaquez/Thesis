@@ -88,11 +88,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -104,7 +104,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Back to Dashboard</a></li>
+        <li><a href="<?php echo base_url(); ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing home page</li>
       </ul>
       <div class="col-lg-3">
@@ -130,7 +130,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -150,45 +150,44 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Classic/home" class="active">Home Page Settings</a>
-          <a href="/Classic/about">About Page Settings</a>
-          <a href="/Classic/gallery">Gallery Page Settings</a>
-          <a href="/Classic/contacts">Contacts Page Settings</a>
-          <a href="/Classic/image_slider">Image Slider</a>
-          <a href="/Classic/theme">Theme</a>
+          <a href="<?php echo base_url(); ?>Account">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Classic/home" class="active">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Classic/image_slider">Image Slider</a>
+          <a href="<?php echo base_url(); ?>Classic/theme">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;">
-        <div class="row text-title header-row">
-          <h2 class="">Home</h2>
-          <hr>
-        </div>
-        <form class="" action="/Classic/save_home" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>Home Page Title:</label>
-            <input type="text" name="title" class="form-control" value="<?php if (!empty($home_title->value)) { echo $home_title->value; } ?>" maxlength="50">
-            <!-- <input type="hidden" name="meta_key[]" class="form-control" value="home_page_title"> -->
-            <span style="color:red" class="help-block"><?php echo form_error('home_page_title'); ?></span>
+      <div class="col-lg-9" style="background-color:#fff;padding-top:20px;padding-bottom:50px;">
+        <div class="col-lg-offset-2 col-lg-8">
+          <div class="row text-title header-row">
+            <h3 class="title">Home</h3>
+            <hr>
+            <span class="required-text">Please fill out all fields with *</span>
           </div>
-          <div class="form-group input-width center-block">
-            <label>Description:</label>
-            <textarea class="form-control" name="description" rows="8"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
-            <!-- <input type="hidden" name="meta_key[]" class="form-control" value="home_page_description"> -->
-            <span style="color:red" class="help-block"><?php echo form_error('home_page_description'); ?></span>
-          </div>
-          <div class="form-group">
+          <form class="" action="<?php echo base_url(); ?>Classic/save_home" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Home Page Title*</label>
+              <input type="text" name="title" class="form-control" value="<?php if (!empty($home_title->value)) { echo $home_title->value; } ?>" maxlength="140" placeholder="Add home page title here">
+              <span style="color:red" class="help-block"><?php echo form_error('home_page_title'); ?></span>
+            </div>
+            <div class="form-group input-width center-block">
+              <label>Description*</label>
+              <textarea class="form-control" name="description" rows="15" maxlength="800" placeholder="Add description here"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
+              <span style="color:red" class="help-block"><?php echo form_error('home_page_description'); ?></span>
+            </div>
             <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </section>

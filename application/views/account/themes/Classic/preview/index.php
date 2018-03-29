@@ -28,7 +28,7 @@
       <div class="col-sm-3">
       </div>
       <div class="col-sm-6 logo">
-        <img class="img-responsive center-block" width="400px;" src="/public/img/logo1.png" alt="Logo">
+        <img class="img-responsive center-block" width="400px;" src="<?php echo base_url() ?>public/img/logo1.png" alt="Logo">
       </div>
       <div class="col-sm-3">
       </div>
@@ -50,10 +50,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="">HOME</a></li>
-          <li><a href="">ABOUT</a></li>
-          <li><a href="">GALLERY</a></li>
-          <li><a href="">CONTACT</a></li>
+          <li class="active"><a href="#slider">HOME</a></li>
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#gallery">GALLERY</a></li>
+          <li><a href="#contact">CONTACT</a></li>
         </ul>
       </div>
     </div>
@@ -69,13 +69,13 @@
     <!-- wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img class="carousel-img" src="/public/img/Template1/image1.jpg">
+        <img class="carousel-img" src="<?php echo base_url() ?>public/img/Template1/image1.jpg">
       </div>
       <div class="item">
-        <img class="carousel-img" src="/public/img/Template1/image2.jpg">
+        <img class="carousel-img" src="<?php echo base_url() ?>public/img/Template1/image2.jpg">
       </div>
       <div class="item">
-        <img class="carousel-img" src="/public/img/Template1/image3.jpg">
+        <img class="carousel-img" src="<?php echo base_url() ?>public/img/Template1/image3.jpg">
       </div>
     </div>
     <!-- controls or next and prev btn -->
@@ -106,7 +106,7 @@
     <hr>
     <div class="row">
       <div class="col-sm-6 col-md-6 about-text">
-        <img class="about-img center-block img-responsive" src="/public/img/Template1/image4.jpg" alt="">
+        <img class="about-img center-block img-responsive" src="<?php echo base_url() ?>public/img/Template1/image4.jpg" alt="">
         <p class="text-justify">Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.</p>
         </div>
     </div>
@@ -116,14 +116,14 @@
     <h1>Gallery</h1>
     <hr>
     <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(/public/img/Template1/gallery-1.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Dan Michael Sinadjan on Unsplash" style="background-image: url(/public/img/Template1/gallery-2.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Alexander Mils on Unsplash" style="background-image: url(/public/img/Template1/gallery-3.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Osha Key on Unsplash" style="background-image: url(/public/img/Template1/gallery-4.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by frank mckenna on Unsplash" style="background-image: url(/public/img/Template1/gallery-5.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Guillaume Jaillet on Unsplash" style="background-image: url(/public/img/Template1/gallery-6.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by freestocks.org on Unsplash" style="background-image: url(/public/img/Template1/gallery-7.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Wesual Click on Unsplash" style="background-image: url(/public/img/Template1/gallery-8.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-1.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Dan Michael Sinadjan on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-2.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Alexander Mils on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-3.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Osha Key on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-4.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by frank mckenna on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-5.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Guillaume Jaillet on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-6.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by freestocks.org on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-7.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Wesual Click on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-8.jpg);"></div>
     </div>
   </div>
 

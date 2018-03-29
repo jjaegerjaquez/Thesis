@@ -23,7 +23,7 @@ class Verify extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
     }
   }
@@ -48,12 +48,12 @@ class Verify extends CI_Controller
         if($this->Verifies->verify_email($code))
         {
             $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Your Email Address is successfully verified!</div>');
-            redirect('/Verify', 'refresh');
+            redirect(base_url().'Verify', 'refresh');
         }
         else
         {
             $this->session->set_flashdata('msg','<div class="alert alert-danger text-center">Your Email Address Verification Failed. Please try again later...</div>');
-            redirect('/Verify/not_sent', 'refresh');
+            redirect(base_url().'Verify/not_sent', 'refresh');
         }
     }
 

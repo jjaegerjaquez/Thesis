@@ -20,7 +20,7 @@ class Classic extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
     }
     else
@@ -133,7 +133,7 @@ class Classic extends CI_Controller
           }
         }
       }
-      redirect('/Classic/home', 'refresh');
+      redirect(base_url().'Classic/home', 'refresh');
     }
   }
 
@@ -155,66 +155,6 @@ class Classic extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == TRUE)
     {
-      if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_featured_image'");
-        if ($query->num_rows() > 0)
-        {
-          $data['featured_image'] = $query->row();
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Featured_Image = [
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              if ($this->Classics->update_featured_image($Featured_Image,$this->user_id,$data['featured_image']->content_id))
-              { //KAPAG NAUPDATE YUNG LOGO
-
-              }
-          }
-        }
-        else
-        {
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Featured_Image = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'about_featured_image',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-              if ($this->db->insert('contents',$Featured_Image))
-              {
-
-              }
-          }
-        }
-      }
-
       if (!empty($this->input->post('description')))
       {
         $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_description'");
@@ -225,7 +165,7 @@ class Classic extends CI_Controller
             'value' => $this->input->post('description')
           ];
           if ($this->Classics->update_about_description($About_Description,$this->user_id,$data['about_description']->content_id)) {
-            // redirect('/Account/about', 'refresh');
+            redirect(base_url().'Classic/about', 'refresh');
           }
 
         }else {
@@ -241,12 +181,11 @@ class Classic extends CI_Controller
           ];
 
           if ($this->db->insert('contents',$About_Description)) {
-            // redirect('/Account/about', 'refresh');
+            redirect(base_url().'Classic/about', 'refresh');
           }
 
         }
       }
-      redirect('/Classic/about', 'refresh');
     }
   }
 
@@ -294,21 +233,21 @@ class Classic extends CI_Controller
 
               $this->db->insert('contents',$Image);
               echo '<script>alert("Image added!");</script>';
-              redirect('/Classic/gallery/', 'refresh');
+              redirect(base_url().'Classic/gallery/', 'refresh');
           }else{
             echo '<script>alert("Something went wrong, image not uploaded...");</script>';
-            redirect('/Classic/gallery', 'refresh');
+            redirect(base_url().'Classic/gallery', 'refresh');
           }
       }
       else
       {
-        redirect('/Classic/add_image', 'refresh');
+        redirect(base_url().'Classic/add_image', 'refresh');
       }
     }
     else
     {
       echo '<script>alert("Sorry, you have reached the maximum number of image you can upload for the gallery..");</script>';
-      redirect('/Classic/add_image', 'refresh');
+      redirect(base_url().'Classic/add_image', 'refresh');
     }
   }
 
@@ -345,11 +284,11 @@ class Classic extends CI_Controller
             ];
 
             if ($this->Classics->update_gallery_image($Image,$this->user_id,$content_id)) {
-              redirect('/Classic/gallery', 'refresh');
+              redirect(base_url().'Classic/gallery', 'refresh');
             }
         }else{
           echo '<script>alert("Something went wrong, image cannot be updated..");</script>';
-          redirect('/Classic/gallery', 'refresh');
+          redirect(base_url().'Classic/gallery', 'refresh');
         }
     }
   }
@@ -362,7 +301,7 @@ class Classic extends CI_Controller
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
-     redirect('/Classic/gallery', 'refresh');
+     redirect(base_url().'Classic/gallery', 'refresh');
   }
 
   public function contacts()
@@ -412,7 +351,7 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
         else
@@ -434,7 +373,7 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
       }
@@ -456,7 +395,7 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
         else
@@ -478,7 +417,7 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
       }
@@ -500,7 +439,7 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
         else
@@ -522,12 +461,12 @@ class Classic extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Classic/contacts', 'refresh');
+            redirect(base_url().'Classic/contacts', 'refresh');
           }
         }
       }
     }
-    redirect('/Classic/contacts', 'refresh');
+    redirect(base_url().'Classic/contacts', 'refresh');
   }
 
   public function image_slider()
@@ -547,48 +486,38 @@ class Classic extends CI_Controller
     $count = $query->row();
     if ($count->count < 3)
     {
-      if(!empty($_FILES['picture']['name']))
-      { //If may laman na image
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file')))
+      {
+        $path = 'uploads/'.$this->data['account']->username.'/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
+         $Image = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'image_slider',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Image = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'image_slider',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              $this->db->insert('contents',$Image);
-              echo '<script>alert("Image added!");</script>';
-              redirect('/Classic/image_slider', 'refresh');
-          }else{
-            echo '<script>alert("Something went wrong, image not uploaded...");</script>';
-            redirect('/Classic/image_slider', 'refresh');
-          }
+         if ($this->db->insert('contents',$Image)) {
+           echo 'Image uploaded!';
+         }
       }
       else
       {
-        redirect('/Classic/add_image_slider', 'refresh');
+        echo 'Please select an image';
       }
     }
     else
     {
-      echo '<script>alert("Sorry, you have reached the maximum number of image you can upload for the image slider..");</script>';
-      redirect('/Classic/image_slider', 'refresh');
+      echo "Sorry, you have reached the maximum number of image you can upload for the image slider..";
     }
   }
 
@@ -606,31 +535,28 @@ class Classic extends CI_Controller
 
   public function update_image_slider($content_id)
   {
-    if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
 
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
+       $Image = [
+         'value' => base_url().$path.$image_name
+       ];
 
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-
-            $Image = [
-              'value' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->Classics->update_image_slider($Image,$this->user_id,$content_id)) {
-              redirect('/Classic/image_slider', 'refresh');
-            }
-        }else{
-          echo '<script>alert("Something went wrong, image cannot be updated..");</script>';
-          redirect('/Classic/edit_slider_image', 'refresh');
-        }
+       if ($this->Classics->update_image_slider($Image,$this->user_id,$content_id)) {
+         echo "Image updated!";
+       }
+    }
+    else
+    {
+      echo 'Please select an image';
     }
   }
 
@@ -642,7 +568,7 @@ class Classic extends CI_Controller
     $this->db->where('meta_key', 'image_slider');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
-     redirect('/Classic/image_slider', 'refresh');
+     redirect(base_url().'Classic/image_slider', 'refresh');
   }
 
   public function theme()
@@ -660,13 +586,61 @@ class Classic extends CI_Controller
 
     if ($this->Classics->update_user_template($Template,$this->user_id,$this->id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
     {
-      redirect('/'.$template.'/theme', 'refresh');
+      redirect(base_url().$template.'/theme', 'refresh');
 
     }
     else
     {
       echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect('/Classic/theme', 'refresh');
+      redirect(base_url().'Classic/theme', 'refresh');
+    }
+  }
+
+  public function upload_about_featured_img()
+  {
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_featured_image'");
+       if ($query->num_rows() > 0)
+       {
+         $data['featured_image'] = $query->row();
+         $Featured_Image = [
+           'value' => base_url().$path.$image_name
+         ];
+          if ($this->Classics->update_featured_image($Featured_Image,$this->user_id,$data['featured_image']->content_id))
+          {
+            echo "Image successfully updated!";
+          }
+       }
+       else
+       {
+         $Featured_Image = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'about_featured_image',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->db->insert('contents',$Featured_Image))
+         {
+           echo "Image successfully uploaded!";
+         }
+       }
+    }
+    else
+    {
+      echo "Please select an image";
     }
   }
 }

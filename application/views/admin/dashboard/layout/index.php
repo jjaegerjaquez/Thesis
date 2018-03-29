@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
-  <link rel="icon" href="/public/img/logo/TH-Icon.png">
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -51,7 +51,7 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="/uploads/images/<?php echo $user->image?>" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url(); ?>uploads/images/<?php echo $user->image?>" class="img-circle" alt="User Image">
 
                 <p>
                   Admin<small>Member since <?php $joined = strtotime($user->date_joined);
@@ -63,7 +63,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-right">
-                  <a href="/Admin/logout" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="<?php echo base_url(); ?>Admin/logout" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -81,14 +81,14 @@
     <section class="sidebar">
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
-        <li class="treeview"><a href="/Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="active treeview"><a href="/Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
-        <li class="treeview"><a href="/Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
-        <li class="treeview"><a href="/Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
-        <li class="treeview"><a href="/Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
-        <li class="treeview"><a href="/Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
-        <li class="treeview"><a href="/Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
-        <li class="treeview"><a href="/Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -108,11 +108,11 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form class="" action="/Admin/save_site_settings" method="post" enctype="multipart/form-data">
+              <form class="" action="<?php echo base_url(); ?>Admin/save_site_settings" method="post" enctype="multipart/form-data">
                 <?php if (!empty($logo->value)): ?>
-                  <img src="/public/img/logo/<?php echo $logo->value?>" alt="" width="300px" height="200px" style="border:1px solid black;">
+                  <img src="<?php echo base_url(); ?>public/img/logo/<?php echo $logo->value?>" alt="" width="300px" height="200px" style="border:1px solid black;">
                 <?php else: ?>
-                  <img src="/public/img/logo/default-logo.png" alt="" width="300px" height="150px">
+                  <img src="<?php echo base_url(); ?>public/img/logo/default-logo.png" alt="" width="300px" height="150px">
                 <?php endif; ?>
                 <div class="form-group">
                   <label>Logo:
@@ -123,9 +123,9 @@
                 </div>
                 <div class="form-group">
                   <?php if (!empty($icon->value)): ?>
-                    <img src="/public/img/logo/<?php echo $icon->value?>" alt="" width="300px" height="300px">
+                    <img src="<?php echo base_url(); ?>public/img/logo/<?php echo $icon->value?>" alt="" width="300px" height="300px">
                   <?php else: ?>
-                    <img src="/public/img/logo/default-icon.png" alt="" width="300px" height="150px">
+                    <img src="<?php echo base_url(); ?>public/img/logo/default-icon.png" alt="" width="300px" height="150px">
                   <?php endif; ?>
                   <label>Site Icon:
                     <br>
@@ -158,7 +158,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form class="" action="/Admin/save_social" method="post" enctype="multipart/form-data">
+              <form class="" action="<?php echo base_url(); ?>Admin/save_social" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Facebook:</label>
                   <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>">

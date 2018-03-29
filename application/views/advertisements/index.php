@@ -18,7 +18,6 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Oswald:400,500" rel="stylesheet">
-
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/advertisements/style.css">
 </head>
@@ -40,14 +39,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a href="/Category/all">Categories</a></li>
-            <li><a href="/Destination/all">Destinations</a></li>
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Advertisement/all">Deals</a></li>
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Forum/all">Forum</a></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="#">Most Viewed</a></li>
               </ul>
@@ -90,11 +89,11 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/Home/profile">Account Settings</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/details">Account Details</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/Home/logout">Logout</a></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -119,14 +118,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li class=""><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -151,7 +150,7 @@
             <h3 class="modal-title">Login</h3>
           </div>
           <div class="modal-body login-body">
-            <form class="" action="/Login/login" method="post" enctype="multipart/form-data">
+            <form class="" action="<?php echo base_url(); ?>Login/login" method="post" enctype="multipart/form-data">
               <div id="error_message"></div>
               <div class="col-lg-12" style="margin-bottom:15px;">
                 <a href="#" data-toggle="modal" data-target="#supplier">
@@ -333,7 +332,7 @@
     <div class="row content-header">
       <ul class="breadcrumb navbar-bottom">
   	     <li><a href="<?php echo base_url()?>">Home</a></li>
-         <li><a href="/Advertisement/all">All deals</a></li>
+         <li><a href="<?php echo base_url(); ?>Advertisement/all">All deals</a></li>
          <li>Hot Deals</li>
          <li class="active"><?php echo $ad->title?></li>
   		</ul>
@@ -342,10 +341,12 @@
       <div class="col-lg-12 col-md-12 col-sm-10 col-xs-12 main-content">
         <div class="media" style="margin-bottom:20px;">
           <h2 class="media-heading business-title"><?php echo $ad->title?></h2>
-   			  <em class="period">Period: <?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?> - <?php $end = strtotime($ad->end_date); echo date('F j Y',$end)?></em>
+   			  <em class="period">Period: <?php $start = strtotime($ad->start_date); echo date('F j Y',$start)?> <?php if (!empty($ad->end_date)): ?>
+   			    - <?php $end = strtotime($ad->end_date); echo date('F j Y',$end)?>
+   			  <?php endif; ?></em>
    			  <br>
      			<div class="col-lg-12 col-md-12 col-sm-12 box">
-            <div class="pull-left media-left"><img class="media-object" src="<?php echo $ad->image?>" alt="/uploads/images/user.jpg" width="300px" height="250px"></div>
+            <div class="pull-left media-left"><img class="media-object" src="<?php echo $ad->image?>" alt="<?php echo base_url(); ?>uploads/images/user.jpg" width="300px" height="250px"></div>
       			 <ul>
                <li><h3 class="subtext"><?php echo $ad->subtext?></h3></li>
                <li>
@@ -366,7 +367,7 @@
                  </a>
                </div>
                <div class="col-xs-6 btn-style2">
-                 <a href="/Category/view/<?php echo str_replace(' ', '_', $business_details->business_name)?>" class="btn">
+                 <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $business_details->business_name)?>" class="btn">
                  <div class="space"></div>
                  <span><i class="ion-information-circled"></i> More</span>
                  </a>
@@ -392,7 +393,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="/About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
                         </p>
                       </div>
                     </div>
@@ -423,40 +424,40 @@
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <script>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-  (function() {
-    var notif = function(){
-      var user_id = {
-          user_id: "<?php echo $traveller_details->user_id ?>"
-      };
-      $.ajax({
-        url: "/Home/get_notif",
-        type: "POST",
-        data: user_id,
-        success: function (data){
-          // alert('Kumuha na ng notif');
-            $('#notif-div').html(data);
-        }
-      });
-    };
-    setInterval(function(){
-      notif();
-    }, 60000);
-  })();
-  $('#notif-div').on('click', '#notif-count', function() {
-      // alert('clicked');
-      var user_id = {
-               user_id: "<?php echo $traveller_details->user_id ?>"
-           };
-        $.ajax({
-            url: "/Home/is_unread",
-            type: 'POST',
-            data: user_id,
-            success: function(msg) {
-              // alert("Na read na");
-              $('#notif-count').html(msg);
-            }
-        });
-  });
+  // (function() {
+  //   var notif = function(){
+  //     var user_id = {
+  //         user_id: "<?php echo $traveller_details->user_id ?>"
+  //     };
+  //     $.ajax({
+  //       url: "<?php echo base_url(); ?>Home/get_notif",
+  //       type: "POST",
+  //       data: user_id,
+  //       success: function (data){
+  //         // alert('Kumuha na ng notif');
+  //           $('#notif-div').html(data);
+  //       }
+  //     });
+  //   };
+  //   setInterval(function(){
+  //     notif();
+  //   }, 60000);
+  // })();
+  // $('#notif-div').on('click', '#notif-count', function() {
+  //     // alert('clicked');
+  //     var user_id = {
+  //              user_id: "<?php echo $traveller_details->user_id ?>"
+  //          };
+  //       $.ajax({
+  //           url: "<?php echo base_url(); ?>Home/is_unread",
+  //           type: 'POST',
+  //           data: user_id,
+  //           success: function(msg) {
+  //             // alert("Na read na");
+  //             $('#notif-count').html(msg);
+  //           }
+  //       });
+  // });
   <?php endif; ?>
   $('#Submit').click(function() {
       $('#error_message').show();
@@ -465,7 +466,7 @@
           password: $('#password').val()
       };
       $.ajax({
-          url: "/Home/login",
+          url: "<?php echo base_url(); ?>Home/login",
           type: 'POST',
           data: form_data,
           success: function(msg) {
@@ -473,15 +474,15 @@
                 $('#error_message').html('<div class="alert alert-danger">Email is not registered, please register first</div>');
               }else if (msg =="Unconfirmed") {
                 $('#login').hide();
-                $(location).attr('href','/Verify/unconfirmed');
+                $(location).attr('href','<?php echo base_url(); ?>Verify/unconfirmed');
               }else if (msg =='Incorrect') {
                 $('#error_message').html('<div class="alert alert-danger">Incorrect password</div>');
               }else if (msg =='Set up') {
                 $('#login').hide();
-                $(location).attr('href','/Home/set_up');
+                $(location).attr('href','<?php echo base_url(); ?>Home/set_up');
               }else if (msg == 'Dashboard') {
                 $('#login').hide();
-                $(location).attr('href','/Account');
+                $(location).attr('href','<?php echo base_url(); ?>Account');
               }else if (msg == 'Login') {
                 $('#login').hide();
                 window.location.reload();
@@ -506,16 +507,16 @@
           type: $('#Register').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
@@ -534,16 +535,16 @@
           type: $('#Register_Traveller').attr('name')
       };
       $.ajax({
-          url: "/Home/register",
+          url: "<?php echo base_url(); ?>Home/register",
           type: 'POST',
           data: register_data,
           success: function(message) {
             if (message=='Successful') {
               $('#register').hide();
-              $(location).attr('href','/Verify');
+              $(location).attr('href','<?php echo base_url(); ?>Verify');
             }else if (message=='Unsucessful') {
               $('#register').hide();
-              $(location).attr('href','/Verify/not_sent');
+              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
             }
             else {
               $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');

@@ -42,7 +42,7 @@ class Home extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
     }
     if ($this->session->userdata('traveller_is_logged_in'))
@@ -76,9 +76,9 @@ class Home extends CI_Controller
       $set_up = $data['account']->set_up;
       if ($set_up == '0')
         {
-          redirect('/Home/set_up');
+          redirect(base_url().'Home/set_up');
         }else {
-          redirect('/Home/redirect');
+          redirect(base_url().'Home/redirect');
         }
     }
     $this->load->view('home/index',$this->data);
@@ -485,7 +485,7 @@ class Home extends CI_Controller
       }
       elseif ($set_up == '1')
       {
-        redirect('/Account', 'refresh');
+        redirect(base_url().'Account', 'refresh');
       }
     }
   }
@@ -503,13 +503,13 @@ class Home extends CI_Controller
     {
       $this->session->set_userdata('primary_website', 'Yes');
       $this->session->set_userdata('business', '');
-      redirect('/Account/start', 'refresh');
+      redirect(base_url().'Account/start', 'refresh');
     }
     else
     {
       $this->session->set_userdata('primary_website', 'No');
       $this->session->set_userdata('business', '');
-      redirect('/Account/start', 'refresh');
+      redirect(base_url().'Account/start', 'refresh');
     }
   }
 
@@ -588,7 +588,7 @@ class Home extends CI_Controller
       if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
         // redirect('/Account/home', 'refresh');
       }
-      redirect('/Home/profile', 'refresh');
+      redirect(base_url().'Home/profile', 'refresh');
     }
   }
 
@@ -683,7 +683,7 @@ class Home extends CI_Controller
       if ($this->Homes->update_email($Email,$this->traveller_id)) {
         $this->session->unset_userdata('traveller_email');
         $this->session->set_userdata('traveller_email', $this->input->post('email'));
-        redirect('/Home/security', 'refresh');
+        redirect(base_url().'Home/security', 'refresh');
       }
     }
   }
@@ -739,7 +739,7 @@ class Home extends CI_Controller
           'password' => md5($this->input->post('new_password'))
         ];
         if ($this->Homes->update_password($Password,$this->traveller_id)) {
-          redirect('/Home/security', 'refresh');
+          redirect(base_url().'Home/security', 'refresh');
         }
       }
     }
@@ -889,6 +889,6 @@ class Home extends CI_Controller
           $this->session->unset_userdata('traveller_is_logged_in');
           $this->session->unset_userdata('traveller_id');
         }
-        redirect('/Home');
+        redirect(base_url().'Home');
   }
 }

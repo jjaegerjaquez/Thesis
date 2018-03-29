@@ -170,7 +170,7 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="title">Add Image</h2>
+          <h3 class="title">Add Image</h3>
           <hr>
         </div>
         <div class="form-group">

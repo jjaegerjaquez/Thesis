@@ -687,70 +687,80 @@ class Account extends CI_Controller
   }
 
   public function upload_profile_img()
- {
-   $path = 'uploads/'.$this->data['account']->username.'/';
-   $croped_image = $_POST['image'];
-    list($type, $croped_image) = explode(';', $croped_image);
-    list(, $croped_image)      = explode(',', $croped_image);
-    $croped_image = base64_decode($croped_image);
-    $image_name = time().'.png';
-    // upload cropped image to server
-    file_put_contents($path.$image_name, $croped_image);
-    $Profile = [
-      'image' => base_url().'uploads'.'/'.$this->data['account']->username.'/'.$image_name
-    ];
-    if ($this->Accounts->save_profile($Profile,$this->user_id,$this->BusinessName)) {
-      echo 'Profile image updated!';
+  {
+    if (!empty($this->input->post('file'))) {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+       $Profile = [
+         'image' => base_url().'uploads'.'/'.$this->data['account']->username.'/'.$image_name
+       ];
+       if ($this->Accounts->save_profile($Profile,$this->user_id,$this->BusinessName)) {
+         echo 'Profile image updated!';
+       }
     }
- }
+    else {
+      echo "Please select an image";
+    }
+  }
 
  public function upload_site_logo()
-{
-  $path = 'uploads/'.$this->data['account']->username.'/';
-  $croped_image = $_POST['image'];
-   list($type, $croped_image) = explode(';', $croped_image);
-   list(, $croped_image)      = explode(',', $croped_image);
-   $croped_image = base64_decode($croped_image);
-   $image_name = time().'.png';
-   // upload cropped image to server
-   file_put_contents($path.$image_name, $croped_image);
+ {
+   if (!empty($this->input->post('file'))) {
+     $path = 'uploads/'.$this->data['account']->username.'/';
+     $croped_image = $_POST['image'];
+      list($type, $croped_image) = explode(';', $croped_image);
+      list(, $croped_image)      = explode(',', $croped_image);
+      $croped_image = base64_decode($croped_image);
+      $image_name = time().'.png';
+      // upload cropped image to server
+      file_put_contents($path.$image_name, $croped_image);
 
-   $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'site_logo'");
+      $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'site_logo'");
 
-   if ($query->num_rows() > 0) //KAPAG MERON NAKITANG LOGO, IUUPDATE
-   {
-     $data['site_logo'] = $query->row();
-     $Site_Logo = [
-       'value' => base_url().$path.$image_name
-     ];
-     if ($this->Accounts->update_site_logo($Site_Logo,$this->user_id,$data['site_logo']->content_id))
-     {
-       echo "Logo updated!";
-     }
+      if ($query->num_rows() > 0) //KAPAG MERON NAKITANG LOGO, IUUPDATE
+      {
+        $data['site_logo'] = $query->row();
+        $Site_Logo = [
+          'value' => base_url().$path.$image_name
+        ];
+        if ($this->Accounts->update_site_logo($Site_Logo,$this->user_id,$data['site_logo']->content_id))
+        {
+          echo "Logo updated!";
+        }
+      }
+      else //KAPAG WALA II-INSERT YUNG LOGO
+      {
+        $Site_Logo = [
+          'user_id' => $this->user_id,
+          'id' => $this->id,
+          'business_name' => $this->BusinessName,
+          'meta_key' => 'site_logo',
+          'content_title' => '',
+          'description' => '',
+          'value' => base_url().$path.$image_name
+        ];
+
+        if ($this->db->insert('contents',$Site_Logo))
+        { //KAPAG NAINSERT YUNG LOGO
+          echo "Logo successfully uploaded!";
+        }
+        else
+        { //KAPAG DI NAUPDATE YUNG LOGO
+          echo '<script>alert("Something went wrong...");</script>';
+          // redirect('/Account/site_identity', 'refresh');
+        }
+      }
    }
-   else //KAPAG WALA II-INSERT YUNG LOGO
-   {
-     $Site_Logo = [
-       'user_id' => $this->user_id,
-       'id' => $this->id,
-       'business_name' => $this->BusinessName,
-       'meta_key' => 'site_logo',
-       'content_title' => '',
-       'description' => '',
-       'value' => base_url().$path.$image_name
-     ];
-
-     if ($this->db->insert('contents',$Site_Logo))
-     { //KAPAG NAINSERT YUNG LOGO
-       echo "Logo successfully uploaded!";
-     }
-     else
-     { //KAPAG DI NAUPDATE YUNG LOGO
-       echo '<script>alert("Something went wrong...");</script>';
-       // redirect('/Account/site_identity', 'refresh');
-     }
+   else {
+     echo "Please select an image";
    }
-}
+ }
 
 
   public function logout()

@@ -166,31 +166,33 @@
           <a href="<?php echo base_url(); ?>Light/theme">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;">
-        <div class="row text-title header-row">
-          <h3 class="title">Contacts</h3>
-          <hr>
+      <div class="col-lg-9" style="background-color:#fff;padding-top:20px;padding-bottom:50px;">
+        <div class="col-lg-offset-2 col-lg-8">
+          <div class="row text-title header-row">
+            <h3 class="title">Contacts</h3>
+            <hr>
+          </div>
+          <form class="" action="<?php echo base_url(); ?>Light/save_contacts" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Facebook URL:</label>
+              <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50" placeholder="ex: https://www.facebook.com/travel.hub">
+              <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
+            </div>
+            <div class="form-group">
+              <label>Instagram URL:</label>
+              <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50" placeholder="ex: https://www.instagram.com/travelhub">
+              <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
+            </div>
+            <div class="form-group">
+              <label>Twitter URL:</label>
+              <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50" placeholder="ex: https://twitter.com/TravelHub">
+              <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
+            </div>
+            <div class="form-group">
+              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+          </form>
         </div>
-        <form class="" action="<?php echo base_url(); ?>Light/save_contacts" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>Facebook URL:</label>
-            <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50" placeholder="ex: https://www.google.com.ph">
-            <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Instagram URL:</label>
-            <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50" placeholder="ex: https://www.instagram.com/travelhub">
-            <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Twitter URL:</label>
-            <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50" placeholder="ex: https://twitter.com/TravelHub">
-            <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
-          </div>
-          <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-          </div>
-        </form>
       </div>
     </div>
   </section>

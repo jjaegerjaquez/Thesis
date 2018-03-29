@@ -38,16 +38,16 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/Theme/preview/Neutral">Home</a></li>
-          <li><a href="/Theme/about/Neutral">About</a></li>
-          <li><a href="/Theme/gallery/Neutral">Gallery</a></li>
-          <li><a href="/Theme/contacts/Neutral">Contact</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/preview/Neutral">Home</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/about/Neutral">About</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/gallery/Neutral">Gallery</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/contacts/Neutral">Contact</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
 
-  <header class="container-fluid header-style" style="background-image: url('/public/img/Neutral/bg2.jpg');">
+  <header class="container-fluid header-style" style="background-image: url('<?php echo base_url() ?>public/img/Neutral/bg2.jpg');">
     <h1>ENTER TEXT HERE</h1>
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">

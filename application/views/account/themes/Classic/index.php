@@ -3,13 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>
-    <?php if (!empty($site_title)): ?>
-      <?php echo $site_title->value ?>
-    <?php else: ?>
-      Site Title
-    <?php endif; ?>
-  </title>
+  <title><?php if (!empty($site_title)): ?><?php echo $site_title->value ?><?php else: ?>Site Title<?php endif; ?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->

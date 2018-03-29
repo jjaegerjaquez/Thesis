@@ -88,11 +88,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -131,7 +131,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -151,20 +151,20 @@
       <?php if (!empty($details->image)): ?>
         <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
       <?php else: ?>
-        <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+        <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
       <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account" class="active">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Neutral/home">Home Page Settings</a>
-          <a href="/Neutral/about">About Page Settings</a>
-          <a href="/Neutral/gallery">Gallery Page Settings</a>
-          <a href="/Neutral/contacts">Contacts Page Settings</a>
-          <a href="/Neutral/theme">Theme</a>
+          <a href="<?php echo base_url(); ?>Account" class="active">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Neutral/home">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/theme">Theme</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
@@ -243,7 +243,7 @@
                       <?php if (!empty($review->image)): ?>
                         <img class="img-circle img-sm" src="<?php echo $review->image ?>" alt="User Image">
                       <?php else: ?>
-                        <img class="img-circle img-sm" src="/public/img/default-img.jpg" alt="User Image">
+                        <img class="img-circle img-sm" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="User Image">
                       <?php endif; ?>
                       <div class="comment-text">
                             <span class="username">

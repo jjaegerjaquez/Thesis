@@ -169,14 +169,20 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="col-lg-5 text-center" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
-          <div class="form-group">
-            <div id="upload-image"></div>
+        <div class="col-lg-5" style="background-color:#fff;border-right:10px solid #ebe9e9;">
+          <div class="row text-title header-row">
+            <h3 class="title">Profile Image</h3>
+            <hr>
           </div>
-          <div class="form-group">
-            <label for="">Select profile image:</label>
-            <input type="file" id="images" class="form-control">
-            <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
+          <div class="text-center">
+            <div class="form-group">
+              <div id="upload-image"></div>
+            </div>
+            <div class="form-group">
+              <label for="">Select profile image:</label>
+              <input type="file" id="images" class="form-control">
+              <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
           </div>
         </div>
         <div class="col-lg-7" style="background-color:#fff;">
@@ -298,10 +304,11 @@ $('.cropped_image').on('click', function (ev) {
 		type: 'canvas',
 		size: 'viewport'
 	}).then(function (response) {
+    var file_input = $('#images').val();
 		$.ajax({
 			url: "<?php echo base_url() ?>Account/upload_profile_img",
 			type: "POST",
-			data: {"image":response},
+			data: {"image":response,"file":file_input},
 			success: function (data) {
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Account/profile');

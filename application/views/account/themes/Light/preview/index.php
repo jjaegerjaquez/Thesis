@@ -34,7 +34,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/Theme/preview/Light">Site Title</a>
+        <a class="navbar-brand" href="<?php echo base_url(); ?>Theme/preview/Light">Site Title</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -68,7 +68,7 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 mx-auto">
         <div class="post-preview">
-          <h4 class="post-title">You can add text here</h4>
+          <h2 class="post-title">You can add text here</h2>
         </div>
          <p class = "text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sodales turpis nec ullamcorper euismod. Etiam arcu nisi, interdum non facilisis ut, vestibulum eget nisi. In scelerisque diam eu enim maximus, sed faucibus magna consectetur. Donec nulla nisi, scelerisque et urna quis, feugiat sodales felis. Sed sit amet magna et risus facilisis molestie. Donec vestibulum nulla non massa finibus bibendum. Phasellus sit amet lectus nec sem scelerisque sollicitudin. In dictum lectus nec bibendum eleifend. Aliquam nec odio aliquam, posuere nisi sed, iaculis urna.</p>
       </div>
