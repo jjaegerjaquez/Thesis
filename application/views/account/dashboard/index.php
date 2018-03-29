@@ -39,14 +39,14 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/Category/all">Categories</a></li>
-          <li><a href="/Destination/all">Destinations</a></li>
+          <li><a href="<?php echo base_url() ?>Category/all">Categories</a></li>
+          <li><a href="<?php echo base_url() ?>Destination/all">Destinations</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Advertisement/all">Deals</a></li>
+              <li><a href="<?php echo base_url() ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Forum/all">Forum</a></li>
+              <li><a href="<?php echo base_url() ?>Forum/all">Forum</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Most Viewed</a></li>
             </ul>
@@ -93,11 +93,11 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $account->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/Account/security">Security</a></li>
-              <li><a href="/Account/details">Account Details</a></li>
+              <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+              <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
               <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="/Account/logout">Logout</a></li>
+              <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -136,7 +136,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url() ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -156,14 +156,14 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url() ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account" class="active">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
+          <a href="<?php echo base_url() ?>Account" class="active">Dashboard</a>
+          <a href="<?php echo base_url() ?>Account/profile">Profile</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
@@ -242,7 +242,7 @@
                       <?php if (!empty($review->image)): ?>
                         <img class="img-circle img-sm" src="<?php echo $review->image ?>" alt="User Image">
                       <?php else: ?>
-                        <img class="img-circle img-sm" src="/public/img/default-img.jpg" alt="User Image">
+                        <img class="img-circle img-sm" src="<?php echo base_url() ?>public/img/default-img.jpg" alt="User Image">
                       <?php endif; ?>
                       <div class="comment-text">
                             <span class="username">
@@ -274,40 +274,40 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('is_logged_in')): ?>
-(function() {
-  var notif = function(){
-    var user_id = {
-        user_id: "<?php echo $details->id ?>"
-    };
-    $.ajax({
-      url: "/Home/get_notif",
-      type: "POST",
-      data: user_id,
-      success: function (data){
-        // alert('Kumuha na ng notif');
-          $('#notif-div').html(data);
-      }
-    });
-  };
-  setInterval(function(){
-    notif();
-  }, 60000);
-})();
-$('#notif-div').on('click', '#notif-count', function() {
-    // alert('clicked');
-    var user_id = {
-             user_id: "<?php echo $details->id ?>"
-         };
-      $.ajax({
-          url: "/Home/is_unread",
-          type: 'POST',
-          data: user_id,
-          success: function(msg) {
-            // alert("Na read na");
-            $('#notif-count').html(msg);
-          }
-      });
-});
+// (function() {
+//   var notif = function(){
+//     var user_id = {
+//         user_id: "<?php echo $details->id ?>"
+//     };
+//     $.ajax({
+//       url: "/Home/get_notif",
+//       type: "POST",
+//       data: user_id,
+//       success: function (data){
+//         // alert('Kumuha na ng notif');
+//           $('#notif-div').html(data);
+//       }
+//     });
+//   };
+//   setInterval(function(){
+//     notif();
+//   }, 60000);
+// })();
+// $('#notif-div').on('click', '#notif-count', function() {
+//     // alert('clicked');
+//     var user_id = {
+//              user_id: "<?php echo $details->id ?>"
+//          };
+//       $.ajax({
+//           url: "/Home/is_unread",
+//           type: 'POST',
+//           data: user_id,
+//           success: function(msg) {
+//             // alert("Na read na");
+//             $('#notif-count').html(msg);
+//           }
+//       });
+// });
 <?php endif; ?>
 </script>
 </body>

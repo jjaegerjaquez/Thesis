@@ -88,11 +88,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -104,7 +104,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Back to Dashboard</a></li>
+        <li><a href="<?php echo base_url(); ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing contact page</li>
       </ul>
       <div class="col-lg-3">
@@ -130,7 +130,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -150,41 +150,41 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Light/home">Home Page Settings</a>
-          <a href="/Light/about">About Page Settings</a>
-          <a href="/Light/gallery">Gallery Page Settings</a>
-          <a href="/Light/contacts" class="active">Contacts Page Settings</a>
-          <a href="/Light/theme">Theme</a>
+          <a href="<?php echo base_url(); ?>Account">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Light/home">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/contacts" class="active">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/theme">Theme</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="">Contacts</h2>
+          <h3 class="title">Contacts</h3>
           <hr>
         </div>
-        <form class="" action="/Light/save_contacts" method="post" enctype="multipart/form-data">
+        <form class="" action="<?php echo base_url(); ?>Light/save_contacts" method="post" enctype="multipart/form-data">
           <div class="form-group">
             <label>Facebook URL:</label>
-            <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50">
+            <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" maxlength="50" placeholder="ex: https://www.google.com.ph">
             <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
           </div>
           <div class="form-group">
             <label>Instagram URL:</label>
-            <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50">
+            <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" maxlength="50" placeholder="ex: https://www.instagram.com/travelhub">
             <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
           </div>
           <div class="form-group">
             <label>Twitter URL:</label>
-            <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50">
+            <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" maxlength="50" placeholder="ex: https://twitter.com/TravelHub">
             <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
           </div>
           <div class="form-group">

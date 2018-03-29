@@ -64,7 +64,7 @@
 <?php if (!empty($home_bg->value)): ?>
   <header class="masthead" style="background-image: url('<?php echo $home_bg->value?>')" id="home">  <!-- 1279 x 699 pixels -->
 <?php else: ?>
-  <header class="masthead" style="background-image: url('/public/img/Light/home-bg.jpg')" id="home">  <!-- 1279 x 699 pixels -->
+  <header class="masthead" style="background-image: url('<?php echo base_url() ?>public/img/Light/home-bg.jpg')" id="home">  <!-- 1279 x 699 pixels -->
 <?php endif; ?>
     <div class="overlay"></div>
 		<div class="container">
@@ -95,13 +95,13 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 mx-auto">
         <div class="post-preview">
-          <h4 class="post-title">
+          <h2 class="post-title">
             <?php if (!empty($home_title)): ?>
               <?php echo $home_title->value ?>
             <?php else: ?>
               Enter text here.
             <?php endif; ?>
-          </h4>
+          </h2>
         </div>
          <p class = "text-justify">
            <?php if (!empty($home_description)): ?>
@@ -118,7 +118,7 @@
     <?php if (!empty($about_header_image)): ?>
       <header class="masthead" style="background-image: url('<?php echo $about_header_image->value?>')"> <!-- 1600 x 1000 pixels -->
     <?php else: ?>
-      <header class="masthead" style="background-image: url('/public/img/Light/about-bg.jpg')"> <!-- 1600 x 1000 pixels -->
+      <header class="masthead" style="background-image: url('<?php echo base_url() ?>public/img/Light/about-bg.jpg')"> <!-- 1600 x 1000 pixels -->
     <?php endif; ?>
         <div class="overlay"></div>
         <section class="container about-style">
@@ -197,31 +197,31 @@
           <?php endforeach; ?>
         <?php else: ?>
           <div class="item active">
-            <img src="/public/img/Light/img2.jpg" alt="Los Angeles">
+            <img src="<?php echo base_url() ?>public/img/Light/img2.jpg" alt="Los Angeles">
           </div>
           <div class="item">
-            <img src="/public/img/Light/img3.jpg" alt="Chicago">
+            <img src="<?php echo base_url() ?>public/img/Light/img3.jpg" alt="Chicago">
           </div>
           <div class="item">
-            <img src="/public/img/Light/img5.jpg" alt="New York">
+            <img src="<?php echo base_url() ?>public/img/Light/img5.jpg" alt="New York">
           </div>
         	 <div class="item">
-        	   <img src="/public/img/Light/img6.jpg" alt="New York">
+        	   <img src="<?php echo base_url() ?>public/img/Light/img6.jpg" alt="New York">
         	 </div>
         	 <div class="item">
-              <img src="/public/img/Light/img7.jpg" alt="New York">
+              <img src="<?php echo base_url() ?>public/img/Light/img7.jpg" alt="New York">
             </div>
         	 <div class="item">
-        	   <img src="/public/img/Light/img8.jpg" alt="New York">
+        	   <img src="<?php echo base_url() ?>public/img/Light/img8.jpg" alt="New York">
         	 </div>
         	 <div class="item">
-        	   <img src="/public/img/Light/img9.jpg" alt="New York">
+        	   <img src="<?php echo base_url() ?>public/img/Light/img9.jpg" alt="New York">
         	 </div>
         	 <div class="item">
-        	   <img src="/public/img/Light/img10.jpg" alt="New York">
+        	   <img src="<?php echo base_url() ?>public/img/Light/img10.jpg" alt="New York">
         	 </div>
         	 <div class="item">
-        	   <img src="/public/img/Light/img11.jpg" alt="New York">
+        	   <img src="<?php echo base_url() ?>public/img/Light/img11.jpg" alt="New York">
         	 </div>
         <?php endif; ?>
       </div>
@@ -248,7 +248,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <ul>
+              <ul class="links">
                 <li><i class="fa fa-envelope"><span><?php if (!empty($details->email)): ?>
                   <?php echo $details->email ?>
                 <?php else: ?>

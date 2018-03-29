@@ -27,7 +27,7 @@
     <h3>Let's get you started</h3>
     <p>Please answer the question below so we can get you started</p>
   </div>
-  <form class="" action="/Account/save_step_one" method="post">
+  <form class="" action="<?php echo base_url() ?>Account/save_step_one" method="post">
     <div class="container">
       <div class="row">
         <div class="col-lg-3"></div>

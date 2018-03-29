@@ -18,6 +18,9 @@ padding-bottom:30px;
 padding-top:20px;
 }
 
+.links li {
+  color:#fff;
+}
 p {
   line-height: 1.5;
   margin: 30px 0; }
@@ -139,7 +142,7 @@ h6 {
 }
 .footer1 .footer .social li a {
 	display: block;
-    font-size: 1em;
+    font-size: 0.7em;
     color: #DDD;
     width: 30px;
     height: 30px;

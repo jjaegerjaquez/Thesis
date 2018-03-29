@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Classic/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
 </head>
 <body>
 
@@ -88,11 +89,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -104,7 +105,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Back to Dashboard</a></li>
+        <li><a href="<?php echo base_url() ?>Account">Back to Dashboard</a></li>
         <li class="active">Profile</li>
       </ul>
       <div class="col-lg-3">
@@ -130,7 +131,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url() ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -151,99 +152,112 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url() ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account">Dashboard</a>
-          <a href="/Account/profile" class="active">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Light/home">Home Page Settings</a>
-          <a href="/Light/about">About Page Settings</a>
-          <a href="/Light/gallery">Gallery Page Settings</a>
-          <a href="/Light/contacts">Contacts Page Settings</a>
-          <a href="/Light/theme">Theme</a>
+          <a href="<?php echo base_url() ?>Account">Dashboard</a>
+          <a href="<?php echo base_url() ?>Account/profile" class="active">Profile</a>
+          <a href="<?php echo base_url() ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url() ?>Light/home">Home Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/about">About Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/theme">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;">
-        <div class="row text-title header-row">
-          <h2 class="">Basic Info</h2>
-          <hr>
+      <div class="col-lg-9">
+        <div class="col-lg-5 text-center" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+          <div class="form-group">
+            <div id="upload-image"></div>
+          </div>
+          <div class="form-group">
+            <label for="">Select profile image:</label>
+            <input type="file" id="images" class="form-control">
+            <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
+          </div>
         </div>
-        <form class="" action="/Account/save_profile" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>Profile Image:
-              <br>
-              <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
-            </label>
-            <input class="" type="file" name="picture" />
+        <div class="col-lg-7" style="background-color:#fff;">
+          <div class="row text-title header-row">
+            <h3 class="title">Basic Info</h3>
+            <hr>
+            <span class="required-text">Please fill out all fields with *</span>
           </div>
-          <div class="form-group">
-            <label>Business Category:</label>
-            <select class="form-control" name="category" id="category">
-              <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category ?><?php endif;?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
-              <?php foreach ($categories as $key => $category): ?>
-                <option value ="<?php echo $category->category?>"><?php echo $category->category?></option>
-              <?php endforeach; ?>
-            </select>
-            <span style="color:red" class="help-block"><?php echo form_error('category'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Business Name:</label>
-            <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
-            <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
-          </div>
-          <div class="row">
-            <div class="col-lg-8" style="padding-right:0px;">
-              <div class="form-group">
-                <label>Address:</label>
-                <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
-                <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+          <form class="" action="<?php echo base_url() ?>Account/save_profile" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Business Category*</label>
+              <select class="form-control" name="category" id="category">
+                <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category ?><?php endif;?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
+                <?php foreach ($categories as $key => $category): ?>
+                  <?php if ($details->category == $category->category): ?>
+                  <?php else: ?>
+                    <option value ="<?php echo $category->category?>"><?php echo $category->category?></option>
+                  <?php endif; ?>
+                <?php endforeach; ?>
+              </select>
+              <span style="color:red" class="help-block"><?php echo form_error('category'); ?></span>
+            </div>
+            <div class="form-group">
+              <label>Business Name*</label>
+              <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
+              <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
+            </div>
+            <div class="row">
+              <div class="col-lg-8" style="padding-right:0px;">
+                <div class="form-group">
+                  <label>Address*</label>
+                  <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
+                  <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>City/Province*</label>
+                  <select class="form-control" name="city_province" id="city_province">
+                    <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality ?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
+                    <?php foreach ($localities as $key => $locality): ?>
+                      <?php if ($details->locality == $locality->locality): ?>
+                      <?php else: ?>
+                        <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  </select>
+                  <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
+                </div>
               </div>
             </div>
-            <div class="col-lg-4">
-              <div class="form-group">
-                <label>City/Province:</label>
-                <select class="form-control" name="city_province" id="city_province">
-                  <option value ="<?php if (!empty($details->locality)): ?> <?php echo $details->locality ?><?php endif;?>" selected><?php if (!empty($details->locality)): ?> <?php echo $details->locality ?> <?php endif; ?></option>
-                  <?php foreach ($localities as $key => $locality): ?>
-                    <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
-                  <?php endforeach; ?>
-                </select>
-                <span style="color:red" class="help-block"><?php echo form_error('city_province'); ?></span>
+            <div class="form-group">
+              <label>Cellphone Number (Do NOT include the leading 0)*</label>
+              <div class="input-group">
+                <div class="input-group-addon"><i>+63</i></div>
+                <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone ?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
               </div>
+              <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
             </div>
-          </div>
-          <div class="form-group">
-            <label>Cellphone Number: (Do NOT include the leading 0)</label>
-            <div class="input-group">
-              <div class="input-group-addon"><i>+63</i></div>
-              <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone ?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
+            <div class="form-group">
+              <label>Telephone Number:</label>
+              <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif; ?>" maxlength="11">
+              <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
             </div>
-            <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Telephone Number:</label>
-            <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif; ?>" maxlength="11">
-            <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
-          </div>
-          <div class="form-group">
-            <label>Contact Person:</label>
-            <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
-          </div>
-          <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-          </div>
-        </form>
+            <div class="form-group">
+              <label>Contact Person*</label>
+              <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
+              <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
+            </div>
+            <div class="form-group">
+              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -255,6 +269,48 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+		width: 200,
+		height: 200,
+		type: 'square'
+	},
+	boundary: {
+		width: 300,
+		height: 300
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log('<?php echo base_url() ?>');
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: 'viewport'
+	}).then(function (response) {
+		$.ajax({
+			url: "<?php echo base_url() ?>Account/upload_profile_img",
+			type: "POST",
+			data: {"image":response},
+			success: function (data) {
+        alert(data);
+        $(location).attr('href','<?php echo base_url() ?>Account/profile');
+				// html = '<img src="' + response + '" />';
+				// $("#upload-image-i").html(html);
+			}
+		});
+	});
+});
 </script>
 </body>
 </html>

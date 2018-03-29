@@ -46,12 +46,10 @@ html, body {
   color: #757575;
   text-decoration: underline;
 }
-.content-title{
-  margin-left: 15px;
-  color: #3c3734;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bolder;
+.title{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  color: #424242;
 }
 /* END of Breadcrumb & Header*/
 
@@ -129,6 +127,11 @@ html, body {
 /* END OF MENU*/
 
 /* PROFILE CONTENT*/
+.required-text{
+  font-style: italic;
+  font-weight: bold;
+  color: #F44336;
+}
 .header-row {
   padding-left: 14px;
   padding-right: 14px;

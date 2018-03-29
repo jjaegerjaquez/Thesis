@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Classic/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
 </head>
 <body>
 
@@ -88,11 +89,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -104,7 +105,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Back to Dashboard</a></li>
+        <li><a href="<?php echo base_url(); ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing home page</li>
       </ul>
       <div class="col-lg-3">
@@ -130,7 +131,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="/Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -150,62 +151,73 @@
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="/public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="/Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="/Account">Dashboard</a>
-          <a href="/Account/profile">Profile</a>
-          <a href="/Account/site_identity">Site Identity</a>
-          <a href="/Light/home" class="active">Home Page Settings</a>
-          <a href="/Light/about">About Page Settings</a>
-          <a href="/Light/gallery">Gallery Page Settings</a>
-          <a href="/Light/contacts">Contacts Page Settings</a>
-          <a href="/Light/theme">Theme</a>
+          <a href="<?php echo base_url(); ?>Account">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Light/home" class="active">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Light/theme">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;">
-        <div class="row text-title header-row">
-          <h2 class="">Home</h2>
-          <hr>
+      <div class="col-lg-9">
+        <div class="col-lg-6" style="background-color:#fff;border-right:10px solid #ebe9e9;">
+          <div class="row text-title header-row">
+            <h3 class="title">Background Image:</h3>
+            <hr>
+          </div>
+          <div class="form-group">
+            <?php if (!empty($home_bg->value)): ?>
+              <img class="center-block" src="<?php echo $home_bg->value?>" alt="" height="200px" height="230px">
+            <?php else: ?>
+              <img class="center-block" src="<?php echo base_url(); ?>public/img/img.jpg" alt="" height="230px">
+            <?php endif; ?>
+          </div>
+          <div class="form-group">
+            <div id="upload-image"></div>
+          </div>
+          <div class="form-group text-center">
+            <label for="">Select profile image:</label>
+            <input type="file" id="images" class="form-control">
+            <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
+          </div>
         </div>
-        <form class="" action="/Light/save_home" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>Background Image:</label>
+        <div class="col-lg-6" style="background-color:#fff;">
+          <div class="row text-title header-row">
+            <h3 class="title">Home</h3>
+            <hr>
+            <span class="required-text">Please fill out all fields with *</span>
           </div>
-          <?php if (!empty($home_bg->value)): ?>
-            <img src="<?php echo $home_bg->value?>" alt="" height="300px" height="300px">
-          <?php else: ?>
-            <img src="/public/img/img.jpg" alt="" height="300px" height="300px">
-          <?php endif; ?>
-          <div class="form-group">
-            <label>
-              <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
-            </label>
-            <input class="" type="file" name="picture" />
-          </div>
-          <div class="form-group">
-            <label>Home Page Title:</label>
-            <input type="text" name="title" class="form-control" value="<?php if (!empty($home_title->value)) { echo $home_title->value; } ?>" maxlength="50">
-            <span style="color:red" class="help-block"><?php echo form_error('home_page_title'); ?></span>
-          </div>
-          <div class="form-group input-width center-block">
-            <label>Description:</label>
-            <textarea class="form-control" name="description" rows="8"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
-            <span style="color:red" class="help-block"><?php echo form_error('home_page_description'); ?></span>
-          </div>
-          <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-          </div>
-        </form>
+          <form class="" action="<?php echo base_url(); ?>Light/save_home" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Home Page Title*</label>
+              <input type="text" name="title" class="form-control" value="<?php if (!empty($home_title->value)) { echo $home_title->value; } ?>" maxlength="140" placeholder="Add home page title here">
+              <span style="color:red" class="help-block"><?php echo form_error('home_page_title'); ?></span>
+            </div>
+            <div class="form-group input-width center-block">
+              <label>Description*</label>
+              <textarea class="form-control" name="description" rows="15" maxlength="800" placeholder="Add description here"><?php if (!empty($home_description->value)) { echo $home_description->value; } ?></textarea>
+              <span style="color:red" class="help-block"><?php echo form_error('home_page_description'); ?></span>
+            </div>
+            <div class="form-group">
+              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -217,6 +229,47 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+		width: 342,
+		height: 192,
+		type: 'square'
+	},
+	boundary: {
+		width: 380,
+		height: 250
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log($('#images').val());
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 1366, height: 768 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Light/upload_home_bg",
+			type: "POST",
+			data: {"image":response,"file":file_input},
+			success: function (data) {
+        alert(data);
+        $(location).attr('href','<?php echo base_url() ?>Light/home');
+			}
+		});
+	});
+});
 </script>
 </body>
 </html>

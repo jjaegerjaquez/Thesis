@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/bootstrap/css/bootstrap.min.css">
   <!-- jQuery 2.2.3 -->
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js" type="text/javascript"></script>  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.2/croppie.js" type="text/javascript"></script>
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
@@ -122,9 +123,9 @@
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="vertical-menu">
-          <a href="/Home/image" class="active">Profile Image</a>
-          <a href="/Home/profile">Edit Profile</a>
-          <a href="/Home/security">Security</a>
+          <a href="<?php echo base_url() ?>Home/image" class="active">Profile Image</a>
+          <a href="<?php echo base_url() ?>Home/profile">Edit Profile</a>
+          <a href="<?php echo base_url() ?>Home/security">Security</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;margin-bottom:5px;">

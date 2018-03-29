@@ -20,7 +20,7 @@ class Light extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
     }
     else
@@ -73,66 +73,6 @@ class Light extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == TRUE)
     {
-      if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'home_background_image'");
-        if ($query->num_rows() > 0)
-        {
-          $data['home_bg'] = $query->row();
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Bg = [
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              if ($this->Lights->update_home_background_image($Bg,$this->user_id,$data['home_bg']->content_id))
-              { //KAPAG NAUPDATE YUNG LOGO
-
-              }
-          }
-        }
-        else
-        {
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Bg = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'home_background_image',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-              if ($this->db->insert('contents',$Bg))
-              {
-
-              }
-          }
-        }
-      }
-
       if (!empty($this->input->post('title')))
       {
         $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'home_title'");
@@ -194,7 +134,7 @@ class Light extends CI_Controller
           }
         }
       }
-      redirect('/Light/home', 'refresh');
+      redirect(base_url().'Light/home', 'refresh');
     }
   }
 
@@ -222,66 +162,6 @@ class Light extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == TRUE)
     {
-      if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_background_image'");
-        if ($query->num_rows() > 0)
-        {
-          $data['about_bg'] = $query->row();
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Bg = [
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              if ($this->Lights->update_about_background_image($Bg,$this->user_id,$data['about_bg']->content_id))
-              { //KAPAG NAUPDATE YUNG LOGO
-
-              }
-          }
-        }
-        else
-        {
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Bg = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'about_background_image',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-              if ($this->db->insert('contents',$Bg))
-              {
-
-              }
-          }
-        }
-      }
-
       if (!empty($this->input->post('title')))
       {
         $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_title'");
@@ -345,7 +225,7 @@ class Light extends CI_Controller
 
         }
       }
-      redirect('/Light/about', 'refresh');
+      redirect(base_url().'Light/about', 'refresh');
     }
   }
 
@@ -366,48 +246,37 @@ class Light extends CI_Controller
     $count = $query->row();
     if ($count->count < 9)
     {
-      if(!empty($_FILES['picture']['name']))
-      { //If may laman na image
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file')))
+      {
+        $path = 'uploads/'.$this->data['account']->username.'/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
+         $Image = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'gallery_image',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Image = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'gallery_image',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              $this->db->insert('contents',$Image);
-              echo '<script>alert("Image added!");</script>';
-              redirect('/Light/gallery/', 'refresh');
-          }else{
-            echo '<script>alert("Something went wrong, image not uploaded...");</script>';
-            redirect('/Light/gallery', 'refresh');
-          }
+         $this->db->insert('contents',$Image);
+         echo 'Image uploaded!';
       }
       else
       {
-        redirect('/Light/add_image', 'refresh');
+        echo 'Please select an image';
       }
     }
     else
     {
-      echo '<script>alert("Sorry, you have reached the maximum number of image you can upload for the gallery..");</script>';
-      redirect('/Light/add_image', 'refresh');
+      echo "Sorry, you have reached the maximum number of image you can upload for the gallery..";
     }
   }
 
@@ -425,31 +294,27 @@ class Light extends CI_Controller
 
   public function update_image($content_id)
   {
-    if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+       $Image = [
+         'value' => base_url().$path.$image_name
+       ];
 
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
-
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-
-            $Image = [
-              'value' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->Lights->update_gallery_image($Image,$this->user_id,$content_id)) {
-              redirect('/Light/gallery', 'refresh');
-            }
-        }else{
-          echo '<script>alert("Something went wrong, image cannot be updated..");</script>';
-          redirect('/Light/gallery', 'refresh');
-        }
+       if ($this->Lights->update_gallery_image($Image,$this->user_id,$content_id)) {
+         echo "Image updated!";
+       }
+    }
+    else
+    {
+      echo 'Please select an image';
     }
   }
 
@@ -461,7 +326,7 @@ class Light extends CI_Controller
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
      echo '<script>alert("Image deleted!");</script>';
-     redirect('/Light/gallery', 'refresh');
+     redirect(base_url().'Light/gallery', 'refresh');
   }
 
   public function contacts()
@@ -511,7 +376,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
         else
@@ -533,7 +398,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
       }
@@ -555,7 +420,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
         else
@@ -577,7 +442,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
       }
@@ -599,7 +464,7 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
         else
@@ -621,12 +486,12 @@ class Light extends CI_Controller
           else
           {
             echo '<script>alert("Something went wrong...");</script>';
-            redirect('/Light/contacts', 'refresh');
+            redirect(base_url().'Light/contacts', 'refresh');
           }
         }
       }
     }
-    redirect('/Light/contacts', 'refresh');
+    redirect(base_url().'Light/contacts', 'refresh');
   }
 
   public function theme()
@@ -644,12 +509,109 @@ class Light extends CI_Controller
 
     if ($this->Lights->update_user_template($Template,$this->user_id,$this->id)) //KAPAG SUCCESSFULLY NAGUPDATE ANG TEMPLATE
     {
-      redirect('/'.$template.'/theme', 'refresh');
+      redirect(base_url().$template.'/theme', 'refresh');
     }
     else
     {
       echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect('/Light/theme', 'refresh');
+      redirect(base_url().'Light/theme', 'refresh');
     }
   }
+
+  public function upload_home_bg()
+  {
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'home_background_image'");
+       if ($query->num_rows() > 0)
+       {
+         $data['home_bg'] = $query->row();
+         $Bg = [
+           'value' => base_url().$path.$image_name
+         ];
+
+         if ($this->Lights->update_home_background_image($Bg,$this->user_id,$data['home_bg']->content_id))
+         { //KAPAG NAUPDATE YUNG LOGO
+           echo "Image successfully updated!";
+         }
+       }
+       else
+       {
+         $Bg = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'home_background_image',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->db->insert('contents',$Bg))
+         {
+           echo "Image successfully uploaded!";
+         }
+       }
+    }
+    else
+    {
+      echo "Please select an image";
+    }
+  }
+
+  public function upload_about_bg()
+  {
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->data['account']->username.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'about_background_image'");       if ($query->num_rows() > 0)
+       {
+         $data['about_bg'] = $query->row();
+         $Bg = [
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->Lights->update_about_background_image($Bg,$this->user_id,$data['about_bg']->content_id))
+         {
+           echo "Image successfully updated!";
+         }
+       }
+       else
+       {
+         $Bg = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'about_background_image',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->db->insert('contents',$Bg))
+         {
+           echo "Image successfully uploaded!";
+         }
+       }
+    }
+    else
+    {
+      echo "Please select an image";
+    }
+  }
+
 }

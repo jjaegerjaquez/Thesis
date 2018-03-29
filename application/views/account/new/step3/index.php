@@ -34,13 +34,13 @@
         <?php foreach ($themes as $key => $theme): ?>
           <div class="col-lg-4 box-style">
             <div class = "thumbnail">
-              <img src = "/public/img/themes/<?php echo $theme->image?>" alt = "image">
+              <img src = "<?php echo base_url() ?>public/img/themes/<?php echo $theme->image?>" alt = "image">
             </div>
             <div class = "caption">
               <h3><?php echo $theme->theme?></h3>
               <p>
-                <form class="" action="/Account/save_new" method="post">
-                  <a target="_blank" href = "/Theme/preview/<?php echo $theme->theme?>" class = "btn btn-primary" role = "button">Preview</a>
+                <form class="" action="<?php echo base_url() ?>Account/save_new" method="post">
+                  <a target="_blank" href = "<?php echo base_url() ?>Theme/preview/<?php echo $theme->theme?>" class = "btn btn-primary" role = "button">Preview</a>
                   <button type="submit" name="template" class = "btn btn-primary" value="<?php echo $theme->theme?>">Apply</button>
                 </form>
               </p>

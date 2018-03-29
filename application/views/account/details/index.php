@@ -87,11 +87,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -103,7 +103,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Go back to dashboard</a></li>
+        <li><a href="<?php echo base_url() ?>Account">Go back to dashboard</a></li>
         <li class="active">Account details</li>
       </ul>
     </div>
@@ -153,7 +153,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/about/">Learn More</a>
+                              <?php endif; ?> <a href="<?php echo base_url() ?>About/">Learn More</a>
                           </p>
                         </div>
                     </div>

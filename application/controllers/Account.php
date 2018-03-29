@@ -21,7 +21,7 @@ class Account extends CI_Controller
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
     }
     else
@@ -70,7 +70,7 @@ class Account extends CI_Controller
   {
     $this->session->unset_userdata('business');
     $this->session->set_userdata('business', $this->input->get('business'));
-    redirect('/Account', 'refresh');
+    redirect(base_url().'Account', 'refresh');
   }
 
   public function start()
@@ -103,7 +103,7 @@ class Account extends CI_Controller
           $this->db->where('user_id', $_SESSION['user_id']);
           $this->db->update('users', $setup);
           $this->session->unset_userdata('primary_website');
-          redirect('/Account', 'refresh');
+          redirect(base_url().'Account', 'refresh');
         }
         else
         {
@@ -113,13 +113,13 @@ class Account extends CI_Controller
           $this->session->unset_userdata('user_id');
           $this->session->unset_userdata('business');
           $this->session->unset_userdata('primary_website');
-          redirect('/Home');
+          redirect(base_url().'Home');
         }
       }
       else
       {
         $this->session->set_userdata('primary_business_name', $this->input->post('business_name'));
-        redirect('/Account/themes', 'refresh');
+        redirect(base_url().'Account/themes', 'refresh');
       }
     }
   }
@@ -162,7 +162,7 @@ class Account extends CI_Controller
       $this->db->update('users', $setup);
       $this->session->unset_userdata('primary_website');
       $this->session->unset_userdata('primary_business_name');
-      redirect('/Account', 'refresh');
+      redirect(base_url().'Account', 'refresh');
     }
     else
     {
@@ -172,7 +172,7 @@ class Account extends CI_Controller
       $this->session->unset_userdata('user_id');
       $this->session->unset_userdata('business');
       $this->session->unset_userdata('primary_website');
-      redirect('/Home');
+      redirect(base_url().'Home');
     }
   }
 
@@ -207,13 +207,23 @@ class Account extends CI_Controller
                 'required'      => 'Please select a city or province'
         )
     );
-    $this->form_validation->set_rules(
-        'business_name', 'Business Name',
-        'trim|required|callback_BusinessNameExists',
-        array(
-                'required'      => 'Please enter your business name'
-        )
-    );
+    if ($this->input->post('business_name') == $this->BusinessName) {
+      $this->form_validation->set_rules(
+          'business_name', 'Business Name',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter your business name'
+          )
+      );
+    }else {
+      $this->form_validation->set_rules(
+          'business_name', 'Business Name',
+          'trim|required|callback_BusinessNameExists',
+          array(
+                  'required'      => 'Please enter your business name'
+          )
+      );
+    }
     $this->form_validation->set_rules(
         'address', 'Address',
         'trim|required',
@@ -228,15 +238,6 @@ class Account extends CI_Controller
         array(
                 'required'      => 'Please enter your business cellphone number',
                 'numeric'      => 'Please enter numeric characters only'
-        )
-    );
-
-    $this->form_validation->set_rules(
-        'telephone_number', 'Telephone Number',
-        'trim|required|alpha_dash',
-        array(
-                'required'      => 'Please enter your business telephone number',
-                'alpha_dash'      => 'Please enter alphanumeric characters and dash.'
         )
     );
 
@@ -274,245 +275,40 @@ class Account extends CI_Controller
     {
       if ($website == 'Yes')
       { //Kapag may website kukunin yung laman ng website na input
-        // If may laman na image
-        if(!empty($_FILES['picture']['name']))
-        {
-          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id' and business_name = '$this->BusinessName'");
-          if ($query->num_rows() > 0)
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Business_Details = [
-                  'user_id' => $this->user_id,
-                  'username' => $this->data['account']->username,
-                  'business_name' => $this->input->post('business_name'),
-                  'category' => $this->input->post('category'),
-                  'locality' => $this->input->post('city_province'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone_number'),
-                  'telephone' => $this->input->post('telephone_number'),
-                  'contact_person' => $this->input->post('contact_person'),
-                  'website_url' => $this->input->post('website_address'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-                  $this->session->unset_userdata('business');
-                  $this->session->set_userdata('business', $this->input->post('business_name'));
-                  redirect('/Account/profile', 'refresh');
-                }
-            }
-          }
-          else
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Business_Details = [
-                  'user_id' => $this->user_id,
-                  'username' => $this->data['account']->username,
-                  'business_name' => $this->input->post('business_name'),
-                  'category' => $this->input->post('category'),
-                  'locality' => $this->input->post('city_province'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone_number'),
-                  'telephone' => $this->input->post('telephone_number'),
-                  'contact_person' => $this->input->post('contact_person'),
-                  'website_url' => $this->input->post('website_address'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->db->insert('basic_info', $Business_Details)) {
-                  $this->session->unset_userdata('business');
-                  $this->session->set_userdata('business', $this->input->post('business_name'));
-                  redirect('/Account/profile', 'refresh');
-                }
-            }
-          }
-        } //END NG KAPAG MAY LAMAN NA IMAGE
-        else //KAPAG WALANG LAMAN NA IMAGE
-        {
-          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id' and business_name = '$this->BusinessName'");
-          if ($query->num_rows() > 0)
-          {
-            $Business_Details = [
-              'user_id' => $this->user_id,
-              'username' => $this->data['account']->username,
-              'business_name' => $this->input->post('business_name'),
-              'category' => $this->input->post('category'),
-              'locality' => $this->input->post('city_province'),
-              'address' => $this->input->post('address'),
-              'cellphone' => $this->input->post('cellphone_number'),
-              'telephone' => $this->input->post('telephone_number'),
-              'contact_person' => $this->input->post('contact_person'),
-              'website_url' => $this->input->post('website_address')
-            ];
-            if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-              $this->session->unset_userdata('business');
-              $this->session->set_userdata('business', $this->input->post('business_name'));
-              redirect('/Account/profile', 'refresh');
-            }
-          }
-          else
-          {
-            $Business_Details = [
-              'user_id' => $this->user_id,
-              'username' => $this->data['account']->username,
-              'business_name' => $this->input->post('business_name'),
-              'category' => $this->input->post('category'),
-              'locality' => $this->input->post('city_province'),
-              'address' => $this->input->post('address'),
-              'cellphone' => $this->input->post('cellphone_number'),
-              'telephone' => $this->input->post('telephone_number'),
-              'contact_person' => $this->input->post('contact_person'),
-              'website_url' => $this->input->post('website_address')
-            ];
-            if ($this->db->insert('basic_info', $Business_Details)) {
-              $this->session->unset_userdata('business');
-              $this->session->set_userdata('business', $this->input->post('business_name'));
-              redirect('/Account/profile', 'refresh');
-            }
-          }
+        $Business_Details = [
+          'username' => $this->data['account']->username,
+          'business_name' => $this->input->post('business_name'),
+          'category' => $this->input->post('category'),
+          'locality' => $this->input->post('city_province'),
+          'address' => $this->input->post('address'),
+          'cellphone' => $this->input->post('cellphone_number'),
+          'telephone' => $this->input->post('telephone_number'),
+          'contact_person' => $this->input->post('contact_person'),
+          'website_url' => $this->input->post('website_address')
+        ];
+        if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
+          $this->session->unset_userdata('business');
+          $this->session->set_userdata('business', $this->input->post('business_name'));
+          redirect(base_url().'Account/profile', 'refresh');
         }
       }
       else //Kapag walang website lalagyan ng NA yung website URL sa db
       {
-        if(!empty($_FILES['picture']['name']))
-        {
-          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id' and business_name = '$this->BusinessName'");
-          if ($query->num_rows() > 0)
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Business_Details = [
-                  'user_id' => $this->user_id,
-                  'username' => $this->data['account']->username,
-                  'business_name' => $this->input->post('business_name'),
-                  'category' => $this->input->post('category'),
-                  'locality' => $this->input->post('city_province'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone_number'),
-                  'telephone' => $this->input->post('telephone_number'),
-                  'contact_person' => $this->input->post('contact_person'),
-                  'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name')),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-                  $this->session->unset_userdata('business');
-                  $this->session->set_userdata('business', $this->input->post('business_name'));
-                  redirect('/Account/profile', 'refresh');
-                }
-            }
-          }
-          else
-          {
-            $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Business_Details = [
-                  'user_id' => $this->user_id,
-                  'username' => $this->data['account']->username,
-                  'business_name' => $this->input->post('business_name'),
-                  'category' => $this->input->post('category'),
-                  'locality' => $this->input->post('city_province'),
-                  'address' => $this->input->post('address'),
-                  'cellphone' => $this->input->post('cellphone_number'),
-                  'telephone' => $this->input->post('telephone_number'),
-                  'contact_person' => $this->input->post('contact_person'),
-                  'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name')),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-                if ($this->db->insert('basic_info', $Business_Details)) {
-                  $this->session->unset_userdata('business');
-                  $this->session->set_userdata('business', $this->input->post('business_name'));
-                  redirect('/Account/profile', 'refresh');
-                }
-            }
-          }
-        } //END NG KAPAG MAY LAMAN NA IMAGE
-        else //KAPAG WALANG LAMAN NA IMAGE
-        {
-          $query = $this->db->query("select * from basic_info where user_id = '$this->user_id' and business_name = '$this->BusinessName'");
-          if ($query->num_rows() > 0)
-          {
-            $Business_Details = [
-              'user_id' => $this->user_id,
-              'username' => $this->data['account']->username,
-              'business_name' => $this->input->post('business_name'),
-              'category' => $this->input->post('category'),
-              'locality' => $this->input->post('city_province'),
-              'address' => $this->input->post('address'),
-              'cellphone' => $this->input->post('cellphone_number'),
-              'telephone' => $this->input->post('telephone_number'),
-              'contact_person' => $this->input->post('contact_person'),
-              'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
-            ];
-            if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-              $this->session->unset_userdata('business');
-              $this->session->set_userdata('business', $this->input->post('business_name'));
-              redirect('/Account/profile', 'refresh');
-            }
-          }
-          else
-          {
-            $Business_Details = [
-              'user_id' => $this->user_id,
-              'username' => $this->data['account']->username,
-              'business_name' => $this->input->post('business_name'),
-              'category' => $this->input->post('category'),
-              'locality' => $this->input->post('city_province'),
-              'address' => $this->input->post('address'),
-              'cellphone' => $this->input->post('cellphone_number'),
-              'telephone' => $this->input->post('telephone_number'),
-              'contact_person' => $this->input->post('contact_person'),
-              'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
-            ];
-            if ($this->db->insert('basic_info', $Business_Details)) {
-              $this->session->unset_userdata('business');
-              $this->session->set_userdata('business', $this->input->post('business_name'));
-              redirect('/Account/profile', 'refresh');
-            }
-          }
+        $Business_Details = [
+          'username' => $this->data['account']->username,
+          'business_name' => $this->input->post('business_name'),
+          'category' => $this->input->post('category'),
+          'locality' => $this->input->post('city_province'),
+          'address' => $this->input->post('address'),
+          'cellphone' => $this->input->post('cellphone_number'),
+          'telephone' => $this->input->post('telephone_number'),
+          'contact_person' => $this->input->post('contact_person'),
+          'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
+        ];
+        if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
+          $this->session->unset_userdata('business');
+          $this->session->set_userdata('business', $this->input->post('business_name'));
+          redirect(base_url().'Account/profile', 'refresh');
         }
       }
     }
@@ -548,92 +344,6 @@ class Account extends CI_Controller
     // END VALIDATION
     if ($this->form_validation->run() == TRUE)
     {
-      if(!empty($_FILES['logo']['name'])) //If may laman na image
-      {
-        $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'site_logo'");
-
-        if ($query->num_rows() > 0)
-        {
-          $data['site_logo'] = $query->row();
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['logo']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('logo')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Site_Logo = [
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              if ($this->Accounts->update_site_logo($Site_Logo,$this->user_id,$data['site_logo']->content_id))
-              { //KAPAG NAUPDATE YUNG LOGO
-
-              }
-              else
-              { //KAPAG DI NAUPDATE YUNG LOGO
-                echo '<script>alert("Something went wrong...");</script>';
-                // redirect('/Account/site_identity', 'refresh');
-              }
-
-          }// END ng kapag SUCCESSFUL na NAGUPLOAD ANG IMAGE
-          else //KAPAG DI NAGUPLOAD YUNG IMAGE
-          {
-            echo '<script>alert("Something went wrong...");</script>';
-            // redirect('/Account/site_identity', 'refresh');
-          }
-        }
-        else //Kapag wala pa siyang nauupload na logo
-        {
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['logo']['name'];
-
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('logo')){ // Kapag successful ang pag-upload ng image
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Site_Logo = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'site_logo',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              if ($this->db->insert('contents',$Site_Logo))
-              { //KAPAG NAINSERT YUNG LOGO
-
-              }
-              else
-              { //KAPAG DI NAUPDATE YUNG LOGO
-                echo '<script>alert("Something went wrong...");</script>';
-                // redirect('/Account/site_identity', 'refresh');
-              }
-
-          }// END ng kapag SUCCESSFUL na NAGUPLOAD ANG IMAGE
-          else //KAPAG DI NAGUPLOAD YUNG IMAGE
-          {
-            echo '<script>alert("Something went wrong...");</script>';
-            // redirect('/Account/site_identity', 'refresh');
-          }
-        }
-
-      } //END NG KAPAG MAY LAMAN YUNG FILE //
-
       if (!empty($this->input->post('site_title'))) {
 
         $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'site_title'");
@@ -697,7 +407,7 @@ class Account extends CI_Controller
         }
 
       }
-      redirect('/Account/site_identity', 'refresh');
+      redirect(base_url().'Account/site_identity', 'refresh');
     }
   }
 
@@ -711,11 +421,11 @@ class Account extends CI_Controller
     $status = $this->input->post('select');
     if ($status == 'Yes') {
       $this->session->set_userdata('secondary_website', 'Yes');
-      redirect('/Account/step_two', 'refresh');
+      redirect(base_url().'Account/step_two', 'refresh');
     }
     elseif ($status == 'No') {
       $this->session->set_userdata('secondary_website', 'No');
-      redirect('/Account/step_two', 'refresh');
+      redirect(base_url().'Account/step_two', 'refresh');
     }
   }
 
@@ -747,19 +457,19 @@ class Account extends CI_Controller
         {
           $this->session->set_userdata('business', $this->input->post('business_name'));
           $this->session->unset_userdata('secondary_website');
-          redirect('/Account', 'refresh');
+          redirect(base_url().'Account', 'refresh');
         }
         else
         {
           echo '<script>alert("Something went wrong");</script>';
           $this->session->unset_userdata('secondary_website');
-          redirect('/Account', 'refresh');
+          redirect(base_url().'Account', 'refresh');
         }
       }
       else
       {
         $this->session->set_userdata('secondary_business_name', $this->input->post('business_name'));
-        redirect('/Account/step_three', 'refresh');
+        redirect(base_url().'Account/step_three', 'refresh');
       }
     }
   }
@@ -784,14 +494,14 @@ class Account extends CI_Controller
       $this->session->set_userdata('business', $_SESSION['secondary_business_name']);
       $this->session->unset_userdata('secondary_website');
       $this->session->unset_userdata('secondary_business_name');
-      redirect('/Account', 'refresh');
+      redirect(base_url().'Account', 'refresh');
     }
     else
     {
       echo '<script>alert("Something went wrong..");</script>';
       $this->session->unset_userdata('secondary_website');
       $this->session->unset_userdata('secondary_business_name');
-      redirect('/Account');
+      redirect(base_url().'Account');
     }
   }
 
@@ -803,7 +513,7 @@ class Account extends CI_Controller
 
   public function test()
   {
-    
+
   }
 
   public function update_username()
@@ -844,7 +554,7 @@ class Account extends CI_Controller
         ];
         if ($this->Accounts->update_username($Username,$this->user_id)) {
           rename('./uploads/'.$old_username, './uploads/'.$this->input->post('username'));
-          redirect('/Account/security', 'refresh');
+          redirect(base_url().'Account/security', 'refresh');
 
         }
     }
@@ -914,7 +624,7 @@ class Account extends CI_Controller
           'password' => md5($this->input->post('new_password'))
         ];
         if ($this->Accounts->update_password($Password,$this->user_id)) {
-          redirect('/Account/security', 'refresh');
+          redirect(base_url().'Account/security', 'refresh');
         }
       }
     }
@@ -958,7 +668,7 @@ class Account extends CI_Controller
       if ($this->Accounts->update_email($Email,$this->user_id)) {
         $this->session->unset_userdata('email');
         $this->session->set_userdata('email', $this->input->post('email'));
-        redirect('/Account/security', 'refresh');
+        redirect(base_url().'Account/security', 'refresh');
       }
     }
   }
@@ -976,6 +686,72 @@ class Account extends CI_Controller
     }
   }
 
+  public function upload_profile_img()
+ {
+   $path = 'uploads/'.$this->data['account']->username.'/';
+   $croped_image = $_POST['image'];
+    list($type, $croped_image) = explode(';', $croped_image);
+    list(, $croped_image)      = explode(',', $croped_image);
+    $croped_image = base64_decode($croped_image);
+    $image_name = time().'.png';
+    // upload cropped image to server
+    file_put_contents($path.$image_name, $croped_image);
+    $Profile = [
+      'image' => base_url().'uploads'.'/'.$this->data['account']->username.'/'.$image_name
+    ];
+    if ($this->Accounts->save_profile($Profile,$this->user_id,$this->BusinessName)) {
+      echo 'Profile image updated!';
+    }
+ }
+
+ public function upload_site_logo()
+{
+  $path = 'uploads/'.$this->data['account']->username.'/';
+  $croped_image = $_POST['image'];
+   list($type, $croped_image) = explode(';', $croped_image);
+   list(, $croped_image)      = explode(',', $croped_image);
+   $croped_image = base64_decode($croped_image);
+   $image_name = time().'.png';
+   // upload cropped image to server
+   file_put_contents($path.$image_name, $croped_image);
+
+   $query = $this->db->query("select * from contents where user_id = '$this->user_id' and id = '$this->id' and meta_key = 'site_logo'");
+
+   if ($query->num_rows() > 0) //KAPAG MERON NAKITANG LOGO, IUUPDATE
+   {
+     $data['site_logo'] = $query->row();
+     $Site_Logo = [
+       'value' => base_url().$path.$image_name
+     ];
+     if ($this->Accounts->update_site_logo($Site_Logo,$this->user_id,$data['site_logo']->content_id))
+     {
+       echo "Logo updated!";
+     }
+   }
+   else //KAPAG WALA II-INSERT YUNG LOGO
+   {
+     $Site_Logo = [
+       'user_id' => $this->user_id,
+       'id' => $this->id,
+       'business_name' => $this->BusinessName,
+       'meta_key' => 'site_logo',
+       'content_title' => '',
+       'description' => '',
+       'value' => base_url().$path.$image_name
+     ];
+
+     if ($this->db->insert('contents',$Site_Logo))
+     { //KAPAG NAINSERT YUNG LOGO
+       echo "Logo successfully uploaded!";
+     }
+     else
+     { //KAPAG DI NAUPDATE YUNG LOGO
+       echo '<script>alert("Something went wrong...");</script>';
+       // redirect('/Account/site_identity', 'refresh');
+     }
+   }
+}
+
 
   public function logout()
   {
@@ -985,6 +761,6 @@ class Account extends CI_Controller
           $this->session->unset_userdata('user_id');
           $this->session->unset_userdata('business');
         }
-        redirect('/Home');
+        redirect(base_url().'Home');
   }
 }

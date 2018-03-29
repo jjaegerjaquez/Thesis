@@ -27,7 +27,7 @@
     <h3>Tell us your business name</h3>
     <p>Enter the name of your business - your business name will appear on client search</p>
   </div>
-  <form class="" action="/Account/save_step_two" method="post">
+  <form class="" action="<?php echo base_url() ?>Account/save_step_two" method="post">
     <div class="container">
       <div class="row">
         <div class="col-lg-3"></div>

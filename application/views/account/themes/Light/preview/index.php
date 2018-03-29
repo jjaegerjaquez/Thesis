@@ -40,7 +40,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/Theme/preview/Light">HOME</a></li>
+          <li><a href="<?php echo base_url() ?>Theme/preview/Light">HOME</a></li>
       		<li><a href="#about">ABOUT</a></li>
       		<li><a href="#gallery">GALLERY</a></li>
       		<li><a href="#contact">CONTACT</a></li>
@@ -50,14 +50,14 @@
   </nav>
   <!-- END OF NAV -->
 
-  <header class="masthead" style="background-image: url('/public/img/Light/home-bg.jpg')">  <!-- 1279 x 699 pixels -->
+  <header class="masthead" style="background-image: url('<?php echo base_url() ?>public/img/Light/home-bg.jpg')">  <!-- 1279 x 699 pixels -->
     <div class="overlay"></div>
 		<div class="container">
       <div class="row">
         <div class=" col-md-12">
           <div class="site-heading">
-            <h1>Travel Hub</h1>
-            <span class="subheading">A Tourism Web Portal and Content Management System</span>
+            <h1>Your Site Title Goes Here</h1>
+            <span class="subheading">Your tagline appears here</span>
           </div>
         </div>
       </div>
@@ -68,25 +68,21 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 mx-auto">
         <div class="post-preview">
-          <h4 class="post-title">
-          Remember that happiness is a way of travel – not a destination.</h4>
+          <h4 class="post-title">You can add text here</h4>
         </div>
-         <p class = "text-justify">This is a great website to talk about your Travel with Friends , Family And Love ones.
-         ggggggggggggggggggggggggggghThisThis is a great website to talk about your Travel with Friends , Family And Love ones.  This is a gre
-         jjjjjjjjjjjjjjat website to talk about your Travel with Friends , Family And Love ones.  This is a great website to talk about your Travel
-         with Friends , Family And Love ones. Family And Love on </p>
+         <p class = "text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sodales turpis nec ullamcorper euismod. Etiam arcu nisi, interdum non facilisis ut, vestibulum eget nisi. In scelerisque diam eu enim maximus, sed faucibus magna consectetur. Donec nulla nisi, scelerisque et urna quis, feugiat sodales felis. Sed sit amet magna et risus facilisis molestie. Donec vestibulum nulla non massa finibus bibendum. Phasellus sit amet lectus nec sem scelerisque sollicitudin. In dictum lectus nec bibendum eleifend. Aliquam nec odio aliquam, posuere nisi sed, iaculis urna.</p>
       </div>
     </div>
 	</section>
 
   <section id="about">
-    <header class="masthead" style="background-image: url('/public/img/Light/about-bg.jpg')"> <!-- 1600 x 1000 pixels -->
+    <header class="masthead" style="background-image: url('<?php echo base_url() ?>public/img/Light/about-bg.jpg')"> <!-- 1600 x 1000 pixels -->
       <div class="overlay"></div>
       <section class="container about-style">
         <div class="row">
           <div class=" col-md-12">
             <div class="page-heading">
-              <h1>About Us</h1>
+              <h1>About</h1>
             </div>
           </div>
         </div>
@@ -97,9 +93,11 @@
   <div class="container about-style">
     <div class="row">
       <div class="col-lg-12 col-md-12 mx-auto">
-        <h2>About this page</h2>
+        <h2>Add another text here</h2>
         <div class="post-preview">
-          <p class = "text-justify">This is a great website to talk about your Travel with Friends , Family And Love ones.This is a great website to talk about your Travel with Friends , Family And Love ones.This is a great website to talk about your Travel with Friends , Family And Love ones. </p>
+          <p class = "text-justify">
+            In ex metus, vulputate vel imperdiet tempor, gravida in nibh. Etiam in bibendum est. Aliquam justo turpis, lobortis sed ullamcorper ac, tincidunt vel ligula. Pellentesque dolor ante, interdum ut tempor non, egestas non arcu. Nulla in porttitor velit. Sed interdum purus eget efficitur gravida. Pellentesque dignissim dignissim est. Sed varius vel arcu vel laoreet. Curabitur porta augue eu sapien consequat ornare. Fusce ante eros, dignissim eget laoreet sit amet, gravida ut nisi. Nulla facilisi.
+          </p>
         </div>
       </div>
     </div>
@@ -129,31 +127,31 @@
       <!-- Wrapper for slides -->
       <div class="carousel-inner">
         <div class="item active">
-          <img src="/public/img/Light/img2.jpg" alt="Los Angeles">
+          <img src="<?php echo base_url() ?>public/img/Light/img2.jpg" alt="Los Angeles">
         </div>
         <div class="item">
-          <img src="/public/img/Light/img3.jpg" alt="Chicago">
+          <img src="<?php echo base_url() ?>public/img/Light/img3.jpg" alt="Chicago">
         </div>
         <div class="item">
-          <img src="/public/img/Light/img5.jpg" alt="New York">
+          <img src="<?php echo base_url() ?>public/img/Light/img5.jpg" alt="New York">
         </div>
     	 <div class="item">
-    	   <img src="/public/img/Light/img6.jpg" alt="New York">
+    	   <img src="<?php echo base_url() ?>public/img/Light/img6.jpg" alt="New York">
     	 </div>
     	 <div class="item">
-          <img src="/public/img/Light/img7.jpg" alt="New York">
+          <img src="<?php echo base_url() ?>public/img/Light/img7.jpg" alt="New York">
         </div>
     	 <div class="item">
-    	   <img src="/public/img/Light/img8.jpg" alt="New York">
+    	   <img src="<?php echo base_url() ?>public/img/Light/img8.jpg" alt="New York">
     	 </div>
     	 <div class="item">
-    	   <img src="/public/img/Light/img9.jpg" alt="New York">
+    	   <img src="<?php echo base_url() ?>public/img/Light/img9.jpg" alt="New York">
     	 </div>
     	 <div class="item">
-    	   <img src="/public/img/Light/img10.jpg" alt="New York">
+    	   <img src="<?php echo base_url() ?>public/img/Light/img10.jpg" alt="New York">
     	 </div>
     	 <div class="item">
-    	   <img src="/public/img/Light/img11.jpg" alt="New York">
+    	   <img src="<?php echo base_url() ?>public/img/Light/img11.jpg" alt="New York">
     	 </div>
       </div>
       <!-- Left and right controls -->
@@ -175,14 +173,14 @@
           <div class="row">
             <div class="col-md-4">
               <div class="footer-desc text-center">
-                <p><a href="/" rel="home" title="Travel Hub"></a> <h2 style="color:#ffffff"> Contact Us </h2><a href="/about/">Learn More</a></p>
+                <p><h2 style="color:#ffffff"> Contact Us </h2></p>
               </div>
             </div>
             <div class="col-md-4">
-              <ul>
-                <li><a href="#"><i class="fa fa-envelope"><span> JechelTSanchez@gmail.com</span></i></a></li>
-                <li><a href="#"><i class="fa fa-phone"><span> 09099098776</span></i></a></li>
-                <li><a href="#"><i class="fa fa-location-arrow"><span> Hauskon Tanza,Cavite </span></i></a></li>
+              <ul class="links">
+                <li><i class="fa fa-envelope"><span> youremail@example.com</span></i></li>
+                <li><i class="fa fa-phone"><span> 09xxxxxxxxxx</span></i></li>
+                <li><i class="fa fa-location-arrow"><span> Your address goes here</span></i></li>
               </ul>
             </div>
             <div class="col-md-4">

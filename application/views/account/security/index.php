@@ -89,11 +89,11 @@
             Admin
           <?php endif; ?> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="/Account/security">Security</a></li>
-            <li><a href="/Account/details">Account Details</a></li>
+            <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+            <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="/Account/logout">Logout</a></li>
+            <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -105,7 +105,7 @@
   <div class="container">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="/Account">Go back to dashboard</a></li>
+        <li><a href="<?php echo base_url() ?>Account">Go back to dashboard</a></li>
         <li class="active">Security</li>
       </ul>
     </div>
@@ -114,12 +114,12 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-12" style="">
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
+        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
           <div class="row text-title header-row">
-            <h3 class="">Change email</h3>
+            <h3 class="title">Change email</h3>
             <hr>
           </div>
-          <form class="" action="/Account/update_email" method="post" enctype="multipart/form-data">
+          <form class="" action="<?php echo base_url() ?>Account/update_email" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label>Email:</label>
               <input type="text" name="email" class="form-control" value="<?php if (!empty($account->email)): ?><?php echo $account->email?><?php endif; ?>" maxlength="25">
@@ -130,12 +130,12 @@
             </div>
           </form>
         </div>
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;">
+        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
           <div class="row text-title header-row">
-            <h3 class="">Change password</h3>
+            <h3 class="title">Change password</h3>
             <hr>
           </div>
-          <form class="" action="/Account/update_password" method="post" enctype="multipart/form-data">
+          <form class="" action="<?php echo base_url() ?>Account/update_password" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label>Enter old password:</label>
               <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
@@ -174,7 +174,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/about/">Learn More</a>
+                              <?php endif; ?> <a href="<?php echo base_url() ?>About/">Learn More</a>
                           </p>
                         </div>
                     </div>
