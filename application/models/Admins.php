@@ -404,28 +404,10 @@ class Admins extends CI_Model
   // END OF THEMES
 
   // LAYOUT
-  public function update_site_logo($Logo,$content_id)
+  public function update_content($Content,$content_id)
   {
     $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Logo);
-  }
-
-  public function update_site_title($Title,$content_id)
-  {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Title);
-  }
-
-  public function update_site_tagline($Tagline,$content_id)
-  {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Tagline);
-  }
-
-  public function update_site_icon($Icon,$content_id)
-  {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Icon);
+    return $this->db->update('layout', $Content);
   }
 
   public function get_reviews_count()
@@ -488,35 +470,52 @@ class Admins extends CI_Model
     return $query->row();
   }
 
-  public function get_google()
+  public function get_email_address()
   {
-    $query = $this->db->query("select * from layout where meta_key = 'google_link'");
+    $query = $this->db->query("select * from layout where meta_key = 'email_address'");
     return $query->row();
   }
 
-  public function update_facebook_url($Facebook,$content_id)
+  public function get_about_title()
   {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Facebook);
+    $query = $this->db->query("select * from layout where meta_key = 'about_title'");
+    return $query->row();
   }
 
-  public function update_instagram_url($Instagram,$content_id)
+  public function get_about_subtitle()
   {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Instagram);
+    $query = $this->db->query("select * from layout where meta_key = 'about_subtitle'");
+    return $query->row();
   }
 
-  public function update_twitter_url($Twitter,$content_id)
+  function function_pagination_about_texts($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('layout');
+    $this->db->where('meta_key', 'about_detail');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  public function get_content($content_id)
   {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Twitter);
+    $query = $this->db->get_where('layout', ['content_id' => $content_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
   }
 
-  public function update_google_url($Google,$content_id)
-  {
-    $this->db->where('content_id', $content_id);
-    $this->db->update('layout', $Google);
-  }
+  function image_slider($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('layout');
+    $this->db->where('meta_key', 'image_slider');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
   // END OF LAYOUT
 
   // EVENTS

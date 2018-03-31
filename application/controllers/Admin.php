@@ -149,9 +149,10 @@ class Admin extends CI_Controller
   public function delete_supplier($id)
   {
     $this->db->where('id', $id);
-    $this->db->delete('basic_info');
-     echo '<script>alert("Business deleted!");</script>';
-     redirect(base_url().'Admin/suppliers', 'refresh');
+    if ($this->db->delete('basic_info')) {
+      echo '<script>alert("Business deleted!");</script>';
+      redirect(base_url().'Admin/suppliers', 'refresh');
+    }
   }
 
   public function faves()
@@ -191,9 +192,10 @@ class Admin extends CI_Controller
   public function delete_fave($id)
   {
     $this->db->where('vote_id', $id);
-    $this->db->delete('votes');
-     echo '<script>alert("Fave deleted!");</script>';
-     redirect(base_url().'Admin/faves', 'refresh');
+    if ($this->db->delete('votes')) {
+      echo '<script>alert("Fave deleted!");</script>';
+      redirect(base_url().'Admin/faves', 'refresh');
+    }
   }
 
   public function reviews()
@@ -453,9 +455,10 @@ class Admin extends CI_Controller
   public function delete_locality($locality_id)
   {
     $this->db->where('locality_id', $locality_id);
-    $this->db->delete('localities');
-     echo '<script>alert("Locality deleted!");</script>';
-     redirect(base_url().'Admin/localities', 'refresh');
+    if ($this->db->delete('localities')) {
+      echo '<script>alert("Locality deleted!");</script>';
+      redirect(base_url().'Admin/localities', 'refresh');
+    }
   }
   // END OF LOCALITY
 
@@ -675,9 +678,10 @@ class Admin extends CI_Controller
   public function delete_category($category_id)
   {
     $this->db->where('category_id', $category_id);
-    $this->db->delete('categories');
-     echo '<script>alert("Category deleted!");</script>';
-     redirect(base_url().'Admin/categories', 'refresh');
+    if ($this->db->delete('categories')) {
+      echo '<script>alert("Category deleted!");</script>';
+      redirect(base_url().'Admin/categories', 'refresh');
+    }
   }
   // END OF CATEGORY
 
@@ -922,23 +926,163 @@ class Admin extends CI_Controller
   public function delete_theme($theme_id)
   {
     $this->db->where('theme_id', $theme_id);
-    $this->db->delete('themes');
-     echo '<script>alert("Theme deleted!");</script>';
-     redirect(base_url().'Admin/themes', 'refresh');
+    if ($this->db->delete('themes')) {
+      echo '<script>alert("Theme deleted!");</script>';
+      redirect(base_url().'Admin/themes', 'refresh');
+    }
   }
   // END OF THEMES
 
   // LAYOUT
-  public function layout()
+  public function image_slider()
   {
-    $this->data['logo'] = $this->Admins->get_logo();
-    $this->data['icon'] = $this->Admins->get_icon();
+    $query2= $this->db->get_where('layout', ['meta_key' => 'image_slider']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/image_slider';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['image_sliders'] = $this->Admins->image_slider($limit, $offset);
+    $this->load->view('admin/dashboard/layout/image_slider/index',$this->data);
+  }
+
+  public function site_details()
+  {
     $this->data['facebook'] = $this->Admins->get_facebook();
     $this->data['instagram'] = $this->Admins->get_instagram();
     $this->data['twitter'] = $this->Admins->get_twitter();
-    $this->data['google'] = $this->Admins->get_google();
-    // print_r($this->data['icon']);
+    $this->data['email'] = $this->Admins->get_email_address();
     $this->load->view('admin/dashboard/layout/index',$this->data);
+  }
+
+  public function site_icon()
+  {
+    $this->data['icon'] = $this->Admins->get_icon();
+    $this->load->view('admin/dashboard/layout/site_icon',$this->data);
+  }
+
+  public function upload_site_icon()
+  {
+    if (!empty($this->input->post('file'))) {
+      $path = 'public/img/layout/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
+
+       if ($query->num_rows() > 0) //KAPAG MERON NAKITANG LOGO, IUUPDATE
+       {
+         $data['site_icon'] = $query->row();
+         $Site_Icon = [
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->Admins->update_content($Site_Icon,$data['site_icon']->content_id))
+         {
+           echo "Icon updated!";
+         }
+       }
+       else //KAPAG WALA II-INSERT YUNG LOGO
+       {
+         $Site_Icon = [
+           'meta_key' => 'site_icon',
+           'value' => base_url().$path.$image_name
+         ];
+
+         if ($this->db->insert('layout',$Site_Icon))
+         { //KAPAG NAINSERT YUNG LOGO
+           echo "Image uploaded!";
+         }
+         else
+         { //KAPAG DI NAUPDATE YUNG LOGO
+           echo '<script>alert("Something went wrong...");</script>';
+         }
+       }
+    }
+    else {
+      echo "Please select an image";
+    }
+  }
+
+
+  public function site_logo()
+  {
+    $this->data['logo'] = $this->Admins->get_logo();
+    $this->load->view('admin/dashboard/layout/site_logo',$this->data);
+
+  }
+
+  public function upload_site_logo()
+  {
+    if (!empty($this->input->post('file'))) {
+      $path = 'public/img/layout/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $query = $this->db->query("select * from layout where meta_key = 'site_logo'");
+
+       if ($query->num_rows() > 0) //KAPAG MERON NAKITANG LOGO, IUUPDATE
+       {
+         $data['site_logo'] = $query->row();
+         $Site_Logo = [
+           'value' => base_url().$path.$image_name
+         ];
+         if ($this->Admins->update_content($Site_Logo,$data['site_logo']->content_id))
+         {
+           echo "Logo updated!";
+         }
+       }
+       else //KAPAG WALA II-INSERT YUNG LOGO
+       {
+         $Site_Logo = [
+           'meta_key' => 'site_logo',
+           'value' => base_url().$path.$image_name
+         ];
+
+         if ($this->db->insert('layout',$Site_Logo))
+         { //KAPAG NAINSERT YUNG LOGO
+           echo "Image uploaded!";
+         }
+         else
+         { //KAPAG DI NAUPDATE YUNG LOGO
+           echo '<script>alert("Something went wrong...");</script>';
+         }
+       }
+    }
+    else {
+      echo "Please select an image";
+    }
   }
 
   public function save_site_settings()
@@ -957,142 +1101,6 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == TRUE)
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $query = $this->db->query("select * from layout where meta_key = 'site_logo'");
-        if ($query->num_rows() > 0)
-        {
-           $data['logo'] = $query->row();
-           $config['upload_path'] = 'public/img/logo';
-           $config['overwrite'] = TRUE;
-           $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          //  $config['min_width']            = 500;
-          //  $config['min_height']           = 300;
-          //  $config['max_width']            = 1000;
-          //  $config['max_height']           = 600;
-           $config['file_name'] = $_FILES['picture']['name'];
-
-           //Load upload library and initialize configuration
-           $this->load->library('upload',$config);
-           $this->upload->initialize($config);
-
-           if($this->upload->do_upload('picture')){
-               $uploadData = $this->upload->data();
-               $picture = $uploadData['file_name'];
-
-               $Logo = [
-                 'value' => $picture
-               ];
-
-               if ($this->Admins->update_site_logo($Logo,$data['logo']->content_id)) {
-               }
-           }
-           else
-           {
-             echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
-           }
-        }
-        else
-        {
-            $config['upload_path'] = 'public/img/logo';
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['min_width']            = 500;
-            $config['min_height']           = 300;
-            // $config['max_width']            = 1000;
-            // $config['max_height']           = 600;
-            $config['file_name'] = $_FILES['picture']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Logo = [
-                  'meta_key' => 'site_logo',
-                  'value' => $picture
-                ];
-
-                if ($this->db->insert('layout',$Logo)) {
-                }
-            }
-            else
-            {
-              echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
-            }
-        }
-      }
-      if(!empty($_FILES['icon']['name']))
-      {
-        $query = $this->db->query("select * from layout where meta_key = 'site_icon'");
-        if ($query->num_rows() > 0)
-        {
-           $data['icon'] = $query->row();
-           $config['upload_path'] = 'public/img/logo';
-           $config['overwrite'] = TRUE;
-           $config['allowed_types'] = 'jpg|jpeg|png|gif';
-           $config['min_width']            = 300;
-           $config['min_height']           = 300;
-           $config['max_width']            = 900;
-           $config['max_height']           = 900;
-           $config['file_name'] = $_FILES['icon']['name'];
-
-           //Load upload library and initialize configuration
-           $this->load->library('upload',$config);
-           $this->upload->initialize($config);
-
-           if($this->upload->do_upload('icon')){
-               $uploadData = $this->upload->data();
-               $picture = $uploadData['file_name'];
-
-               $Icon = [
-                 'value' => $picture
-               ];
-
-               if ($this->Admins->update_site_icon($Icon,$data['icon']->content_id)) {
-               }
-           }
-           else
-           {
-             echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
-           }
-        }
-        else
-        {
-            $config['upload_path'] = 'public/img/logo';
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['min_width']            = 300;
-            $config['min_height']           = 300;
-            $config['max_width']            = 900;
-            $config['max_height']           = 900;
-            $config['file_name'] = $_FILES['icon']['name'];
-
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('icon')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Icon = [
-                  'meta_key' => 'site_icon',
-                  'value' => $picture
-                ];
-
-                if ($this->db->insert('layout',$Icon)) {
-                }
-            }
-            else
-            {
-              echo '<script>alert("Please check your image size and image file type (allowed:jpg,jpeg,png,gif).");</script>';
-            }
-        }
-      }
       if (!empty($this->input->post('title')))
       {
         $query = $this->db->query("select * from layout where meta_key = 'site_title'");
@@ -1102,7 +1110,7 @@ class Admin extends CI_Controller
           $Title = [
             'value' => $this->input->post('title')
           ];
-          if ($this->Admins->update_site_title($Title,$data['title']->content_id)) {
+          if ($this->Admins->update_content($Title,$data['title']->content_id)) {
 
           }
         }
@@ -1126,7 +1134,7 @@ class Admin extends CI_Controller
           $Tagline = [
             'value' => $this->input->post('tagline')
           ];
-          if ($this->Admins->update_site_tagline($Tagline,$data['tagline']->content_id)) {
+          if ($this->Admins->update_content($Tagline,$data['tagline']->content_id)) {
 
           }
         }
@@ -1141,7 +1149,7 @@ class Admin extends CI_Controller
           }
         }
       }
-      redirect(base_url().'Admin/layout', 'refresh');
+      redirect(base_url().'Admin/site_details', 'refresh');
     }
   }
 
@@ -1164,8 +1172,8 @@ class Admin extends CI_Controller
         array()
     );
     $this->form_validation->set_rules(
-        'google', 'Google',
-        'trim',
+        'email', 'Email',
+        'trim|valid_email',
         array()
     );
     //END OF FORM VALIDATION
@@ -1180,7 +1188,7 @@ class Admin extends CI_Controller
           $Facebook = [
             'value' => $this->input->post('facebook')
           ];
-          if ($this->Admins->update_facebook_url($Facebook,$data['facebook']->content_id)) {
+          if ($this->Admins->update_content($Facebook,$data['facebook']->content_id)) {
 
           }
         }
@@ -1204,7 +1212,7 @@ class Admin extends CI_Controller
           $Instagram = [
             'value' => $this->input->post('instagram')
           ];
-          if ($this->Admins->update_instagram_url($Instagram,$data['instagram']->content_id)) {
+          if ($this->Admins->update_content($Instagram,$data['instagram']->content_id)) {
 
           }
         }
@@ -1228,7 +1236,7 @@ class Admin extends CI_Controller
           $Twitter = [
             'value' => $this->input->post('twitter')
           ];
-          if ($this->Admins->update_twitter_url($Twitter,$data['twitter']->content_id)) {
+          if ($this->Admins->update_content($Twitter,$data['twitter']->content_id)) {
 
           }
         }
@@ -1252,7 +1260,7 @@ class Admin extends CI_Controller
           $Google = [
             'value' => $this->input->post('google')
           ];
-          if ($this->Admins->update_google_url($Google,$data['google']->content_id)) {
+          if ($this->Admins->update_content($Google,$data['google']->content_id)) {
 
           }
         }
@@ -1267,7 +1275,220 @@ class Admin extends CI_Controller
           }
         }
       }
-      redirect(base_url().'Admin/layout', 'refresh');
+      if (!empty($this->input->post('email')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'email_address'");
+        if ($query->num_rows() > 0)
+        {
+          $data['email'] = $query->row();
+          $Google = [
+            'value' => $this->input->post('email')
+          ];
+          if ($this->Admins->update_content($Google,$data['email']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Email = [
+            'meta_key' => 'email_address',
+            'value' => $this->input->post('email')
+          ];
+
+          if ($this->db->insert('layout',$Email)) {
+          }
+        }
+      }
+      redirect(base_url().'Admin/site_details', 'refresh');
+    }
+  }
+
+  public function about_page()
+  {
+    $this->data['about_title'] = $this->Admins->get_about_title();
+    $this->data['about_subtitle'] = $this->Admins->get_about_subtitle();
+    $query2= $this->db->get_where('layout', ['meta_key' => 'about_detail']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/about_page';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['about_details'] = $this->Admins->function_pagination_about_texts($limit, $offset);
+    $this->load->view('admin/dashboard/layout/about',$this->data);
+  }
+
+  public function add_point()
+  {
+    $this->load->view('admin/dashboard/layout/add_point',$this->data);
+  }
+
+  public function save_about()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'about_title', 'Title',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'about_subtitle', 'Subtitle',
+        'trim',
+        array()
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == TRUE)
+    {
+      if (!empty($this->input->post('about_title')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'about_title'");
+        if ($query->num_rows() > 0)
+        {
+          $data['title'] = $query->row();
+          $Title = [
+            'value' => $this->input->post('about_title')
+          ];
+          if ($this->Admins->update_content($Title,$data['title']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Title = [
+            'meta_key' => 'about_title',
+            'title' => NULL,
+            'value' => $this->input->post('about_title')
+          ];
+
+          if ($this->db->insert('layout',$Title)) {
+          }
+        }
+      }
+      if (!empty($this->input->post('about_subtitle')))
+      {
+        $query = $this->db->query("select * from layout where meta_key = 'about_subtitle'");
+        if ($query->num_rows() > 0)
+        {
+          $data['subtitle'] = $query->row();
+          $Subtitle = [
+            'value' => $this->input->post('about_subtitle')
+          ];
+          if ($this->Admins->update_content($Instagram,$data['subtitle']->content_id)) {
+
+          }
+        }
+        else
+        {
+          $Subtitle = [
+            'meta_key' => 'about_subtitle',
+            'value' => $this->input->post('about_subtitle')
+          ];
+
+          if ($this->db->insert('layout',$Subtitle)) {
+          }
+        }
+      }
+      redirect(base_url().'Admin/about_page', 'refresh');
+    }
+  }
+
+  public function save_detail()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'detail_title', 'Title',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'detail_description', 'Description',
+        'trim',
+        array()
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == TRUE)
+    {
+      if (!empty($this->input->post('detail_title')) || !empty($this->input->post('detail_description')))
+      {
+        $Detail = [
+          'meta_key' => 'about_detail',
+          'title' => $this->input->post('detail_title'),
+          'value' => $this->input->post('detail_description')
+        ];
+
+        if ($this->db->insert('layout',$Detail)) {
+          redirect(base_url().'Admin/about_page', 'refresh');
+        }
+      }
+    }
+  }
+
+  public function view_detail($content_id)
+  {
+    $this->data['detail'] = $this->Admins->get_content($content_id);
+    $this->load->view('admin/dashboard/layout/view',$this->data);
+  }
+
+  public function edit_detail($content_id)
+  {
+    $this->data['detail'] = $this->Admins->get_content($content_id);
+    $this->load->view('admin/dashboard/layout/edit',$this->data);
+  }
+
+  public function update_detail($content_id)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'detail_title', 'Title',
+        'trim',
+        array()
+    );
+    $this->form_validation->set_rules(
+        'detail_description', 'Description',
+        'trim',
+        array()
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == TRUE)
+    {
+      $Detail = [
+        'title' => $this->input->post('detail_title'),
+        'value' => $this->input->post('detail_description')
+      ];
+      if ($this->Admins->update_content($Detail,$content_id)) {
+
+      }
+      redirect(base_url().'Admin/about_page', 'refresh');
+    }
+  }
+
+  public function delete_detail($content_id)
+  {
+    $this->db->where('content_id', $content_id);
+    if ($this->db->delete('layout')) {
+      echo '<script>alert("Detail deleted!");</script>';
+      redirect(base_url().'Admin/about_page', 'refresh');
     }
   }
   // END OF LAYOUT
@@ -1794,9 +2015,10 @@ class Admin extends CI_Controller
   public function delete_ad($advertisement_id)
   {
     $this->db->where('advertisement_id', $advertisement_id);
-    $this->db->delete('advertisements');
-    echo '<script>alert("Advertisement deleted!");</script>';
-    redirect(base_url().'Admin/advertisements', 'refresh');
+    if ($this->db->delete('advertisements')) {
+      echo '<script>alert("Advertisement deleted!");</script>';
+      redirect(base_url().'Admin/advertisements', 'refresh');
+    }
   }
   // END OF ADVERTISEMENTS
 
@@ -2195,9 +2417,10 @@ class Admin extends CI_Controller
   public function delete_event($event_id)
   {
     $this->db->where('event_id', $event_id);
-    $this->db->delete('events');
-    echo '<script>alert("Event deleted!");</script>';
-    redirect(base_url().'Admin/events', 'refresh');
+    if ($this->db->delete('events')) {
+      echo '<script>alert("Event deleted!");</script>';
+      redirect(base_url().'Admin/events', 'refresh');
+    }
   }
 
   public function finished()
@@ -2406,9 +2629,10 @@ class Admin extends CI_Controller
   public function delete_finished_event($event_id)
   {
     $this->db->where('event_id', $event_id);
-    $this->db->delete('events');
-    echo '<script>alert("Event deleted!");</script>';
-    redirect(base_url().'Admin/finished', 'refresh');
+    if ($this->db->delete('events')) {
+      echo '<script>alert("Event deleted!");</script>';
+      redirect(base_url().'Admin/finished', 'refresh');
+    }
   }
   // END OF EVENTS
 
@@ -2525,9 +2749,10 @@ class Admin extends CI_Controller
   public function delete_topic($topic_id)
   {
     $this->db->where('topic_id', $topic_id);
-    $this->db->delete('topics');
-     echo '<script>alert("Topic deleted!");</script>';
-     redirect(base_url().'Admin/forum', 'refresh');
+    if ($this->db->delete('topics')) {
+      echo '<script>alert("Topic deleted!");</script>';
+      redirect(base_url().'Admin/forum', 'refresh');
+    }
   }
 
   public function approve()
@@ -2581,9 +2806,10 @@ class Admin extends CI_Controller
   public function delete_user_topic($topic_id)
   {
     $this->db->where('topic_id', $topic_id);
-    $this->db->delete('topics');
-     echo '<script>alert("Topic deleted!");</script>';
-     redirect(base_url().'Admin/approve', 'refresh');
+    if ($this->db->delete('topics')) {
+      echo '<script>alert("Topic deleted!");</script>';
+      redirect(base_url().'Admin/approve', 'refresh');
+    }
   }
 
   public function view_approved()

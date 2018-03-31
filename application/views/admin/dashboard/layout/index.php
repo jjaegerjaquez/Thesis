@@ -82,7 +82,20 @@
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
+        <li class="active treeview">
+          <a href=""><i class="fa fa-navicon"></i> <span>Layout</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="treeview"><a href="<?php echo base_url(); ?>Admin/image_slider"><i class="fa fa-angle-right"></i>Image Slider</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/site_icon"><i class="fa fa-angle-right"></i>Site Icon</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/site_logo"><i class="fa fa-angle-right"></i>Site Logo</a></li>
+              <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/site_details"><i class="fa fa-angle-right"></i>Site Details</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/about_page"><i class="fa fa-angle-right"></i>About page</a></li>
+          </ul>
+        </li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
@@ -104,43 +117,20 @@
         <div class="col-md-6">
           <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Site Settings</h3>
+              <h3 class="box-title">Site Details</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <form class="" action="<?php echo base_url(); ?>Admin/save_site_settings" method="post" enctype="multipart/form-data">
-                <?php if (!empty($logo->value)): ?>
-                  <img src="<?php echo base_url(); ?>public/img/logo/<?php echo $logo->value?>" alt="" width="300px" height="200px" style="border:1px solid black;">
-                <?php else: ?>
-                  <img src="<?php echo base_url(); ?>public/img/logo/default-logo.png" alt="" width="300px" height="150px">
-                <?php endif; ?>
+                <span style="font-style:italic;font-weight:bold;">Please fill up all fields with *</span>
                 <div class="form-group">
-                  <label>Logo:
-                    <br>
-                    <span style="color:#323339;"><small> Note: Please upload an image with atleast 500 pixels x 300 pixels.</small></span>
-                  </label>
-                  <input class="" type="file" name="picture" />
-                </div>
-                <div class="form-group">
-                  <?php if (!empty($icon->value)): ?>
-                    <img src="<?php echo base_url(); ?>public/img/logo/<?php echo $icon->value?>" alt="" width="300px" height="300px">
-                  <?php else: ?>
-                    <img src="<?php echo base_url(); ?>public/img/logo/default-icon.png" alt="" width="300px" height="150px">
-                  <?php endif; ?>
-                  <label>Site Icon:
-                    <br>
-                    <span style="color:#323339;"><small> Note: Please upload an image with atleast 300 pixels x 300 pixels.</small></span>
-                  </label>
-                  <input class="" type="file" name="icon" />
-                </div>
-                <div class="form-group">
-                  <label>Site Title:</label>
-                  <input type="text" name="title" class="form-control" value="<?php if (!empty($title->value)) { echo $title->value; } ?>">
+                  <label>Site Title*</label>
+                  <input type="text" name="title" class="form-control" value="<?php if (!empty($title->value)) { echo $title->value; } ?>" max="80">
                   <span style="color:red" class="help-block"><?php echo form_error('title'); ?></span>
                 </div>
                 <div class="form-group input-width center-block">
-                  <label>Tagline:</label>
-                  <textarea class="form-control" name="tagline"><?php if (!empty($tagline->value)) { echo $tagline->value; } ?></textarea>
+                  <label>Tagline*</label>
+                  <textarea class="form-control" name="tagline" rows="8" max="800"><?php if (!empty($tagline->value)) { echo $tagline->value; } ?></textarea>
                   <span style="color:red" class="help-block"><?php echo form_error('tagline'); ?></span>
                 </div>
               </div>
@@ -161,23 +151,23 @@
               <form class="" action="<?php echo base_url(); ?>Admin/save_social" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <label>Facebook:</label>
-                  <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>">
+                  <input type="text" name="facebook" class="form-control" value="<?php if (!empty($facebook->value)) { echo $facebook->value; } ?>" placeholder="ex:https://www.facebook.com/travel.hub">
                   <span style="color:red" class="help-block"><?php echo form_error('facebook'); ?></span>
                 </div>
                 <div class="form-group">
                   <label>Instagram:</label>
-                  <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>">
+                  <input type="text" name="instagram" class="form-control" value="<?php if (!empty($instagram->value)) { echo $instagram->value; } ?>" placeholder="ex:https://www.instagram.com/travelhub/">
                   <span style="color:red" class="help-block"><?php echo form_error('instagram'); ?></span>
                 </div>
                 <div class="form-group">
                   <label>Twitter:</label>
-                  <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>">
+                  <input type="text" name="twitter" class="form-control" value="<?php if (!empty($twitter->value)) { echo $twitter->value; } ?>" placeholder="ex:https://twitter.com/travelhub">
                   <span style="color:red" class="help-block"><?php echo form_error('twitter'); ?></span>
                 </div>
                 <div class="form-group">
-                  <label>Google:</label>
-                  <input type="text" name="google" class="form-control" value="<?php if (!empty($google->value)) { echo $google->value; } ?>">
-                  <span style="color:red" class="help-block"><?php echo form_error('google'); ?></span>
+                  <label>Email:</label>
+                  <input type="text" name="email" class="form-control" value="<?php if (!empty($email->value)) { echo $email->value; } ?>" placeholder="youremail@example.com">
+                  <span style="color:red" class="help-block"><?php echo form_error('email'); ?></span>
                 </div>
               </div>
                 <!-- /.box-body -->

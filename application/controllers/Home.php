@@ -835,41 +835,48 @@ class Home extends CI_Controller
   public function get_notif()
   {
     $this->data['notif__count'] = $this->Homes->get_notif_count($this->input->post('user_id'));
-    $this->data['notifications'] = $this->Homes->get_notifications($this->input->post('user_id'));
-    echo '
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-bell-o"></i>';
-        if (!empty($this->data['notif__count'])) {
-          echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
-        }
-      echo '</a>';
-      echo '<ul class="dropdown-menu">
-        <li>
-          <ul class="menu">';
-          foreach ($this->data['notifications'] as $key => $notification) {
-            if ($notification->type_of_notification == 'Comment') {
-              echo '
-              <li>
-                <a href="'.$notification->href.'">
-                  <i class="ion-chatbubble"></i> '.$notification->title_content.'
-                </a>
-              </li>
-              ';
-            }elseif ($notification->type_of_notification == 'Reply') {
-              echo '
-              <li>
-                <a href="'.$notification->href.'">
-                  <i class="ion-chatbubbles"></i> '.$notification->title_content.'
-                </a>
-              </li>
-              ';
-            }
+    if ($this->data['notif__count']->notif_count == 0)
+    {
+      echo $this->data['notif__count']->notif_count;
+    }
+    else
+    {
+      $this->data['notifications'] = $this->Homes->get_notifications($this->input->post('user_id'));
+      echo '
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <i class="fa fa-bell-o"></i>';
+          if (!empty($this->data['notif__count'])) {
+            echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
           }
-          echo '
-            </ul>
-          </li>
-        </ul>
-      ';
+        echo '</a>';
+        echo '<ul class="dropdown-menu">
+          <li>
+            <ul class="menu">';
+            foreach ($this->data['notifications'] as $key => $notification) {
+              if ($notification->type_of_notification == 'Comment') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-chatbubble"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }elseif ($notification->type_of_notification == 'Reply') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-chatbubbles"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
+            }
+            echo '
+              </ul>
+            </li>
+          </ul>
+        ';
+    }
   }
 
   public function is_unread()

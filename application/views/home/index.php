@@ -698,6 +698,31 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+// var time = 10000;
+// (function poll() {
+//   console.log("Execute na yung poll function");
+//    setTimeout(function() {
+//      var user_id = {
+//              user_id: "<?php echo $traveller_details->user_id ?>"
+//          };
+//        $.ajax({
+//          url: "<?php echo base_url(); ?>Home/get_notif",
+//          type: "POST",
+//          data: user_id,
+//          success: function(data) {
+//             if (data == '0') {
+//               console.log("Time is 15 secs");
+//               time = 2000;
+//             }
+//             else {
+//               alert("May data na");
+//             }
+//          },
+//       //  dataType: "json",
+//        complete: poll
+//      });
+//    }, time);
+// })();
 // (function() {
 //   var notif = function(){
 //     var user_id = {
