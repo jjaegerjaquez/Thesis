@@ -64,6 +64,12 @@ class Homes extends CI_Model
     return $query->row();
   }
 
+  public function get_image_sliders()
+  {
+    $query = $this->db->query("select * from layout where meta_key = 'image_slider'");
+    return $query->result();
+  }
+
   public function get_priority_ad()
   {
     $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority'");

@@ -386,21 +386,39 @@
     </form>
     <!-- indicators dot nav -->
     <ol class="carousel-indicators">
-      <li data-target="#slider" data-slide-to="0" class="active"></li>
-      <li data-target="#slider" data-slide-to="1"></li>
-      <li data-target="#slider" data-slide-to="2"></li>
+      <?php if (!empty($image_sliders)): ?>
+        <?php $ctr = 1;?>
+        <?php foreach ($image_sliders as $key => $image_slider): ?>
+          <li data-target="#slider" data-slide-to="<?php echo $ctr ?>" class="<?php if($ctr <=1 ){ echo 'active';}?>"></li>
+          <?php $ctr++;?>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <li data-target="#slider" data-slide-to="0" class="active"></li>
+        <li data-target="#slider" data-slide-to="1"></li>
+        <li data-target="#slider" data-slide-to="2"></li>
+      <?php endif; ?>
     </ol>
     <!-- wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image1.jpg" style="height:80vh;width:100%;">
-      </div>
-      <div class="item">
-        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image2.jpg" style="height:80vh;width:100%;">
-      </div>
-      <div class="item">
-        <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image3.jpg" style="height:80vh;width:100%;">
-      </div>
+      <?php if (!empty($image_sliders)): ?>
+        <?php $ctr = 1;?>
+        <?php foreach ($image_sliders as $key => $image_slider): ?>
+          <div class="item <?php if($ctr <=1 ){ echo 'active';}?>">
+            <img class="carousel-img img-responsive" src="<?php echo $image_slider->value?>">
+          </div>
+          <?php $ctr++;?>
+        <?php endforeach; ?>
+      <?php else: ?>
+        <div class="item active">
+          <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image1.jpg">
+        </div>
+        <div class="item">
+          <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image2.jpg">
+        </div>
+        <div class="item">
+          <img class="carousel-img" src="<?php echo base_url(); ?>public/img/image3.jpg">
+        </div>
+      <?php endif; ?>
     </div>
     <!-- controls or next and prev btn -->
     <a class="left carousel-control" href="#slider" role="button" data-slide="prev">
@@ -425,16 +443,16 @@
       <div class="sidebar-social text-center">
         <ul>
           <?php foreach ($categories as $key => $category): ?>
-            <div class="col-lg-2 col-sm-2 col-xs-12">
+            <div class="col-lg-2 col-sm-2 col-xs-6">
               <li>
                 <a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category->category)?>" title="<?php echo $category->category?>" target="_self" rel="nofollow">
-                  <img src="<?php echo base_url(); ?>public/img/icons/<?php echo $category->image?>" width="25px" height="25px" alt="">
+                  <img src="<?php echo $category->image?>" width="25px" height="25px" alt="">
                   <span><?php echo $category->category?></span>
                 </a>
               </li>
             </div>
           <?php endforeach; ?>
-          <div class="col-lg-2 col-sm-2 col-xs-12">
+          <div class="col-lg-2 col-sm-2 col-xs-6">
             <li>
               <a href="<?php echo base_url(); ?>Category/all" title="See All" target="_self" rel="nofollow">
                 <img src="<?php echo base_url(); ?>public/img/icons/search.png" width="25px" height="25px" alt="">
@@ -457,8 +475,8 @@
     <div class="row row2">
       <div class="col-lg-12 destination-list">
         <ul>
-          <?php if (!empty($ctr)): ?>
-            <?php for ($i=0; $i <$ctr ; $i++) { ?>
+          <?php if (!empty($counter)): ?>
+            <?php for ($i=0; $i <$counter ; $i++) { ?>
               <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                 <li>
                   <a href="<?php echo base_url(); ?>Destination/result/<?php echo str_replace(' ', '_', $localities[$i]->locality)?>" title="<?php echo $localities[$i]->locality?>" target="_self" rel="nofollow">
@@ -547,10 +565,8 @@
                     </span>
                   </span>
                   <span class="detail-container">
-                    <span class="title"><?php echo $event->title?></span>
-                  <span class="description">
-                      <?php echo $event->type?> - Click to learn more.
-                  </span>
+                      <span class="title"><?php echo $event->title?></span>
+                      <span class="description"><?php echo $event->type?> - Click to learn more.</span>
                   </span>
                   </span>
                 </div>

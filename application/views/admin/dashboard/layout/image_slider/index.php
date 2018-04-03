@@ -152,9 +152,10 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <?php if (!empty($image_sliders)): ?>
                       <?php foreach ($image_sliders as $key => $image_slider): ?>
                         <tr role="row" class="odd">
-                          <td><?php echo $image_slider->locality ?></td>
+                          <td><img src="<?php if (!empty($image_slider->value)) { echo $image_slider->value; } else { echo 'default-img.jpg'; }?>" alt="" height="100px" height="50px"></td>
                           <td>
                             <a href="<?php echo base_url(); ?>Admin/view_image_slider/<?php echo $image_slider->content_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
                             <a href="<?php echo base_url(); ?>Admin/edit_image_slider/<?php echo $image_slider->content_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
@@ -162,6 +163,9 @@
                           </td>
                         </tr>
                       <?php endforeach ?>
+                    <?php else: ?>
+                      0 results
+                    <?php endif; ?>
                   </tbody>
                 </table>
               </div>

@@ -355,7 +355,12 @@
                 </span>
               </div>
         		  <div class="thumbnail">
-                <a href="/Event/preview/<?php echo $event->event_id?>">  <img src="<?php echo $event->image?>" alt="image"> </a>
+                <a href="/Event/preview/<?php echo $event->event_id?>">
+                <?php if (!empty($event->image)): ?>
+                  <img src="<?php echo $event->image?>" alt="image"> </a>
+                <?php else: ?>
+                  <img src="<?php echo base_url() ?>/public/img/events/def-img-l.jpg" alt="image"> </a>
+                <?php endif; ?>
                 <div class="list-text">
                   <span class="event-title"><?php echo $event->title ?></span>
                 </div>

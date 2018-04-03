@@ -287,81 +287,50 @@ class Admin extends CI_Controller
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'locality', 'Locality',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter a locality'
         )
     );
     $this->form_validation->set_rules(
         'description', 'Description',
-        'required|trim',
-        array(
-                'required'      => 'Please enter a locality'
-        )
+        'trim',
+        array()
     );
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->load->view('admin/dashboard/localities/create',$this->data);
+      echo validation_errors();
     }
     else
     {
-      if(!empty($_FILES['picture']['name'])){
-          $config['upload_path'] = 'public/img/locality-img';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/localities/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
+         $Locality = [
+           'locality' => $this->input->post('locality'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
 
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Locality = [
-                'locality' => $this->input->post('locality'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              if ($this->db->insert('localities',$Locality)) {
-                echo '<script>alert("Locality added!");</script>';
-                redirect(base_url().'Admin/localities', 'refresh');
-              }else {
-                echo '<script>alert("Locality not added!");</script>';
-                redirect(base_url().'Admin/localities', 'refresh');
-              }
-          }else{
-            $Locality = [
-              'locality' => $this->input->post('locality'),
-              'description' => $this->input->post('description'),
-              'image' => 'default-img.jpg'
-            ];
-
-            if ($this->db->insert('localities',$Locality)) {
-              echo '<script>alert("Locality added!");</script>';
-              redirect(base_url().'Admin/localities', 'refresh');
-            }else {
-              echo '<script>alert("Locality not added!");</script>';
-              redirect(base_url().'Admin/localities', 'refresh');
-            }
-          }
-      }else{
-        $Locality = [
-          'locality' => $this->input->post('locality'),
-          'description' => $this->input->post('description'),
-          'image' => 'default-img.jpg'
-        ];
-
-        if ($this->db->insert('localities',$Locality)) {
-          echo '<script>alert("Locality added!");</script>';
-          redirect(base_url().'Admin/localities', 'refresh');
-        }else {
-          echo '<script>alert("Locality not added!");</script>';
-          redirect(base_url().'Admin/localities', 'refresh');
-        }
+         if ($this->db->insert('localities',$Locality)) {
+           echo "Locality added!";
+          //  redirect(base_url().'Admin/localities', 'refresh');
+         }else {
+           echo "Locality not added";
+          //  redirect(base_url().'Admin/localities', 'refresh');
+         }
+      }
+      else
+      {
+        echo "Please select an image";
       }
     }
   }
@@ -390,64 +359,44 @@ class Admin extends CI_Controller
     );
     $this->form_validation->set_rules(
         'description', 'Description',
-        'required|trim',
-        array(
-                'required'      => 'Please enter locality description'
-        )
+        'trim',
+        array()
     );
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->data['locality'] = $this->Admins->get_locality($locality_id);
-      $this->load->view('admin/dashboard/localities/update', $this->data);
+      // $this->data['locality'] = $this->Admins->get_locality($locality_id);
+      // $this->load->view('admin/dashboard/localities/update', $this->data);
+      echo validation_errors();
     }
     else
     {
-      // If may laman na image
-      if(!empty($_FILES['picture']['name'])){
-          $config['upload_path'] = 'public/img/locality-img';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/localities/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
+         $Locality = [
+           'locality' => $this->input->post('locality'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
 
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Locality = [
-                'locality' => $this->input->post('locality'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              $this->Admins->update_locality($Locality,$locality_id);
-              echo '<script>alert("Locality updated!");</script>';
-              redirect(base_url().'Admin/localities', 'refresh');
-          }else{
-            $Locality = [
-              'locality' => $this->input->post('locality'),
-              'description' => $this->input->post('description')
-            ];
-
-            $this->Admins->update_locality($Locality,$locality_id);
-            echo '<script>alert("Your image size is not appropriate..");</script>';
-            redirect(base_url().'Admin/localities', 'refresh');
-          }
-      } //END NG KAPAG MAY LAMAN NA IMAGE
-      else //KAPAG WALANG LAMAN NA IMAGE
+         if ($this->Admins->update_locality($Locality,$locality_id)) {
+           echo 'Locality updated!';
+         }
+         else {
+           echo "Locality cannot be updated";
+         }
+      }
+      else
       {
-        $Locality = [
-          'locality' => $this->input->post('locality'),
-          'description' => $this->input->post('description')
-        ];
-
-        $this->Admins->update_locality($Locality,$locality_id);
-        echo '<script>alert("Locality updated!");</script>';
-        redirect(base_url().'Admin/localities', 'refresh');
+        echo "Please select an image";
       }
     }
   }
@@ -512,79 +461,47 @@ class Admin extends CI_Controller
         'category', 'Category',
         'required|trim',
         array(
-                'required'      => 'Please enter a locality'
+                'required'      => 'Please enter a category'
         )
     );
     $this->form_validation->set_rules(
         'description', 'Description',
-        'required|trim',
-        array(
-                'required'      => 'Please enter category description'
-        )
+        'trim',
+        array()
     );
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->load->view('admin/dashboard/categories/create',$this->data);
+      // $this->load->view('admin/dashboard/categories/create',$this->data);
+      echo validation_errors();
     }
     else
     {
-      if(!empty($_FILES['picture']['name'])){
-          $config['upload_path'] = 'public/img/icons';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/icons/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
+         $Category = [
+           'category' => $this->input->post('category'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
 
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Category = [
-                'category' => $this->input->post('category'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              if ($this->db->insert('categories',$Category)) {
-                echo '<script>alert("Category added!");</script>';
-                redirect(base_url().'Admin/categories', 'refresh');
-              }else {
-                echo '<script>alert("Category not added!");</script>';
-                redirect(base_url().'Admin/categories', 'refresh');
-              }
-          }else{
-            $Category = [
-              'category' => $this->input->post('category'),
-              'description' => $this->input->post('description'),
-              'image' => 'default-img.jpg'
-            ];
-
-            if ($this->db->insert('categories',$Category)) {
-              echo '<script>alert("Category added!");</script>';
-              redirect(base_url().'Admin/categories', 'refresh');
-            }else {
-              echo '<script>alert("Category not added!");</script>';
-              redirect(base_url().'Admin/categories', 'refresh');
-            }
-          }
-      }else{
-        $Category = [
-          'category' => $this->input->post('category'),
-          'description' => $this->input->post('description'),
-          'image' => 'default-img.jpg'
-        ];
-
-        if ($this->db->insert('categories',$Category)) {
-          echo '<script>alert("Category added!");</script>';
-          redirect(base_url().'Admin/categories', 'refresh');
-        }else {
-          echo '<script>alert("Category not added!");</script>';
-          redirect(base_url().'Admin/categories', 'refresh');
-        }
+         if ($this->db->insert('categories',$Category)) {
+           echo 'Category added!';
+         }else {
+           echo 'Category not added';
+         }
+      }
+      else
+      {
+        echo "Please select an image";
       }
     }
   }
@@ -613,64 +530,52 @@ class Admin extends CI_Controller
     );
     $this->form_validation->set_rules(
         'description', 'Description',
-        'required|trim',
-        array(
-                'required'      => 'Please enter category description'
-        )
+        'trim',
+        array()
     );
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->data['category'] = $this->Admins->get_category($category_id);
-      $this->load->view('admin/dashboard/categories/update', $this->data);
+      // $this->data['category'] = $this->Admins->get_category($category_id);
+      // $this->load->view('admin/dashboard/categories/update', $this->data);
+      echo validation_errors();
     }
     else
     {
-      // If may laman na image
-      if(!empty($_FILES['picture']['name'])){
-          $config['upload_path'] = 'public/img/icons';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/icons/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
+         $Category = [
+           'category' => $this->input->post('category'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
 
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Category = [
-                'category' => $this->input->post('category'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              $this->Admins->update_category($Category,$category_id);
-              echo '<script>alert("Category updated!");</script>';
-              redirect(base_url().'Admin/categories', 'refresh');
-          }else{
-            $Category = [
-              'category' => $this->input->post('category'),
-              'description' => $this->input->post('description')
-            ];
-
-            $this->Admins->update_category($Category,$category_id);
-            echo '<script>alert("Your image size is not appropriate..");</script>';
-            redirect(base_url().'Admin/categories', 'refresh');
-          }
-      } //END NG KAPAG MAY LAMAN NA IMAGE
-      else //KAPAG WALANG LAMAN NA IMAGE
+         if ($this->Admins->update_category($Category,$category_id)) {
+           echo 'Category updated!';
+         }else {
+           echo 'Category cannot be updated';
+         }
+      }
+      else
       {
         $Category = [
           'category' => $this->input->post('category'),
-          'description' => $this->input->post('description')
+          'description' => $this->input->post('description'),
         ];
 
-        $this->Admins->update_category($Category,$category_id);
-        echo '<script>alert("Category updated!");</script>';
-        redirect(base_url().'Admin/categories', 'refresh');
+        if ($this->Admins->update_category($Category,$category_id)) {
+          echo 'Category updated!';
+        }else {
+          echo 'Category cannot be updated';
+        }
       }
     }
   }
@@ -733,21 +638,21 @@ class Admin extends CI_Controller
     // FORM VALIDATION
     $this->form_validation->set_rules(
         'theme_name', 'Theme Name',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter a theme name'
         )
     );
     $this->form_validation->set_rules(
         'author', 'Author',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter the name of the author'
         )
     );
     $this->form_validation->set_rules(
         'description', 'Description',
-        'required|trim',
+        'trim|required',
         array(
                 'required'      => 'Please enter theme description'
         )
@@ -755,84 +660,57 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->load->view('admin/dashboard/themes/create',$this->data);
+      echo validation_errors();
+      // $this->load->view('admin/dashboard/themes/create',$this->data);
     }
     else
     {
       $theme = $this->input->post('theme_name');
-      if(!empty($_FILES['picture']['name'])){ //If may laman na image
-          $config['upload_path'] = 'uploads/images/admin/themes';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/themes/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
+         $Theme = [
+           'theme' => $this->input->post('theme_name'),
+           'author' => $this->input->post('author'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
 
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Theme = [
-                'theme' => $this->input->post('theme_name'),
-                'author' => $this->input->post('author'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              if ($this->db->insert('themes',$Theme)) {
-                echo '<script>alert("Theme added!");</script>';
-                chmod('./uploads/', 0777);
-                $path   = './uploads/themes/'.$theme;
-                if (!is_dir($path)) { //create the folder if it's not already exists
-                    mkdir($path, 0755, TRUE);
-                }
-                redirect(base_url().'Admin/add_theme', 'refresh');
-              }else {
-                echo '<script>alert("Theme not added!");</script>';
-                redirect(base_url().'Admin/add_theme', 'refresh');
-              }
-          }else{
-            $Theme = [
-              'theme' => $this->input->post('theme_name'),
-              'author' => $this->input->post('author'),
-              'description' => $this->input->post('description'),
-              'image' => 'default-img.jpg'
-            ];
-
-            if ($this->db->insert('themes',$Theme)) {
-              echo '<script>alert("Theme added!");</script>';
-              chmod('./uploads/', 0777);
-              $path   = './uploads/themes/'.$theme;
-              if (!is_dir($path)) { //create the folder if it's not already exists
-                  mkdir($path, 0755, TRUE);
-              }
-              redirect(base_url().'Admin/add_theme', 'refresh');
-            }else {
-              echo '<script>alert("Theme not added!");</script>';
-              redirect(base_url().'Admin/add_theme', 'refresh');
-            }
-          }
-      }else{
+         if ($this->db->insert('themes',$Theme)) {
+           echo 'Theme added!';
+           chmod('./public/', 0777);
+           $path   = './public/themes/'.$theme;
+           if (!is_dir($path)) { //create the folder if it's not already exists
+               mkdir($path, 0755, TRUE);
+           }
+         }else {
+           echo 'Theme not added';
+         }
+      }
+      else
+      {
         $Theme = [
           'theme' => $this->input->post('theme_name'),
           'author' => $this->input->post('author'),
-          'description' => $this->input->post('description'),
-          'image' => 'default-img.jpg'
+          'description' => $this->input->post('description')
         ];
 
         if ($this->db->insert('themes',$Theme)) {
-          echo '<script>alert("Theme added!");</script>';
-          chmod('./uploads/', 0777);
-          $path   = './uploads/themes/'.$theme;
+          echo 'Theme added!';
+          chmod('./public/', 0777);
+          $path   = './public/themes/'.$theme;
           if (!is_dir($path)) { //create the folder if it's not already exists
               mkdir($path, 0755, TRUE);
           }
-          redirect(base_url().'Admin/add_theme', 'refresh');
         }else {
-          echo '<script>alert("Theme not added!");</script>';
-          redirect(base_url().'Admin/add_theme', 'refresh');
+          echo 'Theme not added';
         }
       }
     }
@@ -968,6 +846,95 @@ class Admin extends CI_Controller
     $this->load->view('admin/dashboard/layout/image_slider/index',$this->data);
   }
 
+  public function add_image_slider()
+  {
+    $this->load->view('admin/dashboard/layout/image_slider/add',$this->data);
+  }
+
+  public function upload_image_slider()
+  {
+    if (!empty($this->input->post('file'))) {
+      $path = 'public/img/layout/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $Image_Slider = [
+         'meta_key' => 'image_slider',
+         'title' => '',
+         'value' => base_url().$path.$image_name
+       ];
+
+       if ($this->db->insert('layout',$Image_Slider))
+       { //KAPAG NAINSERT YUNG LOGO
+         echo "Image uploaded!";
+       }
+       else
+       { //KAPAG DI NAUPDATE YUNG LOGO
+         echo '<script>alert("Something went wrong...");</script>';
+       }
+    }
+    else
+    {
+      echo "Please select an image";
+    }
+  }
+
+  public function view_image_slider($content_id)
+  {
+    $this->data['image_slider'] = $this->Admins->get_content($content_id);
+    $this->load->view('admin/dashboard/layout/image_slider/view',$this->data);
+  }
+
+  public function edit_image_slider($content_id)
+  {
+    $this->data['image_slider'] = $this->Admins->get_content($content_id);
+    $this->load->view('admin/dashboard/layout/image_slider/edit',$this->data);
+  }
+
+  public function update_image_slider($content_id)
+  {
+    if (!empty($this->input->post('file'))) {
+      $path = 'public/img/layout/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+
+       $Image_Slider = [
+         'value' => base_url().$path.$image_name
+       ];
+       if ($this->Admins->update_content($Image_Slider,$content_id))
+       {
+         echo "Image updated!";
+       }
+       else
+       {
+         echo "Something went wrong, image cannot be updated...";
+       }
+    }
+    else
+    {
+      echo "Please select an image";
+    }
+  }
+
+  public function delete_image_slider($content_id)
+  {
+    $this->db->where('content_id', $content_id);
+    if ($this->db->delete('layout')) {
+      echo '<script>alert("Image deleted!");</script>';
+      redirect(base_url().'Admin/image_slider', 'refresh');
+    }
+  }
+
   public function site_details()
   {
     $this->data['facebook'] = $this->Admins->get_facebook();
@@ -1030,12 +997,10 @@ class Admin extends CI_Controller
     }
   }
 
-
   public function site_logo()
   {
     $this->data['logo'] = $this->Admins->get_logo();
     $this->load->view('admin/dashboard/layout/site_logo',$this->data);
-
   }
 
   public function upload_site_logo()
@@ -2137,77 +2102,50 @@ class Admin extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->load->view('admin/dashboard/events/create',$this->data);
+      // $this->load->view('admin/dashboard/events/create',$this->data);
+      echo validation_errors();
     }
     else
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $config['upload_path'] = 'public/img/events';
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
-        $config['min_width'] = '1366';
-        $config['min_height'] = '768';
-        $config['max_width'] = '1692';
-        $config['max_height'] = '812';
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/events/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-            $path = 'public/img/events';
-            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
-            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = $source_path;
-            $config['new_image'] = $target_path;
-            $config['maintain_ratio'] = FALSE;
-            $config['width'] = '1366';
-            $config['height'] = '768';
-            $this->load->library('image_lib');
-            $this->image_lib->initialize($config);
-            if ($this->image_lib->crop())
-            {
-              $this->image_lib->clear();
-              if (empty($this->input->post('end'))) {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => NULL,
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$path.'/cropped_'.$picture
-                ];
-              }else {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => $this->input->post('end'),
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$path.'/cropped_'.$picture
-                ];
-              }
-
-              if ($this->db->insert('events',$Event)) {
-                echo '<script>alert("Event added!");</script>';
-                redirect(base_url().'Admin/events', 'refresh');
-              }else {
-                echo '<script>alert("Event not added!");</script>';
-                redirect(base_url().'Admin/add_event', 'refresh');
-              }
-            }
-        }
-        else
-        {
-          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect(base_url().'Admin/add_event/');
-        }
+         if (empty($this->input->post('end')))
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => NULL,
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         else
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => $this->input->post('end'),
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         if ($this->db->insert('events',$Event)) {
+           echo 'Event added!';
+         }else {
+           echo 'Event cannot be created';
+         }
       }
       else
       {
@@ -2220,7 +2158,7 @@ class Admin extends CI_Controller
             'type' => $this->input->post('type'),
             'place' => $this->input->post('place'),
             'description' => $this->input->post('description'),
-            'image' => '/public/img/def-img-l.jpg'
+            'image' => NULL
           ];
         }
         else
@@ -2232,16 +2170,13 @@ class Admin extends CI_Controller
             'type' => $this->input->post('type'),
             'place' => $this->input->post('place'),
             'description' => $this->input->post('description'),
-            'image' => '/public/img/def-img-l.jpg'
+            'image' => NULL
           ];
         }
-
         if ($this->db->insert('events',$Event)) {
-          echo '<script>alert("Event added!");</script>';
-          redirect(base_url().'Admin/events', 'refresh');
+          echo 'Event added!';
         }else {
-          echo '<script>alert("Event not added!");</script>';
-          redirect(base_url().'Admin/add_event', 'refresh');
+          echo 'Event cannot be created';
         }
       }
     }
@@ -2304,76 +2239,50 @@ class Admin extends CI_Controller
     }
     else
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $config['upload_path'] = 'public/img/events';
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
-        $config['min_width'] = '1366';
-        $config['min_height'] = '768';
-        $config['max_width'] = '1692';
-        $config['max_height'] = '812';
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/events/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-            $path = 'public/img/events';
-            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
-            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = $source_path;
-            $config['new_image'] = $target_path;
-            $config['maintain_ratio'] = FALSE;
-            $config['width'] = '1366';
-            $config['height'] = '768';
-            $this->load->library('image_lib');
-            $this->image_lib->initialize($config);
-            if ($this->image_lib->crop())
-            {
-              $this->image_lib->clear();
-              if (empty($this->input->post('end'))) {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => NULL,
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-              }else {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => $this->input->post('end'),
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-              }
-
-              if ($this->Admins->update_event($Event,$event_id))
-              {
-                echo '<script>alert("Event updated!");</script>';
-                redirect(base_url().'Admin/events', 'refresh');
-              }
-              else
-              {
-                echo '<script>alert("Event cannot be updated...");</script>';
-                redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
-              }
-            }
-        }
-        else
-        {
-          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect(base_url().'Admin/edit_event/'.$event_id);
-        }
+         if (empty($this->input->post('end')))
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => NULL,
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         else
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => $this->input->post('end'),
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         if ($this->Admins->update_event($Event,$event_id))
+         {
+           echo 'Event updated!';
+           // redirect(base_url().'Admin/events', 'refresh');
+         }
+         else
+         {
+           echo 'Event cannot be updated';
+           // redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
+         }
       }
       else
       {
@@ -2399,16 +2308,15 @@ class Admin extends CI_Controller
             'description' => $this->input->post('description')
           ];
         }
-
         if ($this->Admins->update_event($Event,$event_id))
         {
-          echo '<script>alert("Event updated!");</script>';
-          redirect(base_url().'Admin/events', 'refresh');
+          echo 'Event updated!';
+          // redirect(base_url().'Admin/events', 'refresh');
         }
         else
         {
-          echo '<script>alert("Event cannot be updated...");</script>';
-          redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
+          echo 'Event cannot be updated';
+          // redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
         }
       }
     }
@@ -2428,7 +2336,7 @@ class Admin extends CI_Controller
     $date = new DateTime("now");
     $cur_date = $date->format('Y-m-d');
     $query2= $this->db->get_where('events', ['start_date <' => $cur_date]);
-    $limit = 2;
+    $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
     $config['base_url'] = '/Admin/finished';
@@ -2516,76 +2424,50 @@ class Admin extends CI_Controller
     }
     else
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $config['upload_path'] = 'public/img/events';
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
-        $config['min_width'] = '1366';
-        $config['min_height'] = '768';
-        $config['max_width'] = '1692';
-        $config['max_height'] = '812';
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/events/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-            $path = 'public/img/events';
-            $source_path = './'.$path.'/'.$picture; //source ng image na inupload
-            $target_path = './'.$path.'/cropped_'.$picture; //name ng cropped na image
-            $config['image_library'] = 'gd2';
-            $config['source_image'] = $source_path;
-            $config['new_image'] = $target_path;
-            $config['maintain_ratio'] = FALSE;
-            $config['width'] = '1366';
-            $config['height'] = '768';
-            $this->load->library('image_lib');
-            $this->image_lib->initialize($config);
-            if ($this->image_lib->crop())
-            {
-              $this->image_lib->clear();
-              if (empty($this->input->post('end'))) {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => NULL,
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-              }else {
-                $Event = [
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => $this->input->post('end'),
-                  'title' => $this->input->post('title'),
-                  'type' => $this->input->post('type'),
-                  'place' => $this->input->post('place'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture
-                ];
-              }
-
-              if ($this->Admins->update_event($Event,$event_id))
-              {
-                echo '<script>alert("Event updated!");</script>';
-                redirect(base_url().'Admin/finished', 'refresh');
-              }
-              else
-              {
-                echo '<script>alert("Event cannot be updated...");</script>';
-                redirect(base_url().'Admin/edit_finished_event/'.$event_id, 'refresh');
-              }
-            }
-        }
-        else
-        {
-          $this->session->set_flashdata('image_error', 'Please select an image with atleast 1366 x 768 pixels and not exceeding 1692 x 812 pixels');
-          redirect(base_url().'Admin/edit_finished_event/'.$event_id);
-        }
+         if (empty($this->input->post('end')))
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => NULL,
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         else
+         {
+           $Event = [
+             'start_date' => $this->input->post('start'),
+             'end_date' => $this->input->post('end'),
+             'title' => $this->input->post('title'),
+             'type' => $this->input->post('type'),
+             'place' => $this->input->post('place'),
+             'description' => $this->input->post('description'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+         if ($this->Admins->update_event($Event,$event_id))
+         {
+           echo 'Event updated!';
+           // redirect(base_url().'Admin/events', 'refresh');
+         }
+         else
+         {
+           echo 'Event cannot be updated';
+           // redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
+         }
       }
       else
       {
@@ -2611,16 +2493,15 @@ class Admin extends CI_Controller
             'description' => $this->input->post('description')
           ];
         }
-
         if ($this->Admins->update_event($Event,$event_id))
         {
-          echo '<script>alert("Event updated!");</script>';
-          redirect(base_url().'Admin/finished', 'refresh');
+          echo 'Event updated!';
+          // redirect(base_url().'Admin/events', 'refresh');
         }
         else
         {
-          echo '<script>alert("Event cannot be updated...");</script>';
-          redirect(base_url().'Admin/edit_finished_event/'.$event_id, 'refresh');
+          echo 'Event cannot be updated';
+          // redirect(base_url().'Admin/edit_event/'.$event_id, 'refresh');
         }
       }
     }

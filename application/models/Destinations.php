@@ -126,6 +126,16 @@ class Destinations extends CI_Model
     }
   }
 
+  public function get_destination($locality)
+  {
+    $destination = str_replace('_', ' ', $locality);
+    $query = $this->db->get_where('localities', ['locality' => $destination]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
   public function get_business($business_name)
   {
     $query = $this->db->get_where('basic_info', ['business_name' => $business_name]);

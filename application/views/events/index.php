@@ -331,7 +331,11 @@
     </div>
     <div class="row content main-content">
       <div class="col-lg-7 col-md-7 col-xs-12">
-        <img class="img-responsive" alt="image" src="<?php echo $event->image?>">
+        <?php if (!empty($event->image)): ?>
+          <img class="img-responsive" alt="image" src="<?php echo $event->image?>">
+        <?php else: ?>
+          <img class="img-responsive" alt="image" src="<?php echo base_url(); ?>public/img/def-img-l.jpg">
+        <?php endif; ?>
       </div>
       <div class="col-lg-5 col-md-5 col-xs-12 text-center">
         <ul class="list">

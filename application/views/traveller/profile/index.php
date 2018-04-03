@@ -112,11 +112,11 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3 side">
         <?php if (!empty($traveller_profile->image)): ?>
-          <img src="<?php echo $traveller_profile->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image">
         <?php else: ?>
-          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image">
         <?php endif; ?>
         <div class="vertical-menu">
           <a href="<?php echo base_url() ?>Home/image">Profile Image</a>
@@ -124,7 +124,7 @@
           <a href="<?php echo base_url() ?>Home/security">Security</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;padding-bottom:20px;">
+      <div class="col-lg-9 box-style">
         <div class="row text-title header-row">
           <h2 class="title">Profile</h2>
           <hr>

@@ -18,6 +18,7 @@ class Home extends CI_Controller
     $this->data['categories'] = $this->Homes->get_categories();
     $this->data['title'] = $this->Homes->get_title();
     $this->data['icon'] = $this->Homes->get_site_icon();
+    $this->data['image_sliders'] = $this->Homes->get_image_sliders();
     $this->data['tagline'] = $this->Homes->get_tagline();
     $this->data['facebook'] = $this->Homes->get_facebook();
     $this->data['instagram'] = $this->Homes->get_instagram();
@@ -67,7 +68,7 @@ class Home extends CI_Controller
       $this->data['counts'][$i] = $this->Homes->get_counts($this->data['localities'][$i]->locality);
     }
 
-    $this->data['ctr']=$count;
+    $this->data['counter']=$count;
 
     if ($this->session->userdata('is_logged_in'))
     {

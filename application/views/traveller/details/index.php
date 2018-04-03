@@ -111,7 +111,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-offset-2 col-lg-8" style="background-color:#fff;">
+      <div class="col-lg-offset-2 col-lg-8 box-style">
         <div class="row text-title header-row">
           <h3 class="title">Account details</h3>
           <hr>

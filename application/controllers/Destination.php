@@ -1003,7 +1003,7 @@ class Destination extends CI_Controller
       }
 
       // print_r($this->data['rates']);
-      $this->data['destination'] = $locality;
+      $this->data['destination'] = $this->Destinations->get_destination($locality);
       $this->data['ctr'] = $count;
       $this->load->view('destinations/index',$this->data);
     }

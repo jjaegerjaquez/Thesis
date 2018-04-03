@@ -347,9 +347,9 @@
             <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
                 <?php if (!empty($business->image)): ?>
-                  <img class="media-object" src="<?php echo $business->image?>" alt="image" width="200px" height="200px">
+                  <img class="media-object" src="<?php echo $business->image?>" alt="image">
                 <?php else: ?>
-                  <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
+                  <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image">
                 <?php endif; ?>
               </div>
               <div class="media-body rating">
@@ -379,7 +379,6 @@
                   <div class="list-text">
                     <li class="detail-list"><span>Address:</span> <?php echo $business->address?>, <?php echo $business->locality ?></li>
                   </div>
-                  <!-- <li class="detail-list"><?php echo $business->locality?></li> -->
                   <li class="detail-list"><span>Cellphone:</span> +63<?php echo $business->cellphone?></li>
                   <li class="detail-list"><span>Telephone:</span> <?php echo $business->telephone?></li>
                   <li class="detail-list"><span>Please look for:</span> <?php echo $business->contact_person?></li>

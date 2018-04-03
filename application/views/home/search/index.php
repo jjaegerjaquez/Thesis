@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/destination/style.css">
 </head>
@@ -304,7 +305,7 @@
   		</ul>
     </div>
 
-    <div class="row">
+    <div class="row _title">
       <h3 id="title"><?php echo ucwords($_category) ?> in <?php echo ucwords($destination) ?></h3>
     </div>
     <div class="row content">
@@ -329,7 +330,7 @@
         <ul class="sort-list">
           <?php if (!empty($categories)): ?>
             <form id="_category" action="" method="post">
-              <select class="category-dropdown" name="category" id="category-filters">
+              <select class="category-dropdown form-control" name="category" id="category-filters">
                 <option value="" disabled selected>Select a category</option>
                 <?php foreach ($categories as $key => $category): ?>
                   <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>

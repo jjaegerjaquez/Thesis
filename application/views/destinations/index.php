@@ -333,14 +333,14 @@
       <ul class="breadcrumb navbar-bottom">
   	     <li><a href="<?php echo base_url() ?>">Home</a></li>
          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
-         <li><?php echo $destination?></li>
+         <li><?php echo $destination->locality?></li>
   		</ul>
       <?php if (!empty($destination->image)): ?>
         <div class="container-fluid text-center header-style" style="background-image:url('<?php echo $destination->image?>');">
       <?php else: ?>
         <div class="container-fluid text-center header-style" style="background-image:url('<?php echo base_url(); ?>public/img/def-img-l.jpg');">
       <?php endif; ?>
-  		   <h1><span class="section-heading-lower"><?php echo $destination?></span></h1>
+  		   <h1><span class="section-heading-lower"><?php echo $destination->locality?></span></h1>
       </div>
     </div>
     <div class="row content">
@@ -365,7 +365,7 @@
         <ul class="sort-list">
           <?php if (!empty($categories)): ?>
             <form id="_category" action="" method="post">
-              <select class="category-dropdown" name="category" id="category-filters">
+              <select class="category-dropdown form-control" name="category" id="category-filters">
                 <option value="" selected disabled>Select a category</option>
                 <?php foreach ($categories as $key => $category): ?>
                   <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>
@@ -616,7 +616,7 @@
   })
   $(document).ready(function(){
     $("input[name='filter']").on("click", function() {
-      var destination = "<?php echo str_replace(' ', '_', $destination)?>";
+      var destination = "<?php echo str_replace(' ', '_', $destination->locality)?>";
           $.ajax({
               url: "<?php echo base_url(); ?>Destination/result/"+destination,
               type: 'POST',
@@ -627,7 +627,7 @@
           });
       });
       $('#category-filters').change(function() {
-        var destination = "<?php echo str_replace(' ', '_', $destination)?>";
+        var destination = "<?php echo str_replace(' ', '_', $destination->locality)?>";
         $.ajax({
             url: "<?php echo base_url(); ?>Destination/result/"+destination,
             type: 'POST',

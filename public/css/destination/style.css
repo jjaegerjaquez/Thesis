@@ -41,6 +41,8 @@ body{
 
 /*BREADCRUMB*/
 .breadcrumb{
+  margin-right: 15px;
+  margin-left: 15px;
   background-color: transparent;
   font-size: 11px;
   font-family: 'Roboto Condensed', sans-serif;
@@ -83,8 +85,8 @@ input[type=text],input[type=email],input[type=password] {
   background-color:#fff;
   padding:20px;
   border-radius:5px;
-  border-left:15px solid #ebe9e9;
-  border-right: 5px solid #ebe9e9;
+  /*border-left:15px solid #ebe9e9;*/
+  /*border-right: 5px solid #ebe9e9;*/
 }
 .side-content ul li {
   font-family: 'Roboto Condensed', sans-serif;
@@ -141,8 +143,16 @@ input[type=text],input[type=email],input[type=password] {
   /*padding: 50px;*/
   /*background-color: #fff;*/
   border-radius: 5px;
-  border-left: 15px solid #ebe9e9;
+  /*border-left: 15px solid #ebe9e9;*/
   /*border-right: 15px solid #ebe9e9;*/
+}
+._title{
+  padding-left: 45px;
+}
+._title h3{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 700;
+  color: #424242;
 }
 .main-content .rating a {
   text-decoration:none;

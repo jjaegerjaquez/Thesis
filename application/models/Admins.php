@@ -358,7 +358,7 @@ class Admins extends CI_Model
   public function update_locality($Locality,$locality_id)
   {
     $this->db->where('locality_id', $locality_id);
-    $this->db->update('localities', $Locality);
+    return $this->db->update('localities', $Locality);
   }
   // END OF LOCALITY
 
@@ -381,7 +381,7 @@ class Admins extends CI_Model
   public function update_category($Category,$category_id)
   {
     $this->db->where('category_id', $category_id);
-    $this->db->update('categories', $Category);
+    return $this->db->update('categories', $Category);
   }
   // END OF CATEGORY
 

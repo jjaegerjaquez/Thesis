@@ -340,7 +340,7 @@
         <?php foreach ($categories as $key => $category): ?>
           <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-center category-div">
   				  <a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category->category)?>" >
-  					<img src="<?php echo base_url(); ?>public/img/icons/<?php echo $category->image?>"alt="<?php echo base_url(); ?>public/img/icons/def-icon.jpg"  width="100px" height="100px">
+  					<img src="<?php echo $category->image?>"alt="<?php echo base_url(); ?>public/img/icons/def-icon.jpg"  width="50px" height="50px">
   				  </a>
   				 <p class=""><?php echo $category->category?></p>
   			  </div>

@@ -333,12 +333,12 @@
   	     <li><a href="<?php echo base_url() ?>">Home</a></li>
          <li>Forum</li>
   		</ul>
+      <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+        <div class="create-div pull-left">
+            <a href="<?php echo base_url(); ?>Forum/add_topic" class="btn">Create topic</a>
+        </div>
+      <?php endif; ?>
     </div>
-    <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-      <div class="create-div pull-left">
-          <a href="<?php echo base_url(); ?>Forum/add_topic" class="btn">Create topic</a>
-      </div>
-    <?php endif; ?>
     <div class="row content">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 main-content">
         <div class="tabbable-panel">

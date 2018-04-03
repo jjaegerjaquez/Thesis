@@ -383,7 +383,11 @@ html, body {
   vertical-align:top;
   padding-top:3px;
 }
-
+._event{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .title {
   text-transform:uppercase;
   font-family:Oswald;

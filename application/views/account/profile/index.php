@@ -315,10 +315,11 @@ $('.cropped_image').on('click', function (ev) {
 		type: 'canvas',
 		size: 'viewport'
 	}).then(function (response) {
+    var file_input = $('#images').val();
 		$.ajax({
 			url: "<?php echo base_url() ?>Account/upload_profile_img",
 			type: "POST",
-			data: {"image":response},
+			data: {"image":response,"file":file_input},
 			success: function (data) {
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Account/profile');

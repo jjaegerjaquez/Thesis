@@ -27,6 +27,8 @@ body{
 
 /* Breadcrumb & Header*/
 .breadcrumb{
+  margin-right: 20px;
+  margin-left: 30px;
   background-color: transparent;
   font-size: 11px;
   font-family: 'Roboto Condensed', sans-serif;
@@ -67,6 +69,13 @@ body{
 .thumbnail p{
   font-family: 'Roboto Condensed', sans-serif;
 }
+.thumbnail a {
+  color: #424242;
+}
+.previous{
+  margin-top: 10px;
+  padding-left: 30px;
+}
 .previous button{
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: 700;
@@ -92,6 +101,9 @@ body{
 .date{
   font-family: 'Roboto Condensed', sans-serif;
   font-weight: bold;
+}
+.date span{
+  color: #424242;
 }
 .none{
   font-family: 'Roboto Condensed', sans-serif;

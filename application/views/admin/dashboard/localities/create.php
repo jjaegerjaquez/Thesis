@@ -18,7 +18,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/css/skins/_all-skins.min.css">
-
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -89,7 +89,20 @@
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/layout"><i class="fa fa-navicon"></i> <span>Layout</span></a></li>
+        <li class="treeview">
+          <a href=""><i class="fa fa-navicon"></i> <span>Layout</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="treeview"><a href="<?php echo base_url(); ?>Admin/image_slider"><i class="fa fa-angle-right"></i>Image Slider</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/site_icon"><i class="fa fa-angle-right"></i>Site Icon</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/site_logo"><i class="fa fa-angle-right"></i>Site Logo</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/site_details"><i class="fa fa-angle-right"></i>Site Details</a></li>
+              <li class="treeview"><a href="<?php echo base_url(); ?>Admin/about_page"><i class="fa fa-angle-right"></i>About page</a></li>
+          </ul>
+        </li>
         <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/localities"><i class="fa fa-map-marker"></i> <span>Localities</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/categories"><i class="fa fa-edit"></i> <span>Categories</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
@@ -116,31 +129,31 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form class="" action="<?php echo base_url(); ?>Admin/create_locality" method="post" enctype="multipart/form-data">
+              <div class="col-lg-6">
                 <div class="form-group">
-                    <label>Profile Image:
-                      <br>
-                      <span style="color:#323339;"><small> Note: Please upload an image with 500 pixels x 500 pixels or 200 pixels x 200 pixels dimension.</small></span>
-                    </label>
-                    <input class="" type="file" name="picture" />
+                  <div id="upload-image"></div>
                 </div>
                 <div class="form-group">
-                  <label>Locality:</label>
-                  <input type="text" name="locality" class="form-control" value="<?php echo set_value('locality'); ?>">
+                  <label for="">Select image:</label>
+                  <input type="file" id="images" class="form-control">
+                  <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Upload</button>
+                  <a href="<?php echo base_url(); ?>Admin/localities" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div id="register_error_message"></div>
+                <div class="form-group">
+                  <label>Locality*</label>
+                  <input type="text" name="locality" id="locality"class="form-control" placeholder="Enter locality name" value="<?php echo set_value('locality'); ?>">
                   <span style="color:red" class="help-block"><?php echo form_error('locality'); ?></span>
                 </div>
                 <div class="form-group input-width center-block">
-                  <label>Description:</label>
-                  <textarea class="form-control" name="description"><?php echo set_value('description'); ?></textarea>
+                  <label>Description</label>
+                  <textarea class="form-control" name="description" id="description" rows="8"placeholder="Enter locality description"><?php echo set_value('description'); ?></textarea>
                   <span style="color:red" class="help-block"><?php echo form_error('description'); ?></span>
                 </div>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer">
-                  <button type="submit" name="create" class="btn btn-success" value="Add"><i class="fa fa-floppy-o"></i> Save</button>
-                  <a href="<?php echo base_url(); ?>Admin/localities" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
-                </div>
-              </form>
+              </div>
+            </div>
           </div>
       </div>
     </section>
@@ -168,6 +181,7 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -176,5 +190,61 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+    width: 456,
+		height: 256,
+		type: 'square'
+	},
+	boundary: {
+    width: 500,
+		height: 300
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log('<?php echo base_url() ?>');
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 1366, height: 768 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+    var locality = $('#locality').val();
+    var description = $('#description').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Admin/create_locality",
+			type: "POST",
+			data: {"image":response,"file":file_input,"locality":locality,"description":description},
+			success: function (data) {
+        if (data == 'Please select an image') {
+          alert(data);
+        }
+        else if (data == 'Locality added!') {
+          alert(data);
+          $(location).attr('href','<?php echo base_url() ?>Admin/localities');
+        }
+        else if (data == 'Locality not added') {
+          alert(data);
+        }
+        else {
+          $('#register_error_message').html('<div class="alert alert-danger">'+ data +'</div>');
+        }
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>
