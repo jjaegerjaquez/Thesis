@@ -347,13 +347,19 @@
                     </span>
                   </div>
                   <div class="thumbnail">
-                    <a href="<?php echo base_url(); ?>Advertisement/result/<?php echo $ad->advertisement_id?>"><img src="<?php echo $ad->image?>" alt="image"></a>
-                    <br>
-                    <div class="text-center ad-title">
-                      <div class="list-text">
-                        <p><?php echo $ad->title?></p>
+                    <a href="<?php echo base_url(); ?>Advertisement/result/<?php echo $ad->advertisement_id?>">
+                      <?php if (!empty($ad->image)): ?>
+                        <img src="<?php echo $ad->image?>" alt="image">
+                      <?php else: ?>
+                        <img src="<?php echo base_url(); ?>/public/img/advertisements/default-img.jpg" alt="image">
+                      <?php endif; ?>
+                      <br>
+                      <div class="text-center ad-title">
+                        <div class="list-text">
+                          <p><?php echo $ad->title?></p>
+                        </div>
                       </div>
-                    </div>
+                    </a>
                   </div>
           			</div>
               <?php endforeach; ?>

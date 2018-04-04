@@ -150,7 +150,7 @@
                     <tr role="row">
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Business Name</th>
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Ad</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Date</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Termination Date</th>
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
                     </tr>
                   </thead>
@@ -160,9 +160,7 @@
                           <tr role="row" class="odd">
                             <td><?php echo $ending->business_name ?></td>
                             <td><?php echo $ending->title ?></td>
-                            <td><?php $start = strtotime($ending->start_date); echo date('F j Y',$start)?><?php if (!empty($ending->end_date)): ?>
-                              - <?php $end = strtotime($ending->end_date); echo date('F j Y',$end)?>
-                            <?php endif; ?></td>
+                            <td><?php echo date('F j Y',strtotime($ending->termination_date))?></td>
                             <td>
                               <a href="<?php echo base_url(); ?>Admin/notify/<?php echo $ending->advertisement_id ?>" class="btn btn-primary"><i class="ion-email"></i> Notify</a>
                               <a href="<?php echo base_url(); ?>Admin/edit_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>

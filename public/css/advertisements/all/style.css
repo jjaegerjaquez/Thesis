@@ -139,6 +139,10 @@ input[type=text],input[type=email],input[type=password] {
 /* END of Breadcrumb & Header*/
 
 /* CONTENT*/
+.thumbnail a {
+  text-decoration: none;
+  color: #424242;
+}
 .content-header{
   margin-bottom: 20px;
 }

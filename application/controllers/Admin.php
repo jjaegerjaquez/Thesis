@@ -755,48 +755,55 @@ class Admin extends CI_Controller
     //END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->load->view('admin/dashboard/themes/create',$this->data);
+      // $this->load->view('admin/dashboard/themes/create',$this->data);
+      echo validation_errors();
     }
     else
     {
-      if(!empty($_FILES['picture']['name'])){ //If may laman na image
-          $config['upload_path'] = 'uploads/images/admin/themes';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      $theme = $this->input->post('theme_name');
+      $data['_theme'] = $this->Admins->get_theme($theme_id);
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/themes/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Theme = [
-                'theme' => $this->input->post('theme_name'),
-                'author' => $this->input->post('author'),
-                'description' => $this->input->post('description'),
-                'image' => $picture
-              ];
-
-              $this->Admins->update_theme($Theme,$theme_id);
-              echo '<script>alert("Theme updated!");</script>';
-              redirect(base_url().'Admin/edit_theme/'.$theme_id, 'refresh');
-          }else{
-            echo '<script>alert("Something went wrong, theme not updated!");</script>';
-            redirect(base_url().'Admin/themes', 'refresh');
-          }
-      }else{
+         $Theme = [
+           'theme' => $this->input->post('theme_name'),
+           'author' => $this->input->post('author'),
+           'description' => $this->input->post('description'),
+           'image' => base_url().$path.$image_name
+         ];
+         if ($this->Admins->update_theme($Theme,$theme_id)) {
+           $old_dir = './public/themes/'.$data['_theme']->theme;
+           $new_dir = './public/themes/'.$theme;
+           rename($old_dir,$new_dir);
+           echo 'Theme updated!';
+         }
+         else {
+           echo "Theme cannot be updated";
+         }
+      }
+      else
+      {
         $Theme = [
           'theme' => $this->input->post('theme_name'),
           'author' => $this->input->post('author'),
           'description' => $this->input->post('description')
         ];
-
-        $this->Admins->update_theme($Theme,$theme_id);
-        echo '<script>alert("Theme updated!");</script>';
-        redirect(base_url().'Admin/edit_theme/'.$theme_id, 'refresh');
+        if ($this->Admins->update_theme($Theme,$theme_id)) {
+          $old_dir = './public/themes/'.$data['_theme']->theme;
+          $new_dir = './public/themes/'.$theme;
+          rename($old_dir,$new_dir);
+          echo 'Theme updated!';
+        }
+        else {
+          echo "Theme cannot be updated";
+        }
       }
     }
   }
@@ -1501,7 +1508,8 @@ class Admin extends CI_Controller
     $tom = $date->format('Y-m-d');
     $cur = new DateTime("now");
     $curdate = $cur->format('Y-m-d');
-    $query2= $this->db->get_where('advertisements', ['end_date' => $tom],['or start_date' => $tom]);
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $query2= $this->db->get_where('advertisements', ['termination_date' => $tom]);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
@@ -1560,6 +1568,13 @@ class Admin extends CI_Controller
   {
     // FORM VALIDATION
     $this->form_validation->set_rules(
+        'contract', 'Contract',
+        'required',
+        array(
+                'required'      => 'Please select advertisement contract type'
+        )
+    );
+    $this->form_validation->set_rules(
         'start', 'Start Date',
         'required',
         array(
@@ -1606,118 +1621,274 @@ class Admin extends CI_Controller
     {
       if ($type == 'Regular')
       {
-        $this->load->view('admin/dashboard/advertisements/create',$this->data);
+        // $this->load->view('admin/dashboard/advertisements/create',$this->data);
+        echo validation_errors();
       }
       else
       {
-        $this->load->view('admin/dashboard/advertisements/create_priority',$this->data);
+        // $this->load->view('admin/dashboard/advertisements/create_priority',$this->data);
+        echo validation_errors();
       }
     }
     else
     {
       if ($type == 'Regular')
       {
-        if(!empty($_FILES['picture']['name']))
-        {
-          $config['upload_path'] = 'public/img/advertisements';
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+        $contract = $this->input->post("contract");
+        if (!empty($this->input->post('file'))) {
+          $path = 'public/img/advertisements/';
+          $croped_image = $_POST['image'];
+           list($type, $croped_image) = explode(';', $croped_image);
+           list(, $croped_image)      = explode(',', $croped_image);
+           $croped_image = base64_decode($croped_image);
+           $image_name = time().'.png';
+           // upload cropped image to server
+           file_put_contents($path.$image_name, $croped_image);
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Ad = [
-                'business_id' => $this->input->post('business_id'),
-                'start_date' => $this->input->post('start'),
-                'end_date' => $this->input->post('end'),
-                'title' => $this->input->post('title'),
-                'subtext' => $this->input->post('subtext'),
-                'description' => $this->input->post('description'),
-                'image' => '/'.$config['upload_path'].'/'.$picture,
-                'type' => $type
-              ];
-
-              if ($this->db->insert('advertisements',$Ad)) {
-                echo '<script>alert("Advertisement added!");</script>';
-                redirect(base_url().'Admin/advertisements', 'refresh');
-              }else {
-                echo '<script>alert("Advertisement not added!");</script>';
-                redirect(base_url().'Admin/advertisements', 'refresh');
-              }
-          }
-          else
-          {
-            if (empty($this->input->post('end'))) {
-              $Ad = [
-                'business_id' => $this->input->post('business_id'),
-                'start_date' => $this->input->post('start'),
-                'end_date' => NULL,
-                'title' => $this->input->post('title'),
-                'subtext' => $this->input->post('subtext'),
-                'description' => $this->input->post('description'),
-                'image' => '/public/img/default-img.jpg',
-                'type' => $type
-              ];
-            }else {
-              $Ad = [
-                'business_id' => $this->input->post('business_id'),
-                'start_date' => $this->input->post('start'),
-                'end_date' => $this->input->post('end'),
-                'title' => $this->input->post('title'),
-                'subtext' => $this->input->post('subtext'),
-                'description' => $this->input->post('description'),
-                'image' => '/public/img/default-img.jpg',
-                'type' => $type
-              ];
-            }
-
-            if ($this->db->insert('advertisements',$Ad)) {
-              echo '<script>alert("Advertisement added!");</script>';
-              redirect(base_url().'Admin/advertisements', 'refresh');
-            }else {
-              echo '<script>alert("Advertisement not added!");</script>';
-              redirect(base_url().'Admin/advertisements', 'refresh');
-            }
-          }
+           if ($contract == 'Month') {
+             if (!empty($this->input->post('end'))) {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => $this->input->post('end'),
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                 ];
+               }
+               else {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => NULL,
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                 ];
+               }
+           }
+           if ($contract == 'Quarter') {
+             if (!empty($this->input->post('end'))) {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => $this->input->post('end'),
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                 ];
+               }
+               else {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => NULL,
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                 ];
+               }
+           }
+           if ($contract == 'Half') {
+             if (!empty($this->input->post('end'))) {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => $this->input->post('end'),
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                 ];
+               }
+               else {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => NULL,
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                 ];
+               }
+           }
+           if ($contract == 'Year') {
+             if (!empty($this->input->post('end'))) {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => $this->input->post('end'),
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                 ];
+               }
+               else {
+                 $Ad = [
+                   'business_id' => $this->input->post('business_id'),
+                   'start_date' => $this->input->post('start'),
+                   'end_date' => NULL,
+                   'title' => $this->input->post('title'),
+                   'subtext' => $this->input->post('subtext'),
+                   'description' => $this->input->post('description'),
+                   'image' => base_url().$path.$image_name,
+                   'type' => 'Regular',
+                   'contract' => $contract,
+                   'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                 ];
+               }
+           }
+           if ($this->db->insert('advertisements',$Ad)) {
+             echo 'Advertisement added!';
+           }else {
+             echo 'Advertisement cannot be added';
+           }
         }
         else
         {
-          if (empty($this->input->post('end'))) {
-            $Ad = [
-              'business_id' => $this->input->post('business_id'),
-              'start_date' => $this->input->post('start'),
-              'end_date' => NULL,
-              'title' => $this->input->post('title'),
-              'subtext' => $this->input->post('subtext'),
-              'description' => $this->input->post('description'),
-              'image' => '/public/img/default-img.jpg',
-              'type' => $type
-            ];
-          }else {
-            $Ad = [
-              'business_id' => $this->input->post('business_id'),
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'subtext' => $this->input->post('subtext'),
-              'description' => $this->input->post('description'),
-              'image' => '/public/img/default-img.jpg',
-              'type' => $type
-            ];
+          if ($contract == 'Month') {
+            if (!empty($this->input->post('end'))) {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                ];
+              }
+              else {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                ];
+              }
           }
-
+          if ($contract == 'Quarter') {
+            if (!empty($this->input->post('end'))) {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                ];
+              }
+              else {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                ];
+              }
+          }
+          if ($contract == 'Half') {
+            if (!empty($this->input->post('end'))) {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                ];
+              }
+              else {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                ];
+              }
+          }
+          if ($contract == 'Year') {
+            if (!empty($this->input->post('end'))) {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => $this->input->post('end'),
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                ];
+              }
+              else {
+                $Ad = [
+                  'business_id' => $this->input->post('business_id'),
+                  'start_date' => $this->input->post('start'),
+                  'end_date' => NULL,
+                  'title' => $this->input->post('title'),
+                  'subtext' => $this->input->post('subtext'),
+                  'description' => $this->input->post('description'),
+                  'type' => $type,
+                  'contract' => $contract,
+                  'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                ];
+              }
+          }
           if ($this->db->insert('advertisements',$Ad)) {
-            echo '<script>alert("Advertisement added!");</script>';
-            redirect(base_url().'Admin/advertisements', 'refresh');
+            echo 'Advertisement added!';
           }else {
-            echo '<script>alert("Advertisement not added!");</script>';
-            redirect(base_url().'Admin/advertisements', 'refresh');
+            echo 'Advertisement cannot be added';
           }
         }
       }
@@ -1727,88 +1898,268 @@ class Admin extends CI_Controller
         $count = count($this->data['priorities']);
         if ($count < 5)
         {
-          if(!empty($_FILES['picture']['name']))
-          {
-            $config['upload_path'] = 'public/img/advertisements';
-            $config['overwrite'] = TRUE;
-            $config['allowed_types'] = 'jpg|jpeg|png|gif';
-            $config['file_name'] = $_FILES['picture']['name'];
+          $contract = $this->input->post("contract");
+          if (!empty($this->input->post('file'))) {
+            $path = 'public/img/advertisements/';
+            $croped_image = $_POST['image'];
+             list($type, $croped_image) = explode(';', $croped_image);
+             list(, $croped_image)      = explode(',', $croped_image);
+             $croped_image = base64_decode($croped_image);
+             $image_name = time().'.png';
+             // upload cropped image to server
+             file_put_contents($path.$image_name, $croped_image);
 
-            //Load upload library and initialize configuration
-            $this->load->library('upload',$config);
-            $this->upload->initialize($config);
-
-            if($this->upload->do_upload('picture')){
-                $uploadData = $this->upload->data();
-                $picture = $uploadData['file_name'];
-
-                $Ad = [
-                  'business_id' => $this->input->post('business_id'),
-                  'start_date' => $this->input->post('start'),
-                  'end_date' => $this->input->post('end'),
-                  'title' => $this->input->post('title'),
-                  'subtext' => $this->input->post('subtext'),
-                  'description' => $this->input->post('description'),
-                  'image' => '/'.$config['upload_path'].'/'.$picture,
-                  'type' => $type
-                ];
-
-                if ($this->db->insert('advertisements',$Ad)) {
-                  echo '<script>alert("Advertisement added!");</script>';
-                  redirect(base_url().'Admin/advertisements', 'refresh');
-                }else {
-                  echo '<script>alert("Advertisement not added!");</script>';
-                  redirect(base_url().'Admin/advertisements', 'refresh');
-                }
-            }
-            else
-            {
-              $Ad = [
-                'business_id' => $this->input->post('business_id'),
-                'start_date' => $this->input->post('start'),
-                'end_date' => $this->input->post('end'),
-                'title' => $this->input->post('title'),
-                'subtext' => $this->input->post('subtext'),
-                'description' => $this->input->post('description'),
-                'image' => '/public/img/default-img.jpg',
-                'type' => $type
-              ];
-
-              if ($this->db->insert('advertisements',$Ad)) {
-                echo '<script>alert("Advertisement added!");</script>';
-                redirect(base_url().'Admin/advertisements', 'refresh');
-              }else {
-                echo '<script>alert("Advertisement not added!");</script>';
-                redirect(base_url().'Admin/advertisements', 'refresh');
-              }
-            }
+             if ($contract == 'Month') {
+               if (!empty($this->input->post('end'))) {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => $this->input->post('end'),
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                   ];
+                 }
+                 else {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => NULL,
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                   ];
+                 }
+             }
+             if ($contract == 'Quarter') {
+               if (!empty($this->input->post('end'))) {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => $this->input->post('end'),
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                   ];
+                 }
+                 else {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => NULL,
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                   ];
+                 }
+             }
+             if ($contract == 'Half') {
+               if (!empty($this->input->post('end'))) {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => $this->input->post('end'),
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                   ];
+                 }
+                 else {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => NULL,
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                   ];
+                 }
+             }
+             if ($contract == 'Year') {
+               if (!empty($this->input->post('end'))) {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => $this->input->post('end'),
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                   ];
+                 }
+                 else {
+                   $Ad = [
+                     'business_id' => $this->input->post('business_id'),
+                     'start_date' => $this->input->post('start'),
+                     'end_date' => NULL,
+                     'title' => $this->input->post('title'),
+                     'subtext' => $this->input->post('subtext'),
+                     'description' => $this->input->post('description'),
+                     'image' => base_url().$path.$image_name,
+                     'type' => 'Regular',
+                     'contract' => $contract,
+                     'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                   ];
+                 }
+             }
+             if ($this->db->insert('advertisements',$Ad)) {
+               echo 'Advertisement added!';
+             }else {
+               echo 'Advertisement cannot be added';
+             }
           }
           else
           {
-            $Ad = [
-              'business_id' => $this->input->post('business_id'),
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'subtext' => $this->input->post('subtext'),
-              'description' => $this->input->post('description'),
-              'image' => '/public/img/default-img.jpg',
-              'type' => $type
-            ];
-
+            if ($contract == 'Month') {
+              if (!empty($this->input->post('end'))) {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => $this->input->post('end'),
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                  ];
+                }
+                else {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => NULL,
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+30 days"))
+                  ];
+                }
+            }
+            if ($contract == 'Quarter') {
+              if (!empty($this->input->post('end'))) {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => $this->input->post('end'),
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                  ];
+                }
+                else {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => NULL,
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+120 days"))
+                  ];
+                }
+            }
+            if ($contract == 'Half') {
+              if (!empty($this->input->post('end'))) {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => $this->input->post('end'),
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                  ];
+                }
+                else {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => NULL,
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+180 days"))
+                  ];
+                }
+            }
+            if ($contract == 'Year') {
+              if (!empty($this->input->post('end'))) {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => $this->input->post('end'),
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                  ];
+                }
+                else {
+                  $Ad = [
+                    'business_id' => $this->input->post('business_id'),
+                    'start_date' => $this->input->post('start'),
+                    'end_date' => NULL,
+                    'title' => $this->input->post('title'),
+                    'subtext' => $this->input->post('subtext'),
+                    'description' => $this->input->post('description'),
+                    'type' => $type,
+                    'contract' => $contract,
+                    'termination_date' => date('Y-m-d', strtotime("+365 days"))
+                  ];
+                }
+            }
             if ($this->db->insert('advertisements',$Ad)) {
-              echo '<script>alert("Advertisement added!");</script>';
-              redirect(base_url().'Admin/advertisements', 'refresh');
+              echo 'Advertisement added!';
             }else {
-              echo '<script>alert("Advertisement not added!");</script>';
-              redirect(base_url().'Admin/advertisements', 'refresh');
+              echo 'Advertisement cannot be added';
             }
           }
         }
         else
         {
-          echo '<script>alert("You have reached the maximum number of priority ads..");</script>';
-          redirect(base_url().'Admin/add_ad/'.$type, 'refresh');
+          echo 'You have reached the maximum number of priority ads.';
+          // redirect(base_url().'Admin/add_ad/'.$type, 'refresh');
         }
       }
     }
@@ -1846,17 +2197,17 @@ class Admin extends CI_Controller
   {
     // FORM VALIDATION
     $this->form_validation->set_rules(
+        'contract', 'Contract',
+        'required',
+        array(
+                'required'      => 'Please select advertisement contract type'
+        )
+    );
+    $this->form_validation->set_rules(
         'start', 'Start Date',
         'required',
         array(
                 'required'      => 'Please select start date'
-        )
-    );
-    $this->form_validation->set_rules(
-        'end', 'End Date',
-        'required',
-        array(
-                'required'      => 'Please select end date'
         )
     );
     $this->form_validation->set_rules(
@@ -1890,88 +2241,257 @@ class Admin extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $this->data['ad'] = $this->Admins->get_ad($ad_id);
-      $this->load->view('admin/dashboard/advertisements/edit',$this->data);
+      // $this->data['ad'] = $this->Admins->get_ad($ad_id);
+      // $this->load->view('admin/dashboard/advertisements/edit',$this->data);
+      echo validation_errors();
     }
     else
     {
-      if(!empty($_FILES['picture']['name']))
-      {
-        $config['upload_path'] = 'public/img/advertisements';
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
+      $contract = $this->input->post("contract");
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/advertisements/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
 
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
-
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-
-            $Ad = [
-              'business_id' => $this->input->post('business_id'),
-              'start_date' => $this->input->post('start'),
-              'end_date' => $this->input->post('end'),
-              'title' => $this->input->post('title'),
-              'subtext' => $this->input->post('subtext'),
-              'description' => $this->input->post('description'),
-              'image' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->Admins->update_ad($Ad,$ad_id))
-            { //KAPAG NAUPDATE YUNG Image at data
-              echo '<script>alert("Advertisement updated!");</script>';
-              redirect(base_url().'Admin/advertisements', 'refresh');
-            }
-            else
-            { //KAPAG DI NAUPDATE YUNG Image at data
-              echo '<script>alert("Please check your image size and image file type...");</script>';
-            }
-        }
-        else
-        {
-          $Ad = [
-            'business_id' => $this->input->post('business_id'),
-            'start_date' => $this->input->post('start'),
-            'end_date' => $this->input->post('end'),
-            'title' => $this->input->post('title'),
-            'subtext' => $this->input->post('subtext'),
-            'description' => $this->input->post('description'),
-            'image' => '/public/img/default-img.jpg'
-          ];
-
-          if ($this->Admins->update_ad($Ad,$ad_id))
-          { //KAPAG NAUPDATE YUNG Image at data
-            echo '<script>alert("Advertisement updated!");</script>';
-            redirect(base_url().'Admin/advertisements', 'refresh');
-          }
-          else
-          { //KAPAG DI NAUPDATE YUNG Image at data
-            echo '<script>alert("Please check your image size and image file type...");</script>';
-          }
-        }
+         if ($contract == 'Month') {
+           if (!empty($this->input->post('end'))) {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => $this->input->post('end'),
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+30 days"))
+               ];
+             }
+             else {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => NULL,
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+30 days"))
+               ];
+             }
+         }
+         if ($contract == 'Quarter') {
+           if (!empty($this->input->post('end'))) {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => $this->input->post('end'),
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+120 days"))
+               ];
+             }
+             else {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => NULL,
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+120 days"))
+               ];
+             }
+         }
+         if ($contract == 'Half') {
+           if (!empty($this->input->post('end'))) {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => $this->input->post('end'),
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+180 days"))
+               ];
+             }
+             else {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => NULL,
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+180 days"))
+               ];
+             }
+         }
+         if ($contract == 'Year') {
+           if (!empty($this->input->post('end'))) {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => $this->input->post('end'),
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+365 days"))
+               ];
+             }
+             else {
+               $Ad = [
+                 'business_id' => $this->input->post('business_id'),
+                 'start_date' => $this->input->post('start'),
+                 'end_date' => NULL,
+                 'title' => $this->input->post('title'),
+                 'subtext' => $this->input->post('subtext'),
+                 'description' => $this->input->post('description'),
+                 'image' => base_url().$path.$image_name,
+                 'contract' => $contract,
+                 'termination_date' => date('Y-m-d', strtotime("+365 days"))
+               ];
+             }
+         }
+         if ($this->Admins->update_ad($Ad,$ad_id))
+         {
+           echo 'Advertisement updated!';
+         }
+         else
+         {
+           echo "Advertisement cannot be updated";
+         }
       }
       else
       {
-        $Ad = [
-          'business_id' => $this->input->post('business_id'),
-          'start_date' => $this->input->post('start'),
-          'end_date' => $this->input->post('end'),
-          'title' => $this->input->post('title'),
-          'subtext' => $this->input->post('subtext'),
-          'description' => $this->input->post('description')
-        ];
-
+        if ($contract == 'Month') {
+          if (!empty($this->input->post('end'))) {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+30 days"))
+              ];
+            }
+            else {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => NULL,
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+30 days"))
+              ];
+            }
+        }
+        if ($contract == 'Quarter') {
+          if (!empty($this->input->post('end'))) {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+120 days"))
+              ];
+            }
+            else {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => NULL,
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+120 days"))
+              ];
+            }
+        }
+        if ($contract == 'Half') {
+          if (!empty($this->input->post('end'))) {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+180 days"))
+              ];
+            }
+            else {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => NULL,
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+180 days"))
+              ];
+            }
+        }
+        if ($contract == 'Year') {
+          if (!empty($this->input->post('end'))) {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => $this->input->post('end'),
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+365 days"))
+              ];
+            }
+            else {
+              $Ad = [
+                'business_id' => $this->input->post('business_id'),
+                'start_date' => $this->input->post('start'),
+                'end_date' => NULL,
+                'title' => $this->input->post('title'),
+                'subtext' => $this->input->post('subtext'),
+                'description' => $this->input->post('description'),
+                'contract' => $contract,
+                'termination_date' => date('Y-m-d', strtotime("+365 days"))
+              ];
+            }
+        }
         if ($this->Admins->update_ad($Ad,$ad_id))
-        { //KAPAG NAUPDATE YUNG Image at data
-          echo '<script>alert("Advertisement updated!");</script>';
-          redirect(base_url().'Admin/advertisements', 'refresh');
+        {
+          echo 'Advertisement updated!';
         }
         else
-        { //KAPAG DI NAUPDATE YUNG Image at data
-          echo '<script>alert("Please check your image size and image file type...");</script>';
+        {
+          echo "Advertisement cannot be updated";
         }
       }
     }

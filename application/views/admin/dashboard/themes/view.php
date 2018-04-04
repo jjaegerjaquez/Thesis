@@ -146,7 +146,7 @@
                 <td><label>Image</label></td>
                 <td>
                   <?php if (!empty($theme->image)): ?>
-                    <img src="<?php echo base_url(); ?>uploads/images/admin/themes/<?php echo $theme->image?>" class="img-responsive" style="width:350px"/>
+                    <img src="<?php echo $theme->image?>" class="img-responsive" style="width:350px"/>
                   <?php else: ?>
                     <img src="<?php echo base_url(); ?>public/img/themes/default-img.jpg" class="img-responsive" style="width:350px"/>
                   <?php endif; ?>

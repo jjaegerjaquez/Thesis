@@ -18,7 +18,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/css/skins/_all-skins.min.css">
-
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -138,51 +138,64 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <form class="" action="<?php echo base_url(); ?>Admin/save_ad/Priority" method="post" enctype="multipart/form-data">
+            <div class="col-lg-6">
               <div class="form-group">
-                <label>Image:</label>
-                <input class="" type="file" name="picture" />
-                <span style="color:red" class="help-block"><?php echo form_error('picture'); ?></span>
+                <label for="">Select image</label>
+                <input type="file" id="images" class="form-control">
+              </div>
+              <div class="form-group">
+                <div id="upload-image"></div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div id="error_message"></div>
+              <div class="form-group">
+                <label>Type*</label>
+                <select class="form-control" name="contract" id="contract">
+                  <option value="" selected disabled></option>
+                  <option value="Month">1 Month</option>
+                  <option value="Quarter">Quarter</option>
+                  <option value="Half">Half</option>
+                  <option value="Year">1 year</option>
+                </select>
               </div>
               <div class="form-inline">
                 <div class="form-group">
-                  <label>Start:</label>
-                  <input type="date" name="start" value="<?php echo set_value('start'); ?>">
+                  <label>Period*</label>
+                  <input type="date" name="start" value="<?php echo set_value('start'); ?>" id="start">
                   <span style="color:red" class="help-block"><?php echo form_error('start'); ?></span>
                 </div>
                 <div class="form-group">
-                  <label>End:</label>
-                  <input type="date" name="end" value="<?php echo set_value('end'); ?>">
+                  <input type="date" name="end" value="<?php echo set_value('end'); ?>" id="end">
                   <span style="color:red" class="help-block"><?php echo form_error('end'); ?></span>
                 </div>
               </div>
               <div class="form-group">
-                <label>Business ID:</label>
-                <input type="text" name="business_id" class="form-control" value="<?php echo set_value('business_id'); ?>">
+                <label>Business ID*</label>
+                <input type="text" name="business_id" class="form-control" value="<?php echo set_value('business_id'); ?>" placeholder="Enter business ID" id="business_id">
                 <span style="color:red" class="help-block"><?php echo form_error('business_id'); ?></span>
               </div>
               <div class="form-group">
-                <label>Title:</label>
-                <input type="text" name="title" class="form-control" value="<?php echo set_value('title'); ?>">
+                <label>Title*</label>
+                <input type="text" name="title" class="form-control" value="<?php echo set_value('title'); ?>" placeholder="Enter advertisement title" id="title">
                 <span style="color:red" class="help-block"><?php echo form_error('title'); ?></span>
               </div>
               <div class="form-group">
-                <label>Subtext:</label>
-                <input type="text" name="subtext" class="form-control" value="<?php echo set_value('subtext'); ?>">
+                <label>Subtext*</label>
+                <input type="text" name="subtext" class="form-control" value="<?php echo set_value('subtext'); ?>" placeholder="Enter advertisement subtext" id="subtext">
                 <span style="color:red" class="help-block"><?php echo form_error('subtext'); ?></span>
               </div>
               <div class="form-group input-width center-block">
-                <label>Description:</label>
-                <textarea class="form-control" name="description"><?php echo set_value('description'); ?></textarea>
+                <label>Description*</label>
+                <textarea class="form-control" name="description" placeholder="Tell something about the advertisement here" rows="10" id="description"><?php echo set_value('description'); ?></textarea>
                 <span style="color:red" class="help-block"><?php echo form_error('description'); ?></span>
               </div>
-          </div>
-              <!-- /.box-body -->
-              <div class="box-footer">
-                <button type="submit" name="create" class="btn btn-success" value="Add"><i class="fa fa-floppy-o"></i> Save</button>
-                <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
+              <div class="form-group">
+                <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Add</button>
+                <a href="<?php echo base_url(); ?>Admin/advertisement" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
               </div>
-            </form>
+            </div>
+          </div><!-- /.box-body -->
         </div>
     </section>
     <!-- /.content -->
@@ -203,6 +216,7 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -211,5 +225,66 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+    width: 250,
+		height: 250,
+		type: 'square'
+	},
+	boundary: {
+    width: 300,
+		height: 300
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log('<?php echo base_url() ?>');
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 500, height: 500 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+    var contract = $('#contract').val();
+    var start = $('#start').val();
+    var end = $('#end').val();
+    var business_id = $('#business_id').val();
+    var title = $('#title').val();
+    var subtext = $('#subtext').val();
+    var description = $('#description').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Admin/save_ad/Priority",
+			type: "POST",
+			data: {"image":response,"file":file_input,"contract":contract,"start":start,"end":end,"business_id":business_id,"title":title,"subtext":subtext,"description":description},
+			success: function (data) {
+        if (data == 'Please select an image') {
+          alert(data);
+        }
+        else if (data == 'Advertisement added!') {
+          alert(data);
+          $(location).attr('href','<?php echo base_url() ?>Admin/advertisements');
+        }
+        else if (data == 'Advertisement cannot be added') {
+          alert(data);
+        }
+        else {
+          $('#error_message').html('<div class="alert alert-danger">'+ data +'</div>');
+        }
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>

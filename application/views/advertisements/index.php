@@ -346,7 +346,13 @@
    			  <?php endif; ?></em>
    			  <br>
      			<div class="col-lg-12 col-md-12 col-sm-12 box">
-            <div class="pull-left media-left"><img class="media-object" src="<?php echo $ad->image?>" alt="<?php echo base_url(); ?>uploads/images/user.jpg" width="300px" height="250px"></div>
+            <div class="pull-left media-left">
+              <?php if (!empty($ad->image)): ?>
+                <img class="media-object" src="<?php echo $ad->image?>" alt="<?php echo base_url(); ?>/public/img/advertisements/default-img.jpg" width="300px">
+              <?php else: ?>
+                <img class="media-object" src="<?php echo base_url(); ?>/public/img/advertisements/default-img.jpg" alt="<?php echo base_url(); ?>/public/img/advertisements/default-img.jpg" width="300px">
+              <?php endif; ?>
+            </div>
       			 <ul>
                <li><h3 class="subtext"><?php echo $ad->subtext?></h3></li>
                <li>

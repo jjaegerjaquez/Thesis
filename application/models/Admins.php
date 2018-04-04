@@ -312,7 +312,8 @@ class Admins extends CI_Model
 	{
     $date = new DateTime("tomorrow");
     $tom = $date->format('Y-m-d');
-    $where = "(advertisements.end_date = '$tom' OR advertisements.start_date = '$tom')";
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $where = "(advertisements.termination_date = '$deadline')";
     $this->db->select('*');
     $this->db->from('basic_info');
     $this->db->join('advertisements','basic_info.id=advertisements.business_id');
@@ -328,7 +329,7 @@ class Admins extends CI_Model
 
   public function get_ad($ad_id)
   {
-    $query = $this->db->query("select business_name,advertisement_id,title,business_id,start_date,end_date,subtext,description,a.image from basic_info bi join advertisements a on (bi.id=a.business_id) where advertisement_id = '$ad_id'");
+    $query = $this->db->query("select business_name,advertisement_id,title,business_id,start_date,end_date,subtext,description,a.image,contract,termination_date from basic_info bi join advertisements a on (bi.id=a.business_id) where advertisement_id = '$ad_id'");
     return $query->row();
   }
 
@@ -399,7 +400,7 @@ class Admins extends CI_Model
   public function update_theme($Theme,$theme_id)
   {
     $this->db->where('theme_id', $theme_id);
-    $this->db->update('themes', $Theme);
+    return $this->db->update('themes', $Theme);
   }
   // END OF THEMES
 

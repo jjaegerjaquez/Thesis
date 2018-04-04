@@ -513,7 +513,11 @@
           <div class="col-lg-4 col-md-12 col-xs-12 no-spacing">
               <div class="info-box">
                 <a href="<?php echo base_url(); ?>Advertisement/result/<?php echo $ad->advertisement_id?>">
-                  <span class="info-box-icon bg-aqua ad-box" style="background-image: url(<?php echo $ad->image?>);"></span>
+                  <?php if (!empty($ad->image)): ?>
+                    <span class="info-box-icon bg-aqua ad-box" style="background-image: url(<?php echo $ad->image?>);"></span>
+                  <?php else: ?>
+                    <span class="info-box-icon bg-aqua ad-box" style="background-image: url(<?php echo base_url(); ?>/public/img/advertisements/default-img.jpg);"></span>
+                  <?php endif; ?>
                   <div class="info-box-content">
                     <span class="info-box-number">
                       <div class="info-title">

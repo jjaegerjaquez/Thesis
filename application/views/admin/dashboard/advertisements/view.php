@@ -149,7 +149,13 @@
               </tr>
               <tr>
                 <td><label>Image:</label></td>
-                <td><img src="<?php echo $ad->image?>" class="img-responsive" style="width:350px"/></td>
+                <td>
+                  <?php if (!empty($ad->image)): ?>
+                    <img src="<?php echo $ad->image?>" class="img-responsive" style="width:350px"/>
+                  <?php else: ?>
+                    <img src="<?php echo base_url() ?>/public/img/default-img.jpg" class="img-responsive" style="width:350px"/>
+                  <?php endif; ?>
+                </td>
               </tr>
               <tr>
                 <td><label>Period:</label></td>
@@ -172,6 +178,22 @@
               <tr>
                 <td><label>Description:</label></td>
                 <td><?php echo $ad->description;?></td>
+              </tr>
+              <tr>
+                <td><label>Type:</label></td>
+                <?php if ($ad->contract == 'Month'): ?>
+                  <td>1 month</td>
+                <?php elseif ($ad->contract == 'Quarter'): ?>
+                  <td>Quarterly</td>
+                <?php elseif ($ad->contract == 'Half'): ?>
+                  <td>Half year</td>
+                <?php elseif ($ad->contract == 'Year'): ?>
+                  <td>1 year</td>
+                <?php endif; ?>
+              </tr>
+              <tr>
+                <td><label>Termination Date:</label></td>
+                <td><?php echo date('F j Y',strtotime($ad->termination_date))?></td>
               </tr>
             </table>
             <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger pull-right"><i class="fa fa-chevron-left"></i> Back</a>
