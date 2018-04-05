@@ -223,7 +223,7 @@
                                 <?php echo $tagline->value ?>
                                 <?php else: ?>
                                   Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="/about/">Learn More</a>
+                              <?php endif; ?> <a href="<?php echo base_url() ?>About" target="_blank">Learn More</a>
                           </p>
                         </div>
                     </div>

@@ -260,7 +260,7 @@
                 </div>
               </form>
               <div class="agreement-box">
-                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
+                <p>By clicking register you agree to our <span><a href="<?php echo base_url(); ?>About/terms" target="_blank">Terms Of Use</a></span> and <span><a href="<?php echo base_url(); ?>About/privacy" target="_blank">Privacy Policy</a></span></p>
               </div>
             </div>
             <div class="modal-footer">
@@ -413,7 +413,7 @@
                               <?php echo $tagline->value ?>
                               <?php else: ?>
                                 Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            <?php endif; ?> <a href="<?php echo base_url(); ?>About">Learn More</a>
+                            <?php endif; ?> <a href="<?php echo base_url(); ?>About" target="_blank">Learn More</a>
                         </p>
                       </div>
                     </div>
