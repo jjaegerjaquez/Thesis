@@ -106,7 +106,11 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+              <?php if (!empty($traveller_details->username)): ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+              <?php else: ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
+              <?php endif; ?>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
@@ -206,7 +210,7 @@
                     </div>
                   </div>
                 </a>
-                <a href="#" data-toggle="modal" data-target="#traveller">
+                <a href="<?php echo $google_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block google-btn">
                      <i class="fa fa-google-plus"></i> Google
@@ -329,6 +333,22 @@
               <h4 class="modal-title">Traveller Register</h4>
             </div>
             <div class="modal-body traveller-body">
+              <div class="col-lg-12" style="margin-bottom:15px;">
+                <a href="#" data-toggle="modal" data-target="#supplier">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block fb-btn">
+                     <i class="fa fa-facebook-square"></i> Facebook
+                    </div>
+                  </div>
+                </a>
+                <a href="<?php echo $google_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block google-btn">
+                     <i class="fa fa-google-plus"></i> Google
+                    </div>
+                  </div>
+                </a>
+              </div>
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="traveller_register_error_message"></div>
                 <div class="form-group">
@@ -458,6 +478,15 @@
   <!-- CATEGORIES SECTION -->
   <section class="container categories-section">
     <div class="row text-title header-row">
+      <h1><?php if ($this->session->userdata('email')): ?>
+        <?php echo $_SESSION['email']; ?>
+      <?php endif; ?></h1>
+      <h1><?php if ($this->session->userdata('name')): ?>
+        <?php echo $_SESSION['name']; ?>
+      <?php endif; ?></h1>
+      <h1><?php if ($this->session->userdata('fname')): ?>
+        <?php echo $_SESSION['fname']; ?>
+      <?php endif; ?></h1>
       <h1 class="lato text-header">Discover</h1>
       <p>Quick search for what you're looking for</p>
     </div>

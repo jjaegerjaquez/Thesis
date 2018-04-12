@@ -72,7 +72,11 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+            <?php if (!empty($traveller_details->username)): ?>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+            <?php else: ?>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
+            <?php endif; ?>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
@@ -100,7 +104,7 @@
     <div class="row">
       <div class="col-lg-3 side">
         <?php if (!empty($traveller_profile->image)): ?>
-          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image">
+          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -117,6 +121,15 @@
         </div>
         <div class="row">
           <form class="" action="<?php echo base_url() ?>Home/save_profile" method="post" enctype="multipart/form-data">
+            <?php if (empty($traveller_details->username)): ?>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label>Username* <span style="font-style:italic;">You can set your username only once.</span></label>
+                  <input type="text" name="username" class="form-control" value="" maxlength="25">
+                  <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
+                </div>
+              </div>
+            <?php endif; ?>
             <div class="col-lg-12" style="padding:0;">
               <div class="col-lg-4">
                 <div class="form-group">

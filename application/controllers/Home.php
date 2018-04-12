@@ -13,6 +13,7 @@ class Home extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
+    $this->load->library('google');
 		$this->load->model('Homes');
 
     $this->data['categories'] = $this->Homes->get_categories();
@@ -39,7 +40,8 @@ class Home extends CI_Controller
             'vote',
             'look_result',
             'search',
-            'search_location'
+            'search_location',
+            'google_traveller_register'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -58,6 +60,7 @@ class Home extends CI_Controller
 
   public function index()
   {
+    $this->data['google_login_url']=$this->google->get_login_url();
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;
@@ -595,6 +598,15 @@ class Home extends CI_Controller
                 'numeric'      => 'Please enter numeric character on your cellphone number'
         )
     );
+    if (empty($this->data['traveller_details']->username)) {
+      $this->form_validation->set_rules(
+          'username', 'Username',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter set your username'
+          )
+      );
+    }
     if ($this->form_validation->run() == FALSE)
     {
       $this->load->view('traveller/profile/index',$this->data);
@@ -611,7 +623,18 @@ class Home extends CI_Controller
         'cellphone' => $this->input->post('cellphone')
       ];
       if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
-        // redirect('/Account/home', 'refresh');
+        if (empty($this->data['traveller_details']->username)) {
+          $Username = [
+            'username' => $this->input->post('username')
+          ];
+          if ($this->Homes->update_email($Username,$this->traveller_id)) {
+            chmod('./uploads/', 0777);
+            $path   = './uploads/'.$this->input->post('username');
+            if (!is_dir($path)) { //create the folder if it's not already exists
+                mkdir($path, 0755, TRUE);
+            }
+          }
+        }
       }
       redirect(base_url().'Home/profile', 'refresh');
     }
@@ -904,6 +927,56 @@ class Home extends CI_Controller
     }
   }
 
+  public function lol()
+  {
+    # code...
+  }
+
+  public function google_traveller_register()
+  {
+    $google_data=$this->google->validate();
+		// $session_data=array(
+		// 		'name'=>$google_data['name'],
+    //     'fname'=>$google_data['fname'],
+		// 		'email'=>$google_data['email'],
+		// 		'source'=>'google',
+		// 		'profile_pic'=>$google_data['profile_pic'],
+		// 		'link'=>$google_data['link'],
+		// 		'sess_logged_in'=>1
+		// 		);
+		// 	$this->session->set_userdata($session_data);
+    $data['user__id'] = $this->Homes->get_email($google_data['email']);
+    if (!empty($data['user__id'])) {
+      $this->session->set_userdata('traveller_email', $data['user__id']->email);
+      $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
+      $this->session->set_userdata('traveller_is_logged_in', true);
+      redirect(base_url());
+    }else {
+      $RegisterData = array(
+        'email' => $google_data['email'],
+        'date_joined' => date("Y-m-d"),
+        'set_up' => '1',
+        'status' => '1',
+        'type' => 'Traveller'
+      );
+      if ($this->db->insert('users',$RegisterData))
+      {
+        $data['user__id'] = $this->Homes->get_email($google_data['email']);
+        $Profile = [
+          'user_id' => $data['user__id']->user_id,
+          'firstname' => ucwords($google_data['fname']),
+          'lastname' => ucwords($google_data['lname']),
+          'middlename' => ucwords($google_data['mname']),
+          'gender' => ucwords($google_data['gender']),
+          'image' => $google_data['profile_pic']
+        ];
+        if ($this->db->insert('profile',$Profile)) {
+          redirect(base_url());
+        }
+      }
+    }
+  }
+
   public function logout()
   {
     if ($this->session->userdata('traveller_is_logged_in')) {
@@ -911,6 +984,11 @@ class Home extends CI_Controller
           $this->session->unset_userdata('traveller_is_logged_in');
           $this->session->unset_userdata('traveller_id');
         }
+    session_destroy();
+		unset($_SESSION['access_token']);
+		// $session_data=array(
+		// 		'sess_logged_in'=>0);
+		// $this->session->set_userdata($session_data);
         redirect(base_url().'Home');
   }
 }
