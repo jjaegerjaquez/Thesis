@@ -133,6 +133,10 @@ html, body {
 /*END OF MAIN*/
 
 /* PROFILE CONTENT*/
+.info-box-content a {
+  text-decoration: none;
+  color: black;
+}
 .header-row {
   padding-left: 14px;
   padding-right: 14px;

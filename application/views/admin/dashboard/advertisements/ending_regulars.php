@@ -122,95 +122,62 @@
     <section class="content-header">
       <h1>
         Advertisements
-        <small>list of all Advertisements</small>
+        <small>list of all ad ending</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li class="active">Advertisements</li>
+        <li><a href="<?php echo base_url() ?>Admin/advertisements">Advertisements</a></li>
+        <li class="active">Ending ads</li>
       </ol>
     <!-- Main content -->
-
     <section class="content">
-      <div class="col-md-6">
-        <div class="box">
-          <div class="box-header with-border">
-            <a href="<?php echo base_url(); ?>Admin/add_ad/Priority" class="btn btn-success"><i class="fa fa-plus"></i> Add priority ad</a>
-            <a href="<?php echo base_url(); ?>Admin/ending" class="btn btn-success"><i class="ion-alert-circled"></i> Ending ads</a>
-            <a href="<?php echo base_url(); ?>Admin/finished_priority" class="btn btn-success"><i class="fa fa-check"></i> Finished</a>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                <i class="fa fa-minus"></i></button>
-            </div>
-          </div>
-          <div class="box-body">
-            <table class="table table-bordered table-striped dataTable" role="grid">
-              <thead>
-                <tr role="row">
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Business Name</th>
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Ad</th>
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if (!empty($priorities)): ?>
-                  <?php foreach ($priorities as $key => $priority_ad): ?>
-                    <tr role="row" class="odd">
-                      <td><?php echo $priority_ad->business_name ?></td>
-                      <td><?php echo $priority_ad->title ?></td>
-                      <td>
-                        <a href="<?php echo base_url(); ?>Admin/view_ad/<?php echo $priority_ad->advertisement_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                        <a href="<?php echo base_url(); ?>Admin/edit_ad/<?php echo $priority_ad->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                        <a href="<?php echo base_url(); ?>Admin/delete_ad/<?php echo $priority_ad->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
-                      </td>
-                    </tr>
-                  <?php endforeach ?>
-                <?php else: ?>
-                  0 results
-                <?php endif; ?>
-              </tbody>
-            </table>
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+          <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-success"><i class="ion-chevron-left"></i> Back</a>
+          <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+              <i class="fa fa-minus"></i></button>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="box">
-          <div class="box-header with-border">
-            <a href="<?php echo base_url(); ?>Admin/add_ad/Regular" class="btn btn-success"><i class="fa fa-plus"></i> Add regular ad</a>
-            <!-- <a href="<?php echo base_url(); ?>Admin/ending_regulars" class="btn btn-success"><i class="ion-alert-circled"></i> Ending ads</a> -->
-            <a href="<?php echo base_url(); ?>Admin/finished_regular" class="btn btn-success"><i class="fa fa-check"></i> Finished</a>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                <i class="fa fa-minus"></i></button>
-            </div>
-          </div>
-          <div class="box-body">
-            <table class="table table-bordered table-striped dataTable" role="grid">
-              <thead>
-                <tr role="row">
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Business Name</th>
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:150px;">Ad</th>
-                  <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php if (!empty($regulars)): ?>
-                  <?php foreach ($regulars as $key => $regular_ad): ?>
-                    <tr role="row" class="odd">
-                      <td><?php echo $regular_ad->business_name ?></td>
-                      <td><?php echo $regular_ad->title ?></td>
-                      <td>
-                        <a href="<?php echo base_url(); ?>Admin/view_ad/<?php echo $regular_ad->advertisement_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                        <a href="<?php echo base_url(); ?>Admin/edit_ad/<?php echo $regular_ad->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                        <a href="<?php echo base_url(); ?>Admin/delete_ad/<?php echo $regular_ad->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
-                      </td>
+        <div class="box-body">
+          <div class="col-xs-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table table-bordered table-striped dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Business Name</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Ad</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Termination Date</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
                     </tr>
-                  <?php endforeach ?>
-                <?php else: ?>
-                  0 results
-                <?php endif; ?>
-              </tbody>
-            </table>
-            <?php echo $this->pagination->create_links();?>
+                  </thead>
+                  <tbody>
+                      <?php if (!empty($endings)): ?>
+                        <?php foreach ($endings as $key => $ending): ?>
+                          <tr role="row" class="odd">
+                            <td><?php echo $ending->business_name ?></td>
+                            <td><?php echo $ending->title ?></td>
+                            <td><?php echo date('F j Y',strtotime($ending->termination_date))?></td>
+                            <td>
+                              <a href="<?php echo base_url(); ?>Admin/notify/<?php echo $ending->advertisement_id ?>" class="btn btn-primary"><i class="ion-email"></i> Notify</a>
+                              <a href="<?php echo base_url(); ?>Admin/edit_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                              <a href="<?php echo base_url(); ?>Admin/delete_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                            </td>
+                          </tr>
+                        <?php endforeach ?>
+                      <?php else: ?>
+                        0 results
+                      <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
+              <nav class="pull-right">
+                <?php echo $this->pagination->create_links();?>
+              </nav>
+            </div>
           </div>
         </div>
       </div>

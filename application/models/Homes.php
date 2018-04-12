@@ -42,7 +42,7 @@ class Homes extends CI_Model
 
   public function get_notif_count($user_id)
   {
-    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");
+    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0'");
     return $query->row();
   }
 
@@ -72,7 +72,8 @@ class Homes extends CI_Model
 
   public function get_priority_ad()
   {
-    $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority'");
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $query = $this->db->query("select business_name,advertisement_id,title,subtext,a.image from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority' and termination_date > '$deadline'");
     return $query->result();
   }
 

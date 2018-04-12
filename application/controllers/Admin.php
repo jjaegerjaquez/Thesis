@@ -14,6 +14,9 @@ class Admin extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
 		$this->load->model('Admins');
+    $this->data['title'] = $this->Admins->get_title();
+    $this->data['icon'] = $this->Admins->get_site_icon();
+    $this->data['tagline'] = $this->Admins->get_tagline();
     if (!$this->session->userdata('admin_is_logged_in'))
     {
       $allowed = array(
@@ -29,9 +32,6 @@ class Admin extends CI_Controller
     {
       $this->username = $_SESSION['username'];
       $this->data['user'] = $this->Admins->validate_user($this->username);
-      $this->data['title'] = $this->Admins->get_title();
-      $this->data['icon'] = $this->Admins->get_site_icon();
-      $this->data['tagline'] = $this->Admins->get_tagline();
       $this->data['review_count'] = $this->Admins->get_reviews_count();
       $this->data['vote_count'] = $this->Admins->get_vote_count();
       $this->data['supplier_count'] = $this->Admins->get_supplier_count();
@@ -44,8 +44,8 @@ class Admin extends CI_Controller
     {
       redirect(base_url().'Admin/dashboard');
     }
-    $data['error'] = '';
-    $this->load->view('admin/index',$data);
+    $this->data['error'] = '';
+    $this->load->view('admin/index',$this->data);
   }
 
   public function login()
@@ -112,7 +112,7 @@ class Admin extends CI_Controller
     $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/suppliers';
+    $config['base_url'] = base_url().'Admin/suppliers';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -150,8 +150,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('id', $id);
     if ($this->db->delete('basic_info')) {
-      echo '<script>alert("Business deleted!");</script>';
-      redirect(base_url().'Admin/suppliers', 'refresh');
+      echo "<script>alert('Business successfully deleted.');document.location='/Admin/suppliers'</script>";
     }
   }
 
@@ -161,7 +160,7 @@ class Admin extends CI_Controller
     $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/faves';
+    $config['base_url'] = base_url().'Admin/faves';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -193,8 +192,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('vote_id', $id);
     if ($this->db->delete('votes')) {
-      echo '<script>alert("Fave deleted!");</script>';
-      redirect(base_url().'Admin/faves', 'refresh');
+      echo "<script>alert('Fave deleted.');document.location='/Admin/faves'</script>";
     }
   }
 
@@ -204,7 +202,7 @@ class Admin extends CI_Controller
     $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/reviews';
+    $config['base_url'] = base_url().'Admin/reviews';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -247,7 +245,7 @@ class Admin extends CI_Controller
 
 		$query2= $this->db->get('localities');
 
-		$config['base_url'] = '/Admin/localities';
+		$config['base_url'] = base_url().'Admin/localities';
 		$config['total_rows'] = $query2->num_rows();
 		$config['per_page'] = 7;
 
@@ -274,6 +272,7 @@ class Admin extends CI_Controller
 
 		$this->pagination->initialize($config);
 
+    // echo $query->num_rows();
     $this->load->view('admin/dashboard/localities/index',$this->data);
   }
 
@@ -405,8 +404,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('locality_id', $locality_id);
     if ($this->db->delete('localities')) {
-      echo '<script>alert("Locality deleted!");</script>';
-      redirect(base_url().'Admin/localities', 'refresh');
+      echo "<script>alert('Locality deleted.');document.location='/Admin/localities'</script>";
     }
   }
   // END OF LOCALITY
@@ -419,7 +417,7 @@ class Admin extends CI_Controller
 
 		$query2= $this->db->get('categories');
 
-		$config['base_url'] = '/Admin/categories';
+		$config['base_url'] = base_url().'Admin/categories';
 		$config['total_rows'] = $query2->num_rows();
 		$config['per_page'] = 7;
 
@@ -584,8 +582,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('category_id', $category_id);
     if ($this->db->delete('categories')) {
-      echo '<script>alert("Category deleted!");</script>';
-      redirect(base_url().'Admin/categories', 'refresh');
+      echo "<script>alert('Category deleted.');document.location='/Admin/categories'</script>";
     }
   }
   // END OF CATEGORY
@@ -598,7 +595,7 @@ class Admin extends CI_Controller
 
 		$query2= $this->db->get('themes');
 
-		$config['base_url'] = '/Admin/themes';
+		$config['base_url'] = base_url().'Admin/themes';
 		$config['total_rows'] = $query2->num_rows();
 		$config['per_page'] = 7;
 
@@ -812,8 +809,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('theme_id', $theme_id);
     if ($this->db->delete('themes')) {
-      echo '<script>alert("Theme deleted!");</script>';
-      redirect(base_url().'Admin/themes', 'refresh');
+      echo "<script>alert('Theme deleted.');document.location='/Admin/themes'</script>";
     }
   }
   // END OF THEMES
@@ -825,7 +821,7 @@ class Admin extends CI_Controller
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/image_slider';
+    $config['base_url'] = base_url().'Admin/image_slider';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -937,8 +933,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('content_id', $content_id);
     if ($this->db->delete('layout')) {
-      echo '<script>alert("Image deleted!");</script>';
-      redirect(base_url().'Admin/image_slider', 'refresh');
+      echo "<script>alert('Image deleted.');document.location='/Admin/image_slider'</script>";
     }
   }
 
@@ -1283,7 +1278,7 @@ class Admin extends CI_Controller
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/about_page';
+    $config['base_url'] = base_url().'Admin/about_page';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -1459,8 +1454,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('content_id', $content_id);
     if ($this->db->delete('layout')) {
-      echo '<script>alert("Detail deleted!");</script>';
-      redirect(base_url().'Admin/about_page', 'refresh');
+      echo "<script>alert('Detail deleted.');document.location='/Admin/about_page'</script>";
     }
   }
   // END OF LAYOUT
@@ -1468,12 +1462,13 @@ class Admin extends CI_Controller
   // ADVERTISEMENTS
   public function advertisements()
   {
+    $deadline = date('Y-m-d', strtotime("+5 days"));
     $this->data['priorities'] = $this->Admins->get_priority_ad();
-    $query2= $this->db->get_where('advertisements', ['type' => 'Regular']);
+    $query2= $this->db->get_where('advertisements', ['type' => 'Regular','termination_date >' => $deadline]);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/advertisements';
+    $config['base_url'] = base_url().'Admin/advertisements';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -1498,22 +1493,19 @@ class Admin extends CI_Controller
 		$config['cur_tag_close'] = '</b></span></li>';
     $this->pagination->initialize($config);
     $this->data['regulars'] = $this->Admins->function_pagination($limit, $offset);
+    // echo $query2->num_rows();
     $this->load->view('admin/dashboard/advertisements/index',$this->data);
     // print_r($this->data['priorities']);
   }
 
   public function ending()
   {
-    $date = new DateTime("tomorrow");
-    $tom = $date->format('Y-m-d');
-    $cur = new DateTime("now");
-    $curdate = $cur->format('Y-m-d');
     $deadline = date('Y-m-d', strtotime("+5 days"));
-    $query2= $this->db->get_where('advertisements', ['termination_date' => $tom]);
+    $query2= $this->db->get_where('advertisements', ['termination_date' => $deadline]);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/ending';
+    $config['base_url'] = base_url().'Admin/ending';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -1541,6 +1533,42 @@ class Admin extends CI_Controller
     $this->load->view('admin/dashboard/advertisements/ending',$this->data);
     // print_r($this->data['endings']);
   }
+
+  // public function ending_regulars()
+  // {
+  //   $deadline = date('Y-m-d', strtotime("+5 days"));
+  //   $query2= $this->db->get_where('advertisements', ['termination_date' => $deadline]);
+  //   $limit = 5;
+  //   $offset = $this->uri->segment(3);
+  //   $config['uri_segment'] = 3;
+  //   $config['base_url'] = '/Admin/ending';
+  //   $config['total_rows'] = $query2->num_rows();
+  //   $config['per_page'] = $limit;
+  //   $config['full_tag_open'] = '<ul class="pagination">';
+	// 	$config['full_tag_close'] = '</ul>';
+  //
+	// 	$config['first_tag_open'] = '<li>';
+	// 	$config['last_tag_open'] = '<li>';
+  //
+	// 	$config['next_tag_open'] = '<li>';
+	// 	$config['prev_tag_open'] = '<li>';
+  //
+	// 	$config['num_tag_open'] = '<li>';
+	// 	$config['num_tag_close'] = '</li>';
+  //
+	// 	$config['first_tag_close'] = '</li>';
+	// 	$config['last_tag_close'] = '</li>';
+  //
+	// 	$config['next_tag_close'] = '</li>';
+	// 	$config['prev_tag_close'] = '</li>';
+  //
+	// 	$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+	// 	$config['cur_tag_close'] = '</b></span></li>';
+  //   $this->pagination->initialize($config);
+  //   $this->data['endings'] = $this->Admins->function_pagination_ending($limit, $offset);
+  //   $this->load->view('admin/dashboard/advertisements/ending',$this->data);
+  //   // print_r($this->data['endings']);
+  // }
 
   public function notify()
   {
@@ -2501,9 +2529,80 @@ class Admin extends CI_Controller
   {
     $this->db->where('advertisement_id', $advertisement_id);
     if ($this->db->delete('advertisements')) {
-      echo '<script>alert("Advertisement deleted!");</script>';
-      redirect(base_url().'Admin/advertisements', 'refresh');
+      echo "<script>alert('Advertisement deleted.');document.location='/Admin/advertisements'</script>";
     }
+  }
+
+  public function finished_priority()
+  {
+    $cur = new DateTime("now");
+    $curdate = $cur->format('Y-m-d');
+    $query2= $this->db->get_where('advertisements', ['type' => 'Priority','termination_date <' => $curdate]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/finished_priority';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['ending_priorities'] = $this->Admins->function_pagination_finished_priorities($limit, $offset);
+    $this->load->view('admin/dashboard/advertisements/finished_priority',$this->data);
+  }
+
+  public function finished_regular()
+  {
+    $cur = new DateTime("now");
+    $curdate = $cur->format('Y-m-d');
+    $query2= $this->db->get_where('advertisements', ['type' => 'Regular','termination_date <' => $curdate]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/finished_regular';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['ending_regulars'] = $this->Admins->function_pagination_finished_regulars($limit, $offset);
+    $this->load->view('admin/dashboard/advertisements/finished_regulars',$this->data);
   }
   // END OF ADVERTISEMENTS
 
@@ -2548,7 +2647,7 @@ class Admin extends CI_Controller
     $limit = 2;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/events';
+    $config['base_url'] = base_url().'Admin/events';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -2846,8 +2945,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('event_id', $event_id);
     if ($this->db->delete('events')) {
-      echo '<script>alert("Event deleted!");</script>';
-      redirect(base_url().'Admin/events', 'refresh');
+      echo "<script>alert('Event deleted.');document.location='/Admin/events'</script>";
     }
   }
 
@@ -2859,7 +2957,7 @@ class Admin extends CI_Controller
     $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/finished';
+    $config['base_url'] = base_url().'Admin/finished';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -3031,8 +3129,7 @@ class Admin extends CI_Controller
   {
     $this->db->where('event_id', $event_id);
     if ($this->db->delete('events')) {
-      echo '<script>alert("Event deleted!");</script>';
-      redirect(base_url().'Admin/finished', 'refresh');
+      echo "<script>alert('Event deleted.');document.location='/Admin/finished'</script>";
     }
   }
   // END OF EVENTS
@@ -3044,7 +3141,7 @@ class Admin extends CI_Controller
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/forum';
+    $config['base_url'] = base_url().'Admin/forum';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -3101,11 +3198,9 @@ class Admin extends CI_Controller
       ];
 
       if ($this->db->insert('topics',$Topic)) {
-        echo '<script>alert("Topic added!");</script>';
-        redirect(base_url().'Admin/forum', 'refresh');
+        echo "<script>alert('Topic added.');document.location='/Admin/forum'</script>";
       }else {
-        echo '<script>alert("Cannot save topic...");</script>';
-        redirect(base_url().'Admin/add_topic', 'refresh');
+        echo "<script>alert('Cannot save topic.');document.location='/Admin/add_topic'</script>";
       }
     }
   }
@@ -3138,31 +3233,27 @@ class Admin extends CI_Controller
       ];
 
       if ($this->Admins->update_topic($Topic,$topic_id)) {
-        echo '<script>alert("Topic updated!");</script>';
-        redirect(base_url().'Admin/forum', 'refresh');
+        echo "<script>alert('Topic updated.');document.location='/Admin/forum'</script>";
       }else {
-        echo '<script>alert("Topic cannot be updated...");</script>';
-        redirect(base_url().'Admin/edit_topic/'.$topic_id, 'refresh');
+        echo "<script>alert('Topic cannot be updated.');document.location='/Admin/edit_topic/".$topic_id."'</script>";
       }
     }
   }
 
   public function delete_topic($topic_id)
   {
-    $this->db->where('topic_id', $topic_id);
-    if ($this->db->delete('topics')) {
-      echo '<script>alert("Topic deleted!");</script>';
-      redirect(base_url().'Admin/forum', 'refresh');
+    if ($this->Admins->delete_topic($topic_id)) {
+      echo "<script>alert('Topic deleted.');document.location='/Admin/forum'</script>";
     }
   }
 
   public function approve()
   {
-    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '0']);
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin','status' => '0']);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/forum';
+    $config['base_url'] = base_url().'Admin/forum';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -3194,32 +3285,42 @@ class Admin extends CI_Controller
   {
     if ($this->Admins->approve_topic($topic_id))
     {
-      echo '<script>alert("Topic approved!");</script>';
-      redirect(base_url().'Admin/approve', 'refresh');
+      $data['topic_info'] = $this->Admins->get_topic($topic_id);
+      $my_date = date("Y-m-d h:i:s");
+      $Notif = [
+        'sender_id' => '0',
+        'type_of_notification' => 'System',
+        'title_content' => 'Your topic was approved.',
+        'body_content' => '',
+        'href' => base_url().'Forum/topic/'.$topic_id,
+        'recipient_id' => $data['topic_info']->created_by,
+        'is_unread' => '0',
+        'created_time' => $my_date
+      ];
+      if ($this->db->insert('notifications', $Notif)) {
+        echo "<script>alert('Topic approved.');document.location='/Admin/approve'</script>";
+      }
     }
     else
     {
-      echo '<script>alert("Cannot approve..");</script>';
-      redirect(base_url().'Admin/approve', 'refresh');
+      echo "<script>alert('Cannot approve topic.');document.location='/Admin/approve'</script>";
     }
   }
 
   public function delete_user_topic($topic_id)
   {
-    $this->db->where('topic_id', $topic_id);
-    if ($this->db->delete('topics')) {
-      echo '<script>alert("Topic deleted!");</script>';
-      redirect(base_url().'Admin/approve', 'refresh');
+    if ($this->Admins->delete_topic($topic_id)) {
+      echo "<script>alert('Topic has been deleted.');document.location='/Admin/forum'</script>";
     }
   }
 
   public function view_approved()
   {
-    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '1']);
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin','status' => '1']);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = '/Admin/view_approved';
+    $config['base_url'] = base_url().'Admin/view_approved';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -3251,13 +3352,11 @@ class Admin extends CI_Controller
   {
     if ($this->Admins->disapprove_topic($topic_id))
     {
-      echo '<script>alert("Topic disapproved!");</script>';
-      redirect(base_url().'Admin/view_approved', 'refresh');
+      echo "<script>alert('Topic disapproved.');document.location='/Admin/view_approved'</script>";
     }
     else
     {
-      echo '<script>alert("Cannot disapprove..");</script>';
-      redirect(base_url().'Admin/view_approved', 'refresh');
+      echo "<script>alert('Topic cannot be disapproved.');document.location='/Admin/view_approved'</script>";
     }
   }
   // END OF FORUM

@@ -232,11 +232,9 @@ class Classic extends CI_Controller
               ];
 
               $this->db->insert('contents',$Image);
-              echo '<script>alert("Image added!");</script>';
-              redirect(base_url().'Classic/gallery/', 'refresh');
+              echo "<script>alert('Image added!');document.location='/Classic/gallery'</script>";
           }else{
-            echo '<script>alert("Something went wrong, image not uploaded...");</script>';
-            redirect(base_url().'Classic/gallery', 'refresh');
+            echo "<script>alert('Something went wrong, image not uploaded');document.location='/Classic/gallery'</script>";
           }
       }
       else
@@ -246,8 +244,7 @@ class Classic extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Sorry, you have reached the maximum number of image you can upload for the gallery..");</script>';
-      redirect(base_url().'Classic/add_image', 'refresh');
+      echo "<script>alert('Sorry, you've reached the maximum number of image you can upload for the gallery...');document.location='/Classic/add_image'</script>";
     }
   }
 
@@ -287,8 +284,7 @@ class Classic extends CI_Controller
               redirect(base_url().'Classic/gallery', 'refresh');
             }
         }else{
-          echo '<script>alert("Something went wrong, image cannot be updated..");</script>';
-          redirect(base_url().'Classic/gallery', 'refresh');
+          echo "<script>alert('Something went wrong, image cannot be updated..');document.location='/Classic/gallery'</script>";
         }
     }
   }
@@ -300,8 +296,7 @@ class Classic extends CI_Controller
     $this->db->where('id', $this->id);
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
-     echo '<script>alert("Image deleted!");</script>';
-     redirect(base_url().'Classic/gallery', 'refresh');
+    echo "<script>alert('Image deleted!');document.location='/Classic/gallery'</script>";
   }
 
   public function contacts()
@@ -350,8 +345,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
         else
@@ -372,8 +366,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
       }
@@ -394,8 +387,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
         else
@@ -416,8 +408,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
       }
@@ -438,8 +429,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
         else
@@ -460,8 +450,7 @@ class Classic extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Classic/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Classic/contacts'</script>";
           }
         }
       }
@@ -567,8 +556,7 @@ class Classic extends CI_Controller
     $this->db->where('id', $this->id);
     $this->db->where('meta_key', 'image_slider');
     $this->db->delete('contents');
-     echo '<script>alert("Image deleted!");</script>';
-     redirect(base_url().'Classic/image_slider', 'refresh');
+    echo "<script>alert('Image deleted.');document.location='/Classic/image_slider'</script>";
   }
 
   public function theme()
@@ -591,8 +579,7 @@ class Classic extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect(base_url().'Classic/theme', 'refresh');
+      echo "<script>alert('Cannot activate the theme...');document.location='/Classic/theme'</script>";
     }
   }
 

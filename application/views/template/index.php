@@ -35,7 +35,11 @@
         <?php foreach ($themes as $key => $theme): ?>
           <div class="col-lg-4 box-style">
             <div class = "thumbnail">
-              <img src = "<?php echo base_url(); ?>public/img/themes/<?php echo $theme->image?>" alt = "image">
+              <?php if (!empty($theme->image)): ?>
+                <img src = "<?php echo $theme->image?>" alt = "image">
+              <?php else: ?>
+                <img src = "<?php echo base_url(); ?>public/img/themes/default-img.jpg" alt = "image">
+              <?php endif; ?>
             </div>
             <div class = "caption">
               <h3><?php echo $theme->theme?></h3>

@@ -75,21 +75,31 @@
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
-                    <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if (!empty($notifications)): ?>
+                      <?php foreach ($notifications as $key => $notification): ?>
+                        <?php if ($notification->type_of_notification == 'Comment'): ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php else: ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <li>You have no notifications</li>
+                    <?php endif; ?>
                   </ul>
                 </li>
                 <!-- <li class="footer"><a href="#">View all</a></li> -->
@@ -155,13 +165,13 @@
     <div class="container searchbardiv" id="formsearch">
       <form role="search" method="get" id="searchform">
         <div class="row">
-          <div class="col-lg-5 no-padding">
+          <div class="col-lg-5 col-xs-6 no-padding">
             <div class="input-group">
               <div class="input-group-addon"><i class="ion-location input-style"></i></div>
               <input type="text" class="form-control input-style" placeholder="Location" id="location">
             </div>
           </div>
-          <div class="col-lg-7">
+          <div class="col-lg-7 col-xs-6">
             <div class="input-group">
               <input type="text" id="searchbox" class="form-control" name="s" id="s" placeholder="Search for...">
               <div class="input-group-btn">
@@ -318,7 +328,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h4 class="modal-title">Traveller Register</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body traveller-body">
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="traveller_register_error_message"></div>
                 <div class="form-group">
@@ -343,6 +353,18 @@
                   <div class="input-group">
                     <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
                     <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
+                    <input type="text" name="register_firstname" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" id="traveller_register_firstname" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
+                    <input type="text" name="register_lastname" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" id="traveller_register_lastname" required>
                   </div>
                 </div>
                 <div class="agreement-box">
@@ -698,7 +720,6 @@
                     <ul class="social">
                         <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
                         <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
                     </ul>
                 </div>
@@ -718,31 +739,32 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-// var time = 10000;
-// (function poll() {
-//   console.log("Execute na yung poll function");
-//    setTimeout(function() {
-//      var user_id = {
-//              user_id: "<?php echo $traveller_details->user_id ?>"
-//          };
-//        $.ajax({
-//          url: "<?php echo base_url(); ?>Home/get_notif",
-//          type: "POST",
-//          data: user_id,
-//          success: function(data) {
-//             if (data == '0') {
-//               console.log("Time is 15 secs");
-//               time = 2000;
-//             }
-//             else {
-//               alert("May data na");
-//             }
-//          },
-//       //  dataType: "json",
-//        complete: poll
-//      });
-//    }, time);
-// })();
+var time = 10000;
+(function poll() {
+  // console.log("Execute na yung poll function");
+   setTimeout(function() {
+     var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+       $.ajax({
+         url: "<?php echo base_url(); ?>Home/get_notif",
+         type: "POST",
+         data: user_id,
+         success: function(data) {
+           $('#notif-div').html(data);
+            // if (data == '0') {
+            //   console.log("Time is 15 secs");
+            //   time = 2000;
+            // }
+            // else {
+            //   alert("May data na");
+            // }
+         },
+      //  dataType: "json",
+       complete: poll
+     });
+   }, time);
+})();
 // (function() {
 //   var notif = function(){
 //     var user_id = {
@@ -762,21 +784,21 @@
 //     notif();
 //   }, 60000);
 // })();
-// $('#notif-div').on('click', '#notif-count', function() {
-//     // alert('clicked');
-//     var user_id = {
-//              user_id: "<?php echo $traveller_details->user_id ?>"
-//          };
-//       $.ajax({
-//           url: "/Home/is_unread",
-//           type: 'POST',
-//           data: user_id,
-//           success: function(msg) {
-//             // alert("Na read na");
-//             $('#notif-count').html(msg);
-//           }
-//       });
-// });
+$('#notif-div').on('click', '#notif-count', function() {
+    // alert('clicked');
+    var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+      $.ajax({
+          url: "<?php echo base_url(); ?>Home/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
 <?php endif; ?>
 $('#Submit').click(function() {
     $('#error_message').show();
@@ -851,6 +873,8 @@ $('#Register_Traveller').click(function() {
         username: $('#traveller_username').val(),
         register_password: $('#traveller_register_password').val(),
         register_confirm_password: $('#traveller_register_confirm_password').val(),
+        register_firstname: $('#traveller_register_firstname').val(),
+        register_lastname: $('#traveller_register_lastname').val(),
         type: $('#Register_Traveller').attr('name')
     };
     $.ajax({

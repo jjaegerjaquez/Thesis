@@ -285,6 +285,9 @@ input[type=text],input[type=email],input[type=password] {
 .supplier-body{
   padding-bottom: 10px;
 }
+.traveller-body{
+  padding-bottom: 5px;
+}
 .modal-body .btn-default{
   background-color: #f37430;
   color: #fff;

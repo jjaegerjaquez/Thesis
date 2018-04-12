@@ -37,21 +37,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="<?php echo base_url() ?>Category/all">Categories</a></li>
-          <li><a href="<?php echo base_url() ?>Destination/all">Destinations</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="<?php echo base_url() ?>Advertisement/all">Deals</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="<?php echo base_url() ?>Forum/all">Forum</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Most Viewed</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#"><span class="ion-ios-search-strong"></span></a>
-          </li>
+          <li><a href="<?php echo base_url() ?>">Go back to Travel Hub</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown notifications-menu" id="notif-div">

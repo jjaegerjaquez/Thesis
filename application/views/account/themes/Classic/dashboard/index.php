@@ -129,7 +129,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="<?php echo base_url(); ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url(); ?>Account/switch_business?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -147,12 +147,12 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($details->image)): ?>
-          <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url(); ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="<?php echo base_url(); ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url(); ?>Account/new_business"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
           <a href="<?php echo base_url(); ?>Account" class="active">Dashboard</a>
@@ -193,15 +193,21 @@
               <div class="info-box-content">
                 <?php if (!empty($review_count->review)): ?>
                   <?php if ($review_count->review > 1): ?>
-                    <span class="info-box-text">Reviews</span>
-                    <span class="info-box-number"><?php echo $review_count->review ?></span>
+                    <a href="<?php echo base_url(); ?>Account/view_all_reviews">
+                      <span class="info-box-text">Reviews</span>
+                      <span class="info-box-number"><?php echo $review_count->review ?></span>
+                    </a>
                   <?php else: ?>
-                    <span class="info-box-text">Review</span>
-                    <span class="info-box-number"><?php echo $review_count->review ?></span>
+                    <a href="<?php echo base_url(); ?>Account/view_all_reviews">
+                      <span class="info-box-text">Review</span>
+                      <span class="info-box-number"><?php echo $review_count->review ?></span>
+                    </a>
                   <?php endif; ?>
                 <?php else: ?>
-                  <span class="info-box-text">Review</span>
-                  <span class="info-box-number"><?php echo $review_count->review ?></span>
+                  <a href="<?php echo base_url(); ?>Account/view_all_reviews">
+                    <span class="info-box-text">Review</span>
+                    <span class="info-box-number"><?php echo $review_count->review ?></span>
+                  </a>
                 <?php endif; ?>
               </div>
             </div>
@@ -232,6 +238,7 @@
             <div class="box box-widget">
               <div class="box-header with-border">
                 <h3 class="box-title">Reviews</h3>
+                <span class="pull-right"><a href="<?php echo base_url(); ?>Account/mark_reviews_read">Mark all as read</a></span>
               </div>
               <!-- /.box-header -->
               <div class="box-footer box-comments">

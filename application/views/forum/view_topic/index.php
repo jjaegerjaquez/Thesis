@@ -283,7 +283,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h4 class="modal-title">Traveller Register</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body traveller-body">
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="traveller_register_error_message"></div>
                 <div class="form-group">
@@ -308,6 +308,18 @@
                   <div class="input-group">
                     <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
                     <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
+                    <input type="text" name="register_firstname" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" id="traveller_register_firstname" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
+                    <input type="text" name="register_lastname" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" id="traveller_register_lastname" required>
                   </div>
                 </div>
               </form>

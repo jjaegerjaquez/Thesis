@@ -130,7 +130,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="<?php echo base_url() ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url() ?>Account/switch_business?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -148,12 +148,12 @@
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($details->image)): ?>
-          <img src="<?php echo $details->image?>" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
-          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="img-circle center-block" alt="User Image" width="200px" height="200px">
+          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="<?php echo base_url() ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url() ?>Account/new_business"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
           <a href="<?php echo base_url() ?>Account">Dashboard</a>
@@ -180,7 +180,11 @@
             <?php foreach ($themes as $key => $theme): ?>
               <div class="col-lg-4" style="background-color:#3c3734;padding:20px 10px 10px 10px;border-radius:5px;border-right:5px solid #fff;border-left:5px solid #fff;">
                 <div class = "thumbnail">
-                  <img src = "<?php echo base_url() ?>public/img/themes/<?php echo $theme->image?>" alt = "image">
+                  <?php if (!empty($theme->image)): ?>
+                    <img src = "<?php echo $theme->image?>" alt = "image">
+                  <?php else: ?>
+                    <img src = "<?php echo base_url() ?>public/img/themes/default-img.jpg" alt = "image">
+                  <?php endif; ?>
                 </div>
                 <div class = "caption">
                   <h3 style="color:#fff;"><?php echo $theme->theme?></h3>

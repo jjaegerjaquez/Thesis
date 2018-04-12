@@ -187,6 +187,9 @@ input[type=text],input[type=email],input[type=password] {
 .supplier-body{
   padding-bottom: 10px;
 }
+.traveller-body{
+  padding-bottom: 5px;
+}
 .modal-body .btn-default{
   background-color: #f37430;
   color: #fff;
@@ -252,7 +255,7 @@ input[type=text],input[type=email],input[type=password] {
 /* Breadcrumb & Header*/
 .breadcrumb{
   margin-right: 30px;
-  margin-left: 30px; 
+  margin-left: 30px;
   background-color: transparent;
   font-size: 11px;
   font-family: 'Roboto Condensed', sans-serif;

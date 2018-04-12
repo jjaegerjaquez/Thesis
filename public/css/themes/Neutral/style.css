@@ -126,6 +126,9 @@ html, body {
 /* END OF MENU*/
 
 /* PROFILE CONTENT*/
+.info-box-content a {
+  color: black;
+}
 .required-text{
   font-style: italic;
   font-weight: bold;

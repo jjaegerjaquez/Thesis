@@ -113,7 +113,7 @@
     <div class="row">
       <div class="col-lg-offset-2 col-lg-8" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h2 class="title">Account details</h2>
+          <h3 class="title">Account details</h3>
           <hr>
         </div>
         <div class="content">

@@ -151,77 +151,12 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
         <div class="row">
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-red"><i class="fa fa-heart"></i></span>
-              <div class="info-box-content">
-                <?php if (!empty($vote_count->vote)): ?>
-                  <?php if ($vote_count->vote > 1): ?>
-                    <span class="info-box-text">Faves</span>
-                    <span class="info-box-number"><?php echo $vote_count->vote ?></span>
-                  <?php else: ?>
-                    <span class="info-box-text">Fave</span>
-                    <span class="info-box-number"><?php echo $vote_count->vote ?></span>
-                  <?php endif; ?>
-                <?php else: ?>
-                  <span class="info-box-text">Fave</span>
-                  <span class="info-box-number"><?php echo $vote_count->vote ?></span>
-                <?php endif; ?>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-green"><i class="fa fa-comment"></i></span>
-              <div class="info-box-content">
-                <?php if (!empty($review_count->review)): ?>
-                  <?php if ($review_count->review > 1): ?>
-                    <a href="<?php echo base_url(); ?>Account/view_all_reviews">
-                      <span class="info-box-text">Reviews</span>
-                      <span class="info-box-number"><?php echo $review_count->review ?></span>
-                    </a>
-                  <?php else: ?>
-                    <a href="<?php echo base_url(); ?>Account/view_all_reviews">
-                      <span class="info-box-text">Review</span>
-                      <span class="info-box-number"><?php echo $review_count->review ?></span>
-                    </a>
-                  <?php endif; ?>
-                <?php else: ?>
-                  <a href="<?php echo base_url(); ?>Account/view_all_reviews">
-                    <span class="info-box-text">Review</span>
-                    <span class="info-box-number"><?php echo $review_count->review ?></span>
-                  </a>
-                <?php endif; ?>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-aqua"><i class="fa  fa-bar-chart"></i></span>
-              <div class="info-box-content">
-                <?php if (!empty($rating->rate)): ?>
-                  <?php if ($rating->rate > 1): ?>
-                    <span class="info-box-text">Rating</span>
-                    <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
-                  <?php else: ?>
-                    <span class="info-box-text">Rating</span>
-                    <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
-                  <?php endif; ?>
-                <?php else: ?>
-                  <span class="info-box-text">Rating</span>
-                  <span class="info-box-number"><?php echo number_format($rating->rate, 1)?></span>
-                <?php endif; ?>
-              </div>
-            </div>
-          </div>
-      </div>
-        <div class="row">
           <div class="col-md-12">
             <!-- Box Comment -->
             <div class="box box-widget">
               <div class="box-header with-border">
-                <h3 class="box-title">Reviews</h3>
-                <span class="pull-right"><a href="<?php echo base_url(); ?>Account/mark_reviews_read">Mark all as read</a></span>
+                <a href="<?php echo base_url(); ?>Account" class="btn btn-danger pull-right"><i class="fa fa-chevron-left"></i> Back</a>
+                <h3 class="box-title">All reviews</h3>
               </div>
               <!-- /.box-header -->
               <div class="box-footer box-comments">
@@ -267,32 +202,6 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('is_logged_in')): ?>
-var time = 10000;
-(function poll() {
-  // console.log("Execute na yung poll function");
-   setTimeout(function() {
-     var user_id = {
-             user_id: "<?php echo $details->id ?>"
-         };
-       $.ajax({
-         url: "<?php echo base_url(); ?>Account/get_notif",
-         type: "POST",
-         data: user_id,
-         success: function(data) {
-           $('#notif-div').html(data);
-            // if (data == '0') {
-            //   console.log("Time is 15 secs");
-            //   time = 2000;
-            // }
-            // else {
-            //   alert("May data na");
-            // }
-         },
-      //  dataType: "json",
-       complete: poll
-     });
-   }, time);
-})();
 // (function() {
 //   var notif = function(){
 //     var user_id = {

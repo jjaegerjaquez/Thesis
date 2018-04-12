@@ -31,13 +31,17 @@ class Account extends CI_Controller
       $this->BusinessName = $_SESSION['business'];
       $this->data['account'] = $this->Accounts->get_account_details($this->user_id);
       $this->data['details'] = $this->Accounts->get_business_template($this->user_id,$this->BusinessName);
-      $this->id = $this->data['details']->id;
+      if (!empty($this->data['details']->id)) {
+        $this->id = $this->data['details']->id;
+      }
+      else {
+        $this->id = "0";
+      }
       $this->data['theme'] = $this->Accounts->get_theme($this->data['business_name']);
       $this->data['businesses'] = $this->Accounts->get_businesses($this->user_id);
       $this->data['vote_count'] = $this->Accounts->get_vote_count($this->id);
       $this->data['review_count'] = $this->Accounts->get_review_count($this->id);
       $this->data['rating'] = $this->Accounts->get_rate($this->id);
-      $this->data['reviews'] = $this->Accounts->get_reviews($this->id);
       $this->data['localities'] = $this->Accounts->get_localities();
       $this->data['categories'] = $this->Accounts->get_categories();
       $this->data['themes'] = $this->Accounts->get_themes();
@@ -55,6 +59,35 @@ class Account extends CI_Controller
 
   public function index()
   {
+    $query2= $this->db->get_where('reviews', ['business_id' => $this->id,'is_read' => '0']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Account/index';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['reviews'] = $this->Accounts->function_pagination($limit, $offset,$this->id);
     if ($this->data['details']->website == 'Yes')
     {
       $this->load->view('account/dashboard/index',$this->data);
@@ -66,7 +99,64 @@ class Account extends CI_Controller
     }
   }
 
-  public function switch()
+  public function mark_reviews_read()
+  {
+    $Review = [
+      'is_read' => '1'
+    ];
+    if ($this->Accounts->set_read_reviews($Review,$this->id)) {
+      redirect(base_url().'Account', 'refresh');
+    }
+  }
+
+  public function view_all_reviews()
+  {
+    $query2= $this->db->get_where('reviews', ['business_id' => $this->id,'is_read' => '1']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Account/view_all_reviews';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['reviews'] = $this->Accounts->function_pagination_read_reviews($limit, $offset,$this->id);
+    if ($this->data['details']->website == 'Yes')
+    {
+      $this->load->view('account/dashboard/all_reviews',$this->data);
+    }
+    else
+    {
+      $theme = $this->data['theme']->theme;
+      $this->load->view('account/themes/'.$theme.'/dashboard/all_reviews',$this->data);
+    }
+  }
+
+  public function get_notif()
+  {
+
+  }
+
+  public function switch_business()
   {
     $this->session->unset_userdata('business');
     $this->session->set_userdata('business', $this->input->get('business'));
@@ -75,7 +165,7 @@ class Account extends CI_Controller
 
   public function start()
   {
-    $this->load->view('start/index');
+    $this->load->view('start/index',$this->data);
   }
 
   public function save_start()
@@ -107,13 +197,12 @@ class Account extends CI_Controller
         }
         else
         {
-          echo '<script>alert("Something went wrong, logging you out..");</script>';
           $this->session->unset_userdata('email');
           $this->session->unset_userdata('is_logged_in');
           $this->session->unset_userdata('user_id');
           $this->session->unset_userdata('business');
           $this->session->unset_userdata('primary_website');
-          redirect(base_url().'Home');
+          echo "<script>alert('Something went wrong, logging you out..');document.location='/Home'</script>";
         }
       }
       else
@@ -166,13 +255,12 @@ class Account extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Something went wrong, logging you out..");</script>';
       $this->session->unset_userdata('email');
       $this->session->unset_userdata('is_logged_in');
       $this->session->unset_userdata('user_id');
       $this->session->unset_userdata('business');
       $this->session->unset_userdata('primary_website');
-      redirect(base_url().'Home');
+      echo "<script>alert('Something went wrong, logging you out..');document.location='/Home'</script>";
     }
   }
 
@@ -411,7 +499,7 @@ class Account extends CI_Controller
     }
   }
 
-  public function new()
+  public function new_business()
   {
     $this->load->view('account/new/step1/index');
   }
@@ -461,9 +549,8 @@ class Account extends CI_Controller
         }
         else
         {
-          echo '<script>alert("Something went wrong");</script>';
           $this->session->unset_userdata('secondary_website');
-          redirect(base_url().'Account', 'refresh');
+          echo "<script>alert('Something went wrong.');document.location='/Account'</script>";
         }
       }
       else
@@ -498,10 +585,9 @@ class Account extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Something went wrong..");</script>';
       $this->session->unset_userdata('secondary_website');
       $this->session->unset_userdata('secondary_business_name');
-      redirect(base_url().'Account');
+      echo "<script>alert('Something went wrong.');document.location='/Account'</script>";
     }
   }
 

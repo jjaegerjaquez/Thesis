@@ -183,6 +183,7 @@ class Category extends CI_Controller
               'user_id' => $this->traveller_id,
               'business_id' => $this->input->post('business_id'),
               'review' => $this->input->post('review'),
+              'is_read' => '0',
               'date_created' => date("Y-m-d")
             ];
             if ($this->db->insert('reviews',$Review)) {

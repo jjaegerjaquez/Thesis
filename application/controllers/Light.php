@@ -325,8 +325,7 @@ class Light extends CI_Controller
     $this->db->where('id', $this->id);
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
-     echo '<script>alert("Image deleted!");</script>';
-     redirect(base_url().'Light/gallery', 'refresh');
+    echo "<script>alert('Image has been deleted.');document.location='/Light/gallery'</script>";
   }
 
   public function contacts()
@@ -375,8 +374,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
         else
@@ -397,8 +395,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
       }
@@ -419,8 +416,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
         else
@@ -441,8 +437,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
       }
@@ -463,8 +458,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
         else
@@ -485,8 +479,7 @@ class Light extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Light/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Light/contacts'</script>";
           }
         }
       }
@@ -513,8 +506,7 @@ class Light extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect(base_url().'Light/theme', 'refresh');
+      echo "<script>alert('Cannot activate the theme...');document.location='/Light/theme'</script>";
     }
   }
 

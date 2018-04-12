@@ -26,7 +26,7 @@ class Accounts extends CI_Model
     $this->db->where('recipient_id', $user_id);
     return $this->db->update('notifications', $Notif);
   }
-  
+
   public function get_title()
   {
     $query = $this->db->query("select * from layout where meta_key = 'site_title'");
@@ -110,6 +110,46 @@ class Accounts extends CI_Model
   {
     $query = $this->db->query("select username,p.firstname,p.lastname,review,rate,r.date_created,image from users u join reviews r join rates ra join profile p on (u.user_id=r.user_id and u.user_id = ra.user_id and u.user_id = p.user_id and r.business_id = ra.business_id) where r.business_id = '$business_id'");
     return $query->result();
+  }
+
+  function function_pagination($limit, $offset,$id)
+	{
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->join('reviews','users.user_id=reviews.user_id');
+    $this->db->join('rates','users.user_id=rates.user_id and rates.business_id=reviews.business_id');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where('is_read', '0');
+    $this->db->where('reviews.business_id', $id);
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_read_reviews($limit, $offset,$id)
+	{
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->join('reviews','users.user_id=reviews.user_id');
+    $this->db->join('rates','users.user_id=rates.user_id and rates.business_id=reviews.business_id');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where('is_read', '1');
+    $this->db->where('reviews.business_id', $id);
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  public function set_read_reviews($Review,$user_id)
+  {
+    $this->db->where('business_id', $user_id);
+    return $this->db->update('reviews', $Review);
   }
 
       function store_logo($file,$user_id)

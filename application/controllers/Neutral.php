@@ -384,8 +384,7 @@ class Neutral extends CI_Controller
     $this->db->where('id', $this->id);
     $this->db->where('meta_key', 'gallery_image');
     $this->db->delete('contents');
-     echo '<script>alert("Image deleted!");</script>';
-     redirect(base_url().'Neutral/gallery', 'refresh');
+    echo "<script>alert('Image has been deleted.');document.location='/Neutral/gallery'</script>";
   }
 
   public function contacts()
@@ -434,8 +433,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
         else
@@ -456,8 +454,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
       }
@@ -478,8 +475,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
         else
@@ -500,8 +496,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
       }
@@ -522,8 +517,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
         else
@@ -544,8 +538,7 @@ class Neutral extends CI_Controller
           }
           else
           {
-            echo '<script>alert("Something went wrong...");</script>';
-            redirect(base_url().'Neutral/contacts', 'refresh');
+            echo "<script>alert('Something went wrong...');document.location='/Neutral/contacts'</script>";
           }
         }
       }
@@ -553,7 +546,7 @@ class Neutral extends CI_Controller
     redirect(base_url().'Neutral/contacts', 'refresh');
   }
 
-  public function new()
+  public function new_business()
   {
     $this->load->view('account/themes/'.$this->theme.'/new/index',$this->data);
   }
@@ -578,8 +571,7 @@ class Neutral extends CI_Controller
     }
     else
     {
-      echo '<script>alert("Cannot activate the theme...");</script>';
-      redirect(base_url().'Neutral/theme', 'refresh');
+      echo "<script>alert('Cannot activate the theme...');document.location='/Neutral/theme'</script>";
     }
   }
 

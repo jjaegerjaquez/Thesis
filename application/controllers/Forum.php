@@ -348,8 +348,7 @@ class Forum extends CI_Controller
         'created_time' => $my_date
       ];
       if ($this->db->insert('comments',$Comment) && $this->db->insert('notifications',$Notif)) {
-        echo '<script>alert("Reply sucessfully submitted!");</script>';
-        redirect(base_url().'Forum/topic/'.$topic_id, 'refresh');
+        echo "<script>alert('Reply sent!');document.location='/Forum/topic/".$topic_id."'</script>";
       }
     }
   }
@@ -382,8 +381,7 @@ class Forum extends CI_Controller
         'status' => '0'
       ];
       if ($this->db->insert('topics',$Topic)) {
-        echo '<script>alert("The topic you created has been sent and will undergo review.");</script>';
-        redirect(base_url().'Forum/add_topic', 'refresh');
+        echo "<script>alert('The topic you created has been sent and will undergo review');document.location='/Forum/add_topic'</script>";
       }
     }
   }

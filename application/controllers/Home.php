@@ -49,7 +49,6 @@ class Home extends CI_Controller
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
-      $this->data['image_crop'] = "";
       $this->data['traveller_details'] = $this->Homes->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Homes->get_traveller_profile($this->traveller_id);
       $this->data['notif_count'] = $this->Homes->get_notif_count($this->traveller_id);
@@ -168,9 +167,11 @@ class Home extends CI_Controller
                   'status' => '1',
                   'type' => $this->input->post('type')
                 );
+
                 $email = $this->input->post('register_email');
                 $code = md5($email);
                 // $this->sendemail($email,$code);
+                // && $this->db->insert('profile',$RegisterData)
                 if ($this->db->insert('users',$RegisterData))
                 {
                   // $data['email_details'] = $this->Homes->get_email($email);
@@ -255,6 +256,20 @@ class Home extends CI_Controller
                   'required'      => 'Please enter your email'
           )
       );
+      $this->form_validation->set_rules(
+          'register_firstname', 'Firstname',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter your firstname'
+          )
+      );
+      $this->form_validation->set_rules(
+          'register_lastname', 'Lastname',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter your lastname'
+          )
+      );
       // $this->form_validation->set_rules('register_email', 'Email', 'trim|required');
       // $this->form_validation->set_rules('register_password', 'Password', 'trim|required');
       // $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'trim|required');
@@ -313,6 +328,20 @@ class Home extends CI_Controller
                 // $this->sendemail($email,$code);
                 if ($this->db->insert('users',$RegisterData))
                 {
+                  $data['user__id'] = $this->Homes->get_email($email);
+                  $Profile = [
+                    'user_id' => $data['user__id']->user_id,
+                    'firstname' => ucwords($this->input->post('register_firstname')),
+                    'lastname' => ucwords($this->input->post('register_lastname'))
+                  ];
+                  if ($this->db->insert('profile',$Profile)) {
+                    chmod('./uploads/', 0777);
+                    $path   = './uploads/'.$this->input->post('username');
+                    if (!is_dir($path)) { //create the folder if it's not already exists
+                        mkdir($path, 0755, TRUE);
+                    }
+                    echo "Successful";
+                  }
                   // $data['email_details'] = $this->Homes->get_email($email);
                   // $Business_Data = array(
                   //   'user_id' => $data['email_details']->user_id,
@@ -327,12 +356,7 @@ class Home extends CI_Controller
                   //   'template' => '0',
                   //   'image' => ''
                   // );
-                  chmod('./uploads/', 0777);
-                  $path   = './uploads/'.$this->input->post('username');
-                  if (!is_dir($path)) { //create the folder if it's not already exists
-                      mkdir($path, 0755, TRUE);
-                  }
-                  echo "Successful";
+
                   // // if ($this->db->insert('basic_info',$Business_Data)) {
                   // //   chmod('./uploads/', 0777);
                   // //   $path   = './uploads/'.$this->input->post('username');
@@ -578,12 +602,12 @@ class Home extends CI_Controller
     else
     {
       $Profile = [
-        'firstname' => $this->input->post('firstname'),
-        'middlename' => $this->input->post('middlename'),
-        'lastname' => $this->input->post('lastname'),
+        'firstname' => ucwords($this->input->post('firstname')),
+        'middlename' => ucwords($this->input->post('middlename')),
+        'lastname' => ucwords($this->input->post('lastname')),
         'locality' => $this->input->post('locality'),
         'gender' => $this->input->post('gender'),
-        'address' => $this->input->post('address'),
+        'address' => ucwords($this->input->post('address')),
         'cellphone' => $this->input->post('cellphone')
       ];
       if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
@@ -598,49 +622,23 @@ class Home extends CI_Controller
     $this->load->view('traveller/profile_image/index',$this->data);
   }
 
-  // public function upload_img()
-  // {
-  //   if(!empty($_FILES['picture']['name']))
-  //     {
-  //           $config['upload_path'] = 'uploads/'.$this->data['traveller_details']->username;
-  //           $config['overwrite'] = TRUE;
-  //           $config['allowed_types'] = 'jpg|jpeg|png|gif';
-  //           $config['file_name'] = $_FILES['picture']['name'];
-  //
-  //           //Load upload library and initialize configuration
-  //           $this->load->library('upload',$config);
-  //           $this->upload->initialize($config);
-  //
-  //           if($this->upload->do_upload('picture')){ // Kapag successful ang pag-upload ng image
-  //               $uploadData = $this->upload->data();
-  //               $picture = $uploadData['file_name'];
-  //               // $this->data['image_crop'] = '/'.$config['upload_path'].'/'.$picture;
-  //                 $this->session->set_userdata('image_crop', '/'.$config['upload_path'].'/'.$picture);
-  //                 $this->session->set_userdata('image_name', $picture);
-  //                echo '<script>alert("Image uploaded!");</script>';
-  //                redirect('/Home/image', 'refresh');
-  //           }
-  //         }
-  // }
-
   public function upload_img()
- {
-   $path = 'uploads/'.$this->data['traveller_details']->username.'/';
-   $croped_image = $_POST['image'];
-    list($type, $croped_image) = explode(';', $croped_image);
-    list(, $croped_image)      = explode(',', $croped_image);
-    $croped_image = base64_decode($croped_image);
-    $image_name = time().'.png';
-    // upload cropped image to server
-    file_put_contents($path.$image_name, $croped_image);
-    $Profile = [
-                'image' => base_url().'/uploads'.'/'.$this->data['traveller_details']->username.'/'.$image_name
-              ];
-              if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
-                echo 'Profile image updated!';
-              }
-
- }
+  {
+    $path = 'uploads/'.$this->data['traveller_details']->username.'/';
+    $croped_image = $_POST['image'];
+     list($type, $croped_image) = explode(';', $croped_image);
+     list(, $croped_image)      = explode(',', $croped_image);
+     $croped_image = base64_decode($croped_image);
+     $image_name = time().'.png';
+     // upload cropped image to server
+     file_put_contents($path.$image_name, $croped_image);
+     $Profile = [
+                 'image' => base_url().'/uploads'.'/'.$this->data['traveller_details']->username.'/'.$image_name
+               ];
+               if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
+                 echo 'Profile image updated!';
+               }
+  }
 
   public function crop()
   {
@@ -836,23 +834,18 @@ class Home extends CI_Controller
   public function get_notif()
   {
     $this->data['notif__count'] = $this->Homes->get_notif_count($this->input->post('user_id'));
-    if ($this->data['notif__count']->notif_count == 0)
-    {
-      echo $this->data['notif__count']->notif_count;
-    }
-    else
-    {
-      $this->data['notifications'] = $this->Homes->get_notifications($this->input->post('user_id'));
-      echo '
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-bell-o"></i>';
-          if (!empty($this->data['notif__count'])) {
-            echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
-          }
-        echo '</a>';
-        echo '<ul class="dropdown-menu">
-          <li>
-            <ul class="menu">';
+    $this->data['notifications'] = $this->Homes->get_notifications($this->input->post('user_id'));
+    echo '
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>';
+        if (!empty($this->data['notif__count'])) {
+          echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
+        }
+      echo '</a>';
+      echo '<ul class="dropdown-menu">
+        <li>
+          <ul class="menu">';
+          if (!empty($this->data['notifications'])) {
             foreach ($this->data['notifications'] as $key => $notification) {
               if ($notification->type_of_notification == 'Comment') {
                 echo '
@@ -872,12 +865,33 @@ class Home extends CI_Controller
                 ';
               }
             }
-            echo '
-              </ul>
-            </li>
-          </ul>
-        ';
-    }
+          }
+          else {
+            foreach ($this->data['notifications'] as $key => $notification) {
+              if ($notification->type_of_notification == 'Comment') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-chatbubble"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }elseif ($notification->type_of_notification == 'Reply') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-chatbubbles"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
+            }
+          }
+          echo '
+            </ul>
+          </li>
+        </ul>
+      ';
   }
 
   public function is_unread()

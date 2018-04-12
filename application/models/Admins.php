@@ -15,6 +15,11 @@ class Admins extends CI_Model
     return $query->row();
   }
 
+  public function delete_topic($topic_id)
+  {
+    return $this->db->query("DELETE t.*,p.*,c.* FROM topics t left JOIN posts p ON t.topic_id = p.topic_id left JOIN comments c ON t.topic_id = c.topic_id where t.topic_id = '$topic_id'");
+  }
+
   public function delete_ads()
   {
     $query = $this->db->query("DELETE FROM `advertisements` WHERE end_date < CURDATE() and type ='Regular'");
@@ -210,7 +215,8 @@ class Admins extends CI_Model
 
   public function get_priority_ad()
   {
-    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority'");
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority' and termination_date > '$deadline'");
     return $query->result();
   }
 
@@ -222,10 +228,47 @@ class Admins extends CI_Model
 
   function function_pagination($limit, $offset)
 	{
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $where = "(advertisements.termination_date > '$deadline')";
     $this->db->select('*');
     $this->db->from('basic_info');
     $this->db->join('advertisements','basic_info.id=advertisements.business_id');
     $this->db->where('type', 'Regular');
+    $this->db->where($where);
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_finished_priorities($limit, $offset)
+	{
+    $cur = new DateTime("now");
+    $curdate = $cur->format('Y-m-d');
+    $this->db->select('*');
+    $this->db->from('basic_info');
+    $this->db->join('advertisements','basic_info.id=advertisements.business_id');
+    $this->db->where('type', 'Priority');
+    $this->db->where('termination_date <', $curdate);
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_finished_regulars($limit, $offset)
+	{
+    $cur = new DateTime("now");
+    $curdate = $cur->format('Y-m-d');
+    $this->db->select('*');
+    $this->db->from('basic_info');
+    $this->db->join('advertisements','basic_info.id=advertisements.business_id');
+    $this->db->where('type', 'Regular');
+    $this->db->where('termination_date <', $curdate);
     //$query = $this->db->get();
     // $this->db->order_by('nim','ASC');
     //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
@@ -305,6 +348,7 @@ class Admins extends CI_Model
         //     }else{
         //       // echo "email send failed";
         //       return false;
+
         //     }
   }
 
@@ -318,7 +362,7 @@ class Admins extends CI_Model
     $this->db->from('basic_info');
     $this->db->join('advertisements','basic_info.id=advertisements.business_id');
     $this->db->where($where);
-    // $this->db->where('start_date', $tom);
+    // $this->db->where('type', 'Priority');
     //$query = $this->db->get();
     // $this->db->order_by('nim','ASC');
     //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
