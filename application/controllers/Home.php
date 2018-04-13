@@ -712,13 +712,15 @@ class Home extends CI_Controller
 
   public function update_password()
   {
-    $this->form_validation->set_rules(
-        'old_password', 'Old Password',
-        'trim|required',
-        array(
-                'required'      => 'Please enter your old password'
-        )
-    );
+    if (!empty($this->data['traveller_details']->password)) {
+      $this->form_validation->set_rules(
+          'old_password', 'Old Password',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter your old password'
+          )
+      );
+    }
     $this->form_validation->set_rules(
         'new_password', 'New Password',
         'trim|required',
@@ -739,11 +741,13 @@ class Home extends CI_Controller
     }
     else
     {
-      $this->form_validation->set_rules(
-          'old_password', 'Old Password',
-          'callback_ValidateOldPassword',
-          array()
-      );
+      if (!empty($this->data['traveller_details']->password)) {
+        $this->form_validation->set_rules(
+            'old_password', 'Old Password',
+            'callback_ValidateOldPassword',
+            array()
+        );
+      }
       $this->form_validation->set_rules(
           'confirm', 'Confirm Password',
           'matches[new_password]',

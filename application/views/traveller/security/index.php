@@ -101,7 +101,7 @@
     <div class="row">
       <div class="col-lg-3 side">
         <?php if (!empty($traveller_profile->image)): ?>
-          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image">
+          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
@@ -134,12 +134,14 @@
             <hr>
           </div>
           <form class="" action="<?php echo base_url() ?>Home/update_password" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Enter old password:</label>
-              <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('old_password'); ?></span>
-               <span style="color:red" class="help-block"><?= $this->session->flashdata('message') ?></span>
-            </div>
+            <?php if (!empty($traveller_details->password)): ?>
+              <div class="form-group">
+                <label>Enter old password:</label>
+                <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
+                <span style="color:red" class="help-block"><?php echo form_error('old_password'); ?></span>
+                 <span style="color:red" class="help-block"><?= $this->session->flashdata('message') ?></span>
+              </div>
+            <?php endif; ?>
             <div class="form-group">
               <label>Enter new password:</label>
               <input type="password" name="new_password" class="form-control" value="<?php echo set_value('new_password'); ?>" maxlength="25">

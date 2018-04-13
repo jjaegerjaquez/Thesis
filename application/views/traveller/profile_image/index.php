@@ -104,7 +104,7 @@
     <div class="row">
       <div class="col-lg-3 side">
         <?php if (!empty($traveller_profile->image)): ?>
-          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image">
+          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
