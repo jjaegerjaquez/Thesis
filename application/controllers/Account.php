@@ -826,7 +826,7 @@ class Account extends CI_Controller
   public function upload_profile_img()
   {
     if (!empty($this->input->post('file'))) {
-      $path = 'uploads/'.$this->data['account']->username.'/';
+      $path = 'uploads/'.$this->user_id.'/';
       $croped_image = $_POST['image'];
        list($type, $croped_image) = explode(';', $croped_image);
        list(, $croped_image)      = explode(',', $croped_image);
@@ -835,7 +835,7 @@ class Account extends CI_Controller
        // upload cropped image to server
        file_put_contents($path.$image_name, $croped_image);
        $Profile = [
-         'image' => base_url().'uploads'.'/'.$this->data['account']->username.'/'.$image_name
+         'image' => base_url().$path.$image_name
        ];
        if ($this->Accounts->save_profile($Profile,$this->user_id,$this->BusinessName)) {
          echo 'Profile image updated!';
@@ -849,7 +849,7 @@ class Account extends CI_Controller
  public function upload_site_logo()
  {
    if (!empty($this->input->post('file'))) {
-     $path = 'uploads/'.$this->data['account']->username.'/';
+     $path = 'uploads/'.$this->user_id.'/';
      $croped_image = $_POST['image'];
       list($type, $croped_image) = explode(';', $croped_image);
       list(, $croped_image)      = explode(',', $croped_image);

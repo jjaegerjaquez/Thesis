@@ -477,7 +477,7 @@ class Classic extends CI_Controller
     {
       if (!empty($this->input->post('file')))
       {
-        $path = 'uploads/'.$this->data['account']->username.'/';
+        $path = 'uploads/'.$this->user_id.'/';
         $croped_image = $_POST['image'];
          list($type, $croped_image) = explode(';', $croped_image);
          list(, $croped_image)      = explode(',', $croped_image);
@@ -526,7 +526,7 @@ class Classic extends CI_Controller
   {
     if (!empty($this->input->post('file')))
     {
-      $path = 'uploads/'.$this->data['account']->username.'/';
+      $path = 'uploads/'.$this->user_id.'/';
       $croped_image = $_POST['image'];
        list($type, $croped_image) = explode(';', $croped_image);
        list(, $croped_image)      = explode(',', $croped_image);
@@ -587,7 +587,7 @@ class Classic extends CI_Controller
   {
     if (!empty($this->input->post('file')))
     {
-      $path = 'uploads/'.$this->data['account']->username.'/';
+      $path = 'uploads/'.$this->user_id.'/';
       $croped_image = $_POST['image'];
        list($type, $croped_image) = explode(';', $croped_image);
        list(, $croped_image)      = explode(',', $croped_image);

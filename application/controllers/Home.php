@@ -192,8 +192,9 @@ class Home extends CI_Controller
                   //   'template' => '0',
                   //   'image' => ''
                   // );
+                  $data['user_account'] = $this->Homes->get_email($email);
                   chmod('./uploads/', 0777);
-                  $path   = './uploads/'.$this->input->post('username');
+                  $path   = './uploads/'.$data['user_account']->user_id;
                   if (!is_dir($path)) { //create the folder if it's not already exists
                       mkdir($path, 0755, TRUE);
                   }
@@ -340,7 +341,7 @@ class Home extends CI_Controller
                   ];
                   if ($this->db->insert('profile',$Profile)) {
                     chmod('./uploads/', 0777);
-                    $path   = './uploads/'.$this->input->post('username');
+                    $path   = './uploads/'.$data['user__id']->user_id;
                     if (!is_dir($path)) { //create the folder if it's not already exists
                         mkdir($path, 0755, TRUE);
                     }
@@ -629,15 +630,10 @@ class Home extends CI_Controller
             'username' => $this->input->post('username')
           ];
           if ($this->Homes->update_email($Username,$this->traveller_id)) {
-            chmod('./uploads/', 0777);
-            $path   = './uploads/'.$this->input->post('username');
-            if (!is_dir($path)) { //create the folder if it's not already exists
-                mkdir($path, 0755, TRUE);
-            }
+            redirect(base_url().'Home/profile', 'refresh');
           }
         }
       }
-      redirect(base_url().'Home/profile', 'refresh');
     }
   }
 
@@ -648,7 +644,7 @@ class Home extends CI_Controller
 
   public function upload_img()
   {
-    $path = 'uploads/'.$this->data['traveller_details']->username.'/';
+    $path = 'uploads/'.$this->traveller_id.'/';
     $croped_image = $_POST['image'];
      list($type, $croped_image) = explode(';', $croped_image);
      list(, $croped_image)      = explode(',', $croped_image);
@@ -657,16 +653,11 @@ class Home extends CI_Controller
      // upload cropped image to server
      file_put_contents($path.$image_name, $croped_image);
      $Profile = [
-                 'image' => base_url().'/uploads'.'/'.$this->data['traveller_details']->username.'/'.$image_name
+                 'image' => base_url().$path.$image_name
                ];
                if ($this->Homes->update_traveller_profile($Profile,$this->traveller_id)) {
                  echo 'Profile image updated!';
                }
-  }
-
-  public function crop()
-  {
-
   }
 
   public function security()
@@ -993,6 +984,11 @@ class Home extends CI_Controller
             'image' => $google_data['profile_pic']
           ];
           if ($this->db->insert('profile',$Profile)) {
+            chmod('./uploads/', 0777);
+            $path   = './uploads/'.$data['user__id']->user_id;
+            if (!is_dir($path)) { //create the folder if it's not already exists
+                mkdir($path, 0755, TRUE);
+            }
             $this->session->unset_userdata('user_type');
             redirect(base_url());
           }
@@ -1009,6 +1005,12 @@ class Home extends CI_Controller
         );
         if ($this->db->insert('users',$RegisterData))
         {
+          $data['user__id'] = $this->Homes->get_email($google_data['email']);
+          chmod('./uploads/', 0777);
+          $path   = './uploads/'.$data['user__id']->user_id;
+          if (!is_dir($path)) { //create the folder if it's not already exists
+              mkdir($path, 0755, TRUE);
+          }
           $this->session->unset_userdata('user_type');
           redirect(base_url());
         }
