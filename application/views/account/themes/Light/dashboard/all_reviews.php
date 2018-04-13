@@ -95,20 +95,21 @@
         <div class="row">
           <div class="col-lg-12 header">
             <ul class="breadcrumb">
-              <li class="active">Welcome to Travel Hub > No website</li>
+              <li><a href="<?php echo base_url(); ?>Account">Back to dashboard</a></li>
+              <li class="active">All reviews</li>
             </ul>
           </div>
           <div class="col-lg-12 switch" style="padding:0;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
-                  <a href="#" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <a href="#" aria-haspopup="true" aria-expanded="false"><?php if (!empty($business_name)): ?>
                   <?php echo $business_name?>
                   <?php else: ?>
                     Business
                   <?php endif; ?> </a>
                 <?php else: ?>
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($business_name)): ?>
                   <?php echo $business_name?>
                   <?php else: ?>
                     Business
@@ -147,6 +148,12 @@
         <div class="vertical-menu">
           <a href="<?php echo base_url() ?>Account" class="active">Dashboard</a>
           <a href="<?php echo base_url() ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url() ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url() ?>Light/home">Home Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/about">About Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url() ?>Light/theme">Theme</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">

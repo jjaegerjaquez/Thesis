@@ -95,7 +95,8 @@
         <div class="row">
           <div class="col-lg-12 header">
             <ul class="breadcrumb">
-              <li class="active">Welcome to Travel Hub > No website</li>
+              <li><a href="<?php echo base_url(); ?>Account">Back to dashboard</a></li>
+              <li class="active">All reviews</li>
             </ul>
           </div>
           <div class="col-lg-12 switch" style="padding:0;">
@@ -145,8 +146,14 @@
           <a href="<?php echo base_url() ?>Account/new_business"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
-          <a href="<?php echo base_url() ?>Account" class="active">Dashboard</a>
-          <a href="<?php echo base_url() ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account" class="active">Dashboard</a>
+          <a href="<?php echo base_url(); ?>Account/profile">Profile</a>
+          <a href="<?php echo base_url(); ?>Account/site_identity">Site Identity</a>
+          <a href="<?php echo base_url(); ?>Neutral/home">Home Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/about">About Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/gallery">Gallery Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/contacts">Contacts Page Settings</a>
+          <a href="<?php echo base_url(); ?>Neutral/theme">Theme</a>
         </div>
       </div>
       <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">

@@ -957,7 +957,7 @@ class Home extends CI_Controller
           $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
           $this->session->set_userdata('business', $data['BusinessName']->business_name);
           $this->session->set_userdata('email', $data['user__id']->email);
-          $this->session->set_userdata('user_id', $data['account']->user_id);
+          $this->session->set_userdata('user_id', $data['user__id']->user_id);
           $this->session->set_userdata('is_logged_in', true);
           redirect(base_url().'Account');
         }
