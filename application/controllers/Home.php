@@ -42,7 +42,8 @@ class Home extends CI_Controller
             'search',
             'search_location',
             'google_traveller_register',
-            'set_usertype'
+            'set_usertype',
+            'success_page'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -990,7 +991,7 @@ class Home extends CI_Controller
                 mkdir($path, 0755, TRUE);
             }
             $this->session->unset_userdata('user_type');
-            redirect(base_url());
+            redirect(base_url().'Home/success_page');
           }
         }
       }
@@ -1012,10 +1013,15 @@ class Home extends CI_Controller
               mkdir($path, 0755, TRUE);
           }
           $this->session->unset_userdata('user_type');
-          redirect(base_url());
+          redirect(base_url().'Home/success_page');
         }
       }
     }
+  }
+
+  public function success_page()
+  {
+    $this->load->view('success/index',$this->data);
   }
 
   public function logout()
