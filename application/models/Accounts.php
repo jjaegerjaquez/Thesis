@@ -9,6 +9,12 @@ class Accounts extends CI_Model
 
   }
 
+  public function update_account($Username,$user_id)
+  {
+    $this->db->where('user_id', $user_id);
+    return $this->db->update('users', $Username);
+  }
+
   public function get_notif_count($user_id)
   {
     $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");

@@ -346,6 +346,15 @@ class Account extends CI_Controller
           )
       );
     }
+    if (empty($this->data['account']->username)) {
+      $this->form_validation->set_rules(
+          'username', 'Username',
+          'trim|required',
+          array(
+                  'required'      => 'Please enter set your username'
+          )
+      );
+    }
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
@@ -363,40 +372,82 @@ class Account extends CI_Controller
     {
       if ($website == 'Yes')
       { //Kapag may website kukunin yung laman ng website na input
-        $Business_Details = [
-          'username' => $this->data['account']->username,
-          'business_name' => $this->input->post('business_name'),
-          'category' => $this->input->post('category'),
-          'locality' => $this->input->post('city_province'),
-          'address' => $this->input->post('address'),
-          'cellphone' => $this->input->post('cellphone_number'),
-          'telephone' => $this->input->post('telephone_number'),
-          'contact_person' => $this->input->post('contact_person'),
-          'website_url' => $this->input->post('website_address')
-        ];
+        if (empty($this->data['account']->username)) {
+          $Business_Details = [
+            'username' => $this->input->post('username'),
+            'business_name' => $this->input->post('business_name'),
+            'category' => $this->input->post('category'),
+            'locality' => $this->input->post('city_province'),
+            'address' => $this->input->post('address'),
+            'cellphone' => $this->input->post('cellphone_number'),
+            'telephone' => $this->input->post('telephone_number'),
+            'contact_person' => $this->input->post('contact_person'),
+            'website_url' => $this->input->post('website_address')
+          ];
+        }else {
+          $Business_Details = [
+            'username' => $this->data['account']->username,
+            'business_name' => $this->input->post('business_name'),
+            'category' => $this->input->post('category'),
+            'locality' => $this->input->post('city_province'),
+            'address' => $this->input->post('address'),
+            'cellphone' => $this->input->post('cellphone_number'),
+            'telephone' => $this->input->post('telephone_number'),
+            'contact_person' => $this->input->post('contact_person'),
+            'website_url' => $this->input->post('website_address')
+          ];
+        }
         if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-          $this->session->unset_userdata('business');
-          $this->session->set_userdata('business', $this->input->post('business_name'));
-          redirect(base_url().'Account/profile', 'refresh');
+          if (empty($this->data['account']->username)) {
+            $Username = [
+              'username' => $this->input->post('username')
+            ];
+            if ($this->Accounts->update_account($Username,$this->user_id)) {
+              $this->session->unset_userdata('business');
+              $this->session->set_userdata('business', $this->input->post('business_name'));
+              redirect(base_url().'Account/profile', 'refresh');
+            }
+          }
         }
       }
       else //Kapag walang website lalagyan ng NA yung website URL sa db
       {
-        $Business_Details = [
-          'username' => $this->data['account']->username,
-          'business_name' => $this->input->post('business_name'),
-          'category' => $this->input->post('category'),
-          'locality' => $this->input->post('city_province'),
-          'address' => $this->input->post('address'),
-          'cellphone' => $this->input->post('cellphone_number'),
-          'telephone' => $this->input->post('telephone_number'),
-          'contact_person' => $this->input->post('contact_person'),
-          'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
-        ];
+        if (empty($this->data['account']->username)) {
+          $Business_Details = [
+            'username' => $this->input->post('username'),
+            'business_name' => $this->input->post('business_name'),
+            'category' => $this->input->post('category'),
+            'locality' => $this->input->post('city_province'),
+            'address' => $this->input->post('address'),
+            'cellphone' => $this->input->post('cellphone_number'),
+            'telephone' => $this->input->post('telephone_number'),
+            'contact_person' => $this->input->post('contact_person'),
+            'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
+          ];
+        }else {
+          $Business_Details = [
+            'username' => $this->data['account']->username,
+            'business_name' => $this->input->post('business_name'),
+            'category' => $this->input->post('category'),
+            'locality' => $this->input->post('city_province'),
+            'address' => $this->input->post('address'),
+            'cellphone' => $this->input->post('cellphone_number'),
+            'telephone' => $this->input->post('telephone_number'),
+            'contact_person' => $this->input->post('contact_person'),
+            'website_url' => base_url().'View/home/'.str_replace(' ', '_', $this->input->post('business_name'))
+          ];
+        }
         if ($this->Accounts->save_profile($Business_Details,$this->user_id,$this->BusinessName)) {
-          $this->session->unset_userdata('business');
-          $this->session->set_userdata('business', $this->input->post('business_name'));
-          redirect(base_url().'Account/profile', 'refresh');
+          if (empty($this->data['account']->username)) {
+            $Username = [
+              'username' => $this->input->post('username')
+            ];
+            if ($this->Accounts->update_account($Username,$this->user_id)) {
+              $this->session->unset_userdata('business');
+              $this->session->set_userdata('business', $this->input->post('business_name'));
+              redirect(base_url().'Account/profile', 'refresh');
+            }
+          }
         }
       }
     }

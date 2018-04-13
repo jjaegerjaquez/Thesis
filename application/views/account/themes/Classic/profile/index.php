@@ -192,6 +192,13 @@
             <span class="required-text">Please fill out all fields with *</span>
           </div>
           <form class="" action="<?php echo base_url(); ?>Account/save_profile" method="post" enctype="multipart/form-data">
+            <?php if (empty($account->username)): ?>
+              <div class="form-group">
+                <label>Username* <small><span style="font-style:italic;">You can set your username only once.</span></small></label>
+                <input type="text" name="username" class="form-control" value="" maxlength="25">
+                <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
+              </div>
+            <?php endif; ?>
             <div class="form-group">
               <label>Business Category*</label>
               <select class="form-control" name="category" id="category">
