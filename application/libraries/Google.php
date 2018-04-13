@@ -25,7 +25,6 @@ class Google {
 
 	public function get_login_url(){
 		return  $this->client->createAuthUrl();
-
 	}
 
 	public function validate(){
@@ -46,8 +45,5 @@ class Google {
 			$info['profile_pic']=substr($person['image']['url'],0,strpos($person['image']['url'],"?sz=50")) . '?sz=800';
 		   return  $info;
 		}
-
-
 	}
-
 }

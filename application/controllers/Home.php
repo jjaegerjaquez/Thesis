@@ -41,7 +41,8 @@ class Home extends CI_Controller
             'look_result',
             'search',
             'search_location',
-            'google_traveller_register'
+            'google_traveller_register',
+            'set_usertype'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -931,50 +932,84 @@ class Home extends CI_Controller
     }
   }
 
-  public function lol()
+  public function set_usertype()
   {
-    # code...
+    $this->session->set_userdata('user_type', $_GET['user_type']);
   }
 
   public function google_traveller_register()
   {
     $google_data=$this->google->validate();
-		// $session_data=array(
-		// 		'name'=>$google_data['name'],
-    //     'fname'=>$google_data['fname'],
-		// 		'email'=>$google_data['email'],
-		// 		'source'=>'google',
-		// 		'profile_pic'=>$google_data['profile_pic'],
-		// 		'link'=>$google_data['link'],
-		// 		'sess_logged_in'=>1
-		// 		);
-		// 	$this->session->set_userdata($session_data);
     $data['user__id'] = $this->Homes->get_email($google_data['email']);
-    if (!empty($data['user__id'])) {
-      $this->session->set_userdata('traveller_email', $data['user__id']->email);
-      $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
-      $this->session->set_userdata('traveller_is_logged_in', true);
-      redirect(base_url());
-    }else {
-      $RegisterData = array(
-        'email' => $google_data['email'],
-        'date_joined' => date("Y-m-d"),
-        'set_up' => '1',
-        'status' => '1',
-        'type' => 'Traveller'
-      );
-      if ($this->db->insert('users',$RegisterData))
+    if (!empty($data['user__id']))
+    {
+      if ($data['user__id']->type == 'Traveller')
       {
-        $data['user__id'] = $this->Homes->get_email($google_data['email']);
-        $Profile = [
-          'user_id' => $data['user__id']->user_id,
-          'firstname' => ucwords($google_data['fname']),
-          'lastname' => ucwords($google_data['lname']),
-          'middlename' => ucwords($google_data['mname']),
-          'gender' => ucwords($google_data['gender']),
-          'image' => $google_data['profile_pic']
-        ];
-        if ($this->db->insert('profile',$Profile)) {
+        $this->session->set_userdata('traveller_email', $data['user__id']->email);
+        $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
+        $this->session->set_userdata('traveller_is_logged_in', true);
+        redirect(base_url());
+      }
+      else
+      {
+        if ($data['user__id']->set_up == '1')
+        {
+          $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
+          $this->session->set_userdata('business', $data['BusinessName']->business_name);
+          $this->session->set_userdata('email', $data['user__id']->email);
+          $this->session->set_userdata('user_id', $data['account']->user_id);
+          $this->session->set_userdata('is_logged_in', true);
+          redirect(base_url().'Account');
+        }
+        else
+        {
+          $this->session->set_userdata('email', $data['user__id']->email);
+          $this->session->set_userdata('user_id', $data['user__id']->user_id);
+          $this->session->set_userdata('is_logged_in', true);
+          redirect(base_url().'Home/set_up');
+        }
+      }
+    }
+    else
+    {
+      if ($_SESSION['user_type'] == 'Traveller')
+      {
+        $RegisterData = array(
+          'email' => $google_data['email'],
+          'date_joined' => date("Y-m-d"),
+          'set_up' => '1',
+          'status' => '1',
+          'type' => $_SESSION['user_type']
+        );
+        if ($this->db->insert('users',$RegisterData))
+        {
+          $data['user__id'] = $this->Homes->get_email($google_data['email']);
+          $Profile = [
+            'user_id' => $data['user__id']->user_id,
+            'firstname' => ucwords($google_data['fname']),
+            'lastname' => ucwords($google_data['lname']),
+            'middlename' => ucwords($google_data['mname']),
+            'gender' => ucwords($google_data['gender']),
+            'image' => $google_data['profile_pic']
+          ];
+          if ($this->db->insert('profile',$Profile)) {
+            $this->session->unset_userdata('user_type');
+            redirect(base_url());
+          }
+        }
+      }
+      else
+      {
+        $RegisterData = array(
+          'email' => $google_data['email'],
+          'date_joined' => date("Y-m-d"),
+          'set_up' => '0',
+          'status' => '1',
+          'type' => $_SESSION['user_type']
+        );
+        if ($this->db->insert('users',$RegisterData))
+        {
+          $this->session->unset_userdata('user_type');
           redirect(base_url());
         }
       }

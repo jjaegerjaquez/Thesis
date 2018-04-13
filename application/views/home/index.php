@@ -252,14 +252,14 @@
           </div>
           <!-- START OF MODAL BODY-->
           <div class="modal-body">
-            <a href="#" data-toggle="modal" data-target="#supplier">
+            <a href="#" data-toggle="modal" data-target="#supplier" id="_supplier">
               <div class="col-lg-6 col-md-6">
                 <div class="btn btn-default btn-block">
                  <i class=""></i>Supplier
                 </div>
               </div>
             </a>
-            <a href="#" data-toggle="modal" data-target="#traveller">
+            <a href="#" data-toggle="modal" data-target="#traveller" id="_traveller">
               <div class="col-lg-6 col-md-6">
                 <div class="btn btn-default btn-block">
                  <i class=""></i>Traveller
@@ -284,6 +284,22 @@
               <h4 class="modal-title">Supplier Register</h4>
             </div>
             <div class="modal-body supplier-body">
+              <div class="col-lg-12" style="margin-bottom:15px;">
+                <a href="#" data-toggle="modal" data-target="#supplier">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block fb-btn">
+                     <i class="fa fa-facebook-square"></i> Facebook
+                    </div>
+                  </div>
+                </a>
+                <a href="<?php echo $google_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block google-btn">
+                     <i class="fa fa-google-plus"></i> Google
+                    </div>
+                  </div>
+                </a>
+              </div>
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="register_error_message"></div>
                 <div class="form-group">
@@ -478,15 +494,6 @@
   <!-- CATEGORIES SECTION -->
   <section class="container categories-section">
     <div class="row text-title header-row">
-      <h1><?php if ($this->session->userdata('email')): ?>
-        <?php echo $_SESSION['email']; ?>
-      <?php endif; ?></h1>
-      <h1><?php if ($this->session->userdata('name')): ?>
-        <?php echo $_SESSION['name']; ?>
-      <?php endif; ?></h1>
-      <h1><?php if ($this->session->userdata('fname')): ?>
-        <?php echo $_SESSION['fname']; ?>
-      <?php endif; ?></h1>
       <h1 class="lato text-header">Discover</h1>
       <p>Quick search for what you're looking for</p>
     </div>
@@ -995,6 +1002,12 @@ $("#look_for").keyup(function () {
 $('ul.txtlookfor').on('click', 'li a', function () {
     $('#look_for').val($(this).text());
     // $('#look-for').focus(); 
+});
+$("#_supplier").click(function() {
+    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
+});
+$("#_traveller").click(function() {
+    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Traveller");
 });
 </script>
 </body>
