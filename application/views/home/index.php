@@ -203,7 +203,7 @@
             <form class="" action="/Login/login" method="post" enctype="multipart/form-data">
               <div id="error_message"></div>
               <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="#" data-toggle="modal" data-target="#supplier">
+                <a href="<?php echo $fb_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block fb-btn">
                      <i class="fa fa-facebook-square"></i> Facebook
@@ -285,7 +285,7 @@
             </div>
             <div class="modal-body supplier-body">
               <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="#" data-toggle="modal" data-target="#supplier">
+                <a href="<?php echo $fb_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block fb-btn">
                      <i class="fa fa-facebook-square"></i> Facebook
@@ -350,7 +350,7 @@
             </div>
             <div class="modal-body traveller-body">
               <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="#" data-toggle="modal" data-target="#supplier">
+                <a href="<?php echo $fb_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block fb-btn">
                      <i class="fa fa-facebook-square"></i> Facebook

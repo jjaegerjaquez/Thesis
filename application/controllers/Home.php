@@ -14,6 +14,7 @@ class Home extends CI_Controller
 		$this->load->library('pagination');
     $this->load->library('session');
     $this->load->library('google');
+    $this->load->library('facebook');
 		$this->load->model('Homes');
 
     $this->data['categories'] = $this->Homes->get_categories();
@@ -42,6 +43,7 @@ class Home extends CI_Controller
             'search',
             'search_location',
             'google_traveller_register',
+            'fb_register',
             'set_usertype',
             'success_page'
         );
@@ -63,6 +65,7 @@ class Home extends CI_Controller
   public function index()
   {
     $this->data['google_login_url']=$this->google->get_login_url();
+    $this->data['fb_login_url'] =  $this->facebook->login_url();
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;
@@ -1016,6 +1019,110 @@ class Home extends CI_Controller
           redirect(base_url().'Home/success_page');
         }
       }
+    }
+  }
+
+  public function fb_register()
+  {
+    $userData = array();
+
+    // Check if user is logged in
+    if($this->facebook->is_authenticated()){
+        // Get user facebook profile details
+        $fbUserProfile = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,link,gender,locale,cover,picture');
+        
+        // Preparing data for database insertion
+        $userData['fb_id'] = $fbUserProfile['id'];
+        $userData['first_name'] = $fbUserProfile['first_name'];
+        $userData['last_name'] = $fbUserProfile['last_name'];
+        $userData['email'] = $fbUserProfile['email'];
+        $userData['gender'] = $fbUserProfile['gender'];
+        $userData['picture'] = $fbUserProfile['picture']['data']['url'];
+
+        $data['user__id'] = $this->Homes->get_email($userData['email']);
+        if (!empty($data['user__id']))
+        {
+          if ($data['user__id']->type == 'Traveller')
+          {
+            $this->session->set_userdata('traveller_email', $data['user__id']->email);
+            $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
+            $this->session->set_userdata('traveller_is_logged_in', true);
+            redirect(base_url());
+          }
+          else
+          {
+            if ($data['user__id']->set_up == '1')
+            {
+              $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
+              $this->session->set_userdata('business', $data['BusinessName']->business_name);
+              $this->session->set_userdata('email', $data['user__id']->email);
+              $this->session->set_userdata('user_id', $data['user__id']->user_id);
+              $this->session->set_userdata('is_logged_in', true);
+              redirect(base_url().'Account');
+            }
+            else
+            {
+              $this->session->set_userdata('email', $data['user__id']->email);
+              $this->session->set_userdata('user_id', $data['user__id']->user_id);
+              $this->session->set_userdata('is_logged_in', true);
+              redirect(base_url().'Home/set_up');
+            }
+          }
+        }
+        else
+        {
+          if ($_SESSION['user_type'] == 'Traveller')
+          {
+            $RegisterData = array(
+              'email' => $userData['email'],
+              'date_joined' => date("Y-m-d"),
+              'set_up' => '1',
+              'status' => '1',
+              'type' => $_SESSION['user_type']
+            );
+            if ($this->db->insert('users',$RegisterData))
+            {
+              $data['user__id'] = $this->Homes->get_email($userData['email']);
+              $Profile = [
+                'user_id' => $data['user__id']->user_id,
+                'firstname' => ucwords($userData['first_name']),
+                'lastname' => ucwords($userData['last_name']),
+                'gender' => ucwords($userData['gender']),
+                'image' => 'https://graph.facebook.com/'.$userData['fb_id'].'/picture?type=large'
+              ];
+              if ($this->db->insert('profile',$Profile)) {
+                chmod('./uploads/', 0777);
+                $path   = './uploads/'.$data['user__id']->user_id;
+                if (!is_dir($path)) { //create the folder if it's not already exists
+                    mkdir($path, 0755, TRUE);
+                }
+                $this->session->unset_userdata('user_type');
+                redirect(base_url().'Home/success_page');
+              }
+            }
+          }
+          else
+          {
+            $RegisterData = array(
+              'email' => $userData['email'],
+              'date_joined' => date("Y-m-d"),
+              'set_up' => '0',
+              'status' => '1',
+              'type' => $_SESSION['user_type']
+            );
+            if ($this->db->insert('users',$RegisterData))
+            {
+              $data['user__id'] = $this->Homes->get_email($userData['email']);
+              chmod('./uploads/', 0777);
+              $path   = './uploads/'.$data['user__id']->user_id;
+              if (!is_dir($path)) { //create the folder if it's not already exists
+                  mkdir($path, 0755, TRUE);
+              }
+              $this->session->unset_userdata('user_type');
+              redirect(base_url().'Home/success_page');
+            }
+          }
+        }
     }
   }
 
