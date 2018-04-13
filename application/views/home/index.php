@@ -61,7 +61,9 @@
               </ul>
             </li>
             <li>
-              <a href="#"><span class="ion-ios-search-strong"></span></a>
+              <button type="button" class="buttonsearch" id="buttonsearch">
+                 <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+              </button>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -122,6 +124,30 @@
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
+      <div class="container searchbardiv" id="formsearch">
+        <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
+          <div class="row">
+            <div class="col-lg-5 col-xs-6 no-padding">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+                <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+                <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
+              </div>
+            </div>
+            <div class="col-lg-7 col-xs-6">
+              <div class="input-group">
+                <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+                <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
+                <div class="input-group-btn">
+                  <button class="btn btn-default"  id="searchsubmit"  type="submit">
+                    <strong>Search</strong>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </nav>
     <!-- END NAVBAR -->
   <?php else: ?>
@@ -167,17 +193,19 @@
       </div>
     </div>
     <div class="container searchbardiv" id="formsearch">
-      <form role="search" method="get" id="searchform">
+      <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
         <div class="row">
           <div class="col-lg-5 col-xs-6 no-padding">
             <div class="input-group">
               <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-              <input type="text" class="form-control input-style" placeholder="Location" id="location">
+              <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+              <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
             </div>
           </div>
           <div class="col-lg-7 col-xs-6">
             <div class="input-group">
-              <input type="text" id="searchbox" class="form-control" name="s" id="s" placeholder="Search for...">
+              <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+              <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
               <div class="input-group-btn">
                 <button class="btn btn-default"  id="searchsubmit"  type="submit">
                   <strong>Search</strong>
@@ -425,18 +453,18 @@
     <form class="search-panel" action="<?php echo base_url(); ?>Search/result" method="post">
       <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter">
+            <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter hidden-xs">
               <div class="input-group">
                 <div class="input-group-addon"><i class="ion-location input-style"></i></div>
                 <input style="" type="text" id="locality-search" autocomplete="off" name="locality-search" class="form-control" placeholder="Location" value="">
                 <ul class="dropdown-menu txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLocality"></ul>
               </div>
             </div>
-            <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter">
+            <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter hidden-xs">
               <input style="" type="text" id="look_for" autocomplete="off" name="category" class="form-control" placeholder="Search for..">
               <ul class="dropdown-menu txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLookFor"></ul>
             </div>
-            <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter">
+            <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter hidden-xs">
               <input class="btn search-btn btn-block" type="submit" value="Search">
             </div>
         </div>
@@ -496,6 +524,7 @@
     <div class="row text-title header-row">
       <h1 class="lato text-header">Discover</h1>
       <p>Quick search for what you're looking for</p>
+      <p>Device is: <span class="hidden-xs">Large</span></p>
     </div>
     <div class="row row1">
       <div class="sidebar-social text-center">
@@ -971,6 +1000,36 @@ $("#locality-search").keyup(function () {
 });
 $('ul.txtlocality').on('click', 'li a', function () {
     $('#locality-search').val($(this).text());
+    $('#look_for').focus(); 
+});
+$("#locality_search").keyup(function () {
+  // alert("Hey world");
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/search_location",
+        data: {
+            keyword: $("#locality_search").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#_DropdownLocality').empty();
+                $('#locality_search').attr("data-toggle", "dropdown");
+                $('#_DropdownLocality').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#locality_search').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#_DropdownLocality').append('<li role="display_Countries" ><a role="menuitem _DropdownLocalityli" class="_dropdownlivalue">' + value['locality'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul._txtlocality').on('click', 'li a', function () {
+    $('#locality_search').val($(this).text());
     $('#look-for').focus(); 
 });
 $("#look_for").keyup(function () {
@@ -1002,6 +1061,35 @@ $("#look_for").keyup(function () {
 $('ul.txtlookfor').on('click', 'li a', function () {
     $('#look_for').val($(this).text());
     // $('#look-for').focus(); 
+});
+$("#look-for").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/look_result",
+        data: {
+            keyword: $("#look-for").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#_DropdownLookFor').empty();
+                $('#look-for').attr("data-toggle", "dropdown");
+                $('#_DropdownLookFor').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#look-for').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#_DropdownLookFor').append('<li role="displayCountries" ><a role="menuitem _DropdownLocalityli" class="dropdownlivalue">' + value['category'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul._txtlookfor').on('click', 'li a', function () {
+    $('#look-for').val($(this).text()); 
 });
 $("#_supplier").click(function() {
     $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
