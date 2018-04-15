@@ -52,8 +52,8 @@ class Account extends CI_Controller
       $this->data['instagram'] = $this->Accounts->get_instagram();
       $this->data['twitter'] = $this->Accounts->get_twitter();
       $this->data['google'] = $this->Accounts->get_google();
-      $this->data['notif_count'] = $this->Accounts->get_notif_count($this->user_id);
-      $this->data['notifications'] = $this->Accounts->get_notifications($this->user_id);
+      $this->data['notif_count'] = $this->Accounts->get_notif_count($this->id);
+      $this->data['notifications'] = $this->Accounts->get_notifications($this->id);
     }
 	}
 
@@ -153,7 +153,110 @@ class Account extends CI_Controller
 
   public function get_notif()
   {
+    $this->data['notif__count'] = $this->Accounts->get_notif_count($this->input->post('user_id'));
+    $this->data['notifications'] = $this->Accounts->get_notifications($this->input->post('user_id'));
+    echo '
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-bell-o"></i>';
+        if (!empty($this->data['notif__count'])) {
+          echo '<span class="label label-warning" id="notif-count">'.$this->data['notif__count']->notif_count.'</span>';
+        }
+      echo '</a>';
+      echo '<ul class="dropdown-menu">
+        <li>
+          <ul class="menu">';
+          if (!empty($this->data['notifications'])) {
+            foreach ($this->data['notifications'] as $key => $notification) {
+              if ($notification->type_of_notification == 'Review') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-compose"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }elseif ($notification->type_of_notification == 'Vote') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-heart"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
+            }
+          }
+          else {
+            foreach ($this->data['notifications'] as $key => $notification) {
+              if ($notification->type_of_notification == 'Review') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-compose"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }elseif ($notification->type_of_notification == 'Vote') {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-heart"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
+            }
+          }
+          echo '
+            </ul>
+          </li>
+          <li class="footer"><a href="'.base_url().'Account/notifications">View all</a></li>
+        </ul>
+      ';
+  }
 
+  public function is_unread()
+  {
+    $Notif = [
+      'is_unread' => '1'
+    ];
+    if ($this->Accounts->set_read($Notif,$this->input->post('user_id'))) {
+        echo '0';
+    }
+  }
+
+  public function notifications()
+  {
+    $query2= $this->db->get_where('notifications', ['recipient_id' => $this->id]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Account/notifications';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['_notifications'] = $this->Accounts->function_pagination_all_notifications($limit, $offset,$this->id);
+    $this->load->view('account/notifications/index', $this->data);
   }
 
   public function switch_business()
@@ -552,7 +655,7 @@ class Account extends CI_Controller
 
   public function new_business()
   {
-    $this->load->view('account/new/step1/index');
+    $this->load->view('account/new/step1/index',$this->data);
   }
 
   public function save_step_one()
@@ -571,7 +674,7 @@ class Account extends CI_Controller
 
   public function step_two()
   {
-    $this->load->view('account/new/step2/index');
+    $this->load->view('account/new/step2/index',$this->data);
   }
 
   public function save_step_two()

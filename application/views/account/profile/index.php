@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Travel | Hub</title>
+  <title><?php if (!empty($title->value)) { echo $title->value; } else { echo "Title";}?></title>
+  <link rel="icon" href="<?php if (!empty($icon->value)) { echo $icon->value; } else { echo "Icon";}?>">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -23,8 +24,8 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-default">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -34,67 +35,63 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="" href="">
-          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="25px" width="50px"> -->
-        </a>
       </div>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown notifications-menu" id="notif-div">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
-            <?php endif; ?>
-          </a>
-          <ul class="dropdown-menu">
-            <!-- <li class="header">You have 10 notifications</li> -->
-            <li>
-              <!-- inner menu: contains the actual data -->
-              <ul class="menu">
-                <?php if (!empty($notifications)): ?>
-                  <?php foreach ($notifications as $key => $notification): ?>
-                    <?php if ($notification->type_of_notification == 'Comment'): ?>
-                      <li>
-                        <a href="<?php echo $notification->href ?>">
-                          <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                        </a>
-                      </li>
-                    <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                      <li>
-                        <a href="<?php echo $notification->href ?>">
-                          <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                        </a>
-                      </li>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                <?php else: ?>
-                  You have no new notifications
-                <?php endif; ?>
-              </ul>
-            </li>
-            <!-- <li class="footer"><a href="#">View all</a></li> -->
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
-          <?php echo $account->username?>
-          <?php else: ?>
-            Admin
-          <?php endif; ?> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
-            <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown notifications-menu" id="notif-div">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+              <?php endif; ?>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- <li class="header">You have 10 notifications</li> -->
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <?php if (!empty($notifications)): ?>
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Review'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-compose"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Vote'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-heart"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <li>You have no notifications</li>
+                  <?php endif; ?>
+                </ul>
+              </li>
+              <li class="footer"><a href="<?php echo base_url();?>Account/notifications">View all</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $account->username?> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+              <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-  <!-- END OF NAV -->
+  <!-- END NAVBAR -->
 
   <div class="container">
-    <div class="row">
+    <div class="row header">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url() ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing profile</li>
@@ -122,7 +119,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="<?php echo base_url() ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url() ?>Account/switch_business?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -136,7 +133,7 @@
     </div>
   </div>
 
-  <section class="container">
+  <section class="container" style="margin-bottom:50px;">
     <div class="row">
       <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($details->image)): ?>
@@ -145,7 +142,7 @@
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="<?php echo base_url() ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url() ?>Account/new_business"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
           <a href="<?php echo base_url() ?>Account">Dashboard</a>
@@ -251,40 +248,37 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('is_logged_in')): ?>
-// (function() {
-//   var notif = function(){
-//     var user_id = {
-//         user_id: "<?php echo $details->id ?>"
-//     };
-//     $.ajax({
-//       url: "/Home/get_notif",
-//       type: "POST",
-//       data: user_id,
-//       success: function (data){
-//         // alert('Kumuha na ng notif');
-//           $('#notif-div').html(data);
-//       }
-//     });
-//   };
-//   setInterval(function(){
-//     notif();
-//   }, 60000);
-// })();
-// $('#notif-div').on('click', '#notif-count', function() {
-//     // alert('clicked');
-//     var user_id = {
-//              user_id: "<?php echo $details->id ?>"
-//          };
-//       $.ajax({
-//           url: "/Home/is_unread",
-//           type: 'POST',
-//           data: user_id,
-//           success: function(msg) {
-//             // alert("Na read na");
-//             $('#notif-count').html(msg);
-//           }
-//       });
-// });
+var time = 10000;
+(function poll() {
+   setTimeout(function() {
+     var user_id = {
+             user_id: "<?php echo $details->id ?>"
+         };
+       $.ajax({
+         url: "<?php echo base_url(); ?>Account/get_notif",
+         type: "POST",
+         data: user_id,
+         success: function(data) {
+           $('#notif-div').html(data);
+         },
+       complete: poll
+     });
+   }, time);
+})();
+$('#notif-div').on('click', '#notif-count', function() {
+    var user_id = {
+             user_id: "<?php echo $details->id ?>"
+         };
+      $.ajax({
+          url: "<?php echo base_url(); ?>Account/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
 <?php endif; ?>
 $image_crop = $('#upload-image').croppie({
 	enableExif: true,

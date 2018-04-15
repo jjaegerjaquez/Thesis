@@ -51,26 +51,26 @@
                 <ul class="menu">
                   <?php if (!empty($notifications)): ?>
                     <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                      <?php if ($notification->type_of_notification == 'Review'): ?>
                         <li>
                           <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            <i class="ion-compose"></i> <?php echo $notification->title_content ?>
                           </a>
                         </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                      <?php elseif ($notification->type_of_notification == 'Vote'):?>
                         <li>
                           <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            <i class="ion-heart"></i> <?php echo $notification->title_content ?>
                           </a>
                         </li>
                       <?php endif; ?>
                     <?php endforeach; ?>
                   <?php else: ?>
-                    You have no new notifications
+                    <li>You have no notifications</li>
                   <?php endif; ?>
                 </ul>
               </li>
-              <!-- <li class="footer"><a href="#">View all</a></li> -->
+              <li class="footer"><a href="<?php echo base_url();?>Account/notifications">View all</a></li>
             </ul>
           </li>
           <li class="dropdown">

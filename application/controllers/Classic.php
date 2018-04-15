@@ -41,6 +41,8 @@ class Classic extends CI_Controller
       $this->data['instagram'] = $this->Classics->get_instagram();
       $this->data['twitter'] = $this->Classics->get_twitter();
       $this->data['google'] = $this->Classics->get_google();
+      $this->data['notif_count'] = $this->Classics->get_notif_count($this->id);
+      $this->data['notifications'] = $this->Classics->get_notifications($this->id);
     }
 	}
 

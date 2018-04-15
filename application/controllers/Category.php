@@ -191,12 +191,18 @@ class Category extends CI_Controller
               'is_read' => '0',
               'date_created' => date("Y-m-d")
             ];
-            if ($this->db->insert('reviews',$Review)) {
-              // $this->data['vote'] = $this->Homes->get_vote($business_id);
+            $Notif = [
+              'sender_id' => $this->traveller_id,
+              'type_of_notification' => 'Review',
+              'title_content' => $this->data['traveller_details']->username.' reviewed you.',
+              'body_content' => $this->input->post('review'),
+              'href' => base_url().'Account',
+              'recipient_id' => $this->input->post('business_id'),
+              'is_unread' => '0',
+              'created_time' => date("Y-m-d")
+            ];
+            if ($this->db->insert('reviews',$Review) && $this->db->insert('supplier_notifications', $Notif)) {
               $this->data['business_details'] = $this->Categories->get_business_by_Id($this->input->post('business_id'));
-              // echo $this->data['business_details']->business_name;
-              // base_url().'View/home/'.$this->data['account']->username
-              // echo "/Category/view/".str_replace(' ', '_', $this->data['business_details']->business_name);
               echo "
               <script type='text/javascript'>
                 var elem = document.createElement('script');

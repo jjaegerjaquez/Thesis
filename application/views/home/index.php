@@ -202,7 +202,7 @@
               <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
             </div>
           </div>
-          <div class="col-lg-7 col-xs-6" style="background-color:pink;">
+          <div class="col-lg-7 col-xs-6">
             <div class="input-group">
               <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
               <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>

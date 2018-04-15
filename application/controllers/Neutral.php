@@ -41,6 +41,8 @@ class Neutral extends CI_Controller
       $this->data['instagram'] = $this->Neutrals->get_instagram();
       $this->data['twitter'] = $this->Neutrals->get_twitter();
       $this->data['google'] = $this->Neutrals->get_google();
+      $this->data['notif_count'] = $this->Neutrals->get_notif_count($this->id);
+      $this->data['notifications'] = $this->Neutrals->get_notifications($this->id);
     }
 	}
 

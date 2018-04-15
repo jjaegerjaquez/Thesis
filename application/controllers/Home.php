@@ -841,9 +841,16 @@ class Home extends CI_Controller
           'voter_id' => $this->traveller_id,
           'business_id' => $this->input->post('business_id')
         ];
-        if ($this->db->insert('votes',$Vote)) {
+        $Notif = [
+          'sender_id' => $this->traveller_id,
+          'type_of_notification' => 'Vote',
+          'title_content' => $this->data['traveller_details']->username.' faved you.',
+          'recipient_id' => $this->input->post('business_id'),
+          'is_unread' => '0',
+          'created_time' => date("Y-m-d")
+        ];
+        if ($this->db->insert('votes',$Vote) && $this->db->insert('supplier_notifications', $Notif)) {
           $this->data['vote'] = $this->Homes->get_vote($business_id);
-          // redirect('/Account/home', 'refresh');
           echo $this->data['vote']->vote;
         }
         else

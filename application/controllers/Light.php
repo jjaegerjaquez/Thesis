@@ -41,6 +41,8 @@ class Light extends CI_Controller
       $this->data['instagram'] = $this->Lights->get_instagram();
       $this->data['twitter'] = $this->Lights->get_twitter();
       $this->data['google'] = $this->Lights->get_google();
+      $this->data['notif_count'] = $this->Lights->get_notif_count($this->id);
+      $this->data['notifications'] = $this->Lights->get_notifications($this->id);
     }
 	}
 

@@ -16,14 +16,11 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/profile/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/notifications/style.css">
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -90,60 +87,60 @@
   </nav>
   <!-- END NAVBAR -->
 
-  <div class="container">
+  <div class="container" style="margin-top:80px;">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="<?php echo base_url() ?>Account">Go back to dashboard</a></li>
-        <li class="active">Security</li>
+        <li><a href="<?php echo base_url() ?>Account">Back to dashboard</a></li>
+        <li class="active">All notifications</li>
       </ul>
     </div>
   </div>
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-12" style="">
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
-          <div class="row text-title header-row">
-            <h3 class="title">Change email</h3>
-            <hr>
-          </div>
-          <form class="" action="<?php echo base_url() ?>Account/update_email" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Email:</label>
-              <input type="text" name="email" class="form-control" value="<?php if (!empty($account->email)): ?><?php echo $account->email?><?php endif; ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('email'); ?></span>
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Update</button>
-            </div>
-          </form>
+      <div class="col-lg-12 box-style">
+        <div class="row text-title header-row">
+          <h3 class="title">Notifications</h3>
         </div>
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
-          <div class="row text-title header-row">
-            <h3 class="title">Change password</h3>
-            <hr>
-          </div>
-          <form class="" action="<?php echo base_url() ?>Account/update_password" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label>Enter old password:</label>
-              <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('old_password'); ?></span>
-               <span style="color:red" class="help-block"><?= $this->session->flashdata('message') ?></span>
-            </div>
-            <div class="form-group">
-              <label>Enter new password:</label>
-              <input type="password" name="new_password" class="form-control" value="<?php echo set_value('new_password'); ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('new_password'); ?></span>
-            </div>
-            <div class="form-group">
-              <label>Confirm new password:</label>
-              <input type="password" name="confirm" class="form-control" value="<?php echo set_value('confirm'); ?>" maxlength="25">
-              <span style="color:red" class="help-block"><?php echo form_error('confirm'); ?></span>
-            </div>
-            <div class="form-group">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Update</button>
-            </div>
-          </form>
+        <div class="content visible-lg">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <tbody>
+                <?php foreach ($_notifications as $key => $_notification): ?>
+                  <tr role="row" class="odd">
+                    <td style="width:350px;"><a href="<?php echo $_notification->href?>"><?php echo $_notification->title_content ?></a></td>
+                    <td style="width:500px;">
+                      <?php if ($_notification->type_of_notification == 'Comment' || $_notification->type_of_notification == 'Reply'): ?>
+                        <p><?php echo $_notification->body_content ?></p>
+                      <?php endif; ?>
+                    </td>
+                    <td style="width:200px;"><?php echo date('F j, Y',strtotime($_notification->created_time))?></td>
+                  </tr>
+                <?php endforeach ?>
+            </tbody>
+          </table>
+          <nav class="pull-right">
+            <?php echo $this->pagination->create_links();?>
+          </nav>
+        </div>
+        <div class="content hidden-lg" style="padding-bottom:100px;">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <tbody>
+                <?php foreach ($_notifications as $key => $_notification): ?>
+                  <tr role="row" class="odd">
+                    <td style="width:350px;"><a href="<?php echo $_notification->href?>"><?php echo $_notification->title_content ?></a></td>
+                    <td style="width:500px;">
+                      <?php if ($_notification->type_of_notification == 'Comment' || $_notification->type_of_notification == 'Reply'): ?>
+                        <p><?php echo $_notification->body_content ?></p>
+                      <?php endif; ?>
+                    </td>
+                    <td style="width:200px;"><?php echo date('F j, Y',strtotime($_notification->created_time))?></td>
+                  </tr>
+                <?php endforeach ?>
+            </tbody>
+          </table>
+          <nav class="pull-right">
+            <?php echo $this->pagination->create_links();?>
+          </nav>
         </div>
       </div>
     </div>
@@ -191,15 +188,10 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+<?php if ($this->session->userdata('traveller_is_logged_in')): ?>
+
+<?php endif; ?>
 </script>
 </body>
 </html>

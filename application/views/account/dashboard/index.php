@@ -51,26 +51,26 @@
                 <ul class="menu">
                   <?php if (!empty($notifications)): ?>
                     <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                      <?php if ($notification->type_of_notification == 'Review'): ?>
                         <li>
                           <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            <i class="ion-compose"></i> <?php echo $notification->title_content ?>
                           </a>
                         </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                      <?php elseif ($notification->type_of_notification == 'Vote'):?>
                         <li>
                           <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            <i class="ion-heart"></i> <?php echo $notification->title_content ?>
                           </a>
                         </li>
                       <?php endif; ?>
                     <?php endforeach; ?>
                   <?php else: ?>
-                    You have no new notifications
+                    <li>You have no notifications</li>
                   <?php endif; ?>
                 </ul>
               </li>
-              <!-- <li class="footer"><a href="#">View all</a></li> -->
+              <li class="footer"><a href="<?php echo base_url();?>Account/notifications">View all</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -90,14 +90,12 @@
   <!-- END NAVBAR -->
 
   <div class="container">
-    <div class="row">
+    <div class="row header">
+      <ul class="breadcrumb">
+        <li><a href="<?php echo base_url() ?>Account">Welcome to Travel Hub</a></li>
+      </ul>
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 header">
-            <ul class="breadcrumb">
-              <li class="active">Welcome to Travel Hub > No website</li>
-            </ul>
-          </div>
           <div class="col-lg-12 switch" style="padding:0;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
@@ -119,7 +117,7 @@
                       <?php foreach ($businesses as $key => $business): ?>
                         <?php if ($business->business_name == $business_name): ?>
                         <?php else: ?>
-                          <li><a href="<?php echo base_url() ?>Account/switch?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
+                          <li><a href="<?php echo base_url() ?>Account/switch_business?business=<?php echo $business->business_name ?>"><?php echo $business->business_name ?></a></li>
                         <?php endif; ?>
                       <?php endforeach; ?>
                     </ul>
@@ -142,7 +140,7 @@
           <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
         <?php endif; ?>
         <div class="add-box pull-right">
-          <a href="<?php echo base_url() ?>Account/new"><span><i class="ion-ios-plus"></i> </span>New business</a>
+          <a href="<?php echo base_url() ?>Account/new_business"><span><i class="ion-ios-plus"></i> </span>New business</a>
         </div>
         <div class="vertical-menu">
           <a href="<?php echo base_url() ?>Account" class="active">Dashboard</a>
@@ -269,7 +267,6 @@
 <?php if ($this->session->userdata('is_logged_in')): ?>
 var time = 10000;
 (function poll() {
-  // console.log("Execute na yung poll function");
    setTimeout(function() {
      var user_id = {
              user_id: "<?php echo $details->id ?>"
@@ -280,53 +277,25 @@ var time = 10000;
          data: user_id,
          success: function(data) {
            $('#notif-div').html(data);
-            // if (data == '0') {
-            //   console.log("Time is 15 secs");
-            //   time = 2000;
-            // }
-            // else {
-            //   alert("May data na");
-            // }
          },
-      //  dataType: "json",
        complete: poll
      });
    }, time);
 })();
-// (function() {
-//   var notif = function(){
-//     var user_id = {
-//         user_id: "<?php echo $details->id ?>"
-//     };
-//     $.ajax({
-//       url: "/Home/get_notif",
-//       type: "POST",
-//       data: user_id,
-//       success: function (data){
-//         // alert('Kumuha na ng notif');
-//           $('#notif-div').html(data);
-//       }
-//     });
-//   };
-//   setInterval(function(){
-//     notif();
-//   }, 60000);
-// })();
-// $('#notif-div').on('click', '#notif-count', function() {
-//     // alert('clicked');
-//     var user_id = {
-//              user_id: "<?php echo $details->id ?>"
-//          };
-//       $.ajax({
-//           url: "/Home/is_unread",
-//           type: 'POST',
-//           data: user_id,
-//           success: function(msg) {
-//             // alert("Na read na");
-//             $('#notif-count').html(msg);
-//           }
-//       });
-// });
+$('#notif-div').on('click', '#notif-count', function() {
+    var user_id = {
+             user_id: "<?php echo $details->id ?>"
+         };
+      $.ajax({
+          url: "<?php echo base_url(); ?>Account/is_unread",
+          type: 'POST',
+          data: user_id,
+          success: function(msg) {
+            // alert("Na read na");
+            $('#notif-count').html(msg);
+          }
+      });
+});
 <?php endif; ?>
 </script>
 </body>

@@ -23,8 +23,8 @@
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="navbar navbar-default">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -34,72 +34,60 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="" href="">
-          <!-- <img alt="Brand" src="/public/img/logo/TH-Logo-White.png" height="25px" width="50px"> -->
-        </a>
       </div>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown notifications-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fa fa-bell-o"></i>
-            <span class="label label-warning">10</span>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="header">You have 10 notifications</li>
-            <li>
-              <!-- inner menu: contains the actual data -->
-              <ul class="menu">
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                    page and may cause design problems
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-users text-red"></i> 5 new members joined
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> You changed your username
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="footer"><a href="#">View all</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php if (!empty($account->username)): ?>
-          <?php echo $account->username?>
-          <?php else: ?>
-            Admin
-          <?php endif; ?> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="<?php echo base_url(); ?>Account/security">Security</a></li>
-            <li><a href="<?php echo base_url(); ?>Account/details">Account Details</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="<?php echo base_url(); ?>Account/logout">Logout</a></li>
-          </ul>
-        </li>
-      </ul>
-
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown notifications-menu" id="notif-div">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+              <?php endif; ?>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- <li class="header">You have 10 notifications</li> -->
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <?php if (!empty($notifications)): ?>
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Review'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-compose"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Vote'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-heart"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <li>You have no notifications</li>
+                  <?php endif; ?>
+                </ul>
+              </li>
+              <li class="footer"><a href="<?php echo base_url();?>Account/notifications">View all</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $account->username?> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
+              <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
-  <!-- END OF NAV -->
+  <!-- END NAVBAR -->
 
   <div class="container">
     <div class="row">

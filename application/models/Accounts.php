@@ -17,20 +17,38 @@ class Accounts extends CI_Model
 
   public function get_notif_count($user_id)
   {
-    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    // $this->db->where('start_date >=', $cur_date);
+    $query = $this->db->query("select count(recipient_id) as notif_count from supplier_notifications where recipient_id = '$user_id' and is_unread = '0' and created_time = '$cur_date'");
     return $query->row();
   }
 
   public function get_notifications($user_id)
   {
-    $query = $this->db->query("select * from notifications where recipient_id = '$user_id' order by created_time DESC");
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from supplier_notifications where recipient_id = '$user_id' and created_time = '$cur_date' order by created_time DESC");
     return $query->result();
   }
+
+  function function_pagination_all_notifications($limit, $offset,$id)
+	{
+    $this->db->select('*');
+    $this->db->from('supplier_notifications');
+    $this->db->where('recipient_id', $id);
+    //$query = $this->db->get();
+    $this->db->order_by('created_time','DESC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
 
   public function set_read($Notif,$user_id)
   {
     $this->db->where('recipient_id', $user_id);
-    return $this->db->update('notifications', $Notif);
+    return $this->db->update('supplier_notifications', $Notif);
   }
 
   public function get_title()

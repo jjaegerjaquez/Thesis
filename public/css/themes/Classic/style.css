@@ -1,5 +1,6 @@
 html, body {
-  padding: 0 0 20px 0;
+  padding-top:  30px;
+  padding-bottom: 20px;
   margin: 0;
   background-color: #ebe9e9;
 }
@@ -32,6 +33,9 @@ html, body {
 
 
 /* Breadcrumb & Header*/
+.header{
+  margin-top: 100px;
+}
 .breadcrumb{
   background-color: transparent;
   font-size: 11px;
