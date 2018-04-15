@@ -55,15 +55,57 @@
             </li>
             <li>
               <button type="button" class="buttonsearch" id="buttonsearch">
-                 <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
-              </button>
+   <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+</button>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown notifications-menu" id="notif-div">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+                <?php endif; ?>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- <li class="header">You have 10 notifications</li> -->
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    <?php if (!empty($notifications)): ?>
+                      <?php foreach ($notifications as $key => $notification): ?>
+                        <?php if ($notification->type_of_notification == 'Comment'): ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php else: ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <li>You have no notifications</li>
+                    <?php endif; ?>
+                  </ul>
+                </li>
+                <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
+              </ul>
+            </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
               </ul>

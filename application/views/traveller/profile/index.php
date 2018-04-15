@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/traveller/style.css">
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -51,32 +50,38 @@
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <?php foreach ($notifications as $key => $notification): ?>
-                    <?php if ($notification->type_of_notification == 'Comment'): ?>
-                      <li>
-                        <a href="<?php echo $notification->href ?>">
-                          <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                        </a>
-                      </li>
-                    <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                      <li>
-                        <a href="<?php echo $notification->href ?>">
-                          <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                        </a>
-                      </li>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
+                  <?php if (!empty($notifications)): ?>
+                    <?php foreach ($notifications as $key => $notification): ?>
+                      <?php if ($notification->type_of_notification == 'Comment'): ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php else: ?>
+                        <li>
+                          <a href="<?php echo $notification->href ?>">
+                            <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                          </a>
+                        </li>
+                      <?php endif; ?>
+                    <?php endforeach; ?>
+                  <?php else: ?>
+                    <li>You have no notifications</li>
+                  <?php endif; ?>
                 </ul>
               </li>
               <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
             </ul>
           </li>
           <li class="dropdown">
-            <?php if (!empty($traveller_details->username)): ?>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
-            <?php else: ?>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
-            <?php endif; ?>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>

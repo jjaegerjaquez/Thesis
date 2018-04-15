@@ -32,6 +32,8 @@ class Search extends CI_Controller
       $this->traveller_id = $_SESSION['traveller_id'];
       $this->data['traveller_details'] = $this->Searchs->get_traveller_details($this->traveller_id);
       $this->data['traveller_profile'] = $this->Searchs->get_traveller_profile($this->traveller_id);
+      $this->data['notif_count'] = $this->Searchs->get_notif_count($this->traveller_id);
+      $this->data['notifications'] = $this->Searchs->get_notifications($this->traveller_id);
     }
     else
     {

@@ -66,21 +66,31 @@
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
-                    <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if (!empty($notifications)): ?>
+                      <?php foreach ($notifications as $key => $notification): ?>
+                        <?php if ($notification->type_of_notification == 'Comment'): ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php else: ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <li>You have no notifications</li>
+                    <?php endif; ?>
                   </ul>
                 </li>
                 <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>

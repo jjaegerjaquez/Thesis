@@ -11,13 +11,18 @@ class Destinations extends CI_Model
 
   public function get_notif_count($user_id)
   {
-    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' ");
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    // $this->db->where('start_date >=', $cur_date);
+    $query = $this->db->query("select count(recipient_id) as notif_count from notifications where recipient_id = '$user_id' and is_unread = '0' and created_time = '$cur_date'");
     return $query->row();
   }
 
   public function get_notifications($user_id)
   {
-    $query = $this->db->query("select * from notifications where recipient_id = '$user_id' order by created_time DESC");
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from notifications where recipient_id = '$user_id' and created_time = '$cur_date' order by created_time DESC");
     return $query->result();
   }
 

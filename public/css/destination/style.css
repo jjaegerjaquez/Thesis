@@ -111,7 +111,7 @@ body{
 }
 /*END HIDDEN SEARCH*/
 
-/* NAV */
+/*NAV*/
 .navbar {
     background-color: #f37430;
     /*background: transparent;*/
@@ -133,6 +133,12 @@ body{
 .navbar-default .navbar-nav .dropdown-menu> li > a, .navbar-default .navbar-nav .dropdown-menu {
     background-color: #FFFFFF;
     color: #000000;
+  }
+  .agreement-box{
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  .agreement-box span{
+    color: #7FB3E1;
   }
 /* END OF NAV*/
 
