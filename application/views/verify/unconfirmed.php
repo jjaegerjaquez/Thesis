@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/verify-success/style.css">
 </head>
 <body>
   <div class="container-fluid header">
@@ -29,7 +29,7 @@
       <div class="col-md-8">
         <div class="jumbotron jumbo-style">
           <h2 class="jumbo-header">Sorry</h2>
-          <p>Please activate your account to log on to the website.</p>
+          <p>Please activate your account to log on to the site. Thank you.</p>
           <p><a class="btn btn-primary btn-lg back-btn" href="<?php echo base_url(); ?>Home" role="button">Back</a></p>
         </div>
       </div>

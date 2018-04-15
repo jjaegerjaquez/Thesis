@@ -31,6 +31,8 @@ class Home extends CI_Controller
     $this->data['events'] = $this->Homes->get_events();
     $this->data['event_count'] = count($this->data['events']);
     $this->data['topics'] = $this->Homes->get_topics();
+    $this->data['google_login_url']=$this->google->get_login_url();
+    $this->data['fb_login_url'] =  $this->facebook->login_url();
     if (!$this->session->userdata('is_logged_in') && !$this->session->userdata('traveller_is_logged_in'))
     {
       $allowed = array(
@@ -64,8 +66,6 @@ class Home extends CI_Controller
 
   public function index()
   {
-    $this->data['google_login_url']=$this->google->get_login_url();
-    $this->data['fb_login_url'] =  $this->facebook->login_url();
     $count = 0;
     foreach ($this->data['localities'] as $key => $result) {
       $count++;
@@ -90,6 +90,40 @@ class Home extends CI_Controller
         }
     }
     $this->load->view('home/index',$this->data);
+  }
+
+  public function notifications()
+  {
+    $query2= $this->db->get_where('notifications', ['recipient_id' => $this->traveller_id]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Home/notifications';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['_notifications'] = $this->Homes->function_pagination_all_notifications($limit, $offset,$this->traveller_id);
+    $this->load->view('notifications/index', $this->data);
   }
 
   public function register()
@@ -1030,7 +1064,7 @@ class Home extends CI_Controller
     if($this->facebook->is_authenticated()){
         // Get user facebook profile details
         $fbUserProfile = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,link,gender,locale,cover,picture');
-        
+
         // Preparing data for database insertion
         $userData['fb_id'] = $fbUserProfile['id'];
         $userData['first_name'] = $fbUserProfile['first_name'];

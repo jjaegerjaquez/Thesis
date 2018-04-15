@@ -16,10 +16,14 @@ class Verify extends CI_Controller
     // if (!$this->session->userdata('is_logged_in')) {
     //   redirect('/Home');
     // }
+    $this->data['title'] = $this->Verifies->get_title();
+    $this->data['icon'] = $this->Verifies->get_site_icon();
     if (!$this->session->userdata('is_logged_in') || !$this->session->userdata('traveller_is_logged_in'))
     {
       $allowed = array(
-            'index'
+            'index',
+            'not_sent',
+            'unconfirmed'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -30,17 +34,17 @@ class Verify extends CI_Controller
 
   public function index()
   {
-    $this->load->view('verify/index');
+    $this->load->view('verify/index', $this->data);
   }
 
   public function not_sent()
   {
-    $this->load->view('verify/not_sent');
+    $this->load->view('verify/not_sent', $this->data);
   }
 
   public function unconfirmed()
   {
-    $this->load->view('verify/unconfirmed');
+    $this->load->view('verify/unconfirmed', $this->data);
   }
 
   public function confirm_email($code)

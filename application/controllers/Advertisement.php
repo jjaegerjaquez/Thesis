@@ -13,6 +13,8 @@ class Advertisement extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
+    $this->load->library('google');
+    $this->load->library('facebook');
 		$this->load->model('Advertisements');
     // $this->data['advertisements'] = $this->Advertisements->get_advertisements();
     $this->data['title'] = $this->Advertisements->get_title();
@@ -22,6 +24,8 @@ class Advertisement extends CI_Controller
     $this->data['instagram'] = $this->Advertisements->get_instagram();
     $this->data['twitter'] = $this->Advertisements->get_twitter();
     $this->data['google'] = $this->Advertisements->get_google();
+    $this->data['google_login_url']=$this->google->get_login_url();
+    $this->data['fb_login_url'] =  $this->facebook->login_url();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];

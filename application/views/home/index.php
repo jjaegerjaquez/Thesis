@@ -104,7 +104,7 @@
                     <?php endif; ?>
                   </ul>
                 </li>
-                <!-- <li class="footer"><a href="#">View all</a></li> -->
+                <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
               </ul>
             </li>
             <li class="dropdown">
@@ -202,7 +202,7 @@
               <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
             </div>
           </div>
-          <div class="col-lg-7 col-xs-6">
+          <div class="col-lg-7 col-xs-6" style="background-color:pink;">
             <div class="input-group">
               <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
               <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
@@ -524,7 +524,6 @@
     <div class="row text-title header-row">
       <h1 class="lato text-header">Discover</h1>
       <p>Quick search for what you're looking for</p>
-      <p>Device is: <span class="hidden-xs">Large</span></p>
     </div>
     <div class="row row1">
       <div class="sidebar-social text-center">
@@ -964,7 +963,7 @@ $('#Register_Traveller').click(function() {
 $('#register').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
-})
+});
 $('#buttonsearch').click(function(){
   $('#formsearch').slideToggle( "fast",function(){
      $( '#content' ).toggleClass( "moremargin" );

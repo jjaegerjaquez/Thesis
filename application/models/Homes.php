@@ -15,6 +15,19 @@ class Homes extends CI_Model
     return $this->db->update('users', $Email);
   }
 
+  function function_pagination_all_notifications($limit, $offset,$id)
+	{
+    $this->db->select('*');
+    $this->db->from('notifications');
+    $this->db->where('recipient_id', $id);
+    //$query = $this->db->get();
+    $this->db->order_by('created_time','DESC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
   public function GetRow($keyword) {
         $this->db->order_by('locality', 'ASC');
         $this->db->like("locality", $keyword);

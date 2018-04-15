@@ -18,10 +18,9 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/traveller/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/notifications/style.css">
 </head>
 <body>
-
   <!-- NAVBAR -->
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -72,11 +71,7 @@
             </ul>
           </li>
           <li class="dropdown">
-            <?php if (!empty($traveller_details->username)): ?>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
-            <?php else: ?>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
-            <?php endif; ?>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
@@ -95,118 +90,56 @@
     <div class="row">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url() ?>Home">Home</a></li>
-        <li class="active">Profile</li>
+        <li class="active">All notifications</li>
       </ul>
     </div>
   </div>
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3 side">
-        <?php if (!empty($traveller_profile->image)): ?>
-          <img src="<?php echo $traveller_profile->image?>" class="center-block" alt="User Image" width="200px" height="200px">
-        <?php else: ?>
-          <img src="<?php echo base_url() ?>public/img/default-img.jpg" class="center-block" alt="User Image" width="200px" height="200px">
-        <?php endif; ?>
-        <div class="vertical-menu">
-          <a href="<?php echo base_url() ?>Home/image">Profile Image</a>
-          <a href="<?php echo base_url() ?>Home/profile" class="active">Edit Profile</a>
-          <a href="<?php echo base_url() ?>Home/security">Security</a>
-        </div>
-      </div>
-      <div class="col-lg-9 box-style">
+      <div class="col-lg-12 box-style">
         <div class="row text-title header-row">
-          <h3 class="title">Profile</h3>
-          <hr>
+          <h3 class="title">Notifications</h3>
         </div>
-        <div class="row">
-          <form class="" action="<?php echo base_url() ?>Home/save_profile" method="post" enctype="multipart/form-data">
-            <?php if (empty($traveller_details->username)): ?>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>Username* <span style="font-style:italic;">You can set your username only once.</span></label>
-                  <input type="text" name="username" class="form-control" value="" maxlength="25">
-                  <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
-                </div>
-              </div>
-            <?php endif; ?>
-            <div class="col-lg-12" style="padding:0;">
-              <div class="col-lg-12">
-                <span class="required-text">Please fill out all fields with *</span>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Firstname*</label>
-                  <input type="text" name="firstname" class="form-control" value="<?php if (!empty($traveller_profile->firstname)): ?><?php echo $traveller_profile->firstname?><?php endif; ?>" maxlength="25">
-                  <span style="color:red" class="help-block"><?php echo form_error('firstname'); ?></span>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Middlename*</label>
-                  <input type="text" name="middlename" class="form-control" value="<?php if (!empty($traveller_profile->middlename)): ?><?php echo $traveller_profile->middlename?><?php endif; ?>" maxlength="25">
-                  <span style="color:red" class="help-block"><?php echo form_error('middlename'); ?></span>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>Lastname*</label>
-                  <input type="text" name="lastname" class="form-control" value="<?php if (!empty($traveller_profile->lastname)): ?><?php echo $traveller_profile->lastname?><?php endif; ?>" maxlength="25">
-                  <span style="color:red" class="help-block"><?php echo form_error('lastname'); ?></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12" style="padding:0;">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>Gender*</label>
-                  <select class="form-control" name="gender" id="gender">
-                    <option value ="<?php if (!empty($traveller_profile->gender)): ?> <?php echo $traveller_profile->gender?><?php endif; ?>" selected><?php if (!empty($traveller_profile->gender)): ?><?php echo $traveller_profile->gender?> <?php endif; ?></option>
-                    <?php if ($traveller_profile->gender == 'Female'): ?>
-                      <option value ="Male">Male</option>
-                    <?php else: ?>
-                      <option value ="Female">Female</option>
-                    <?php endif; ?>
-                  </select>
-                  <span style="color:red" class="help-block"><?php echo form_error('gender'); ?></span>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label>Cellphone Number* (Do NOT include the leading 0)</label>
-                  <div class="input-group">
-                    <div class="input-group-addon"><i>+63</i></div>
-                    <input type="text" name="cellphone" class="form-control input-style" value="<?php if (!empty($traveller_profile->cellphone)): ?><?php echo $traveller_profile->cellphone?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
-                  </div>
-                  <span style="color:red" class="help-block"><?php echo form_error('cellphone'); ?></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-12" style="padding:0;">
-              <div class="col-lg-8" style="padding-right:0px;">
-                <div class="form-group">
-                  <label>Address*</label>
-                  <input type="text" name="address" class="form-control" value="<?php if (!empty($traveller_profile->address)): ?><?php echo $traveller_profile->address?><?php endif; ?>" maxlength="100">
-                  <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="form-group">
-                  <label>City/Locality*</label>
-                  <select class="form-control" name="locality" id="locality">
-                    <option value ="<?php if (!empty($traveller_profile->locality)): ?><?php echo $traveller_profile->locality?><?php endif; ?>" selected><?php if (!empty($traveller_profile->locality)): ?> <?php echo $traveller_profile->locality?> <?php endif; ?></option>
-                    <?php foreach ($localities as $key => $locality): ?>
-                      <option value ="<?php echo $locality->locality?>"><?php echo $locality->locality?></option>
-                    <?php endforeach; ?>
-                  </select>
-                  <span style="color:red" class="help-block"><?php echo form_error('locality'); ?></span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-2 pull-right">
-              <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Save</button>
-            </div>
-          </form>
+        <div class="content visible-lg">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <tbody>
+                <?php foreach ($_notifications as $key => $_notification): ?>
+                  <tr role="row" class="odd">
+                    <td style="width:350px;"><a href="<?php echo $_notification->href?>"><?php echo $_notification->title_content ?></a></td>
+                    <td style="width:500px;">
+                      <?php if ($_notification->type_of_notification == 'Comment' || $_notification->type_of_notification == 'Reply'): ?>
+                        <p><?php echo $_notification->body_content ?></p>
+                      <?php endif; ?>
+                    </td>
+                    <td style="width:200px;"><?php echo date('F j, Y',strtotime($_notification->created_time))?></td>
+                  </tr>
+                <?php endforeach ?>
+            </tbody>
+          </table>
+          <nav class="pull-right">
+            <?php echo $this->pagination->create_links();?>
+          </nav>
+        </div>
+        <div class="content hidden-lg" style="padding-bottom:100px;">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <tbody>
+                <?php foreach ($_notifications as $key => $_notification): ?>
+                  <tr role="row" class="odd">
+                    <td style="width:350px;"><a href="<?php echo $_notification->href?>"><?php echo $_notification->title_content ?></a></td>
+                    <td style="width:500px;">
+                      <?php if ($_notification->type_of_notification == 'Comment' || $_notification->type_of_notification == 'Reply'): ?>
+                        <p><?php echo $_notification->body_content ?></p>
+                      <?php endif; ?>
+                    </td>
+                    <td style="width:200px;"><?php echo date('F j, Y',strtotime($_notification->created_time))?></td>
+                  </tr>
+                <?php endforeach ?>
+            </tbody>
+          </table>
+          <nav class="pull-right">
+            <?php echo $this->pagination->create_links();?>
+          </nav>
         </div>
       </div>
     </div>
@@ -254,14 +187,6 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
 // (function() {

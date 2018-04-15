@@ -13,6 +13,8 @@ class Event extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
+    $this->load->library('google');
+    $this->load->library('facebook');
 		$this->load->model('Events');
     // $this->data['Events'] = $this->Events->get_Events();
     $this->data['title'] = $this->Events->get_title();
@@ -22,6 +24,8 @@ class Event extends CI_Controller
     $this->data['instagram'] = $this->Events->get_instagram();
     $this->data['twitter'] = $this->Events->get_twitter();
     $this->data['google'] = $this->Events->get_google();
+    $this->data['google_login_url']=$this->google->get_login_url();
+    $this->data['fb_login_url'] =  $this->facebook->login_url();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];

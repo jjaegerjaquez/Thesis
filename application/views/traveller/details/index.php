@@ -67,7 +67,7 @@
                   <?php endforeach; ?>
                 </ul>
               </li>
-              <!-- <li class="footer"><a href="#">View all</a></li> -->
+              <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
             </ul>
           </li>
           <li class="dropdown">

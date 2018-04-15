@@ -13,6 +13,8 @@ class Destination extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
+    $this->load->library('google');
+    $this->load->library('facebook');
 		$this->load->model('Destinations');
     $this->data['destinations'] = $this->Destinations->get_localities();
     $this->data['categories'] = $this->Destinations->get_categories();
@@ -23,6 +25,8 @@ class Destination extends CI_Controller
     $this->data['instagram'] = $this->Destinations->get_instagram();
     $this->data['twitter'] = $this->Destinations->get_twitter();
     $this->data['google'] = $this->Destinations->get_google();
+    $this->data['google_login_url']=$this->google->get_login_url();
+    $this->data['fb_login_url'] =  $this->facebook->login_url();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $this->traveller_id = $_SESSION['traveller_id'];
@@ -130,7 +134,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -156,8 +160,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -167,13 +181,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -276,7 +294,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -302,8 +320,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -313,13 +341,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -416,7 +448,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -442,8 +474,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -453,13 +495,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -543,7 +589,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -569,8 +615,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -580,13 +636,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -667,7 +727,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -693,8 +753,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -704,13 +774,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -787,7 +861,7 @@ class Destination extends CI_Controller
           for ($i=0; $i <$count ; $i++)
           {
             echo '
-              <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+              <div class="media" style="background-color:#fff;border:5px solid #fff;">
                 <div class="pull-left visible-lg visible-md visible-sm media-left">
             ';
             if (!empty($this->data['results'][$i]->image)) {
@@ -813,8 +887,18 @@ class Destination extends CI_Controller
               ';
             }
             echo '
+                 <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+            ';
+            if ($this->data['votes'][$i]->vote > 1)
+            {
+              echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            else {
+              echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+            }
+            echo '
                 <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-                <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+                <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
             ';
             if ($this->data['votes'][$i]->vote > 1)
             {
@@ -824,13 +908,17 @@ class Destination extends CI_Controller
               echo 'vote </span>';
             }
             echo '
-                <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
                 <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
-                    <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                  </div>';
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
+                    <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                  </div>
+                  ';
               if (!empty($this->data['results'][$i]->cellphone)) {
                 echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
               }else {
@@ -909,7 +997,7 @@ class Destination extends CI_Controller
         for ($i=0; $i <$count ; $i++)
         {
           echo '
-            <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+            <div class="media" style="background-color:#fff;border:5px solid #fff;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
           ';
           if (!empty($this->data['results'][$i]->image)) {
@@ -935,8 +1023,18 @@ class Destination extends CI_Controller
             ';
           }
           echo '
+               <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+          ';
+          if ($this->data['votes'][$i]->vote > 1)
+          {
+            echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+          }
+          else {
+            echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+          }
+          echo '
               <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-              <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+              <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
           ';
           if ($this->data['votes'][$i]->vote > 1)
           {
@@ -946,13 +1044,17 @@ class Destination extends CI_Controller
             echo 'vote </span>';
           }
           echo '
-              <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+              <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
               <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
               <div class="separator"></div>
               <ul>
-                <div class="list-text">
-                  <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-                </div>';
+                <div class="list-text visible-lg visible-md visible-sm">
+                  <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                </div>
+                <div class="hidden-lg hidden-md hidden-sm">
+                  <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+                </div>
+                ';
             if (!empty($this->data['results'][$i]->cellphone)) {
               echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
             }else {
@@ -1032,7 +1134,7 @@ class Destination extends CI_Controller
       for ($i=0; $i <$count ; $i++)
       {
         echo '
-          <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+          <div class="media" style="background-color:#fff;border:5px solid #fff;">
             <div class="pull-left visible-lg visible-md visible-sm media-left">
         ';
         if (!empty($this->data['results'][$i]->image)) {
@@ -1058,8 +1160,18 @@ class Destination extends CI_Controller
           ';
         }
         echo '
+             <span class="votes-style hidden-lg hidden-md hidden-sm">'.$this->data['votes'][$i]->vote.'
+        ';
+        if ($this->data['votes'][$i]->vote > 1)
+        {
+          echo 'votes <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+        }
+        else {
+          echo 'vote <span class="badge rating-style hidden-lg hidden-md hidden-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span></span>';
+        }
+        echo '
             <span class="category-style">'.$this->data['results'][$i]->category.'</span>
-            <span class="pull-right votes-style">'.$this->data['votes'][$i]->vote.'
+            <span class="pull-right votes-style visible-lg visible-md visible-sm">'.$this->data['votes'][$i]->vote.'
         ';
         if ($this->data['votes'][$i]->vote > 1)
         {
@@ -1069,13 +1181,17 @@ class Destination extends CI_Controller
           echo 'vote </span>';
         }
         echo '
-            <span class="badge pull-right rating-style" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
+            <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style="">'.number_format($this->data['rates'][$i]->rate, 1).'</span>
             <h2 class="media-heading business-title">'.$this->data['results'][$i]->business_name.'</h2>
             <div class="separator"></div>
             <ul>
-              <div class="list-text">
-                <li class="detail-list">'.$this->data['results'][$i]->address.'</li>
-              </div>';
+              <div class="list-text visible-lg visible-md visible-sm">
+                <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+              </div>
+              <div class="hidden-lg hidden-md hidden-sm">
+                <li class="detail-list">'.$this->data['results'][$i]->address.', '.$this->data['results'][$i]->locality.'</li>
+              </div>
+              ';
           if (!empty($this->data['results'][$i]->cellphone)) {
             echo '<li class="detail-list">+63'.$this->data['results'][$i]->cellphone.'</li>';
           }else {

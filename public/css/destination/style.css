@@ -4,6 +4,113 @@ body{
   background-color: #ebe9e9;
 }
 
+/*HIDDEN SEARCH FORM*/
+.searchbardiv{
+    display: block;
+    position: fixed;
+    background: #7D1935 ;
+    top: 50px;
+    right: 0px;
+    z-index: 1001;
+    width: 100%;
+    max-width: 100%;
+    padding: 15px;
+    margin: 0px;
+    display: none;
+}
+.no-padding{
+  padding: 50px;
+}
+.buttonsearch{
+    position: fixed;
+    top :18px;
+    float: right;
+    right: 0px;
+    margin-top: 13px;
+    margin-right: 10px;
+    border: none;
+    background: none;
+    color: #fff;
+    border: none;
+    padding: 0;
+    /*font: inherit;*/
+    cursor: pointer;
+    outline: inherit;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.buttonsearch:hover{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 0px;
+
+}
+.buttonsearch:focus{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 0px;
+
+}
+#formsearch{
+    display: none;
+}
+.glyphicon.glyphicon-search {
+    font-size: 18px;
+}
+#searchbox {
+    box-shadow: none;
+    padding: 8px 14px;
+}
+#searchbox:hover {
+    box-shadow: none;
+}
+#searchsubmit{
+  background-color: #f37430;
+  color: #fff;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.form-control:focus {
+    border-color: #ccc;
+    }
+
+.navbar-toggle {
+    margin-right: 35px;
+    border: none;
+    background: transparent !important;
+}
+.navbar-toggle:hover {
+    background: transparent !important;
+}
+.navbar-toggle .icon-bar {
+    width: 22px;
+    transition: all 0.2s;
+}
+.navbar-toggle .top-bar {
+    transform: rotate(45deg);
+    transform-origin: 10% 10%;
+}
+.navbar-toggle .middle-bar {
+    opacity: 0;
+}
+.navbar-toggle .bottom-bar {
+    transform: rotate(-45deg);
+    transform-origin: 10% 90%;
+}
+.navbar-toggle.collapsed .top-bar {
+    transform: rotate(0);
+}
+.navbar-toggle.collapsed .middle-bar {
+    opacity: 1;
+}
+.navbar-toggle.collapsed .bottom-bar {
+    transform: rotate(0);
+}
+/*END HIDDEN SEARCH*/
+
 /* NAV */
 .navbar {
     background-color: #f37430;

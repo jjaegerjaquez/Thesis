@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato|Rubik+Mono+One" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/verify-success/style.css">
 </head>
 <body>
   <div class="container-fluid header">

@@ -69,7 +69,7 @@
                   <?php endforeach; ?>
                 </ul>
               </li>
-              <!-- <li class="footer"><a href="#">View all</a></li> -->
+              <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
             </ul>
           </li>
           <li class="dropdown">
@@ -135,20 +135,21 @@
           </div>
           <form class="" action="<?php echo base_url() ?>Home/update_password" method="post" enctype="multipart/form-data">
             <?php if (!empty($traveller_details->password)): ?>
+              <span class="required-text">Please fill out all fields with *</span>
               <div class="form-group">
-                <label>Enter old password:</label>
+                <label>Enter old password*</label>
                 <input type="password" name="old_password" class="form-control" value="<?php echo set_value('old_password'); ?>" maxlength="25">
                 <span style="color:red" class="help-block"><?php echo form_error('old_password'); ?></span>
                  <span style="color:red" class="help-block"><?= $this->session->flashdata('message') ?></span>
               </div>
             <?php endif; ?>
             <div class="form-group">
-              <label>Enter new password:</label>
+              <label>Enter new password*</label>
               <input type="password" name="new_password" class="form-control" value="<?php echo set_value('new_password'); ?>" maxlength="25">
               <span style="color:red" class="help-block"><?php echo form_error('new_password'); ?></span>
             </div>
             <div class="form-group">
-              <label>Confirm new password:</label>
+              <label>Confirm new password*</label>
               <input type="password" name="confirm" class="form-control" value="<?php echo set_value('confirm'); ?>" maxlength="25">
               <span style="color:red" class="help-block"><?php echo form_error('confirm'); ?></span>
             </div>

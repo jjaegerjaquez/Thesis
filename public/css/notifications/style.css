@@ -73,9 +73,7 @@ html, body {
 .header-row {
   padding-left: 14px;
   padding-right: 14px;
-}
-.header-row hr {
-  border: 1px solid gray;
+  border-bottom: 1px solid #BEBEBE;
 }
 .content h4{
   font-family: 'Roboto Condensed', sans-serif;

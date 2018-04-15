@@ -55,7 +55,9 @@
               </ul>
             </li>
             <li>
-              <a href="#"><span class="ion-ios-search-strong"></span></a>
+              <button type="button" class="buttonsearch" id="buttonsearch">
+   <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+</button>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -86,7 +88,7 @@
                     <?php endforeach; ?>
                   </ul>
                 </li>
-                <!-- <li class="footer"><a href="#">View all</a></li> -->
+                <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
               </ul>
             </li>
             <li class="dropdown">
@@ -102,6 +104,30 @@
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
+      <div class="container searchbardiv" id="formsearch">
+        <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
+          <div class="row">
+            <div class="col-lg-5 col-xs-6 no-padding">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+                <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+                <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
+              </div>
+            </div>
+            <div class="col-lg-7 col-xs-6">
+              <div class="input-group">
+                <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+                <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
+                <div class="input-group-btn">
+                  <button class="btn btn-default"  id="searchsubmit"  type="submit">
+                    <strong>Search</strong>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </nav>
     <!-- END NAVBAR -->
   <?php else: ?>
@@ -133,13 +159,41 @@
               <li><a href="#">Most Viewed</a></li>
             </ul>
           </li>
-          <li><a href="#"><span class="ion-ios-search-strong"></span></a></li>
+          <li>
+            <button type="button" class="buttonsearch" id="buttonsearch">
+               <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+            </button>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="" data-toggle="modal" data-target="#login"> Login</a></li>
           <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
         </ul>
       </div>
+    </div>
+    <div class="container searchbardiv" id="formsearch">
+      <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
+        <div class="row">
+          <div class="col-lg-5 col-xs-6 no-padding">
+            <div class="input-group">
+              <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+              <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+              <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
+            </div>
+          </div>
+          <div class="col-lg-7 col-xs-6">
+            <div class="input-group">
+              <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+              <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
+              <div class="input-group-btn">
+                <button class="btn btn-default"  id="searchsubmit"  type="submit">
+                  <strong>Search</strong>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     </nav>
     <!-- END NAVBAR -->
@@ -156,14 +210,14 @@
             <form class="" action="/Login/login" method="post" enctype="multipart/form-data">
               <div id="error_message"></div>
               <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="#" data-toggle="modal" data-target="#supplier">
+                <a href="<?php echo $fb_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block fb-btn">
                      <i class="fa fa-facebook-square"></i> Facebook
                     </div>
                   </div>
                 </a>
-                <a href="#" data-toggle="modal" data-target="#traveller">
+                <a href="<?php echo $google_login_url; ?>">
                   <div class="col-lg-6 col-md-6">
                     <div class="btn btn-default btn-block google-btn">
                      <i class="fa fa-google-plus"></i> Google
@@ -205,14 +259,14 @@
           </div>
           <!-- START OF MODAL BODY-->
           <div class="modal-body">
-            <a href="#" data-toggle="modal" data-target="#supplier">
+            <a href="#" data-toggle="modal" data-target="#supplier" id="_supplier">
               <div class="col-lg-6 col-md-6">
                 <div class="btn btn-default btn-block">
                  <i class=""></i>Supplier
                 </div>
               </div>
             </a>
-            <a href="#" data-toggle="modal" data-target="#traveller">
+            <a href="#" data-toggle="modal" data-target="#traveller" id="_traveller">
               <div class="col-lg-6 col-md-6">
                 <div class="btn btn-default btn-block">
                  <i class=""></i>Traveller
@@ -237,6 +291,22 @@
               <h4 class="modal-title">Supplier Register</h4>
             </div>
             <div class="modal-body supplier-body">
+              <div class="col-lg-12" style="margin-bottom:15px;">
+                <a href="<?php echo $fb_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block fb-btn">
+                     <i class="fa fa-facebook-square"></i> Facebook
+                    </div>
+                  </div>
+                </a>
+                <a href="<?php echo $google_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block google-btn">
+                     <i class="fa fa-google-plus"></i> Google
+                    </div>
+                  </div>
+                </a>
+              </div>
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="register_error_message"></div>
                 <div class="form-group">
@@ -286,6 +356,22 @@
               <h4 class="modal-title">Traveller Register</h4>
             </div>
             <div class="modal-body traveller-body">
+              <div class="col-lg-12" style="margin-bottom:15px;">
+                <a href="<?php echo $fb_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block fb-btn">
+                     <i class="fa fa-facebook-square"></i> Facebook
+                    </div>
+                  </div>
+                </a>
+                <a href="<?php echo $google_login_url; ?>">
+                  <div class="col-lg-6 col-md-6">
+                    <div class="btn btn-default btn-block google-btn">
+                     <i class="fa fa-google-plus"></i> Google
+                    </div>
+                  </div>
+                </a>
+              </div>
               <form class="" action="" method="post" enctype="multipart/form-data">
                 <div id="traveller_register_error_message"></div>
                 <div class="form-group">
@@ -354,9 +440,8 @@
     </div>
     <div class="row content">
       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 main-content">
-        <div class="col-xs-12">
           <?php if (!empty($business)): ?>
-            <div class="media" style="background-color:#fff;padding:15px 15px 15px 15px;">
+            <div class="media" style="background-color:#fff;border:5px solid #fff;">
               <div class="pull-left visible-lg visible-md visible-sm media-left">
                 <?php if (!empty($business->image)): ?>
                   <img class="media-object" src="<?php echo $business->image?>" alt="image">
@@ -388,7 +473,10 @@
                 <?php endif; ?>
                 <div class="separator"></div>
                 <ul>
-                  <div class="list-text">
+                  <div class="list-text visible-lg visible-md visible-sm">
+                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?>, <?php echo $business->locality ?></li>
+                  </div>
+                  <div class="hidden-lg hidden-md hidden-sm">
                     <li class="detail-list"><span>Address:</span> <?php echo $business->address?>, <?php echo $business->locality ?></li>
                   </div>
                   <li class="detail-list"><span>Cellphone:</span> +63<?php echo $business->cellphone?></li>
@@ -398,12 +486,11 @@
               </div>
             </div>
           <?php endif; ?>
-        </div>
-        <div class="col-xs-12 rating-vote-div">
+        <div class="row rating-vote-div">
           <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
             <ul class="rating-vote">
               <li><i class="ion-ios-star rating-icon"></i></li>
-              <li class="">Ratings: <?php echo number_format($rate->rate, 1)?></li>
+              <li class="">Ratings:<br class="hidden-lg hidden-md hidden-sm"><?php echo number_format($rate->rate, 1)?></li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
@@ -412,12 +499,12 @@
               <li id="vote">
                 <?php if (!empty($vote->vote)): ?>
                   <?php if ($vote->vote > 1): ?>
-                    Faves: <?php echo $vote->vote?>
+                    Faves:<br class="hidden-lg hidden-md hidden-sm"> <?php echo $vote->vote?>
                   <?php else: ?>
-                    Fave: <?php echo $vote->vote?>
+                    Fave:<br class="hidden-lg hidden-md hidden-sm"> <?php echo $vote->vote?>
                   <?php endif; ?>
                 <?php else: ?>
-                  Fave: 0
+                  Fave:<br class="hidden-lg hidden-md hidden-sm">0
                 <?php endif; ?>
               </li>
             </ul>
@@ -428,18 +515,18 @@
               <li>
                 <?php if (!empty($review_count)): ?>
                   <?php if ($review_count->reviews > 1): ?>
-                    Reviews: <?php echo $review_count->reviews ?>
+                    Reviews:<br class="hidden-lg hidden-md hidden-sm"> <?php echo $review_count->reviews ?>
                   <?php else: ?>
-                    Review: <?php echo $review_count->reviews ?>
+                    Review:<br class="hidden-lg hidden-md hidden-sm"> <?php echo $review_count->reviews ?>
                   <?php endif; ?>
                 <?php else: ?>
-                  Reviews: 0
+                  Reviews:<br class="hidden-lg hidden-md hidden-sm"> 0
                 <?php endif; ?>
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-xs-12 comment">
+        <div class="">
           <ul class="media-list">
             <?php if (!empty($reviews)): ?>
               <?php foreach ($reviews as $key => $review): ?>
@@ -468,7 +555,6 @@
             <?php endif; ?>
           </ul>
         </div>
-
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 side-content">
         <h3 class="review-title">Write a Review</h3>
@@ -691,7 +777,7 @@ $('#Register_Traveller').click(function() {
 $('#register').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
-})
+});
 $('#toggle-heart').on('click',function () {
     var ckbox = $('#toggle-heart');
     if (ckbox.is(':checked'))
@@ -852,6 +938,138 @@ $('#Add_Review').click(function() {
         }
     });
   }
+});
+$('#buttonsearch').click(function(){
+  $('#formsearch').slideToggle( "fast",function(){
+     $( '#content' ).toggleClass( "moremargin" );
+  });
+  $('#location').focus();
+  $('.openclosesearch').toggle(); 
+});
+$("#locality-search").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/search_location",
+        data: {
+            keyword: $("#locality-search").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#DropdownLocality').empty();
+                $('#locality-search').attr("data-toggle", "dropdown");
+                $('#DropdownLocality').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#locality-search').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">' + value['locality'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul.txtlocality').on('click', 'li a', function () {
+    $('#locality-search').val($(this).text());
+    $('#look_for').focus(); 
+});
+$("#locality_search").keyup(function () {
+  // alert("Hey world");
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/search_location",
+        data: {
+            keyword: $("#locality_search").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#_DropdownLocality').empty();
+                $('#locality_search').attr("data-toggle", "dropdown");
+                $('#_DropdownLocality').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#locality_search').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#_DropdownLocality').append('<li role="display_Countries" ><a role="menuitem _DropdownLocalityli" class="_dropdownlivalue">' + value['locality'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul._txtlocality').on('click', 'li a', function () {
+    $('#locality_search').val($(this).text());
+    $('#look-for').focus(); 
+});
+$("#look_for").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/look_result",
+        data: {
+            keyword: $("#look_for").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#DropdownLookFor').empty();
+                $('#look_for').attr("data-toggle", "dropdown");
+                $('#DropdownLookFor').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#look_for').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#DropdownLookFor').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">' + value['category'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul.txtlookfor').on('click', 'li a', function () {
+    $('#look_for').val($(this).text());
+    // $('#look-for').focus(); 
+});
+$("#look-for").keyup(function () {
+  // alert($("#country").val());
+    $.ajax({
+        type: "POST",
+        url: "<?php echo base_url(); ?>Home/look_result",
+        data: {
+            keyword: $("#look-for").val()
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data.length > 0) {
+                $('#_DropdownLookFor').empty();
+                $('#look-for').attr("data-toggle", "dropdown");
+                $('#_DropdownLookFor').dropdown('toggle');
+            }
+            else if (data.length == 0) {
+                $('#look-for').attr("data-toggle", "");
+                // $('#DropdownLocality').append('<li role="displayCountries" ><a role="menuitem DropdownLocalityli" class="dropdownlivalue">No result</a></li>');
+            }
+            $.each(data, function (key,value) {
+                if (data.length >= 0)
+                    $('#_DropdownLookFor').append('<li role="displayCountries" ><a role="menuitem _DropdownLocalityli" class="dropdownlivalue">' + value['category'] + '</a></li>');
+            });
+        }
+    });
+});
+$('ul._txtlookfor').on('click', 'li a', function () {
+    $('#look-for').val($(this).text()); 
+});
+$("#_supplier").click(function() {
+    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
+});
+$("#_traveller").click(function() {
+    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Traveller");
 });
 </script>
 </body>
