@@ -65,7 +65,7 @@ class Forums extends CI_Model
 
   public function get_topic($topic_id)
   {
-    $query = $this->db->query("select t.topic_id,topic,count(p.user_id) as count from topics t join posts p on (t.topic_id=p.topic_id) where t.topic_id = '$topic_id'");
+    $query = $this->db->query("select t.topic_id,t.description,topic,count(p.user_id) as count from topics t join posts p on (t.topic_id=p.topic_id) where t.topic_id = '$topic_id'");
     return $query->row();
   }
 

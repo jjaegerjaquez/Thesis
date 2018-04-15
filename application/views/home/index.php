@@ -805,7 +805,6 @@
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
 var time = 10000;
 (function poll() {
-  // console.log("Execute na yung poll function");
    setTimeout(function() {
      var user_id = {
              user_id: "<?php echo $traveller_details->user_id ?>"
@@ -816,38 +815,11 @@ var time = 10000;
          data: user_id,
          success: function(data) {
            $('#notif-div').html(data);
-            // if (data == '0') {
-            //   console.log("Time is 15 secs");
-            //   time = 2000;
-            // }
-            // else {
-            //   alert("May data na");
-            // }
          },
-      //  dataType: "json",
        complete: poll
      });
    }, time);
 })();
-// (function() {
-//   var notif = function(){
-//     var user_id = {
-//         user_id: "<?php echo $traveller_details->user_id ?>"
-//     };
-//     $.ajax({
-//       url: "/Home/get_notif",
-//       type: "POST",
-//       data: user_id,
-//       success: function (data){
-//         // alert('Kumuha na ng notif');
-//           $('#notif-div').html(data);
-//       }
-//     });
-//   };
-//   setInterval(function(){
-//     notif();
-//   }, 60000);
-// })();
 $('#notif-div').on('click', '#notif-count', function() {
     // alert('clicked');
     var user_id = {

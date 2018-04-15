@@ -439,6 +439,9 @@
     <div class="row content">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 forum-header text-center">
         <h1><?php echo $topic->topic?></h1>
+        <?php if (!empty($topic->description)): ?>
+          <p style="font-size:22px;font-family:'Roboto Condensed', sans-serif;"><?php echo $topic->description ?></p>
+        <?php endif; ?>
         <ul class="list-inline">
           <li>
             <i class="ion-chatbubble">

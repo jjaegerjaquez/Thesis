@@ -123,6 +123,7 @@ class Category extends CI_Controller
     $this->data['ctr']=$count;
     $this->data['category'] = $category;
     $this->data['filter'] = $filter;
+    // print_r($this->data['notifications']);
     $this->load->view('categories/result/result',$this->data);
   }
 

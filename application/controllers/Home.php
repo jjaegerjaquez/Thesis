@@ -921,6 +921,15 @@ class Home extends CI_Controller
                 </li>
                 ';
               }
+              else {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-thumbsup"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
             }
           }
           else {
@@ -942,11 +951,21 @@ class Home extends CI_Controller
                 </li>
                 ';
               }
+              else {
+                echo '
+                <li>
+                  <a href="'.$notification->href.'">
+                    <i class="ion-thumbsup"></i> '.$notification->title_content.'
+                  </a>
+                </li>
+                ';
+              }
             }
           }
           echo '
             </ul>
           </li>
+          <li class="footer"><a href="'.base_url().'Home/notifications">View all</a></li>
         </ul>
       ';
   }

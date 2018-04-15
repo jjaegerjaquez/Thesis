@@ -67,21 +67,31 @@
                 <li>
                   <!-- inner menu: contains the actual data -->
                   <ul class="menu">
-                    <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if (!empty($notifications)): ?>
+                      <?php foreach ($notifications as $key => $notification): ?>
+                        <?php if ($notification->type_of_notification == 'Comment'): ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php else: ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <li>You have no notifications</li>
+                    <?php endif; ?>
                   </ul>
                 </li>
                 <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
@@ -572,24 +582,22 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <script>
 <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-(function() {
-  var notif = function(){
-    var user_id = {
-        user_id: "<?php echo $traveller_details->user_id ?>"
-    };
-    $.ajax({
-      url: "<?php echo base_url(); ?>Home/get_notif",
-      type: "POST",
-      data: user_id,
-      success: function (data){
-        // alert('Kumuha na ng notif');
-          $('#notif-div').html(data);
-      }
-    });
-  };
-  setInterval(function(){
-    notif();
-  }, 60000);
+var time = 10000;
+(function poll() {
+   setTimeout(function() {
+     var user_id = {
+             user_id: "<?php echo $traveller_details->user_id ?>"
+         };
+       $.ajax({
+         url: "<?php echo base_url(); ?>Home/get_notif",
+         type: "POST",
+         data: user_id,
+         success: function(data) {
+           $('#notif-div').html(data);
+         },
+       complete: poll
+     });
+   }, time);
 })();
 $('#notif-div').on('click', '#notif-count', function() {
     // alert('clicked');
