@@ -93,7 +93,7 @@
     <div class="row">
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 header">
+          <div class="col-lg-12">
             <ul class="breadcrumb">
               <li class="active">Welcome to Travel Hub > No website</li>
             </ul>

@@ -192,7 +192,7 @@
               </div>
               <div class="form-group">
                 <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Add</button>
-                <a href="<?php echo base_url(); ?>Admin/advertisement" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
+                <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
               </div>
             </div>
           </div><!-- /.box-body -->

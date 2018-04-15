@@ -149,44 +149,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer1">
-    <div class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="footer-desc text-center">
-                        <div class="col-lg-6 col-lg-offset-3">
-                          <p>
-                              <?php if (!empty($tagline->value)): ?>
-                                <?php echo $tagline->value ?>
-                                <?php else: ?>
-                                  Travel Hub is a lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                              <?php endif; ?> <a href="<?php echo base_url() ?>About" target="_blank">Learn More</a>
-                          </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <ul class="social">
-                        <li><a href="<?php if (!empty($facebook->value)): ?> <?php echo $facebook->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="<?php if (!empty($twitter->value)): ?> <?php echo $twitter->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="<?php if (!empty($google->value)): ?> <?php echo $google->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="<?php if (!empty($instagram->value)): ?> <?php echo $instagram->value ?> <?php endif; ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div>
-            </div> <!--/.row-->
-        </div> <!--/.container-->
-    </div> <!--/.footer-->
-
-    <div class="footer-bottom">
-        <div class="container">
-            <div class="text-center"> Copyright © 2017-2018. All right reserved.</div>
-        </div>
-    </div> <!--/.footer-bottom-->
-  </footer>
-  <!-- END FOOTER -->
-
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->

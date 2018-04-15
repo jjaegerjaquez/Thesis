@@ -560,7 +560,7 @@ class Home extends CI_Controller
 
   public function set_up()
   {
-    $this->load->view('home/setup/index');
+    $this->load->view('home/setup/index',$this->data);
   }
 
   public function set_up_save()

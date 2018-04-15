@@ -90,7 +90,7 @@
   <!-- END NAVBAR -->
 
   <div class="container">
-    <div class="row header">
+    <div class="row">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url() ?>Account">Welcome to Travel Hub</a></li>
       </ul>

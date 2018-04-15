@@ -91,7 +91,7 @@
   <!-- END NAVBAR -->
 
   <div class="container">
-    <div class="row header">
+    <div class="row">
       <ul class="breadcrumb">
         <li><a href="<?php echo base_url() ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing profile</li>

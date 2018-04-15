@@ -135,6 +135,10 @@
                   <input type="text" name="topic" class="form-control" value="<?php echo set_value('topic'); ?>">
                   <span style="color:red" class="help-block"><?php echo form_error('topic'); ?></span>
                 </div>
+                <div class="form-group">
+                  <label>Description:</label>
+                  <textarea class="form-control" rows="7" maxlength="500" name="description" id="description"><?php echo set_value('description'); ?></textarea>
+                </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

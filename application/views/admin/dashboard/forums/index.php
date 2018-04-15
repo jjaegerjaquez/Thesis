@@ -136,6 +136,7 @@
           <h3 class="box-title"></h3>
           <a href="<?php echo base_url(); ?>Admin/add_topic" class="btn btn-success"><i class="fa fa-plus"></i> Add Forum Topic</a>
           <a href="<?php echo base_url(); ?>Admin/approve" class="btn btn-success"><i class="fa fa-check"></i> Approve Topic</a>
+          <a href="<?php echo base_url(); ?>Admin/view_approved" class="btn btn-success"><i class="fa fa-eye"></i> View approved topics</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>

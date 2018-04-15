@@ -135,7 +135,7 @@
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin/approve" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
+          <a href="<?php echo base_url(); ?>Admin/forum" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>

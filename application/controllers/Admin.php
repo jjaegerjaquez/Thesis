@@ -68,8 +68,8 @@ class Admin extends CI_Controller
     // END OF FORM VALIDATION
     if ($this->form_validation->run() == FALSE)
     {
-      $data['error'] = '';
-      $this->load->view('admin/index',$data);
+      $this->data['error'] = '';
+      $this->load->view('admin/index',$this->data);
     }
     else
     {
@@ -3192,6 +3192,7 @@ class Admin extends CI_Controller
     {
       $Topic = [
         'topic' => $this->input->post('topic'),
+        'description' => $this->input->post('description'),
         'date_created' => date("Y-m-d"),
         'created_by' => 'Admin',
         'status' => '1'
@@ -3229,7 +3230,8 @@ class Admin extends CI_Controller
     else
     {
       $Topic = [
-        'topic' => $this->input->post('topic')
+        'topic' => $this->input->post('topic'),
+        'description' => $this->input->post('description')
       ];
 
       if ($this->Admins->update_topic($Topic,$topic_id)) {

@@ -122,19 +122,19 @@
     <section class="content-header">
       <h1>
         Advertisements
-        <small>list of all ad ending</small>
+        <small>list of all finished ads</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
         <li><a href="<?php echo base_url() ?>Admin/advertisements">Advertisements</a></li>
-        <li class="active">Ending ads</li>
+        <li class="active">Finished ads</li>
       </ol>
     <!-- Main content -->
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-success"><i class="ion-chevron-left"></i> Back</a>
+          <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger"><i class="ion-chevron-left"></i> Back</a>
           <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
