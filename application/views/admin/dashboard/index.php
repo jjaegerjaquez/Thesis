@@ -164,9 +164,12 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3><?php if (!empty($vote_count->vote_count)): ?>
-                <?php echo $vote_count->vote_count ?>
-              <?php endif; ?></h3>
+              <h3>
+                <?php if (!empty($vote_count->vote_count)): ?>
+                  <?php echo $vote_count->vote_count ?>
+                <?php else: ?>
+                  0
+                <?php endif; ?></h3>
 
               <p><?php if ($vote_count->vote_count > 1): ?>
                 Faves
@@ -186,10 +189,12 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3><?php if (!empty($review_count->review_count)): ?>
+              <h3>
+              <?php if (!empty($review_count->review_count)): ?>
                 <?php echo $review_count->review_count ?>
+              <?php else: ?>
+                0
               <?php endif; ?></h3>
-
               <p><?php if ($review_count->review_count > 1): ?>
                 Reviews
               <?php else: ?>
