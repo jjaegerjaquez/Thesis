@@ -16,7 +16,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">  <!-- Style -->
   <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/Neutral/home/style.css">

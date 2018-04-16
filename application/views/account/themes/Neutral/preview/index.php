@@ -15,7 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">  <!-- Style -->
   <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/Neutral/home/style.css">
@@ -47,8 +47,8 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <header class="container-fluid header-style" style="background-image: url('<?php echo base_url() ?>public/img/Neutral/bg2.jpg');">
-    <h1>ENTER TEXT HERE</h1>
+  <header class="container-fluid header-style" style="background-image: linear-gradient(rgba(0, 0, 0, 0.45),rgba(0, 0, 0, 0.45)),url('<?php echo base_url() ?>public/img/Neutral/bg2.jpg');">
+    <h1>Enter text Here</h1>
 		<div class="row">
 			<div class="col-lg-8 col-lg-offset-2">
 				<p>“Praesent id tempus augue, eu maximus dolor. Nulla scelerisque malesuada erat eu ornare. Suspendisse dictum metus et efficitur faucibus. Maecenas quis ornare massa. Aenean accumsan sit amet quam in accumsan. In placerat fermentum ultrices. Proin facilisis feugiat nisi eget laoreet. Donec vitae interdum est. Maecenas tempor porttitor efficitur. Morbi convallis vulputate turpis, sed tincidunt ex ultricies eget. Duis ut ex ac enim congue sollicitudin. Nullam finibus eleifend est ac fermentum. Quisque a cursus erat. Etiam massa lorem, maximus eu malesuada eget, malesuada ac nisl. Aenean dignissim ligula in odio pulvinar, at feugiat tellus commodo..”</p>

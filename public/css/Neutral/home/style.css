@@ -17,11 +17,10 @@ h3,
 h4,
 h5,
 h6 {
- font-family: 'Cabin', 'Helvetica Neue', Helvetica, Arial, sans-serif;
- font-weight: 700;
+ font-family: 'Roboto', sans-serif;
+ font-weight: 500;
  margin: 0 0 35px;
- letter-spacing: 1px;
- text-transform: uppercase; }
+ letter-spacing: 1px; }
 
 p {
  font-size: 16px;
@@ -38,21 +37,21 @@ background-color: transparent;
 background: transparent;
 border-width: 0px;
 padding-right:30px;
-	
+
 }
 
 .nav.navbar-nav li a {
-color: #fff; 
+color: #fff;
 padding-left:20px;
 font-size: 17px;
 font-family: 'Cabin', 'Helvetica Neue', Helvetica, Arial, sans-serif;}
-	 
+
 .nav.navbar-nav li a:hover{
-color: #fff; 
+color: #fff;
 padding-left:20px;
 font-size: 17px;
 font-family: 'Cabin', 'Helvetica Neue', Helvetica, Arial, sans-serif;}
-	 
+
 .navbar-default .navbar-toggle .icon-bar {
 background-color: #fff;
 }
@@ -71,9 +70,5 @@ background-color: black;
 -moz-background-size: cover;
 -o-background-size: cover;
 background-size: cover;
+font-family: 'Roboto', sans-serif;
 }
-
-		
-		
-		
-

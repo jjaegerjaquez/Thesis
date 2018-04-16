@@ -16,7 +16,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">  <!-- Style -->
   <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/Neutral/gallery/style.css">
@@ -59,14 +59,119 @@
     </div>
     <div class="row">
       <?php if (!empty($gallery_images)): ?>
-        <?php foreach ($gallery_images as $key => $gallery_image): ?>
-          <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
-            <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
-            <div class="middle">
-              <div class="text"></div>
+        <?php if (count($gallery_images) == '1'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+          <div class="gallery_product2 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-2.jpg" class="img-responsive"class="image2" style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+            <div class="middle2">
+              <div class="text2">Image 2 description</div>
             </div>
           </div>
-        <?php endforeach; ?>
+          <div class="gallery_product3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-3.jpg" class="img-responsive" class="image3" style="width:100%"> <!--width: 591 pixels height:400 pixels-->
+            <div class="middle3">
+              <div class="text3">Image 3 description</div>
+            </div>
+          </div>
+          <div class="gallery_product4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-4.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+            <div class="middle4">
+              <div class="text4">Image 4 description</div>
+            </div>
+          </div>
+          <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-5.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
+            <div class="middle5">
+              <div class="text5">Image 5 description</div>
+            </div>
+          </div>
+          <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+            <div class="middle6">
+              <div class="text6">Image 6 description</div>
+            </div>
+          </div>
+        <?php elseif (count($gallery_images)== '2'): ?>
+          <div class="gallery_product3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-3.jpg" class="img-responsive" class="image3" style="width:100%"> <!--width: 591 pixels height:400 pixels-->
+            <div class="middle3">
+              <div class="text3">Image 3 description</div>
+            </div>
+          </div>
+          <div class="gallery_product4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-4.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+            <div class="middle4">
+              <div class="text4">Image 4 description</div>
+            </div>
+          </div>
+          <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-5.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
+            <div class="middle5">
+              <div class="text5">Image 5 description</div>
+            </div>
+          </div>
+          <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+            <div class="middle6">
+              <div class="text6">Image 6 description</div>
+            </div>
+          </div>
+        <?php elseif (count($gallery_images)== '3'): ?>
+          <div class="gallery_product4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-4.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+            <div class="middle4">
+              <div class="text4">Image 4 description</div>
+            </div>
+          </div>
+          <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-5.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
+            <div class="middle5">
+              <div class="text5">Image 5 description</div>
+            </div>
+          </div>
+          <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+            <div class="middle6">
+              <div class="text6">Image 6 description</div>
+            </div>
+          </div>
+        <?php elseif (count($gallery_images)== '4'): ?>
+          <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-5.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
+            <div class="middle5">
+              <div class="text5">Image 5 description</div>
+            </div>
+          </div>
+          <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+            <div class="middle6">
+              <div class="text6">Image 6 description</div>
+            </div>
+          </div>
+        <?php elseif (count($gallery_images)== '5'): ?>
+          <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
+            <div class="middle6">
+              <div class="text6">Image 6 description</div>
+            </div>
+          </div>
+        <?php elseif (count($gallery_images)== '6'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        <?php endif; ?>
       <?php else: ?>
         <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
           <img src="<?php echo base_url(); ?>public/img/Neutral/party.jpg" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->

@@ -15,7 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url();?>public/thesis/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet">  <!-- Style -->
   <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/Neutral/about/style.css">
@@ -47,7 +47,7 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div class="container-fluid text-center about-header" style="background-image:url('/public/img/Neutral/bg.jpg');">
+  <div class="container-fluid text-center about-header" style="background-image:linear-gradient(rgba(0, 0, 0, 0.45),rgba(0, 0, 0, 0.45)),url('/public/img/Neutral/bg.jpg');">
     <h1><span class="section-heading-lower">ABOUT</span></h1>
   </div>
 
