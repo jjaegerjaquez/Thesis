@@ -101,14 +101,15 @@
 
   <!-- <div class="container-fluid about-header"></div> -->
 
-  <div class="container-fluid about-custom">
+  <div class="container-fluid about-custom text-center">
     <h1>About</h1>
     <hr>
     <div class="row">
-      <div class="col-sm-6 col-md-6 about-text">
+      <div class="col-sm-6 col-md-6 about-text about-inner">
         <img class="about-img center-block img-responsive" src="<?php echo base_url() ?>public/img/Template1/image4.jpg" alt="">
+        <hr>
         <p class="text-justify">Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.Lorem ipsum dolor sit amet, est purto labore in. Latine ornatus et est. Sea te nisl reque omnes. Ne eum graeco civibus. Ad indoctum concludaturque sea. Eu ferri ubique has. Volutpat corrumpit vix ut, expetenda appellantur sed an, vis error vituperata in.</p>
-        </div>
+      </div>
     </div>
   </div>
 
@@ -116,14 +117,14 @@
     <h1>Gallery</h1>
     <hr>
     <div class="row">
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-1.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Dan Michael Sinadjan on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-2.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Alexander Mils on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-3.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Osha Key on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-4.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by frank mckenna on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-5.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Guillaume Jaillet on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-6.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by freestocks.org on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-7.jpg);"></div>
-      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Wesual Click on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/gallery-8.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-1.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Dan Michael Sinadjan on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-2.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Alexander Mils on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-3.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Osha Key on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-4.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by frank mckenna on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-5.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Guillaume Jaillet on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-6.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by freestocks.org on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-7.jpg);"></div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Wesual Click on Unsplash" style="background-image: url(<?php echo base_url() ?>public/img/Template1/img-8.jpg);"></div>
     </div>
   </div>
 

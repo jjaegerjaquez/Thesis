@@ -140,7 +140,7 @@
         <?php if (!empty($about_featured_image->value)): ?>
           <img class="about-img center-block img-responsive" src="<?php echo $about_featured_image->value?>" alt="">
         <?php else: ?>
-          <img class="about-img center-block img-responsive" src="/public/img/Template1/image4.jpg" alt="">
+          <img class="about-img center-block img-responsive" src="<?php echo base_url(); ?>public/img/Template1/image4.jpg" alt="">
         <?php endif; ?>
         <p class="text-justify">
           <?php if (!empty($about_description->value)): ?>
@@ -159,18 +159,58 @@
     <div class="row">
       <!-- 550 x 500 -->
       <?php if (!empty($gallery_images)): ?>
-        <?php foreach ($gallery_images as $key => $gallery_image): ?>
-          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
-        <?php endforeach; ?>
+        <?php if (count($gallery_images) == '1'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-2.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-3.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '2'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-3.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '3'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '4'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '5'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '6'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '7'): ?>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
+        <?php elseif (count($gallery_images) == '8'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
+        <?php endif; ?>
       <?php else: ?>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Sonnie Hiles on Unsplash" style="background-image: url(/public/img/Template1/gallery-1.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Dan Michael Sinadjan on Unsplash" style="background-image: url(/public/img/Template1/gallery-2.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Alexander Mils on Unsplash" style="background-image: url(/public/img/Template1/gallery-3.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Osha Key on Unsplash" style="background-image: url(/public/img/Template1/gallery-4.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by frank mckenna on Unsplash" style="background-image: url(/public/img/Template1/gallery-5.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Guillaume Jaillet on Unsplash" style="background-image: url(/public/img/Template1/gallery-6.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by freestocks.org on Unsplash" style="background-image: url(/public/img/Template1/gallery-7.jpg);"></div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" title="Photo by Wesual Click on Unsplash" style="background-image: url(/public/img/Template1/gallery-8.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-1.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-2.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-3.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
       <?php endif; ?>
     </div>
   </div>
