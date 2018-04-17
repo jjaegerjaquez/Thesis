@@ -731,9 +731,10 @@ input[type=text],input[type=email],input[type=password] {
   font-family: 'Roboto Condensed', sans-serif;
   color: #424242;
 }
-.box select{
+.box select,span{
   font-family: 'Roboto Condensed', sans-serif;
 }
+
 .setup-header{
   font-family: 'Roboto Condensed', sans-serif;
 }

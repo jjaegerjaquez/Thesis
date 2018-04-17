@@ -9,6 +9,76 @@ class Homes extends CI_Model
 
   }
 
+  public function get_loc_count()
+  {
+    $query = $this->db->query("select count(DISTINCT locality) as loc_count from localities");
+    return $query->row();
+  }
+
+  public function get_sup_count()
+  {
+    $query = $this->db->query("select count(DISTINCT business_name) as sup_count from basic_info");
+    return $query->row();
+  }
+
+  public function get_user_count()
+  {
+    $query = $this->db->query("select count(DISTINCT user_id) as user_count from profile");
+    return $query->row();
+  }
+
+  public function get_review_count()
+  {
+    $query = $this->db->query("select count(review_id) as review_count from reviews");
+    return $query->row();
+  }
+
+  public function get_fave_count()
+  {
+    $query = $this->db->query("select count(vote_id) as fave_count from votes");
+    return $query->row();
+  }
+
+  public function get_cat_count()
+  {
+    $query = $this->db->query("select count(DISTINCT category) as cat_count from categories");
+    return $query->row();
+  }
+
+  public function get_all_categories()
+  {
+    $query = $this->db->query("select * from categories");
+    return $query->result();
+  }
+
+  public function get_category_count($_category)
+  {
+    $query = $this->db->query("SELECT category, count(id) as category_count from basic_info where category = '$_category'");
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if ($res->category == NULL) {
+        $query2 = $this->db->query("select * from categories where category = '$_category'");
+        $data['cat'] = $query2->row();
+        $category = new stdClass;
+        $category->category = $_category;
+        $category->category_count = "0";
+        $category->image = $data['cat']->image;
+        return $category;
+      }
+      else {
+        $data['cat_count_det'] = $query->row();
+        $query2 = $this->db->query("select * from categories where category = '$_category'");
+        $data['cat'] = $query2->row();
+        $category = new stdClass;
+        $category->category = $_category;
+        $category->category_count = $data['cat_count_det']->category_count;
+        $category->image = $data['cat']->image;
+        return $category;
+
+      }
+    }
+  }
+
   public function update_email($Email,$user_id)
   {
     $this->db->where('user_id', $user_id);
@@ -125,53 +195,40 @@ class Homes extends CI_Model
     }
   }
 
-  public function sendemail($email,$code)
+  public function sendemail($email,$msg)
   {
-    $from = "victonaragang@gmail.com";    //senders email address
-    $subject = 'Verify email address';  //email subject
-    $url = base_url()."Verify/confirm_email/".$code;
-        //sending confirmEmail($receiver) function calling link to the user, inside message body
-        $message = 'Dear User,<br><br> Please click on the below activation link to verify your email address<br><br>
-        <a href='.$url.'>Click Here</a><br><br>Thanks';
+    $this->load->library('email');
+    $from = "no-reply@travelhub.ph";    //senders email address
+    $subject = 'Please verify your Travel Hub account';  //email subject
+    $from_email = $from;
+    $to_email = $email;
 
-        // $from_email = $from;
-        // $to_email = $email;
-        //Load email library
-        // $this->load->library('email');
-        // $this->email->from($from_email, 'Identification');
-        // $this->email->to($to_email);
-        // $this->email->subject('Send Email Codeigniter');
-        // $this->email->message('The email send using codeigniter library');
-        //config email settings
-        $config['protocol'] = 'smtp';
-        $config['smtp_host'] = 'ssl://smtp.gmail.com';
-        $config['smtp_port'] = '465';
-        $config['smtp_user'] = $from;
-        $config['smtp_pass'] = 'victonarasalasgalang';  //sender's password
-        $config['mailtype'] = 'html';
-        $config['charset'] = 'iso-8859-1';
-        $config['wordwrap'] = 'TRUE';
-        $config['newline'] = "\r\n";
+    $config['protocol'] = 'smtp';
+    $config['smtp_host'] = 'travelhub.ph';
+    $config['smtp_port'] = '587';
+    $config['smtp_user'] = $from;
+    $config['smtp_pass'] = '2EtrdEms2I';  //sender's password
+    $config['mailtype'] = 'html';
+    $config['charset'] = 'iso-8859-1';
+    $config['wordwrap'] = 'TRUE';
+    $config['newline'] = "\r\n";
 
-        $this->load->library('email', $config);
-		    $this->email->initialize($config);
-        //send email
-        $this->email->from($from);
-        $this->email->to($email);
-        $this->email->subject($subject);
-        $this->email->message($message);
+    $this->load->library('email');
+    $this->email->initialize($config);
 
-        if($this->email->send()){
-			    //for testing
-          // echo "sent to: ".$email."<br>";
-    			// echo "from: ".$from. "<br>";
-    			// echo "protocol: ". $config['protocol']."<br>";
-    			// echo "message: ".$message;
-          return true;
-        }else{
-          // echo "email send failed";
-          return false;
-        }
+    $this->email->from($from_email, 'Travel Hub');
+    $this->email->to($to_email);
+    $this->email->cc('support@travelhub.ph');
+    $this->email->subject($subject);
+    $this->email->message($msg);
+
+    if($this->email->send())
+    {
+      return true;
+    }else
+    {
+      return false;
+    }
   }
 
   public function validate_email($email)
@@ -197,6 +254,15 @@ class Homes extends CI_Model
   public function get_traveller_details($traveller_id)
   {
     $query = $this->db->get_where('users', ['user_id' => $traveller_id]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
+  public function get_account($user_id)
+  {
+    $query = $this->db->get_where('users', ['user_id' => $user_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();

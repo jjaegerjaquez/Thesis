@@ -96,9 +96,9 @@
         <li><a href="<?php echo base_url() ?>Account">Back to Dashboard</a></li>
         <li class="active">Customizing profile</li>
       </ul>
-      <div class="col-lg-3">
+      <div class="col-lg-3" style="border-left:5px">
         <div class="row">
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:8px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -133,9 +133,9 @@
     </div>
   </div>
 
-  <section class="container" style="margin-bottom:50px;">
+  <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;border-left:10px solid #ebe9e9;padding-top: 20px;margin-bottom:20px;">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -150,7 +150,7 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="col-lg-5 text-center" style="background-color:#fff;border-right:5px solid #ebe9e9;padding-top:20px;">
+        <div class="col-lg-5 text-center" style="background-color:#fff;padding-top:20px;padding-bottom:20px;margin-bottom:20px;border-right:5px solid #ebe9e9;">
           <div class="form-group">
             <div id="upload-image"></div>
           </div>
@@ -160,7 +160,7 @@
             <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </div>
-        <div class="col-lg-7" style="background-color:#fff;">
+        <div class="col-lg-7" style="background-color:#fff;border-right:5px solid #ebe9e9;padding-top:20px;padding-bottom:20px;margin-bottom:20px;">
           <div class="row text-title header-row">
             <h3 class="title">Basic Info</h3>
             <hr>
@@ -288,8 +288,8 @@ $image_crop = $('#upload-image').croppie({
 		type: 'square'
 	},
 	boundary: {
-		width: 300,
-		height: 300
+		width: 250,
+		height: 250
 	}
 });
 $('#images').on('change', function () {

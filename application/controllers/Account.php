@@ -282,13 +282,33 @@ class Account extends CI_Controller
     {
       if ($_SESSION['primary_website'] == 'Yes')
       {
-        $Business_information = [
-          'user_id' => $_SESSION['user_id'],
-          'business_name' => $this->input->post('business_name'),
-          'theme' => 'NA',
-          'position' => 'Primary',
-          'website' => 'Yes'
-        ];
+        if (!empty($_SESSION['image'])) {
+          $Business_information = [
+            'user_id' => $_SESSION['user_id'],
+            'business_name' => $this->input->post('business_name'),
+            'theme' => 'NA',
+            'position' => 'Primary',
+            'website' => 'Yes',
+            'image' => $_SESSION['image']
+          ];
+        }elseif (!empty($_SESSION['temp_fb_id'])) {
+          $Business_information = [
+            'user_id' => $_SESSION['user_id'],
+            'business_name' => $this->input->post('business_name'),
+            'theme' => 'NA',
+            'position' => 'Primary',
+            'website' => 'Yes',
+            'image' => 'https://graph.facebook.com/'.$_SESSION['temp_fb_id'].'/picture?type=large'
+          ];
+        }else {
+          $Business_information = [
+            'user_id' => $_SESSION['user_id'],
+            'business_name' => $this->input->post('business_name'),
+            'theme' => 'NA',
+            'position' => 'Primary',
+            'website' => 'Yes'
+          ];
+        }
         if ($this->db->insert('basic_info',$Business_information))
         {
           $this->session->set_userdata('business', $this->input->post('business_name'));
@@ -296,15 +316,12 @@ class Account extends CI_Controller
           $this->db->where('user_id', $_SESSION['user_id']);
           $this->db->update('users', $setup);
           $this->session->unset_userdata('primary_website');
+          $this->session->unset_userdata('image');
           redirect(base_url().'Account', 'refresh');
         }
         else
         {
-          $this->session->unset_userdata('email');
-          $this->session->unset_userdata('is_logged_in');
-          $this->session->unset_userdata('user_id');
-          $this->session->unset_userdata('business');
-          $this->session->unset_userdata('primary_website');
+          $this->session->sess_destroy();
           echo "<script>alert('Something went wrong, logging you out..');document.location='/Home'</script>";
         }
       }
@@ -338,13 +355,41 @@ class Account extends CI_Controller
   public function save_template()
   {
     $template = $this->input->post('template');
-    $Business_information = [
-      'user_id' => $_SESSION['user_id'],
-      'business_name' => $_SESSION['primary_business_name'],
-      'theme' => $this->input->post('template'),
-      'position' => 'Primary',
-      'website' => 'No'
-    ];
+    if (!empty($_SESSION['image']))
+    {
+      $Business_information = [
+        'user_id' => $_SESSION['user_id'],
+        'business_name' => $_SESSION['primary_business_name'],
+        'theme' => $this->input->post('template'),
+        'position' => 'Primary',
+        'website' => 'No',
+        'image' => $_SESSION['image'],
+        'website_url' => base_url().'View/home/'.str_replace(' ', '_', $_SESSION['primary_business_name'])
+      ];
+    }
+    elseif (!empty($_SESSION['temp_fb_id']))
+    {
+      $Business_information = [
+        'user_id' => $_SESSION['user_id'],
+        'business_name' => $_SESSION['primary_business_name'],
+        'theme' => $this->input->post('template'),
+        'position' => 'Primary',
+        'website' => 'No',
+        'image' => 'https://graph.facebook.com/'.$_SESSION['temp_fb_id'].'/picture?type=large',
+        'website_url' => base_url().'View/home/'.str_replace(' ', '_', $_SESSION['primary_business_name'])
+      ];
+    }
+    else
+    {
+      $Business_information = [
+        'user_id' => $_SESSION['user_id'],
+        'business_name' => $_SESSION['primary_business_name'],
+        'theme' => $this->input->post('template'),
+        'position' => 'Primary',
+        'website' => 'No',
+        'website_url' => base_url().'View/home/'.str_replace(' ', '_', $_SESSION['primary_business_name'])
+      ];
+    }
 
     if ($this->db->insert('basic_info',$Business_information))
     {
@@ -354,15 +399,13 @@ class Account extends CI_Controller
       $this->db->update('users', $setup);
       $this->session->unset_userdata('primary_website');
       $this->session->unset_userdata('primary_business_name');
+      $this->session->unset_userdata('temp_fb_id');
+      $this->session->unset_userdata('image');
       redirect(base_url().'Account', 'refresh');
     }
     else
     {
-      $this->session->unset_userdata('email');
-      $this->session->unset_userdata('is_logged_in');
-      $this->session->unset_userdata('user_id');
-      $this->session->unset_userdata('business');
-      $this->session->unset_userdata('primary_website');
+      $this->session->sess_destroy();
       echo "<script>alert('Something went wrong, logging you out..');document.location='/Home'</script>";
     }
   }
@@ -433,6 +476,14 @@ class Account extends CI_Controller
     );
 
     $this->form_validation->set_rules(
+        'telephone_number', 'Telephone Number',
+        'trim',
+        array(
+
+        )
+    );
+
+    $this->form_validation->set_rules(
         'contact_person', 'Contact Person',
         'trim|required',
         array(
@@ -489,7 +540,6 @@ class Account extends CI_Controller
           ];
         }else {
           $Business_Details = [
-            'username' => $this->data['account']->username,
             'business_name' => $this->input->post('business_name'),
             'category' => $this->input->post('category'),
             'locality' => $this->input->post('city_province'),
@@ -510,6 +560,12 @@ class Account extends CI_Controller
               $this->session->set_userdata('business', $this->input->post('business_name'));
               redirect(base_url().'Account/profile', 'refresh');
             }
+          }
+          else
+          {
+            $this->session->unset_userdata('business');
+            $this->session->set_userdata('business', $this->input->post('business_name'));
+            redirect(base_url().'Account/profile', 'refresh');
           }
         }
       }
@@ -550,6 +606,11 @@ class Account extends CI_Controller
               $this->session->set_userdata('business', $this->input->post('business_name'));
               redirect(base_url().'Account/profile', 'refresh');
             }
+          }
+          else {
+            $this->session->unset_userdata('business');
+            $this->session->set_userdata('business', $this->input->post('business_name'));
+            redirect(base_url().'Account/profile', 'refresh');
           }
         }
       }
@@ -1010,6 +1071,7 @@ class Account extends CI_Controller
           $this->session->unset_userdata('is_logged_in');
           $this->session->unset_userdata('user_id');
           $this->session->unset_userdata('business');
+          $this->session->sess_destroy();
         }
         redirect(base_url().'Home');
   }

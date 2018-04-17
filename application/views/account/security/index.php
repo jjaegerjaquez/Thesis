@@ -102,7 +102,7 @@
   <section class="container">
     <div class="row">
       <div class="col-lg-12" style="">
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
+        <div class="col-lg-6" style="background-color:#fff;padding-bottom:20px;margin-bottom:20px;">
           <div class="row text-title header-row">
             <h3 class="title">Change email</h3>
             <hr>
@@ -118,7 +118,7 @@
             </div>
           </form>
         </div>
-        <div class="col-lg-6" style="background-color:#fff;border-left:solid 10px #ebe9e9;padding-bottom:20px;">
+        <div class="col-lg-6" style="background-color:#fff;padding-bottom:20px;margin-bottom:20px;">
           <div class="row text-title header-row">
             <h3 class="title">Change password</h3>
             <hr>

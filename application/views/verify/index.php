@@ -30,6 +30,7 @@
         <div class="jumbotron jumbo-style">
           <h2 class="jumbo-header">Congratulations!</h2>
           <p>You are now registered. An activation link has been sent to your email account, please activate your account to log on to the website.</p>
+          <span style="font-style:italic;">Some email providers may automatically mark the emails as spam. All automated emails will be sent from no-reply@travelhub.ph, please add this to your safe list</span>
           <p><a class="btn btn-primary btn-lg back-btn" href="<?php echo base_url(); ?>Home" role="button">Back</a></p>
         </div>
       </div>

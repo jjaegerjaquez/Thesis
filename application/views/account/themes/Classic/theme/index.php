@@ -97,7 +97,7 @@
       </ul>
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:5px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -134,7 +134,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3" style="background-color:#fff;border-right:5px solid #ebe9e9;border-left:5px solid #ebe9e9;padding-top: 20px;margin-bottom: 20px;">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -155,7 +155,7 @@
           <a href="<?php echo base_url(); ?>Classic/theme" class="active">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;">
+      <div class="col-lg-9" style="background-color:#fff;border-right:5px solid #ebe9e9;border-left:5px solid #ebe9e9;padding-top: 20px;">
         <div class="row text-title header-row">
           <ul class="list-inline theme-ul">
             <li><h3 class="title">Theme</h3></li>
@@ -167,7 +167,7 @@
         </div>
           <div class="col-lg-12" style="padding-bottom:30px;">
             <?php foreach ($themes as $key => $theme): ?>
-              <div class="col-lg-4" style="background-color:#3c3734;padding:20px 10px 10px 10px;border-radius:5px;border-right:5px solid #fff;border-left:5px solid #fff;">
+              <div class="col-lg-4" style="background-color:#3c3734;padding:20px 10px 10px 10px;border-radius:5px;border-right:5px solid #fff;border-left:5px solid #fff;margin-bottom: 10px;">
                 <div class = "thumbnail">
                   <?php if (!empty($theme->image)): ?>
                     <img src = "<?php echo $theme->image?>" alt = "image">

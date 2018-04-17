@@ -91,14 +91,13 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-lg-3">
+      <ul class="breadcrumb">
+        <li><a href="<?php echo base_url() ?>Account">Dashboard</a></li>
+        <li>All reviews</li>
+      </ul>
+      <div class="col-lg-3" style="border-left:5px">
         <div class="row">
-          <div class="col-lg-12">
-            <ul class="breadcrumb">
-              <li class="active">Welcome to Travel Hub > No website</li>
-            </ul>
-          </div>
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:8px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -135,7 +134,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;border-left:10px solid #ebe9e9;padding-top: 20px;margin-bottom:20px;">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -149,7 +148,7 @@
           <a href="<?php echo base_url() ?>Account/profile">Profile</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
+      <div class="col-lg-9" style="background-color:#fff;border-right:10px solid #ebe9e9;border-left:10px solid #ebe9e9;padding-top: 20px;margin-bottom:20px;">
         <div class="row">
           <div class="col-md-12">
             <!-- Box Comment -->

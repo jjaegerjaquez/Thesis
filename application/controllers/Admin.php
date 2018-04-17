@@ -1573,7 +1573,14 @@ class Admin extends CI_Controller
   public function notify()
   {
     $email = 'cifercuatro04@gmail.com';
-    if ($this->Admins->sendemail($email)) {
+    $code='lol';
+    $data = array(
+
+       'code'=> 'Moist'
+
+         );
+    $msg = $this->load->view('email/index',$data,TRUE);
+    if ($this->Admins->sendemail($email,$msg)) {
       echo '<script>alert("EMail sent!");</script>';
     }else {
       echo $this->email->print_debugger();

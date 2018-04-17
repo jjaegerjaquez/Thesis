@@ -4,12 +4,36 @@ html, body {
   margin: 0;
   background-color: #ebe9e9;
 }
+
+.box-div{
+  background-color:#fff;
+  margin-bottom:20px;
+  border-right:5px solid #ebe9e9;
+  border-left:5px solid #ebe9e9;
+  padding-top: 20px;
+}
+
+.box-div2{
+  background-color:#fff;
+  margin-bottom:20px;
+  border-right:5px solid #ebe9e9;
+  border-left:5px solid #ebe9e9;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.theme-box{
+  background-color:#3c3734;padding:20px 10px 10px 10px;border-radius:5px;border-right:5px solid #fff;border-left:5px solid #fff;
+  margin-bottom: 10px;
+}
+
 /* NAV */
 .navbar{
   border-radius: 0;
   background-color: #f37430;
   border: none;
-  padding: 5px 80px;
+  padding-top: 3px;
+  /*padding: 5px 80px;*/
 }
 .nav.navbar-nav li a {
      color: #fff;

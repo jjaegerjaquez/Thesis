@@ -188,6 +188,9 @@ input[type=text],input[type=email],input[type=password] {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
 }
+.category-div p{
+  margin: 0;
+}
 .main-content{
   margin-top: 5px;
   padding: 20px;

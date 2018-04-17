@@ -188,7 +188,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="" data-toggle="modal" data-target="#login" id="login-btn"> Login</a></li>
-          <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
+          <li><a href="" class="register" data-toggle="modal" data-target="#supplier">Register</a></li>
         </ul>
       </div>
     </div>
@@ -270,38 +270,6 @@
     <!-- END LOGIN  -->
 
     <!-- REGISTER MODAL -->
-    <div class="modal" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Register</h4>
-            <p class="text-center">Please select a category</p>
-          </div>
-          <!-- START OF MODAL BODY-->
-          <div class="modal-body">
-            <a href="#" data-toggle="modal" data-target="#supplier" id="_supplier">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Supplier
-                </div>
-              </div>
-            </a>
-            <a href="#" data-toggle="modal" data-target="#traveller" id="_traveller">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Traveller
-                </div>
-              </div>
-            </a>
-            <!-- <a href="#" data-toggle="modal" data-target="#upload-avatar" class="button"><i class="fa fa-plus"></i> Upload new avatar</a> -->
-          </div>
-          <!-- END OF APPLICATION FORM MODAL BODY -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
 
       <!--SUPPLIER REGISTER FORM-->
       <div class="modal" id="supplier" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -309,7 +277,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Supplier Register</h4>
+              <h4 class="modal-title">Register</h4>
             </div>
             <div class="modal-body supplier-body">
               <div class="col-lg-12" style="margin-bottom:15px;">
@@ -367,84 +335,7 @@
         </div><!-- /.modal-dialog -->
       </div>
       <!-- END OF SUPPLIER REGISTER FORM -->
-
-      <!-- TRAVELLER REGISTER FORM -->
-      <div class="modal" id="traveller" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Traveller Register</h4>
-            </div>
-            <div class="modal-body traveller-body">
-              <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="<?php echo $fb_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block fb-btn">
-                     <i class="fa fa-facebook-square"></i> Facebook
-                    </div>
-                  </div>
-                </a>
-                <a href="<?php echo $google_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block google-btn">
-                     <i class="fa fa-google-plus"></i> Google
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <form class="" action="" method="post" enctype="multipart/form-data">
-                <div id="traveller_register_error_message"></div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                    <input type="email" name="register_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="traveller_register_email" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                    <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="traveller_username" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="traveller_register_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_firstname" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" id="traveller_register_firstname" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_lastname" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" id="traveller_register_lastname" required>
-                  </div>
-                </div>
-                <div class="agreement-box">
-                  <p>By clicking register you agree to our <span><a href="<?php echo base_url(); ?>About/terms" target="_blank">Terms Of Use</a></span> and <span><a href="<?php echo base_url(); ?>About/privacy" target="_blank">Privacy Policy</a></span></p>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
-              <button class="btn btn-default close-btn" type="button" name="button" data-dismiss="modal">Close</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>
     </div>
-    <!-- END TRAVELLER REGISTER FORM -->
     <!-- END REGISTER MODAL -->
   <?php endif; ?>
 
@@ -541,7 +432,7 @@
           <div class="col-lg-2 col-sm-2 col-xs-6">
             <li>
               <a href="<?php echo base_url(); ?>Category/all" title="See All" target="_self" rel="nofollow">
-                <img src="<?php echo base_url(); ?>public/img/icons/search.png" width="25px" height="25px" alt="">
+                <i class="fa fa-search" style="color:#f37430;font-size:25px;"></i>
                 <span style="color:#fba100;">See All</span>
               </a>
             </li>
@@ -722,36 +613,36 @@
           <ul>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>500 </span>Localities</label>
+                <label><span><?php echo $loc_count->loc_count ?> </span>Localities</label>
               </a>
             </li>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>1000 </span>Restaurants</label>
+                <label><span><?php echo $cat_count->cat_count ?> </span>Categories</label>
               </a>
             </li>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>900 </span>Hotels</label>
+                <label><span><?php echo $sup_count->sup_count ?> </span>Suppliers</label>
               </a>
             </li>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>786 </span>Resorts</label>
+                <label><span><?php echo $user_count->user_count ?> </span>Travellers</label>
               </a>
             </li>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>5000 </span>Reviews</label>
+                <label><span><?php echo $review_count->review_count ?> </span>Reviews</label>
               </a>
             </li>
             <li>
               <a href="" target="_self" rel="nofollow">
-                <label><span>3000 </span>Suppliers</label>
+                <label><span><?php echo $fave_count->fave_count ?> </span>Faves</label>
               </a>
             </li>
             <li>
-              <a href="" target="_target" rel="nofollow">
+              <a href="<?php echo base_url(); ?>Home/all_count" target="_target" rel="nofollow">
                 <label class="count-see-all">SEE ALL</label>
               </a>
             </li>
@@ -863,6 +754,9 @@ $('#Submit').click(function() {
             }else if (msg == 'Login') {
               $('#login').hide();
               $(location).attr('href','<?php echo base_url(); ?>Home');
+            }else if (msg == 'Account') {
+              $('#login').hide();
+              $(location).attr('href','<?php echo base_url(); ?>Home/account');
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }
@@ -901,40 +795,6 @@ $('#Register').click(function() {
         }
     });
     return false;
-});
-$('#Register_Traveller').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#traveller_register_email').val(),
-        username: $('#traveller_username').val(),
-        register_password: $('#traveller_register_password').val(),
-        register_confirm_password: $('#traveller_register_confirm_password').val(),
-        register_firstname: $('#traveller_register_firstname').val(),
-        register_lastname: $('#traveller_register_lastname').val(),
-        type: $('#Register_Traveller').attr('name')
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','<?php echo base_url(); ?>Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
-          }
-          else {
-            $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-          }
-        }
-    });
-    return false;
-});
-$('#register').on('hidden.bs.modal', function () {
-    $(this).find('form').trigger('reset');
-    $('#register_error_message').hide();
 });
 $('#buttonsearch').click(function(){
   $('#formsearch').slideToggle( "fast",function(){
@@ -1061,12 +921,6 @@ $("#look-for").keyup(function () {
 });
 $('ul._txtlookfor').on('click', 'li a', function () {
     $('#look-for').val($(this).text()); 
-});
-$("#_supplier").click(function() {
-    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
-});
-$("#_traveller").click(function() {
-    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Traveller");
 });
 </script>
 </body>

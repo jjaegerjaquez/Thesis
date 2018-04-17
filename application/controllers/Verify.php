@@ -23,7 +23,8 @@ class Verify extends CI_Controller
       $allowed = array(
             'index',
             'not_sent',
-            'unconfirmed'
+            'unconfirmed',
+            'confirm_email'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {

@@ -96,7 +96,7 @@
       </ul>
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:5px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -133,7 +133,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3" style="background-color:#fff;margin-bottom:20px;border-right:5px solid #ebe9e9;border-left:5px solid #ebe9e9;padding-top: 20px;">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -154,7 +154,7 @@
           <a href="<?php echo base_url(); ?>Classic/theme">Theme</a>
         </div>
       </div>
-      <div class="col-lg-9" style="background-color:#fff;padding-top:20px;">
+      <div class="col-lg-9" style="background-color:#fff;margin-bottom:20px;border-right:5px solid #ebe9e9;border-left:5px solid #ebe9e9;padding-top: 20px;">
         <div class="row">
           <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">

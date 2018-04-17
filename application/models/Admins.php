@@ -277,79 +277,40 @@ class Admins extends CI_Model
     return $query->result();
 	}
 
-  public function sendemail($email)
+  public function sendemail($email,$msg)
   {
     $this->load->library('email');
-    $config = Array(
-    'protocol' => 'smtp',
-    'smtp_host' => 'ssl://smtp.googlemail.com',
-    'smtp_port' => 587,
-    'smtp_user' => 'victonaragang@gmail.com',//your E-mail
-    'smtp_pass' => 'victonarasalasgalang',//Your password
-    'mailtype'  => 'html',
-    'charset'   => 'iso-8859-1'
-    );
+    $from = "no-reply@travelhub.ph";    //senders email address
+    $subject = 'Please verify your Travel Hub account';  //email subject
+    $from_email = $from;
+    $to_email = $email;
 
-    $this->load->library('email', $config);
-    $this->email->set_newline("\r\n");
+    $config['protocol'] = 'smtp';
+    $config['smtp_host'] = 'travelhub.ph';
+    $config['smtp_port'] = '587';
+    $config['smtp_user'] = $from;
+    $config['smtp_pass'] = '2EtrdEms2I';  //sender's password
+    $config['mailtype'] = 'html';
+    $config['charset'] = 'iso-8859-1';
+    $config['wordwrap'] = 'TRUE';
+    $config['newline'] = "\r\n";
 
-    // Set to, from, message, etc.
-    $this->email->from('victonaragang@gmail.com', 'Travel Hub');
-    $this->email->to($email);
-    // $this->email->cc('another@another-example.com');
-    // $this->email->bcc('them@their-example.com');
+    $this->load->library('email');
+    $this->email->initialize($config);
 
-    $this->email->subject('Email Test');
-    $this->email->message('Testing the email class.');
+    $this->email->from($from_email, 'Travel Hub');
+    $this->email->to($to_email);
+    $this->email->cc('support@travelhub.ph');
+    $this->email->subject($subject);
+    $this->email->message($msg);
 
-    $result = $this->email->send();
-        // $code='lol';
-        // $from = "victonaragang@gmail.com";    //senders email address
-        // $subject = 'Verify email address';  //email subject
-        // $url = base_url()."Verify/confirm_email/".$code;
-        //     //sending confirmEmail($receiver) function calling link to the user, inside message body
-        //     $message = 'Dear User,<br><br> Please click on the below activation link to verify your email address<br><br>
-        //     <a href='.$url.'>Click Here</a><br><br>Thanks';
-        //
-        //     // $from_email = $from;
-        //     // $to_email = $email;
-        //     //Load email library
-        //     // $this->load->library('email');
-        //     // $this->email->from($from_email, 'Identification');
-        //     // $this->email->to($to_email);
-        //     // $this->email->subject('Send Email Codeigniter');
-        //     // $this->email->message('The email send using codeigniter library');
-        //     //config email settings
-        //     // $config['protocol'] = 'smtp';
-        //     // $config['smtp_host'] = 'ssl://smtp.gmail.com';
-        //     // $config['smtp_port'] = '465';
-        //     // $config['smtp_user'] = $from;
-        //     // $config['smtp_pass'] = 'victonarasalasgalang';  //sender's password
-        //     // $config['mailtype'] = 'html';
-        //     // $config['charset'] = 'iso-8859-1';
-        //     // $config['wordwrap'] = 'TRUE';
-        //     // $config['newline'] = "\r\n";
-        //
-        //     $this->load->library('email');
-    		//     // $this->email->initialize($config);
-        //     //send email
-        //     $this->email->from($from);
-        //     $this->email->to($email);
-        //     $this->email->subject($subject);
-        //     $this->email->message($message);
-        //
-        //     if($this->email->send()){
-    		// 	    //for testing
-        //       // echo "sent to: ".$email."<br>";
-        // 			// echo "from: ".$from. "<br>";
-        // 			// echo "protocol: ". $config['protocol']."<br>";
-        // 			// echo "message: ".$message;
-        //       return true;
-        //     }else{
-        //       // echo "email send failed";
-        //       return false;
-
-        //     }
+    if($this->email->send())
+    {
+      return true;
+    }else
+    {
+      return false;
+    }        
   }
 
   function function_pagination_ending($limit, $offset)

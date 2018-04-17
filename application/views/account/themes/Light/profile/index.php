@@ -98,7 +98,7 @@
       </ul>
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:5px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -136,7 +136,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3 box-div">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -157,7 +157,7 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="col-lg-5" style="background-color:#fff;border-right:10px solid #ebe9e9;">
+        <div class="col-lg-5 box-div2">
           <div class="row text-title header-row">
             <h3 class="title">Profile Image</h3>
             <hr>
@@ -173,7 +173,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-7" style="background-color:#fff;">
+        <div class="col-lg-7 box-div2">
           <div class="row text-title header-row">
             <h3 class="title">Basic Info</h3>
             <hr>
@@ -190,7 +190,7 @@
             <div class="form-group">
               <label>Business Category*</label>
               <select class="form-control" name="category" id="category">
-                <option value ="<?php if (!empty($details->category)): ?> <?php echo $details->category ?><?php endif;?>" selected><?php if (!empty($details->category)): ?> <?php echo $details->category ?> <?php endif; ?></option>
+                <option value ="<?php if (!empty($details->category)): ?><?php echo $details->category ?><?php endif;?>" selected><?php if (!empty($details->category)): ?><?php echo $details->category ?> <?php endif; ?></option>
                 <?php foreach ($categories as $key => $category): ?>
                   <?php if ($details->category == $category->category): ?>
                   <?php else: ?>
@@ -202,14 +202,14 @@
             </div>
             <div class="form-group">
               <label>Business Name*</label>
-              <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
+              <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?><?php echo $details->business_name ?><?php endif; ?>" maxlength="25">
               <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
             </div>
             <div class="row">
               <div class="col-lg-8" style="padding-right:0px;">
                 <div class="form-group">
                   <label>Address*</label>
-                  <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
+                  <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?><?php echo $details->address ?><?php endif; ?>" maxlength="50">
                   <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
                 </div>
               </div>
@@ -233,18 +233,18 @@
               <label>Cellphone Number (Do NOT include the leading 0)*</label>
               <div class="input-group">
                 <div class="input-group-addon"><i>+63</i></div>
-                <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?> <?php echo $details->cellphone ?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
+                <input type="text" name="cellphone_number" class="form-control input-style" value="<?php if (!empty($details->cellphone)): ?><?php echo $details->cellphone ?><?php endif; ?>" placeholder="917XXXXXXX" maxlength="10">
               </div>
               <span style="color:red" class="help-block"><?php echo form_error('cellphone_number'); ?></span>
             </div>
             <div class="form-group">
               <label>Telephone Number:</label>
-              <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?> <?php echo $details->telephone ?><?php endif; ?>" maxlength="11">
+              <input type="text" name="telephone_number" class="form-control" value="<?php if (!empty($details->telephone)): ?><?php echo $details->telephone ?><?php endif; ?>" maxlength="11">
               <span style="color:red" class="help-block"><?php echo form_error('telephone_number'); ?></span>
             </div>
             <div class="form-group">
               <label>Contact Person*</label>
-              <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?> <?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
+              <input type="text" name="contact_person" class="form-control" value="<?php if (!empty($details->contact_person)): ?><?php echo $details->contact_person ?><?php endif; ?>" maxlength="50">
               <span style="color:red" class="help-block"><?php echo form_error('contact_person'); ?></span>
             </div>
             <div class="form-group">

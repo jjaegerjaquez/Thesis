@@ -47,7 +47,13 @@ class Home extends CI_Controller
             'google_traveller_register',
             'fb_register',
             'set_usertype',
-            'success_page'
+            'success_page',
+            'account',
+            'save_account',
+            'all_count',
+            'get_started',
+            'save_name',
+            'email'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -76,7 +82,12 @@ class Home extends CI_Controller
     }
 
     $this->data['counter']=$count;
-
+    $this->data['loc_count'] = $this->Homes->get_loc_count();
+    $this->data['cat_count'] = $this->Homes->get_cat_count();
+    $this->data['sup_count'] = $this->Homes->get_sup_count();
+    $this->data['user_count'] = $this->Homes->get_user_count();
+    $this->data['review_count'] = $this->Homes->get_review_count();
+    $this->data['fave_count'] = $this->Homes->get_fave_count();
     if ($this->session->userdata('is_logged_in'))
     {
       $email = $_SESSION['email'];
@@ -90,6 +101,11 @@ class Home extends CI_Controller
         }
     }
     $this->load->view('home/index',$this->data);
+  }
+
+  public function email()
+  {
+    $this->load->view('email/index',$this->data);
   }
 
   public function notifications()
@@ -128,108 +144,95 @@ class Home extends CI_Controller
 
   public function register()
   {
-    $type = $this->input->post('type');
-    if ($type == 'Supplier')
+    $this->form_validation->set_rules(
+        'register_email', 'Email',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your email'
+        )
+    );
+    $this->form_validation->set_rules(
+        'username', 'Username',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your username'
+        )
+    );
+    $this->form_validation->set_rules(
+        'register_password', 'Password',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your password'
+        )
+    );
+    $this->form_validation->set_rules(
+        'register_confirm_password', 'Confirm Password',
+        'trim|required',
+        array(
+                'required'      => 'Please confirm your password'
+        )
+    );
+    if ($this->form_validation->run() == FALSE)
     {
-      $this->form_validation->set_rules(
-          'register_email', 'Email',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your email'
-          )
-      );
-      $this->form_validation->set_rules(
-          'username', 'Username',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your username'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_password', 'Password',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your password'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_confirm_password', 'Confirm Password',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your email'
-          )
-      );
+      echo validation_errors();
+    }
+    else
+    {
+      $this->form_validation->set_rules('register_email', 'Email', 'valid_email');
       if ($this->form_validation->run() == FALSE)
       {
-        echo validation_errors();
+        echo "Please enter a valid email";
       }
       else
       {
-        $this->form_validation->set_rules('register_email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('email', 'Email', 'callback_EmailExists');
         if ($this->form_validation->run() == FALSE)
         {
-          echo "Please enter a valid email";
+          echo validation_errors();
         }
         else
         {
-          $this->form_validation->set_rules('email', 'Email', 'callback_EmailExists');
+          // $this->form_validation->set_rules('username', 'Username', 'alpha_numeric|callback_UsernameExists');
+          $this->form_validation->set_rules(
+              'username', 'Username',
+              'alpha_numeric|callback_UsernameExists|trim',
+              array(
+                      'alpha_numeric'      => 'Space is not allowed.'
+              )
+          );
           if ($this->form_validation->run() == FALSE)
           {
             echo validation_errors();
           }
           else
           {
-            // $this->form_validation->set_rules('username', 'Username', 'alpha_numeric|callback_UsernameExists');
-            $this->form_validation->set_rules(
-                'username', 'Username',
-                'alpha_numeric|callback_UsernameExists|trim',
-                array(
-                        'alpha_numeric'      => 'Space is not allowed.'
-                )
-            );
+            $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'matches[register_password]');
             if ($this->form_validation->run() == FALSE)
             {
-              echo validation_errors();
+              echo "Passwords do not matched";
             }
             else
             {
-              $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'matches[register_password]');
-              if ($this->form_validation->run() == FALSE)
-              {
-                echo "Passwords do not matched";
-              }
-              else
-              {
-                $RegisterData = array(
-                  'email' => $this->input->post('register_email'),
-                  'username' => $this->input->post('username'),
-                  'password' => md5($this->input->post('register_password')),
-                  'date_joined' => date("Y-m-d"),
-                  'set_up' => '0',
-                  'status' => '1',
-                  'type' => $this->input->post('type')
-                );
+              $RegisterData = array(
+                'email' => $this->input->post('register_email'),
+                'username' => $this->input->post('username'),
+                'password' => md5($this->input->post('register_password')),
+                'date_joined' => date("Y-m-d"),
+                'set_up' => '0',
+                'status' => '0'
+              );
 
-                $email = $this->input->post('register_email');
-                $code = md5($email);
-                // $this->sendemail($email,$code);
-                // && $this->db->insert('profile',$RegisterData)
-                if ($this->db->insert('users',$RegisterData))
+              $email = $this->input->post('register_email');
+              $code = md5($email);
+              $data = array(
+                 'code'=> $code
+              );
+              $msg = $this->load->view('email/index',$data,TRUE);
+              // && $this->db->insert('profile',$RegisterData)
+              if ($this->db->insert('users',$RegisterData))
+              {
+                if ($this->Homes->sendemail($email,$msg))
                 {
-                  // $data['email_details'] = $this->Homes->get_email($email);
-                  // $Business_Data = array(
-                  //   'user_id' => $data['email_details']->user_id,
-                  //   'username' => $this->input->post('username'),
-                  //   'business_name' => '',
-                  //   'category' => '',
-                  //   'locality' => '',
-                  //   'address' => '',
-                  //   'cellphone' => '',
-                  //   'telephone' => '',
-                  //   'website_url' => '',
-                  //   'template' => '0',
-                  //   'image' => ''
-                  // );
                   $data['user_account'] = $this->Homes->get_email($email);
                   chmod('./uploads/', 0777);
                   $path   = './uploads/'.$data['user_account']->user_id;
@@ -237,196 +240,38 @@ class Home extends CI_Controller
                       mkdir($path, 0755, TRUE);
                   }
                   echo "Successful";
-                  // // if ($this->db->insert('basic_info',$Business_Data)) {
-                  // //   chmod('./uploads/', 0777);
-                  // //   $path   = './uploads/'.$this->input->post('username');
-                  // //   if (!is_dir($path)) { //create the folder if it's not already exists
-                  // //       mkdir($path, 0755, TRUE);
-                  // //   }
-                  // //   echo "Successful";
-                  // }else {
-                  //   $this->db->where('user_id', $data['email_details']->user_id);
-                  //   $this->db->delete('users');
-                  //   echo "Unsucessful";
-                  // }
                 }
                 else
                 {
-                  echo "Unsucessful";
+                  echo $this->email->print_debugger();
                 }
-                // if($this->Registers->sendemail($email,$code))
-                // {
-                //   $this->db->insert('users',$RegisterData);
-                //   echo "Successful";
-                // }
-                // else
-                // {
+
+                // // if ($this->db->insert('basic_info',$Business_Data)) {
+                // //   chmod('./uploads/', 0777);
+                // //   $path   = './uploads/'.$this->input->post('username');
+                // //   if (!is_dir($path)) { //create the folder if it's not already exists
+                // //       mkdir($path, 0755, TRUE);
+                // //   }
+                // //   echo "Successful";
+                // }else {
+                //   $this->db->where('user_id', $data['email_details']->user_id);
+                //   $this->db->delete('users');
                 //   echo "Unsucessful";
                 // }
-              }
-            }
-          }
-        }
-      }
-    }
-    elseif ($type == 'Traveller')
-    {
-      $this->form_validation->set_rules(
-          'register_email', 'Email',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your email'
-          )
-      );
-      $this->form_validation->set_rules(
-          'username', 'Username',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your username'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_password', 'Password',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your password'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_confirm_password', 'Confirm Password',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your email'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_firstname', 'Firstname',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your firstname'
-          )
-      );
-      $this->form_validation->set_rules(
-          'register_lastname', 'Lastname',
-          'trim|required',
-          array(
-                  'required'      => 'Please enter your lastname'
-          )
-      );
-      // $this->form_validation->set_rules('register_email', 'Email', 'trim|required');
-      // $this->form_validation->set_rules('register_password', 'Password', 'trim|required');
-      // $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'trim|required');
-      if ($this->form_validation->run() == FALSE)
-      {
-        echo validation_errors();
-      }
-      else
-      {
-        $this->form_validation->set_rules('register_email', 'Email', 'valid_email');
-        if ($this->form_validation->run() == FALSE)
-        {
-          echo "Please enter a valid email";
-        }
-        else
-        {
-          $this->form_validation->set_rules('register_email', 'Email', 'callback_EmailExists');
-          if ($this->form_validation->run() == FALSE)
-          {
-            echo validation_errors();
-          }
-          else
-          {
-            // $this->form_validation->set_rules('username', 'Username', 'alpha_numeric|callback_UsernameExists');
-            $this->form_validation->set_rules(
-                'username', 'Username',
-                'alpha_numeric|callback_UsernameExists|trim',
-                array(
-                        'alpha_numeric'      => 'Space is not allowed.'
-                )
-            );
-            if ($this->form_validation->run() == FALSE)
-            {
-              echo validation_errors();
-            }
-            else
-            {
-              $this->form_validation->set_rules('register_confirm_password', 'Confrim Password', 'matches[register_password]');
-              if ($this->form_validation->run() == FALSE)
-              {
-                echo "Passwords do not matched";
               }
               else
               {
-                $RegisterData = array(
-                  'email' => $this->input->post('register_email'),
-                  'username' => $this->input->post('username'),
-                  'password' => md5($this->input->post('register_password')),
-                  'date_joined' => date("Y-m-d"),
-                  'set_up' => '1',
-                  'status' => '1',
-                  'type' => $this->input->post('type')
-                );
-                $email = $this->input->post('register_email');
-                $code = md5($email);
-                // $this->sendemail($email,$code);
-                if ($this->db->insert('users',$RegisterData))
-                {
-                  $data['user__id'] = $this->Homes->get_email($email);
-                  $Profile = [
-                    'user_id' => $data['user__id']->user_id,
-                    'firstname' => ucwords($this->input->post('register_firstname')),
-                    'lastname' => ucwords($this->input->post('register_lastname'))
-                  ];
-                  if ($this->db->insert('profile',$Profile)) {
-                    chmod('./uploads/', 0777);
-                    $path   = './uploads/'.$data['user__id']->user_id;
-                    if (!is_dir($path)) { //create the folder if it's not already exists
-                        mkdir($path, 0755, TRUE);
-                    }
-                    echo "Successful";
-                  }
-                  // $data['email_details'] = $this->Homes->get_email($email);
-                  // $Business_Data = array(
-                  //   'user_id' => $data['email_details']->user_id,
-                  //   'username' => $this->input->post('username'),
-                  //   'business_name' => '',
-                  //   'category' => '',
-                  //   'locality' => '',
-                  //   'address' => '',
-                  //   'cellphone' => '',
-                  //   'telephone' => '',
-                  //   'website_url' => '',
-                  //   'template' => '0',
-                  //   'image' => ''
-                  // );
-
-                  // // if ($this->db->insert('basic_info',$Business_Data)) {
-                  // //   chmod('./uploads/', 0777);
-                  // //   $path   = './uploads/'.$this->input->post('username');
-                  // //   if (!is_dir($path)) { //create the folder if it's not already exists
-                  // //       mkdir($path, 0755, TRUE);
-                  // //   }
-                  // //   echo "Successful";
-                  // }else {
-                  //   $this->db->where('user_id', $data['email_details']->user_id);
-                  //   $this->db->delete('users');
-                  //   echo "Unsucessful";
-                  // }
-                }
-                else
-                {
-                  echo "Unsucessful";
-                }
-                // if($this->Registers->sendemail($email,$code))
-                // {
-                //   $this->db->insert('users',$RegisterData);
-                //   echo "Successful";
-                // }
-                // else
-                // {
-                //   echo "Unsucessful";
-                // }
+                echo "Unsucessful";
               }
+              // if($this->Registers->sendemail($email,$code))
+              // {
+              //   $this->db->insert('users',$RegisterData);
+              //   echo "Successful";
+              // }
+              // else
+              // {
+              //   echo "Unsucessful";
+              // }
             }
           }
         }
@@ -501,32 +346,44 @@ class Home extends CI_Controller
           }
           else
           { //KAPAG TAMA YUNG PASSWORD
-            $set_up = $data['account']->set_up;
-            if ($set_up == '0')
+            if (empty($data['account']->type))
             {
-              echo "Set up";
-              $this->session->set_userdata('email', $email);
-              $this->session->set_userdata('user_id', $data['account']->user_id);
-              $this->session->set_userdata('is_logged_in', true);
+              $this->session->set_userdata('temp_email', $data['account']->email);
+              $this->session->set_userdata('temp_id', $data['account']->user_id);
+              $this->session->set_userdata('temp_is_logged_in', true);
+              echo "Account";
+              // redirect(base_url().'Home/account');
             }
-            elseif ($set_up == '1')
+            else
             {
-              $position = $data['account']->type;
-              if ($position == 'Traveller')
+              if ($data['account']->type == 'Traveller')
               {
-                echo "Login";
-                $this->session->set_userdata('traveller_email', $email);
+                $this->session->set_userdata('traveller_email', $data['account']->email);
                 $this->session->set_userdata('traveller_id', $data['account']->user_id);
                 $this->session->set_userdata('traveller_is_logged_in', true);
+                echo "Login";
+                // redirect(base_url());
               }
-              elseif ($position == 'Supplier')
+              else
               {
-                echo "Dashboard";
-                $data['BusinessName'] = $this->Homes->fetch_basic_info($data['account']->user_id);
-                $this->session->set_userdata('business', $data['BusinessName']->business_name);
-                $this->session->set_userdata('email', $email);
-                $this->session->set_userdata('user_id', $data['account']->user_id);
-                $this->session->set_userdata('is_logged_in', true);
+                if ($data['account']->set_up == '1')
+                {
+                  $data['BusinessName'] = $this->Homes->fetch_basic_info($data['account']->user_id);
+                  $this->session->set_userdata('business', $data['BusinessName']->business_name);
+                  $this->session->set_userdata('email', $data['account']->email);
+                  $this->session->set_userdata('user_id', $data['account']->user_id);
+                  $this->session->set_userdata('is_logged_in', true);
+                  // redirect(base_url().'Dashboard');
+                  echo "Dashboard";
+                }
+                else
+                {
+                  $this->session->set_userdata('email', $data['account']->email);
+                  $this->session->set_userdata('user_id', $data['account']->user_id);
+                  $this->session->set_userdata('is_logged_in', true);
+                  // redirect(base_url().'Home/set_up');
+                  echo "Set up";
+                }
               }
             }
           }
@@ -884,16 +741,8 @@ class Home extends CI_Controller
     $this->db->where('business_id', $this->input->post('business_id'));
     $this->db->delete('votes');
     $this->data['vote'] = $this->Homes->get_vote($this->input->post('business_id'));
-    // redirect('/Account/home', 'refresh');
     echo $this->data['vote']->vote;
-    //  echo '<script>alert("Locality deleted!");</script>';
-    //  redirect('/Admin/localities', 'refresh');
   }
-
-  // public function search()
-  // {
-  //   $this->load->view('home/search');
-  // }
 
   public function get_notif()
   {
@@ -998,86 +847,63 @@ class Home extends CI_Controller
     $data['user__id'] = $this->Homes->get_email($google_data['email']);
     if (!empty($data['user__id']))
     {
-      if ($data['user__id']->type == 'Traveller')
+      if (empty($data['user__id']->type))
       {
-        $this->session->set_userdata('traveller_email', $data['user__id']->email);
-        $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
-        $this->session->set_userdata('traveller_is_logged_in', true);
-        redirect(base_url());
+        $this->session->set_userdata('temp_email', $data['user__id']->email);
+        $this->session->set_userdata('temp_id', $data['user__id']->user_id);
+        $this->session->set_userdata('temp_firstname', $google_data['fname']);
+        $this->session->set_userdata('temp_lastname', $google_data['lname']);
+        $this->session->set_userdata('image', $google_data['profile_pic']);
+        $this->session->set_userdata('temp_is_logged_in', true);
+        redirect(base_url().'Home/account');
       }
       else
       {
-        if ($data['user__id']->set_up == '1')
+        if ($data['user__id']->type == 'Traveller')
         {
-          $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
-          $this->session->set_userdata('business', $data['BusinessName']->business_name);
-          $this->session->set_userdata('email', $data['user__id']->email);
-          $this->session->set_userdata('user_id', $data['user__id']->user_id);
-          $this->session->set_userdata('is_logged_in', true);
-          redirect(base_url().'Account');
+          $this->session->set_userdata('traveller_email', $data['user__id']->email);
+          $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
+          $this->session->set_userdata('traveller_is_logged_in', true);
+          redirect(base_url());
         }
         else
         {
-          $this->session->set_userdata('email', $data['user__id']->email);
-          $this->session->set_userdata('user_id', $data['user__id']->user_id);
-          $this->session->set_userdata('is_logged_in', true);
-          redirect(base_url().'Home/set_up');
+          if ($data['user__id']->set_up == '1')
+          {
+            $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
+            $this->session->set_userdata('business', $data['BusinessName']->business_name);
+            $this->session->set_userdata('email', $data['user__id']->email);
+            $this->session->set_userdata('user_id', $data['user__id']->user_id);
+            $this->session->set_userdata('is_logged_in', true);
+            redirect(base_url().'Account');
+          }
+          else
+          {
+            $this->session->set_userdata('email', $data['user__id']->email);
+            $this->session->set_userdata('user_id', $data['user__id']->user_id);
+            $this->session->set_userdata('is_logged_in', true);
+            redirect(base_url().'Home/set_up');
+          }
         }
       }
     }
     else
     {
-      if ($_SESSION['user_type'] == 'Traveller')
+      $RegisterData = array(
+        'email' => $google_data['email'],
+        'date_joined' => date("Y-m-d"),
+        'set_up' => '0',
+        'status' => '1'
+      );
+      if ($this->db->insert('users',$RegisterData))
       {
-        $RegisterData = array(
-          'email' => $google_data['email'],
-          'date_joined' => date("Y-m-d"),
-          'set_up' => '1',
-          'status' => '1',
-          'type' => $_SESSION['user_type']
-        );
-        if ($this->db->insert('users',$RegisterData))
-        {
-          $data['user__id'] = $this->Homes->get_email($google_data['email']);
-          $Profile = [
-            'user_id' => $data['user__id']->user_id,
-            'firstname' => ucwords($google_data['fname']),
-            'lastname' => ucwords($google_data['lname']),
-            'middlename' => ucwords($google_data['mname']),
-            'gender' => ucwords($google_data['gender']),
-            'image' => $google_data['profile_pic']
-          ];
-          if ($this->db->insert('profile',$Profile)) {
-            chmod('./uploads/', 0777);
-            $path   = './uploads/'.$data['user__id']->user_id;
-            if (!is_dir($path)) { //create the folder if it's not already exists
-                mkdir($path, 0755, TRUE);
-            }
-            $this->session->unset_userdata('user_type');
-            redirect(base_url().'Home/success_page');
-          }
-        }
-      }
-      else
-      {
-        $RegisterData = array(
-          'email' => $google_data['email'],
-          'date_joined' => date("Y-m-d"),
-          'set_up' => '0',
-          'status' => '1',
-          'type' => $_SESSION['user_type']
-        );
-        if ($this->db->insert('users',$RegisterData))
-        {
-          $data['user__id'] = $this->Homes->get_email($google_data['email']);
-          chmod('./uploads/', 0777);
+        $data['user__id'] = $this->Homes->get_email($google_data['email']);
+        chmod('./uploads/', 0777);
           $path   = './uploads/'.$data['user__id']->user_id;
           if (!is_dir($path)) { //create the folder if it's not already exists
               mkdir($path, 0755, TRUE);
-          }
-          $this->session->unset_userdata('user_type');
-          redirect(base_url().'Home/success_page');
         }
+        redirect(base_url().'Home/success_page');
       }
     }
   }
@@ -1102,85 +928,63 @@ class Home extends CI_Controller
         $data['user__id'] = $this->Homes->get_email($userData['email']);
         if (!empty($data['user__id']))
         {
-          if ($data['user__id']->type == 'Traveller')
+          if (empty($data['user__id']->type))
           {
-            $this->session->set_userdata('traveller_email', $data['user__id']->email);
-            $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
-            $this->session->set_userdata('traveller_is_logged_in', true);
-            redirect(base_url());
+            $this->session->set_userdata('temp_email', $data['user__id']->email);
+            $this->session->set_userdata('temp_id', $data['user__id']->user_id);
+            $this->session->set_userdata('temp_firstname', $userData['first_name']);
+            $this->session->set_userdata('temp_lastname', $userData['last_name']);
+            $this->session->set_userdata('temp_fb_id', $userData['fb_id']);
+            $this->session->set_userdata('temp_is_logged_in', true);
+            redirect(base_url().'Home/account');
           }
           else
           {
-            if ($data['user__id']->set_up == '1')
+            if ($data['user__id']->type == 'Traveller')
             {
-              $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
-              $this->session->set_userdata('business', $data['BusinessName']->business_name);
-              $this->session->set_userdata('email', $data['user__id']->email);
-              $this->session->set_userdata('user_id', $data['user__id']->user_id);
-              $this->session->set_userdata('is_logged_in', true);
-              redirect(base_url().'Account');
+              $this->session->set_userdata('traveller_email', $data['user__id']->email);
+              $this->session->set_userdata('traveller_id', $data['user__id']->user_id);
+              $this->session->set_userdata('traveller_is_logged_in', true);
+              redirect(base_url());
             }
             else
             {
-              $this->session->set_userdata('email', $data['user__id']->email);
-              $this->session->set_userdata('user_id', $data['user__id']->user_id);
-              $this->session->set_userdata('is_logged_in', true);
-              redirect(base_url().'Home/set_up');
+              if ($data['user__id']->set_up == '1')
+              {
+                $data['BusinessName'] = $this->Homes->fetch_basic_info($data['user__id']->user_id);
+                $this->session->set_userdata('business', $data['BusinessName']->business_name);
+                $this->session->set_userdata('email', $data['user__id']->email);
+                $this->session->set_userdata('user_id', $data['user__id']->user_id);
+                $this->session->set_userdata('is_logged_in', true);
+                redirect(base_url().'Account');
+              }
+              else
+              {
+                $this->session->set_userdata('email', $data['user__id']->email);
+                $this->session->set_userdata('user_id', $data['user__id']->user_id);
+                $this->session->set_userdata('is_logged_in', true);
+                redirect(base_url().'Home/set_up');
+              }
             }
           }
         }
         else
         {
-          if ($_SESSION['user_type'] == 'Traveller')
+          $RegisterData = array(
+            'email' => $userData['email'],
+            'date_joined' => date("Y-m-d"),
+            'set_up' => '0',
+            'status' => '1'
+          );
+          if ($this->db->insert('users',$RegisterData))
           {
-            $RegisterData = array(
-              'email' => $userData['email'],
-              'date_joined' => date("Y-m-d"),
-              'set_up' => '1',
-              'status' => '1',
-              'type' => $_SESSION['user_type']
-            );
-            if ($this->db->insert('users',$RegisterData))
-            {
-              $data['user__id'] = $this->Homes->get_email($userData['email']);
-              $Profile = [
-                'user_id' => $data['user__id']->user_id,
-                'firstname' => ucwords($userData['first_name']),
-                'lastname' => ucwords($userData['last_name']),
-                'gender' => ucwords($userData['gender']),
-                'image' => 'https://graph.facebook.com/'.$userData['fb_id'].'/picture?type=large'
-              ];
-              if ($this->db->insert('profile',$Profile)) {
-                chmod('./uploads/', 0777);
-                $path   = './uploads/'.$data['user__id']->user_id;
-                if (!is_dir($path)) { //create the folder if it's not already exists
-                    mkdir($path, 0755, TRUE);
-                }
-                $this->session->unset_userdata('user_type');
-                redirect(base_url().'Home/success_page');
-              }
-            }
-          }
-          else
-          {
-            $RegisterData = array(
-              'email' => $userData['email'],
-              'date_joined' => date("Y-m-d"),
-              'set_up' => '0',
-              'status' => '1',
-              'type' => $_SESSION['user_type']
-            );
-            if ($this->db->insert('users',$RegisterData))
-            {
-              $data['user__id'] = $this->Homes->get_email($userData['email']);
-              chmod('./uploads/', 0777);
+            $data['user__id'] = $this->Homes->get_email($userData['email']);
+            chmod('./uploads/', 0777);
               $path   = './uploads/'.$data['user__id']->user_id;
               if (!is_dir($path)) { //create the folder if it's not already exists
                   mkdir($path, 0755, TRUE);
-              }
-              $this->session->unset_userdata('user_type');
-              redirect(base_url().'Home/success_page');
             }
+            redirect(base_url().'Home/success_page');
           }
         }
     }
@@ -1189,6 +993,160 @@ class Home extends CI_Controller
   public function success_page()
   {
     $this->load->view('success/index',$this->data);
+  }
+
+  public function account()
+  {
+    $this->load->view('home/user_type/index',$this->data);
+  }
+
+  public function save_account()
+  {
+    $User_Type = array(
+      'type' => $this->input->post('user_type')
+    );
+    if ($this->Homes->update_email($User_Type,$_SESSION['temp_id']))
+    {
+      if ($this->input->post('user_type') == 'Supplier')
+      {
+        $this->session->set_userdata('email', $_SESSION['temp_email']);
+        $this->session->set_userdata('user_id', $_SESSION['temp_id']);
+        $this->session->set_userdata('is_logged_in', true);
+        $this->session->unset_userdata('temp_email');
+        $this->session->unset_userdata('temp_id');
+        $this->session->unset_userdata('temp_firstname');
+        $this->session->unset_userdata('temp_lastname');
+        $this->session->unset_userdata('temp_is_logged_in');
+        redirect(base_url().'Home/set_up');
+      }
+      else
+      {
+        if (empty($_SESSION['temp_firstname']) && empty($_SESSION['temp_lastname'])) {
+          redirect(base_url().'Home/get_started');
+        }
+        if (!empty($_SESSION['image']))
+        {
+          $Profile = array(
+            'user_id' => $_SESSION['temp_id'],
+            'firstname' => ucwords($_SESSION['temp_firstname']),
+            'lastname' => ucwords($_SESSION['temp_lastname']),
+            'image' => $_SESSION['image']
+          );
+        }
+        elseif (!empty($_SESSION['temp_fb_id']))
+        {
+          $Profile = array(
+            'user_id' => $_SESSION['temp_id'],
+            'firstname' => ucwords($_SESSION['temp_firstname']),
+            'lastname' => ucwords($_SESSION['temp_lastname']),
+            'image' => 'https://graph.facebook.com/'.$_SESSION['temp_fb_id'].'/picture?type=large'
+          );
+        }
+        else
+        {
+          $Profile = array(
+            'user_id' => $_SESSION['temp_id'],
+            'firstname' => ucwords($_SESSION['temp_firstname']),
+            'lastname' => ucwords($_SESSION['temp_lastname'])
+          );
+        }
+        if ($this->db->insert('profile', $Profile)) {
+          $Setup = array(
+            'set_up' => '1'
+          );
+          if ($this->Homes->update_email($Setup,$_SESSION['temp_id'])) {
+            $this->session->set_userdata('traveller_email', $_SESSION['temp_email']);
+            $this->session->set_userdata('traveller_id', $_SESSION['temp_id']);
+            $this->session->set_userdata('traveller_is_logged_in', true);
+            $this->session->unset_userdata('temp_email');
+            $this->session->unset_userdata('temp_id');
+            $this->session->unset_userdata('temp_firstname');
+            $this->session->unset_userdata('temp_lastname');
+            $this->session->unset_userdata('temp_is_logged_in');
+            $this->session->unset_userdata('image');
+            redirect(base_url());
+          }
+        }else {
+          $this->session->sess_destroy();
+          redirect(base_url());
+        }
+      }
+    }
+  }
+
+  public function all_count()
+  {
+    $count = 0;
+    $this->data['loc_count'] = $this->Homes->get_loc_count();
+    $this->data['cat_count'] = $this->Homes->get_cat_count();
+    $this->data['sup_count'] = $this->Homes->get_sup_count();
+    $this->data['user_count'] = $this->Homes->get_user_count();
+    $this->data['review_count'] = $this->Homes->get_review_count();
+    $this->data['fave_count'] = $this->Homes->get_fave_count();
+    $this->data['category_list'] = $this->Homes->get_all_categories();
+    foreach ($this->data['category_list'] as $key => $result) {
+      $count++;
+    }
+    for ($i=0; $i <$count ; $i++) {
+      $this->data['category__count'][$i] = $this->Homes->get_category_count($this->data['category_list'][$i]->category);
+    }
+    $this->load->view('home/all_count/index',$this->data);
+  }
+
+  public function get_started()
+  {
+    $this->load->view('home/get_started/index',$this->data);
+  }
+
+  public function save_name()
+  {
+    $this->form_validation->set_rules(
+        'firstname', 'Firstname',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your firstname'
+        )
+    );
+    $this->form_validation->set_rules(
+        'lastname', 'Lastname',
+        'trim|required',
+        array(
+                'required'      => 'Please enter your lastname'
+        )
+    );
+    if ($this->form_validation->run() == FALSE)
+    {
+      $this->load->view('home/get_started/index',$this->data);
+    }
+    else
+    {
+      $Profile = array(
+        'user_id' => $_SESSION['temp_id'],
+        'firstname' => ucwords($this->input->post('firstname')),
+        'lastname' => ucwords($this->input->post('lastname'))
+      );
+      if ($this->db->insert('profile', $Profile))
+      {
+        $Setup = array(
+          'set_up' => '1'
+        );
+        if ($this->Homes->update_email($Setup,$_SESSION['temp_id']))
+        {
+          $this->session->set_userdata('traveller_email', $_SESSION['temp_email']);
+          $this->session->set_userdata('traveller_id', $_SESSION['temp_id']);
+          $this->session->set_userdata('traveller_is_logged_in', true);
+          $this->session->unset_userdata('temp_email');
+          $this->session->unset_userdata('temp_id');
+          $this->session->unset_userdata('temp_is_logged_in');
+          redirect(base_url());
+        }
+      }
+      else
+      {
+        $this->session->sess_destroy();
+        redirect(base_url());
+      }
+    }
   }
 
   public function logout()

@@ -98,7 +98,7 @@
       </ul>
       <div class="col-lg-3">
         <div class="row">
-          <div class="col-lg-12 switch" style="padding:0;">
+          <div class="col-lg-12 switch" style="padding:0;margin-left:5px;">
             <ul class="nav navbar-nav">
               <li class="dropdown">
                 <?php if (count($businesses) == 1): ?>
@@ -135,7 +135,7 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-lg-3" style="background-color:#fff;border-right:10px solid #ebe9e9;padding-top: 20px;">
+      <div class="col-lg-3 box-div">
         <?php if (!empty($details->image)): ?>
           <img src="<?php echo $details->image?>" class="center-block" alt="User Image" width="200px" height="200px">
         <?php else: ?>
@@ -156,16 +156,16 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="col-lg-6" style="background-color:#fff;border-right:10px solid #ebe9e9;">
+        <div class="col-lg-6 box-div2">
           <div class="row text-title header-row">
             <h3 class="title">Background Image:</h3>
             <hr>
           </div>
           <div class="form-group">
             <?php if (!empty($about_bg->value)): ?>
-              <img class="center-block" src="<?php echo $about_bg->value?>" alt="" height="200px" height="230px">
+              <img class="center-block img-responsive" src="<?php echo $about_bg->value?>" alt="" height="200px" height="230px">
             <?php else: ?>
-              <img class="center-block" src="<?php echo base_url(); ?>public/img/img.jpg" alt="" height="200px" height="230px">
+              <img class="center-block img-responsive" src="<?php echo base_url(); ?>public/img/img.jpg" alt="" height="200px" height="230px">
             <?php endif; ?>
           </div>
           <div class="form-group">
@@ -177,7 +177,7 @@
             <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
         </div>
-        <div class="col-lg-6" style="background-color:#fff;">
+        <div class="col-lg-6 box-div2">
           <div class="row text-title header-row">
             <h3 class="title">About</h3>
             <hr>
