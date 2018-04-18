@@ -167,9 +167,9 @@ class Admins extends CI_Model
     return FALSE;
   }
 
-  public function get_email($email)
+  public function get_email($user_id)
   {
-    $query = $this->db->get_where('accounts', ['email' => $email]);
+    $query = $this->db->get_where('users', ['user_id' => $user_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();
@@ -216,7 +216,11 @@ class Admins extends CI_Model
   public function get_priority_ad()
   {
     $deadline = date('Y-m-d', strtotime("+5 days"));
-    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority' and termination_date > '$deadline'");
+    $deadline4 = date('Y-m-d', strtotime("+4 days"));
+    $deadline3 = date('Y-m-d', strtotime("+3 days"));
+    $deadline2 = date('Y-m-d', strtotime("+2 days"));
+    $deadline1 = date('Y-m-d', strtotime("+1 days"));
+    $query = $this->db->query("select business_name,advertisement_id,title from basic_info bi join advertisements a on (bi.id=a.business_id) where type = 'Priority' and (termination_date > '$deadline' or termination_date = '$deadline' or termination_date = '$deadline4' or termination_date = '$deadline3' or termination_date = '$deadline2' or termination_date = '$deadline1')");
     return $query->result();
   }
 
@@ -281,7 +285,7 @@ class Admins extends CI_Model
   {
     $this->load->library('email');
     $from = "no-reply@travelhub.ph";    //senders email address
-    $subject = 'Please verify your Travel Hub account';  //email subject
+    $subject = 'Your advertisement is going to expire';  //email subject
     $from_email = $from;
     $to_email = $email;
 
@@ -300,7 +304,7 @@ class Admins extends CI_Model
 
     $this->email->from($from_email, 'Travel Hub');
     $this->email->to($to_email);
-    $this->email->cc('support@travelhub.ph');
+    $this->email->cc('contact@travelhub.ph');
     $this->email->subject($subject);
     $this->email->message($msg);
 
@@ -310,7 +314,7 @@ class Admins extends CI_Model
     }else
     {
       return false;
-    }        
+    }
   }
 
   function function_pagination_ending($limit, $offset)
@@ -318,7 +322,11 @@ class Admins extends CI_Model
     $date = new DateTime("tomorrow");
     $tom = $date->format('Y-m-d');
     $deadline = date('Y-m-d', strtotime("+5 days"));
-    $where = "(advertisements.termination_date = '$deadline')";
+    $deadline4 = date('Y-m-d', strtotime("+4 days"));
+    $deadline3 = date('Y-m-d', strtotime("+3 days"));
+    $deadline2 = date('Y-m-d', strtotime("+2 days"));
+    $deadline1 = date('Y-m-d', strtotime("+1 days"));
+    $where = "(advertisements.termination_date = '$deadline' or advertisements.termination_date = '$deadline4' or advertisements.termination_date = '$deadline3' or advertisements.termination_date = '$deadline2' or advertisements.termination_date = '$deadline1')";
     $this->db->select('*');
     $this->db->from('basic_info');
     $this->db->join('advertisements','basic_info.id=advertisements.business_id');
@@ -334,7 +342,7 @@ class Admins extends CI_Model
 
   public function get_ad($ad_id)
   {
-    $query = $this->db->query("select business_name,advertisement_id,title,business_id,start_date,end_date,subtext,description,a.image,contract,termination_date from basic_info bi join advertisements a on (bi.id=a.business_id) where advertisement_id = '$ad_id'");
+    $query = $this->db->query("select business_name,advertisement_id,title,business_id,user_id,start_date,end_date,subtext,description,a.image,contract,termination_date from basic_info bi join advertisements a on (bi.id=a.business_id) where advertisement_id = '$ad_id'");
     return $query->row();
   }
 

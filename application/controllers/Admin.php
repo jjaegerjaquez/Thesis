@@ -21,7 +21,8 @@ class Admin extends CI_Controller
     {
       $allowed = array(
             'index',
-            'login'
+            'login',
+            'ad'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -1570,21 +1571,26 @@ class Admin extends CI_Controller
   //   // print_r($this->data['endings']);
   // }
 
-  public function notify()
+  public function notify($ad_id)
   {
-    $email = 'cifercuatro04@gmail.com';
-    $code='lol';
+    $this->data['ad'] = $this->Admins->get_ad($ad_id);
+    $this->data['email'] = $this->Admins->get_email($this->data['ad']->user_id);
     $data = array(
-
-       'code'=> 'Moist'
-
-         );
-    $msg = $this->load->view('email/index',$data,TRUE);
-    if ($this->Admins->sendemail($email,$msg)) {
-      echo '<script>alert("EMail sent!");</script>';
+       'business_name'=> $this->data['ad']->business_name,
+       'termination_date' => $this->data['ad']->termination_date
+    );
+    // print_r($this->data['ad']);
+    $msg = $this->load->view('email/ad',$data,TRUE);
+    if ($this->Admins->sendemail($this->data['email']->email,$msg)) {
+      echo "<script>alert('Notification sent.');document.location='/Admin/advertisements'</script>";
     }else {
       echo $this->email->print_debugger();
     }
+  }
+
+  public function ad()
+  {
+    $this->load->view('email/ad',$this->data);
   }
 
   public function add_ad($type)
