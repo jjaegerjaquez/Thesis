@@ -24,7 +24,8 @@ class Verify extends CI_Controller
             'index',
             'not_sent',
             'unconfirmed',
-            'confirm_email'
+            'confirm_email',
+            'confirmed'
         );
         if ( ! in_array($this->router->fetch_method(), $allowed))
         {
@@ -53,7 +54,7 @@ class Verify extends CI_Controller
         if($this->Verifies->verify_email($code))
         {
             $this->session->set_flashdata('msg','<div class="alert alert-success text-center">Your Email Address is successfully verified!</div>');
-            redirect(base_url().'Verify', 'refresh');
+            redirect(base_url().'Verify/confirmed', 'refresh');
         }
         else
         {
@@ -61,5 +62,10 @@ class Verify extends CI_Controller
             redirect(base_url().'Verify/not_sent', 'refresh');
         }
     }
+
+  public function confirmed()
+  {
+    $this->load->view('verify/confirm', $this->data);
+  }
 
 }
