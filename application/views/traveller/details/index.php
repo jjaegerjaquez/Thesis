@@ -81,7 +81,12 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <?php if (!empty($traveller_details->username)): ?>
+                <?php echo $traveller_details->username?>
+              <?php else: ?>
+                <?php echo $traveller_profile->firstname?>
+              <?php endif; ?> <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url() ?>Home/profile">Account Settings</a></li>
               <li role="separator" class="divider"></li>
@@ -99,7 +104,7 @@
   <div class="container" style="margin-top:80px;">
     <div class="row">
       <ul class="breadcrumb">
-        <li><a href="<?php echo base_url() ?>Home">Home</a></li>
+        <li><a href="<?php echo base_url() ?>Home">Travel Hub</a></li>
         <li class="active">Account details</li>
       </ul>
     </div>

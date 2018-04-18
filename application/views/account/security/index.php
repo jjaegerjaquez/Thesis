@@ -75,11 +75,16 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $account->username?> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <?php if (!empty($account->username)): ?>
+                <?php echo $account->username?>
+              <?php else: ?>
+                Admin
+              <?php endif; ?> <span class="caret">
+              </span></a>
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url() ?>Account/security">Security</a></li>
               <li><a href="<?php echo base_url() ?>Account/details">Account Details</a></li>
-              <li><a href="#">Something else here</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="<?php echo base_url() ?>Account/logout">Logout</a></li>
             </ul>
