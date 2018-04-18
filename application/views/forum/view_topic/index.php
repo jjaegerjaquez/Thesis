@@ -24,120 +24,124 @@
 </head>
 <body>
   <?php if ($this->session->userdata('traveller_is_logged_in')): ?>
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
-          <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Most Viewed</a></li>
-            </ul>
-          </li>
-          <li>
-            <button type="button" class="buttonsearch" id="buttonsearch">
-   <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
-</button>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown notifications-menu" id="notif-div">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="<?php echo base_url(); ?>Category/all">Categories</a></li>
+            <li><a href="<?php echo base_url(); ?>Destination/all">Destinations</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="ion-android-more-horizontal"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Most Viewed</a></li>
+              </ul>
+            </li>
+            <li>
+              <button type="button" class="buttonsearch" id="buttonsearch">
+                 <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
+              </button>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown notifications-menu" id="notif-div">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i><?php if (!empty($notif_count)): ?><span class="label label-warning" id="notif-count"><?php echo $notif_count->notif_count?></span>
+                <?php endif; ?>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- <li class="header">You have 10 notifications</li> -->
+                <li>
+                  <!-- inner menu: contains the actual data -->
+                  <ul class="menu">
+                    <?php if (!empty($notifications)): ?>
+                      <?php foreach ($notifications as $key => $notification): ?>
+                        <?php if ($notification->type_of_notification == 'Comment'): ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php elseif ($notification->type_of_notification == 'Reply'):?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php else: ?>
+                          <li>
+                            <a href="<?php echo $notification->href ?>">
+                              <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                      <li>You have no notifications</li>
+                    <?php endif; ?>
+                  </ul>
+                </li>
+                <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <?php if (!empty($traveller_details->username)): ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+              <?php else: ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
               <?php endif; ?>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- <li class="header">You have 10 notifications</li> -->
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <?php if (!empty($notifications)): ?>
-                    <?php foreach ($notifications as $key => $notification): ?>
-                      <?php if ($notification->type_of_notification == 'Comment'): ?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubble"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php elseif ($notification->type_of_notification == 'Reply'):?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-chatbubbles"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php else: ?>
-                        <li>
-                          <a href="<?php echo $notification->href ?>">
-                            <i class="ion-thumbsup"></i> <?php echo $notification->title_content ?>
-                          </a>
-                        </li>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
-                  <?php else: ?>
-                    <li>You have no notifications</li>
-                  <?php endif; ?>
-                </ul>
-              </li>
-              <li class="footer"><a href="<?php echo base_url();?>Home/notifications">View all</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-    <div class="container searchbardiv" id="formsearch">
-      <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
-        <div class="row">
-          <div class="col-lg-5 col-xs-6 no-padding">
-            <div class="input-group">
-              <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-              <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
-              <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
+              <ul class="dropdown-menu">
+                <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url(); ?>Home/details">Account Details</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="<?php echo base_url(); ?>Home/logout">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+      <div class="container searchbardiv" id="formsearch">
+        <form action="<?php echo base_url(); ?>Search/result" role="search" method="post" id="searchform">
+          <div class="row">
+            <div class="col-lg-5 col-xs-6 no-padding">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="ion-location input-style"></i></div>
+                <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+                <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-7 col-xs-6">
-            <div class="input-group">
-              <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
-              <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
-              <div class="input-group-btn">
-                <button class="btn btn-default"  id="searchsubmit"  type="submit">
-                  <strong>Search</strong>
-                </button>
+            <div class="col-lg-7 col-xs-6">
+              <div class="input-group">
+                <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+                <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
+                <div class="input-group-btn">
+                  <button class="btn btn-default"  id="searchsubmit"  type="submit">
+                    <strong>Search</strong>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
-    </div>
-  </nav>
-  <!-- END NAVBAR -->
+        </form>
+      </div>
+    </nav>
+    <!-- END NAVBAR -->
   <?php else: ?>
     <!-- NAVBAR -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -172,10 +176,11 @@
                <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
             </button>
           </li>
+          <!-- <li><a href="#"><span class="ion-ios-search-strong"></span></a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="" data-toggle="modal" data-target="#login"> Login</a></li>
-          <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
+          <li><a href="" data-toggle="modal" data-target="#login" id="login-btn"> Login</a></li>
+          <li><a href="" class="register" data-toggle="modal" data-target="#supplier">Register</a></li>
         </ul>
       </div>
     </div>
@@ -257,38 +262,6 @@
     <!-- END LOGIN  -->
 
     <!-- REGISTER MODAL -->
-    <div class="modal" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Register</h4>
-            <p class="text-center">Please select a category</p>
-          </div>
-          <!-- START OF MODAL BODY-->
-          <div class="modal-body">
-            <a href="#" data-toggle="modal" data-target="#supplier" id="_supplier">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Supplier
-                </div>
-              </div>
-            </a>
-            <a href="#" data-toggle="modal" data-target="#traveller" id="_traveller">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Traveller
-                </div>
-              </div>
-            </a>
-            <!-- <a href="#" data-toggle="modal" data-target="#upload-avatar" class="button"><i class="fa fa-plus"></i> Upload new avatar</a> -->
-          </div>
-          <!-- END OF APPLICATION FORM MODAL BODY -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
 
       <!--SUPPLIER REGISTER FORM-->
       <div class="modal" id="supplier" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -296,7 +269,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Supplier Register</h4>
+              <h4 class="modal-title">Register</h4>
             </div>
             <div class="modal-body supplier-body">
               <div class="col-lg-12" style="margin-bottom:15px;">
@@ -354,86 +327,8 @@
         </div><!-- /.modal-dialog -->
       </div>
       <!-- END OF SUPPLIER REGISTER FORM -->
-
-      <!-- TRAVELLER REGISTER FORM -->
-      <div class="modal" id="traveller" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Traveller Register</h4>
-            </div>
-            <div class="modal-body traveller-body">
-              <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="<?php echo $fb_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block fb-btn">
-                     <i class="fa fa-facebook-square"></i> Facebook
-                    </div>
-                  </div>
-                </a>
-                <a href="<?php echo $google_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block google-btn">
-                     <i class="fa fa-google-plus"></i> Google
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <form class="" action="" method="post" enctype="multipart/form-data">
-                <div id="traveller_register_error_message"></div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                    <input type="email" name="register_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="traveller_register_email" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                    <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="traveller_username" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="traveller_register_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_firstname" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" id="traveller_register_firstname" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_lastname" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" id="traveller_register_lastname" required>
-                  </div>
-                </div>
-              </form>
-              <div class="agreement-box">
-                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
-              <button class="btn btn-default close-btn" type="button" name="button" data-dismiss="modal">Close</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>
     </div>
-    <!-- END TRAVELLER REGISTER FORM -->
     <!-- END REGISTER MODAL -->
-    <!-- END OF NAV -->
   <?php endif; ?>
 
   <!-- CONTENT -->
@@ -706,7 +601,10 @@
                 $(location).attr('href','<?php echo base_url(); ?>Account');
               }else if (msg == 'Login') {
                 $('#login').hide();
-                window.location.reload();
+                $(location).attr('href','<?php echo base_url(); ?>Home');
+              }else if (msg == 'Account') {
+                $('#login').hide();
+                $(location).attr('href','<?php echo base_url(); ?>Home/account');
               }else {
                 $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
               }
@@ -746,38 +644,10 @@
       });
       return false;
   });
-  $('#Register_Traveller').click(function() {
-      $('#register_error_message').show();
-      var register_data = {
-          register_email: $('#traveller_register_email').val(),
-          username: $('#traveller_username').val(),
-          register_password: $('#traveller_register_password').val(),
-          register_confirm_password: $('#traveller_register_confirm_password').val(),
-          type: $('#Register_Traveller').attr('name')
-      };
-      $.ajax({
-          url: "<?php echo base_url(); ?>Home/register",
-          type: 'POST',
-          data: register_data,
-          success: function(message) {
-            if (message=='Successful') {
-              $('#register').hide();
-              $(location).attr('href','<?php echo base_url(); ?>Verify');
-            }else if (message=='Unsucessful') {
-              $('#register').hide();
-              $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
-            }
-            else {
-              $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-            }
-          }
-      });
-      return false;
-  });
-  $('#register').on('hidden.bs.modal', function () {
+  $('#supplier').on('hidden.bs.modal', function () {
       $(this).find('form').trigger('reset');
       $('#register_error_message').hide();
-  })
+  });
   $("#submit_comment").click(function(){
     var comment = {
         topic_id: <?php echo $topic->topic_id?>,
@@ -937,12 +807,6 @@
    });
    $('ul._txtlookfor').on('click', 'li a', function () {
        $('#look-for').val($(this).text()); 
-   });
-   $("#_supplier").click(function() {
-       $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
-   });
-   $("#_traveller").click(function() {
-       $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Traveller");
    });
   </script>
 </body>

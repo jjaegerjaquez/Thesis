@@ -796,6 +796,10 @@ $('#Register').click(function() {
     });
     return false;
 });
+$('#supplier').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+    $('#register_error_message').hide();
+});
 $('#buttonsearch').click(function(){
   $('#formsearch').slideToggle( "fast",function(){
      $( '#content' ).toggleClass( "moremargin" );

@@ -98,7 +98,11 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+              <?php if (!empty($traveller_details->username)): ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_details->username?> <span class="caret"></span></a>
+              <?php else: ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $traveller_profile->firstname?> <span class="caret"></span></a>
+              <?php endif; ?>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo base_url(); ?>Home/profile">Account Settings</a></li>
                 <li role="separator" class="divider"></li>
@@ -170,10 +174,11 @@
                <i class="ion-ios-search-strong openclosesearch"></i><i class="ion-close openclosesearch" style="display:none"></i>
             </button>
           </li>
+          <!-- <li><a href="#"><span class="ion-ios-search-strong"></span></a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="" data-toggle="modal" data-target="#login"> Login</a></li>
-          <li><a href="" class="register" data-toggle="modal" data-target="#register">Register</a></li>
+          <li><a href="" data-toggle="modal" data-target="#login" id="login-btn"> Login</a></li>
+          <li><a href="" class="register" data-toggle="modal" data-target="#supplier">Register</a></li>
         </ul>
       </div>
     </div>
@@ -255,38 +260,6 @@
     <!-- END LOGIN  -->
 
     <!-- REGISTER MODAL -->
-    <div class="modal" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Register</h4>
-            <p class="text-center">Please select a category</p>
-          </div>
-          <!-- START OF MODAL BODY-->
-          <div class="modal-body">
-            <a href="#" data-toggle="modal" data-target="#supplier" id="_supplier">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Supplier
-                </div>
-              </div>
-            </a>
-            <a href="#" data-toggle="modal" data-target="#traveller" id="_traveller">
-              <div class="col-lg-6 col-md-6">
-                <div class="btn btn-default btn-block">
-                 <i class=""></i>Traveller
-                </div>
-              </div>
-            </a>
-            <!-- <a href="#" data-toggle="modal" data-target="#upload-avatar" class="button"><i class="fa fa-plus"></i> Upload new avatar</a> -->
-          </div>
-          <!-- END OF APPLICATION FORM MODAL BODY -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
 
       <!--SUPPLIER REGISTER FORM-->
       <div class="modal" id="supplier" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -294,7 +267,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Supplier Register</h4>
+              <h4 class="modal-title">Register</h4>
             </div>
             <div class="modal-body supplier-body">
               <div class="col-lg-12" style="margin-bottom:15px;">
@@ -352,86 +325,8 @@
         </div><!-- /.modal-dialog -->
       </div>
       <!-- END OF SUPPLIER REGISTER FORM -->
-
-      <!-- TRAVELLER REGISTER FORM -->
-      <div class="modal" id="traveller" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Traveller Register</h4>
-            </div>
-            <div class="modal-body traveller-body">
-              <div class="col-lg-12" style="margin-bottom:15px;">
-                <a href="<?php echo $fb_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block fb-btn">
-                     <i class="fa fa-facebook-square"></i> Facebook
-                    </div>
-                  </div>
-                </a>
-                <a href="<?php echo $google_login_url; ?>">
-                  <div class="col-lg-6 col-md-6">
-                    <div class="btn btn-default btn-block google-btn">
-                     <i class="fa fa-google-plus"></i> Google
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <form class="" action="" method="post" enctype="multipart/form-data">
-                <div id="traveller_register_error_message"></div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-                    <input type="email" name="register_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" id="traveller_register_email" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
-                    <input type="text" name="username" class="form-control" placeholder="Username" aria-describedby="basic-addon1" id="traveller_username" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" id="traveller_register_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="register_confirm_password" class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon1" id="traveller_register_confirm_password" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_firstname" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" id="traveller_register_firstname" required>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2"><i class="ion-android-person"></i></span>
-                    <input type="text" name="register_lastname" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" id="traveller_register_lastname" required>
-                  </div>
-                </div>
-              </form>
-              <div class="agreement-box">
-                <p>By clicking register you agree to our <span><a href="#">Terms Of Use</a></span> and <span><a href="#">Privacy Policy</a></span></p>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <input class="btn btn-warning login-btn" type="submit" name="Traveller" value="Register" id="Register_Traveller">
-              <button class="btn btn-default close-btn" type="button" name="button" data-dismiss="modal">Close</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>
     </div>
-    <!-- END TRAVELLER REGISTER FORM -->
     <!-- END REGISTER MODAL -->
-    <!-- END OF NAV -->
   <?php endif; ?>
 
   <!-- CONTENT -->
@@ -563,7 +458,10 @@ $('#Submit').click(function() {
               $(location).attr('href','<?php echo base_url(); ?>Account');
             }else if (msg == 'Login') {
               $('#login').hide();
-              window.location.reload();
+              $(location).attr('href','<?php echo base_url(); ?>Home');
+            }else if (msg == 'Account') {
+              $('#login').hide();
+              $(location).attr('href','<?php echo base_url(); ?>Home/account');
             }else {
               $('#error_message').html('<div class="alert alert-danger">'+ msg +'</div>');
             }
@@ -603,37 +501,7 @@ $('#Register').click(function() {
     });
     return false;
 });
-$('#Register_Traveller').click(function() {
-    $('#register_error_message').show();
-    var register_data = {
-        register_email: $('#traveller_register_email').val(),
-        username: $('#traveller_username').val(),
-        register_password: $('#traveller_register_password').val(),
-        register_confirm_password: $('#traveller_register_confirm_password').val(),
-        register_firstname: $('#traveller_register_firstname').val(),
-        register_lastname: $('#traveller_register_lastname').val(),
-        type: $('#Register_Traveller').attr('name')
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Home/register",
-        type: 'POST',
-        data: register_data,
-        success: function(message) {
-          if (message=='Successful') {
-            $('#register').hide();
-            $(location).attr('href','<?php echo base_url(); ?>Verify');
-          }else if (message=='Unsucessful') {
-            $('#register').hide();
-            $(location).attr('href','<?php echo base_url(); ?>Verify/not_sent');
-          }
-          else {
-            $('#traveller_register_error_message').html('<div class="alert alert-danger">'+ message +'</div>');
-          }
-        }
-    });
-    return false;
-});
-$('#register').on('hidden.bs.modal', function () {
+$('#supplier').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
     $('#register_error_message').hide();
 });
@@ -762,12 +630,6 @@ $("#look-for").keyup(function () {
 });
 $('ul._txtlookfor').on('click', 'li a', function () {
     $('#look-for').val($(this).text()); 
-});
-$("#_supplier").click(function() {
-    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Supplier");
-});
-$("#_traveller").click(function() {
-    $.get( "<?php echo base_url(); ?>Home/set_usertype?user_type=Traveller");
 });
 </script>
 </body>
