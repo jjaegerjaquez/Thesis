@@ -169,9 +169,9 @@
           </div>
           <div class="form-group">
             <?php if (!empty($home_bg->value)): ?>
-              <img class="center-block" src="<?php echo $home_bg->value?>" alt="" height="200px" height="230px">
+              <img class="img-responsive center-block" src="<?php echo $home_bg->value?>" alt="" height="200px" height="230px">
             <?php else: ?>
-              <img class="center-block" src="<?php echo base_url(); ?>public/img/img.jpg" alt="" height="230px">
+              <img class="img-responsive center-block" src="<?php echo base_url(); ?>public/img/img.jpg" alt="" height="230px">
             <?php endif; ?>
           </div>
           <div class="form-group">
@@ -181,6 +181,9 @@
             <label for="">Select profile image:</label>
             <input type="file" id="images" class="form-control">
             <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
+          </div>
+          <div class="form-group text-center">
+            <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
           </div>
         </div>
         <div class="col-lg-6 box-div2">
@@ -246,23 +249,28 @@ $('#images').on('change', function () {
 	}
 	reader.readAsDataURL(this.files[0]);
 });
-
 $('.cropped_image').on('click', function (ev) {
-	$image_crop.croppie('result', {
-		type: 'canvas',
-		size: { width: 1366, height: 768 }
-	}).then(function (response) {
+	if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
+  $image_crop.croppie('result', {
+    type: 'canvas',
+    size: { width: 1366, height: 768 }
+  }).then(function (response) {
     var file_input = $('#images').val();
-		$.ajax({
-			url: "<?php echo base_url() ?>Light/upload_home_bg",
-			type: "POST",
-			data: {"image":response,"file":file_input},
-			success: function (data) {
+    $.ajax({
+      url: "<?php echo base_url() ?>Light/upload_home_bg",
+      type: "POST",
+      data: {"image":response,"file":file_input},
+      success: function (data) {
+        $('#upload-lbl').hide();
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Light/home');
-			}
-		});
-	});
+      }
+    });
+  });
 });
 </script>
 </body>

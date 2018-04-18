@@ -180,6 +180,9 @@
             <input type="file" id="images" class="form-control">
             <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Upload</button>
           </div>
+          <div class="form-group text-center">
+            <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
+          </div>
         </div>
       </div>
     </div>
@@ -224,6 +227,11 @@ $('#images').on('change', function () {
 });
 
 $('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
 	$image_crop.croppie('result', {
 		type: 'canvas',
 		size: { width: 1366, height: 768 }
@@ -234,6 +242,7 @@ $('.cropped_image').on('click', function (ev) {
 			type: "POST",
 			data: {"image":response,"file":file_input},
 			success: function (data) {
+        $('#upload-lbl').hide();
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Light/gallery');
 			}
