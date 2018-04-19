@@ -48,7 +48,7 @@
     <div class="row content-header">
       <h3>Terms and Condition</h3>
     	<ul class="" style="list-style:none;">
-    		<li>The website located at _______________________ is a copyrighted work belonging to_____________________ .  Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.  All such additional terms, guidelines, and rules are incorporated by reference into these Terms.</li>
+    		<li>Travel Hub is a copyrighted work belonging to Sanchez, Calacien and Guiang.  Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.  All such additional terms, guidelines, and rules are incorporated by reference into these Terms.</li>
     		<li> These Terms of Use described the legally binding terms and conditions that oversee your use of the Site.  BY LOGGING INTO THE SITE, YOU ARE BEING COMPLIANT THAT THESE TERMS and you represent that you have the authority and capacity to enter into these Terms.  YOU SHOULD BE AT LEAST 18 YEARS OF AGE TO ACCESS THE SITE. IF YOU DISAGREE WITH ALL OF THE PROVISION OF THESE TERMS, DO NOT LOG INTO AND/OR USE THE SITE.</li>
     		<li>These terms require the use of arbitration Section 10.2 on an individual basis to resolve disputes and also limit the remedies available to you in the event of a dispute.</li>
     		<ol>
@@ -125,11 +125,16 @@
     		<li> Company is located at the address in Section 10.8. If you are a California resident, you may report complaints to the Complaint Assistance Unit of the Division of Consumer Product of the California Department of Consumer Affairs by contacting them in writing at 400 R Street, Sacramento, CA 95814, or by telephone at (800) 952-5210.</li>
     		<li> <span style="font-weight:bold;">Electronic Communications.</span> The communications between you and Company use electronic means, whether you use the Site or send us emails, or whether Company posts notices on the Site or communicates with you via email. For contractual purposes, you (a) consent to receive communications from Company in an electronic form; and (b) agree that all terms and conditions, agreements, notices, disclosures, and other communications that Company provides to you electronically satisfy any legal obligation that such communications would satisfy if it were be in a hard copy writing.</li>
     		<li><span style="font-weight:bold;"> Entire Terms.</span> These Terms constitute the entire agreement between you and us regarding the use of the Site. Our failure to exercise or enforce any right or provision of these Terms shall not operate as a waiver of such right or provision. The section titles in these Terms are for convenience only and have no legal or contractual effect. The word “including” means “including without limitation”. If any provision of these Terms is held to be invalid or unenforceable, the other provisions of these Terms will be unimpaired and the invalid or unenforceable provision will be deemed modified so that it is valid and enforceable to the maximum extent permitted by law.  Your relationship to Company is that of an independent contractor, and neither party is an agent or partner of the other.  These Terms, and your rights and obligations herein, may not be assigned, subcontracted, delegated, or otherwise transferred by you without Company’s prior written consent, and any attempted assignment, subcontract, delegation, or transfer in violation of the foregoing will be null and void.  Company may freely assign these Terms.  The terms and conditions set forth in these Terms shall be binding upon assignees.</li>
-    		<li><span style="font-weight:bold;">	Copyright/Trademark Information.</span> Copyright ©______________ . All rights reserved.  All trademarks, logos and service marks displayed on the Site are our property or the property of other third-parties. You are not permitted to use these Marks without our prior written consent or the consent of such third party which may own the Marks.</li>
+    		<li><span style="font-weight:bold;">	Copyright/Trademark Information.</span> Copyright ©2017-2018. All rights reserved.  All trademarks, logos and service marks displayed on the Site are our property or the property of other third-parties. You are not permitted to use these Marks without our prior written consent or the consent of such third party which may own the Marks.</li>
     		<li><span style="font-weight:bold;">	Contact Information:</span></li>
-    		<li> Address:____________</li>
-    		<li> Telephone:____________</li>
-    		<li> Email:_____________</li>
+    		<li> Address: Rosario, Cavite, 4106</li>
+    		<li>
+          Email:
+          <ul>
+            <li>support@travelhub.ph</li>
+            <li>contact@travelhub.ph</li>
+          </ul>
+        </li>
     		</ul>
     		</ol>
 		</div>
