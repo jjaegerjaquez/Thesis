@@ -46,8 +46,6 @@
                 <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Most Viewed</a></li>
               </ul>
             </li>
             <li>
@@ -165,8 +163,6 @@
               <li><a href="<?php echo base_url(); ?>Advertisement/all">Deals</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="<?php echo base_url(); ?>Forum/all">Forum</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Most Viewed</a></li>
             </ul>
           </li>
           <li>

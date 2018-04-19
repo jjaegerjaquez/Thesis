@@ -1535,42 +1535,6 @@ class Admin extends CI_Controller
     // print_r($this->data['endings']);
   }
 
-  // public function ending_regulars()
-  // {
-  //   $deadline = date('Y-m-d', strtotime("+5 days"));
-  //   $query2= $this->db->get_where('advertisements', ['termination_date' => $deadline]);
-  //   $limit = 5;
-  //   $offset = $this->uri->segment(3);
-  //   $config['uri_segment'] = 3;
-  //   $config['base_url'] = '/Admin/ending';
-  //   $config['total_rows'] = $query2->num_rows();
-  //   $config['per_page'] = $limit;
-  //   $config['full_tag_open'] = '<ul class="pagination">';
-	// 	$config['full_tag_close'] = '</ul>';
-  //
-	// 	$config['first_tag_open'] = '<li>';
-	// 	$config['last_tag_open'] = '<li>';
-  //
-	// 	$config['next_tag_open'] = '<li>';
-	// 	$config['prev_tag_open'] = '<li>';
-  //
-	// 	$config['num_tag_open'] = '<li>';
-	// 	$config['num_tag_close'] = '</li>';
-  //
-	// 	$config['first_tag_close'] = '</li>';
-	// 	$config['last_tag_close'] = '</li>';
-  //
-	// 	$config['next_tag_close'] = '</li>';
-	// 	$config['prev_tag_close'] = '</li>';
-  //
-	// 	$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-	// 	$config['cur_tag_close'] = '</b></span></li>';
-  //   $this->pagination->initialize($config);
-  //   $this->data['endings'] = $this->Admins->function_pagination_ending($limit, $offset);
-  //   $this->load->view('admin/dashboard/advertisements/ending',$this->data);
-  //   // print_r($this->data['endings']);
-  // }
-
   public function notify($ad_id)
   {
     $this->data['ad'] = $this->Admins->get_ad($ad_id);
@@ -1622,13 +1586,6 @@ class Admin extends CI_Controller
                 'required'      => 'Please select start date'
         )
     );
-    // $this->form_validation->set_rules(
-    //     'end', 'End Date',
-    //     'required',
-    //     array(
-    //             'required'      => 'Please select end date'
-    //     )
-    // );
     $this->form_validation->set_rules(
         'business_id', 'Business ID',
         'trim|required|callback_BusinessIdExists',
@@ -1937,7 +1894,7 @@ class Admin extends CI_Controller
       {
         $this->data['priorities'] = $this->Admins->get_priority_ad();
         $count = count($this->data['priorities']);
-        if ($count < 5)
+        if ($count < 6)
         {
           $contract = $this->input->post("contract");
           if (!empty($this->input->post('file'))) {
