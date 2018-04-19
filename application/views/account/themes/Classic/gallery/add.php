@@ -203,13 +203,13 @@
 $image_crop = $('#upload-image').croppie({
 	enableExif: true,
 	viewport: {
-		width: 683,
-		height: 384,
+		width: 350,
+		height: 300,
 		type: 'square'
 	},
 	boundary: {
-		width: 750,
-		height: 450
+		width: 400,
+		height: 350
 	}
 });
 $('#images').on('change', function () {
@@ -232,7 +232,7 @@ $('.cropped_image').on('click', function (ev) {
 	}
 	$image_crop.croppie('result', {
 		type: 'canvas',
-		size: { width: 1366, height: 768 }
+		size: { width: 350, height: 300 }
 	}).then(function (response) {
     var file_input = $('#images').val();
 		$.ajax({
@@ -240,7 +240,7 @@ $('.cropped_image').on('click', function (ev) {
 			type: "POST",
 			data: {"image":response,"file":file_input},
 			success: function (data) {
-        $('#upload-lbl').show();
+        $('#upload-lbl').hide();
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Classic/gallery');
 			}

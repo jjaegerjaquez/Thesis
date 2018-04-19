@@ -208,45 +208,37 @@ class Classic extends CI_Controller
     $count = $query->row();
     if ($count->count < 6)
     {
-      if(!empty($_FILES['picture']['name']))
-      { //If may laman na image
-          $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-          $config['overwrite'] = TRUE;
-          $config['allowed_types'] = 'jpg|jpeg|png|gif';
-          $config['file_name'] = $_FILES['picture']['name'];
+      if (!empty($this->input->post('file')))
+      {
+        $path = 'uploads/'.$this->user_id.'/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
+         $Image = [
+           'user_id' => $this->user_id,
+           'id' => $this->id,
+           'business_name' => $this->BusinessName,
+           'meta_key' => 'gallery_image',
+           'content_title' => '',
+           'description' => '',
+           'value' => base_url().$path.$image_name
+         ];
 
-          //Load upload library and initialize configuration
-          $this->load->library('upload',$config);
-          $this->upload->initialize($config);
-
-          if($this->upload->do_upload('picture')){
-              $uploadData = $this->upload->data();
-              $picture = $uploadData['file_name'];
-
-              $Image = [
-                'user_id' => $this->user_id,
-                'id' => $this->id,
-                'business_name' => $this->BusinessName,
-                'meta_key' => 'gallery_image',
-                'content_title' => '',
-                'description' => '',
-                'value' => '/'.$config['upload_path'].'/'.$picture
-              ];
-
-              $this->db->insert('contents',$Image);
-              echo "<script>alert('Image added!');document.location='/Classic/gallery'</script>";
-          }else{
-            echo "<script>alert('Something went wrong, image not uploaded');document.location='/Classic/gallery'</script>";
-          }
+         $this->db->insert('contents',$Image);
+         echo 'Image uploaded!';
       }
       else
       {
-        redirect(base_url().'Classic/add_image', 'refresh');
+        echo 'Please select an image';
       }
     }
     else
     {
-      echo "<script>alert('Sorry, you've reached the maximum number of image you can upload for the gallery...');document.location='/Classic/add_image'</script>";
+      echo "Sorry, you have reached the maximum number of image you can upload for the gallery..";
     }
   }
 
@@ -264,30 +256,27 @@ class Classic extends CI_Controller
 
   public function update_image($content_id)
   {
-    if(!empty($_FILES['picture']['name'])){ //If may laman na image
-        $config['upload_path'] = 'uploads/'.$this->data['account']->username;
-        $config['overwrite'] = TRUE;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['file_name'] = $_FILES['picture']['name'];
+    if (!empty($this->input->post('file')))
+    {
+      $path = 'uploads/'.$this->user_id.'/';
+      $croped_image = $_POST['image'];
+       list($type, $croped_image) = explode(';', $croped_image);
+       list(, $croped_image)      = explode(',', $croped_image);
+       $croped_image = base64_decode($croped_image);
+       $image_name = time().'.png';
+       // upload cropped image to server
+       file_put_contents($path.$image_name, $croped_image);
+       $Image = [
+         'value' => base_url().$path.$image_name
+       ];
 
-        //Load upload library and initialize configuration
-        $this->load->library('upload',$config);
-        $this->upload->initialize($config);
-
-        if($this->upload->do_upload('picture')){
-            $uploadData = $this->upload->data();
-            $picture = $uploadData['file_name'];
-
-            $Image = [
-              'value' => '/'.$config['upload_path'].'/'.$picture
-            ];
-
-            if ($this->Classics->update_gallery_image($Image,$this->user_id,$content_id)) {
-              redirect(base_url().'Classic/gallery', 'refresh');
-            }
-        }else{
-          echo "<script>alert('Something went wrong, image cannot be updated..');document.location='/Classic/gallery'</script>";
-        }
+       if ($this->Classics->update_gallery_image($Image,$this->user_id,$content_id)) {
+         echo "Image updated!";
+       }
+    }
+    else
+    {
+      echo 'Please select an image';
     }
   }
 

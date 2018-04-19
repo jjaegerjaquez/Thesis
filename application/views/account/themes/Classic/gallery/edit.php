@@ -20,6 +20,7 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway:500|Roboto|Roboto+Condensed" rel="stylesheet">
   <!-- Style -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/themes/Classic/style.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
 </head>
 <body>
 
@@ -164,27 +165,31 @@
       </div>
       <div class="col-lg-9" style="background-color:#fff;">
         <div class="row text-title header-row">
-          <h3 class="title">Update</h3>
+          <h3 class="title">Update Image</h3>
           <hr>
         </div>
-        <form class="" action="<?php echo base_url(); ?>Classic/update_image/<?php echo $image->content_id?>" method="post" enctype="multipart/form-data">
+        <div class="form-group">
           <div class="form-group">
-            <label>Image:
-              <br>
-              <span style="color:#323339;"><small> Note: Please upload an image with atleast 600 pixels x 300 pixels dimension.</small></span>
-            </label>
-            <input class="" type="file" name="picture" />
+            <div id="upload-image"></div>
           </div>
-          <div class="form-group">
-            <button type="submit" name="save" class="btn btn-success form-control"><i class="fa fa-floppy-o"></i> Upload</button>
+        </div>
+        <div class="col-lg-offset-3 col-lg-6">
+          <div class="form-group text-center">
+            <label for="">Select an image:</label>
+            <input type="file" id="images" class="form-control">
+            <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Upload</button>
           </div>
-        </form>
+          <div class="form-group text-center">
+            <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
 <!-- jQuery 2.2.3 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -196,6 +201,53 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 <script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+		width: 350,
+		height: 300,
+		type: 'square'
+	},
+	boundary: {
+		width: 400,
+		height: 350
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log($('#images').val());
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 350, height: 300 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Classic/update_image/<?php echo $image->content_id ?>",
+			type: "POST",
+			data: {"image":response,"file":file_input},
+			success: function (data) {
+        $('#upload-lbl').hide();
+        alert(data);
+        $(location).attr('href','<?php echo base_url() ?>Classic/gallery');
+			}
+		});
+	});
+});
 </script>
 </body>
 </html>
