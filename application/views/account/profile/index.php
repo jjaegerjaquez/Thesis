@@ -336,7 +336,7 @@ $('.cropped_image').on('click', function (ev) {
 			type: "POST",
 			data: {"image":response,"file":file_input},
 			success: function (data) {
-        $('#upload-lbl').show();
+        $('#upload-lbl').hide();
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Account/profile');
 				// html = '<img src="' + response + '" />';

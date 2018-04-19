@@ -132,6 +132,9 @@
                   <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Upload</button>
                   <a href="<?php echo base_url(); ?>Admin/image_slider" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
                 </div>
+                <div class="form-group text-center">
+                  <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
+                </div>
               </div>
           </div>
         </div>
@@ -195,6 +198,11 @@ $('#images').on('change', function () {
 });
 
 $('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
 	$image_crop.croppie('result', {
 		type: 'canvas',
 		size: { width: 1366, height: 768 }
@@ -209,6 +217,7 @@ $('.cropped_image').on('click', function (ev) {
           alert(data);
         }
         else {
+          $('#upload-lbl').hide();
           alert(data);
           $(location).attr('href','<?php echo base_url() ?>Admin/image_slider');
         }

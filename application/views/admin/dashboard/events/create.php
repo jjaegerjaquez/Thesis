@@ -130,6 +130,9 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="col-lg-6">
+                <div class="form-group text-center">
+                  <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
+                </div>
                 <div class="form-group">
                   <label for="">Select image</label>
                   <input type="file" id="images" class="form-control">
@@ -240,6 +243,11 @@ $('#images').on('change', function () {
 });
 
 $('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
 	$image_crop.croppie('result', {
 		type: 'canvas',
 		size: { width: 1366, height: 768 }
@@ -260,13 +268,16 @@ $('.cropped_image').on('click', function (ev) {
           alert(data);
         }
         else if (data == 'Event added!') {
+          $('#upload-lbl').hide();
           alert(data);
           $(location).attr('href','<?php echo base_url() ?>Admin/events');
         }
         else if (data == 'Event cannot be created') {
+          $('#upload-lbl').hide();
           alert(data);
         }
         else {
+          $('#upload-lbl').hide();
           $('#error_message').html('<div class="alert alert-danger">'+ data +'</div>');
         }
 			}
