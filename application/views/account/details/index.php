@@ -112,6 +112,12 @@
         </div>
         <div class="content">
           <div class="form-group">
+            <h4>ID</h4>
+            <div class="input-group">
+              <span><?php echo $details->id ?></span>
+            </div>
+          </div>
+          <div class="form-group">
             <h4>Username</h4>
             <div class="input-group">
               <span><?php echo $account->username ?></span>

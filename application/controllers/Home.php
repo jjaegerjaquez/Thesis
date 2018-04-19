@@ -924,6 +924,13 @@ class Home extends CI_Controller
         $userData['email'] = $fbUserProfile['email'];
         $userData['gender'] = $fbUserProfile['gender'];
         $userData['picture'] = $fbUserProfile['picture']['data']['url'];
+        
+        // echo $fbUserProfile['id'];
+        // echo "<br>";
+        // echo $fbUserProfile['first_name'];
+        // echo "<br>";
+        // echo $fbUserProfile['email'];
+        // echo "<br>";
 
         $data['user__id'] = $this->Homes->get_email($userData['email']);
         if (!empty($data['user__id']))

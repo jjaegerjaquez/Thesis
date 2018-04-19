@@ -165,6 +165,9 @@
             <input type="file" id="images" class="form-control">
             <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Save</button>
           </div>
+          <div class="form-group text-center">
+            <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
+          </div>
         </div>
         <div class="col-lg-7" style="background-color:#fff;border-right:5px solid #ebe9e9;padding-top:20px;padding-bottom:20px;margin-bottom:20px;">
           <div class="row text-title header-row">
@@ -318,6 +321,11 @@ $('#images').on('change', function () {
 });
 
 $('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
 	$image_crop.croppie('result', {
 		type: 'canvas',
 		size: 'viewport'
@@ -328,6 +336,7 @@ $('.cropped_image').on('click', function (ev) {
 			type: "POST",
 			data: {"image":response,"file":file_input},
 			success: function (data) {
+        $('#upload-lbl').show();
         alert(data);
         $(location).attr('href','<?php echo base_url() ?>Account/profile');
 				// html = '<img src="' + response + '" />';
