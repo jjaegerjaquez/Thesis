@@ -122,7 +122,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="row">
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -144,23 +144,7 @@
             </a>
           </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              <h3>1000<sup style="font-size: 20px"></sup></h3>
-
-              <p>Page Visitors</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-eye"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-              More info <i class="fa fa-arrow-circle-right"></i>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
@@ -185,7 +169,7 @@
             </a>
           </div>
         </div>
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-4 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
@@ -211,53 +195,6 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12">
-          <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Views per country</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table class="table table-bordered">
-                <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Country</th>
-                  <th>Number of Visitors</th>
-                </tr>
-                <tr>
-                  <td>1.</td>
-                  <td>Philippines</td>
-                  <td><span class="badge bg-red">2350</span></td>
-                </tr>
-                <tr>
-                  <td>2.</td>
-                  <td>US</td>
-                  <td><span class="badge bg-yellow">1245</span></td>
-                </tr>
-                <tr>
-                  <td>3.</td>
-                  <td>China</td>
-                  <td><span class="badge bg-light-blue">1046</span></td>
-                </tr>
-                <tr>
-                  <td>4.</td>
-                  <td>Malaysia</td>
-                  <td><span class="badge bg-green">823</span></td>
-                </tr>
-              </table>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">&laquo;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">&raquo;</a></li>
-              </ul>
-            </div>
-          </div>
-      </div>
     </section>
 
     <!-- Main content -->

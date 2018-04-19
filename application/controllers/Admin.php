@@ -3322,6 +3322,14 @@ class Admin extends CI_Controller
     }
   }
 
+  public function delete_review($id)
+  {
+    $this->db->where('review_id', $id);
+    if ($this->db->delete('reviews')) {
+      echo "<script>alert('Review has been deleted.');document.location='/Admin/reviews'</script>";
+    }
+  }
+
   public function delete_user_topic($topic_id)
   {
     if ($this->Admins->delete_topic($topic_id)) {

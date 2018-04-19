@@ -156,8 +156,8 @@
                         <tr role="row" class="odd">
                           <td><?php echo $review->username ?></td>
                           <td><?php echo $review->business_name ?></td>
+                          <td><?php echo $review->review ?></td>
                           <td>
-                            <a href="<?php echo base_url(); ?>Admin/view_review/<?php echo $review->review_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
                             <a href="<?php echo base_url(); ?>Admin/delete_review/<?php echo $review->review_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                           </td>
                         </tr>
