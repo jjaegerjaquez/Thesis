@@ -120,7 +120,13 @@
           <div class="form-group">
             <h4>Username</h4>
             <div class="input-group">
-              <span><?php echo $account->username ?></span>
+              <span>
+                <?php if (!empty($account->username)): ?>
+                <?php echo $account->username ?>
+                <?php else: ?>
+                No yet set
+                <?php endif; ?>
+              </span>
             </div>
           </div>
           <div class="form-group">

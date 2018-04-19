@@ -121,7 +121,13 @@
           <div class="form-group">
             <h4>Username</h4>
             <div class="input-group">
-              <span><?php echo $traveller_details->username ?></span>
+              <span>
+                <?php if (!empty($traveller_details->username)): ?>
+                <?php echo $traveller_details->username ?>
+                <?php else: ?>
+                No yet set
+                <?php endif; ?>
+              </span>
             </div>
           </div>
           <div class="form-group">
