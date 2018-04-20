@@ -108,8 +108,8 @@
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
-        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
-        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -122,63 +122,51 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Advertisements
-        <small>list of all ad ending</small>
+        Account
+        <small>details</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li><a href="<?php echo base_url() ?>Admin/advertisements">Advertisements</a></li>
-        <li class="active">Ending ads</li>
+        <li><a href="<?php echo base_url(); ?>Admin/categories">Account</a></li>
+        <li class="active">View <?php echo $account->username?></li>
       </ol>
     <!-- Main content -->
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-success"><i class="ion-chevron-left"></i> Back</a>
-          <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
         <div class="box-body">
-          <div class="col-xs-12">
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table table-bordered table-striped dataTable" role="grid">
-                  <thead>
-                    <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Business Name</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Ad</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Termination Date</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <?php if (!empty($endings)): ?>
-                        <?php foreach ($endings as $key => $ending): ?>
-                          <tr role="row" class="odd">
-                            <td><?php echo $ending->business_name ?></td>
-                            <td><?php echo $ending->title ?></td>
-                            <td><?php echo date('F j Y',strtotime($ending->termination_date))?></td>
-                            <td>
-                              <a href="<?php echo base_url(); ?>Admin/notify/<?php echo $ending->advertisement_id ?>" class="btn btn-primary"><i class="ion-email"></i> Notify</a>
-                              <a href="<?php echo base_url(); ?>Admin/edit_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                              <a href="<?php echo base_url(); ?>Admin/delete_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
-                            </td>
-                          </tr>
-                        <?php endforeach ?>
-                      <?php else: ?>
-                        0 results
-                      <?php endif; ?>
-                  </tbody>
-                </table>
-              </div>
-              <nav class="pull-right">
-                <?php echo $this->pagination->create_links();?>
-              </nav>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tr>
+                <td><label>Image</label></td>
+                <td>
+                  <?php if (!empty($account->image)): ?>
+                    <img src="<?php echo $account->image?>" class="img-responsive" style="width:350px"/>
+                  <?php else: ?>
+                    <img src="<?php echo base_url(); ?>/public/img/default-img.jpg" class="img-responsive" style="width:350px"/>
+                  <?php endif; ?>
+                </td>
+              </tr>
+              <tr>
+                <td><label>ID:</label></td>
+                <td><?php echo $account->admin_id;?></td>
+              </tr>
+              <tr>
+                <td><label>Username:</label></td>
+                <td><?php echo $account->username;?></td>
+              </tr>
+              <tr>
+                <td><label>Date created:</label></td>
+                <td><?php echo $account->date_joined;?></td>
+              </tr>
+            </table>
+            <a href="<?php echo base_url(); ?>Admin/accounts" class="btn btn-danger pull-right"><i class="fa fa-chevron-left"></i> Back</a>
           </div>
         </div>
       </div>

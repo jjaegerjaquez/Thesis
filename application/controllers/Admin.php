@@ -49,6 +49,196 @@ class Admin extends CI_Controller
     $this->load->view('admin/index',$this->data);
   }
 
+  public function accounts()
+  {
+    $query2= $this->db->get('admin');
+    $limit = 7;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/accounts';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['accounts'] = $this->Admins->function_pagination_admin($limit, $offset);
+    $this->load->view('admin/dashboard/account/index',$this->data);
+  }
+
+  public function view_account($admin_id)
+  {
+    $this->data['account'] = $this->Admins->get_account($admin_id);
+    $this->load->view('admin/dashboard/account/view',$this->data);
+  }
+
+  public function add_account()
+  {
+    $this->load->view('admin/dashboard/account/create',$this->data);
+  }
+
+  public function create_account()
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'username', 'Username',
+        'trim|required',
+        array(
+                'required'      => 'Please enter username'
+        )
+    );
+    $this->form_validation->set_rules(
+        'password', 'Password',
+        'trim',
+        array(
+                'required'      => 'Please enter password'
+        )
+    );
+    //END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      echo validation_errors();
+    }
+    else
+    {
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/admin/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
+
+         $Account = [
+           'username' => $this->input->post('username'),
+           'password' => $this->input->post('password'),
+           'date_joined' => date("Y-m-d"),
+           'image' => base_url().$path.$image_name
+         ];
+
+         if ($this->db->insert('admin',$Account)) {
+           echo "Account added!";
+          //  redirect(base_url().'Admin/localities', 'refresh');
+         }else {
+           echo "Account not added";
+          //  redirect(base_url().'Admin/localities', 'refresh');
+         }
+      }
+      else
+      {
+        $Account = [
+          'username' => $this->input->post('username'),
+          'password' => md5($this->input->post('password')),
+          'date_joined' => date("Y-m-d")
+        ];
+
+        if ($this->db->insert('admin',$Account)) {
+          echo "Account added!";
+         //  redirect(base_url().'Admin/localities', 'refresh');
+        }else {
+          echo "Account not added";
+         //  redirect(base_url().'Admin/localities', 'refresh');
+        }
+      }
+    }
+  }
+
+  public function edit_account($admin_id)
+  {
+    $this->data['account'] = $this->Admins->get_account($admin_id);
+    $this->load->view('admin/dashboard/account/update',$this->data);
+  }
+
+  public function update_account($admin_id)
+  {
+    // FORM VALIDATION
+    $this->form_validation->set_rules(
+        'username', 'Username',
+        'required|trim',
+        array(
+                'required'      => 'Please enter username'
+        )
+    );
+    // END OF FORM VALIDATION
+    if ($this->form_validation->run() == FALSE)
+    {
+      // $this->data['category'] = $this->Admins->get_category($category_id);
+      // $this->load->view('admin/dashboard/categories/update', $this->data);
+      echo validation_errors();
+    }
+    else
+    {
+      if (!empty($this->input->post('file'))) {
+        $path = 'public/img/admin/';
+        $croped_image = $_POST['image'];
+         list($type, $croped_image) = explode(';', $croped_image);
+         list(, $croped_image)      = explode(',', $croped_image);
+         $croped_image = base64_decode($croped_image);
+         $image_name = time().'.png';
+         // upload cropped image to server
+         file_put_contents($path.$image_name, $croped_image);
+
+         if (!empty($this->input->post('password'))) {
+           $Account = [
+             'username' => $this->input->post('username'),
+             'password' => md5($this->input->post('password')),
+             'image' => base_url().$path.$image_name
+           ];
+         }else {
+           $Account = [
+             'username' => $this->input->post('username'),
+             'image' => base_url().$path.$image_name
+           ];
+         }
+
+
+         if ($this->Admins->update_account($Account,$admin_id)) {
+           echo 'Account updated!';
+         }else {
+           echo 'Account cannot be updated';
+         }
+      }
+      else
+      {
+        if (!empty($this->input->post('password'))) {
+          $Account = [
+            'username' => $this->input->post('username'),
+            'password' => md5($this->input->post('password'))
+          ];
+        }else {
+          $Account = [
+            'username' => $this->input->post('username')
+          ];
+        }
+
+        if ($this->Admins->update_account($Account,$admin_id)) {
+          echo 'Account updated!';
+        }else {
+          echo 'Account cannot be updated';
+        }
+      }
+    }
+  }
+
   public function login()
   {
     // FORM VALIDATION

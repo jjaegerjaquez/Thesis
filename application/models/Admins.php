@@ -54,6 +54,21 @@ class Admins extends CI_Model
     return $query->result();
 	}
 
+  function function_pagination_admin($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('admin');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  public function update_account($Account,$admin_id)
+  {
+    $this->db->where('admin_id', $admin_id);
+    return $this->db->update('admin', $Account);
+  }
+
   function pagination_events($limit, $offset)
 	{
     $date = new DateTime("now");
@@ -138,6 +153,15 @@ class Admins extends CI_Model
   public function validate_user($username)
   {
     $query = $this->db->get_where('admin', ['username' => $username]);
+
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    }
+  }
+
+  public function get_account($admin_id)
+  {
+    $query = $this->db->get_where('admin', ['admin_id' => $admin_id]);
 
     if ($query->num_rows() > 0) {
       return $query->row();

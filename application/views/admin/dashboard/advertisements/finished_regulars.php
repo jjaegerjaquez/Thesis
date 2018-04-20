@@ -109,6 +109,8 @@
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
         <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
+
       </ul>
     </section>
     <!-- /.sidebar -->

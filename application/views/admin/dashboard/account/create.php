@@ -18,7 +18,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/css/skins/_all-skins.min.css">
-
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/css/crop/croppie.css">
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -32,7 +32,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="logo" class="logo">
+    <a href="" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>T</b>HUB</span>
       <!-- logo for regular state and mobile devices -->
@@ -108,8 +108,8 @@
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
-        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
-        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -122,66 +122,54 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Advertisements
-        <small>list of all ad ending</small>
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
-        <li><a href="<?php echo base_url() ?>Admin/advertisements">Advertisements</a></li>
-        <li class="active">Ending ads</li>
+        <li><a href="<?php echo base_url(); ?>Admin/accounts">Accounts</a></li>
+        <li class="active">Add Account</li>
       </ol>
+
     <!-- Main content -->
     <section class="content">
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-success"><i class="ion-chevron-left"></i> Back</a>
-          <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
+      <div class="row">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Add Account</h3>
           </div>
-        </div>
-        <div class="box-body">
-          <div class="col-xs-12">
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table table-bordered table-striped dataTable" role="grid">
-                  <thead>
-                    <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Business Name</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Ad</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Termination Date</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <?php if (!empty($endings)): ?>
-                        <?php foreach ($endings as $key => $ending): ?>
-                          <tr role="row" class="odd">
-                            <td><?php echo $ending->business_name ?></td>
-                            <td><?php echo $ending->title ?></td>
-                            <td><?php echo date('F j Y',strtotime($ending->termination_date))?></td>
-                            <td>
-                              <a href="<?php echo base_url(); ?>Admin/notify/<?php echo $ending->advertisement_id ?>" class="btn btn-primary"><i class="ion-email"></i> Notify</a>
-                              <a href="<?php echo base_url(); ?>Admin/edit_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                              <a href="<?php echo base_url(); ?>Admin/delete_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
-                            </td>
-                          </tr>
-                        <?php endforeach ?>
-                      <?php else: ?>
-                        0 results
-                      <?php endif; ?>
-                  </tbody>
-                </table>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-lg-6">
+              <div class="form-group text-center">
+                <label style="display:none;" id="upload-lbl" class="alert alert-info">Uploading your file, please wait a moment...</label>
               </div>
-              <nav class="pull-right">
-                <?php echo $this->pagination->create_links();?>
-              </nav>
+              <div class="form-group">
+                <label for="">Select image</label>
+                <input type="file" id="images" class="form-control">
+              </div>
+              <div class="form-group">
+                <div id="upload-image"></div>
+              </div>
             </div>
-          </div>
+            <div class="col-lg-6">
+              <div id="error_message"></div>
+              <div class="form-group">
+                <label>Username:</label>
+                <input type="text" name="category" class="form-control" value="<?php echo set_value('username'); ?>" id="username" placeholder="Enter username">
+                <span style="color:red" class="help-block"><?php echo form_error('username'); ?></span>
+              </div>
+              <div class="form-group input-width center-block">
+                <label>Password:</label>
+                <input type="password" name="password" class="form-control" value="<?php echo set_value('password'); ?>" maxlength="50" id="password" placeholder="Enter password">
+                <span style="color:red" class="help-block"><?php echo form_error('password'); ?></span>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success cropped_image help-block"><i class="fa fa-floppy-o"></i> Add</button>
+                <a href="<?php echo base_url(); ?>Admin/accounts" class="btn btn-danger" style="margin-top:5px;"><i class="fa fa-chevron-left"></i> Back</a>
+              </div>
+            </div>
+          </div><!-- /.box-body -->
         </div>
-      </div>
     </section>
     <!-- /.content -->
   </div>
@@ -201,6 +189,7 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>public/js/crop/croppie.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -209,5 +198,69 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$image_crop = $('#upload-image').croppie({
+	enableExif: true,
+	viewport: {
+    width: 234,
+		height: 234,
+		type: 'square'
+	},
+	boundary: {
+    width: 300,
+		height: 300
+	}
+});
+$('#images').on('change', function () {
+	var reader = new FileReader();
+	reader.onload = function (e) {
+		$image_crop.croppie('bind', {
+			url: e.target.result
+		}).then(function(){
+			// console.log('<?php echo base_url() ?>');
+		});
+	}
+	reader.readAsDataURL(this.files[0]);
+});
+
+$('.cropped_image').on('click', function (ev) {
+  if ($('#images').val()=='') {
+
+	}else {
+    $('#upload-lbl').show();
+	}
+	$image_crop.croppie('result', {
+		type: 'canvas',
+		size: { width: 500, height: 500 }
+	}).then(function (response) {
+    var file_input = $('#images').val();
+    var username = $('#username').val();
+    var password = $('#password').val();
+		$.ajax({
+			url: "<?php echo base_url() ?>Admin/create_account",
+			type: "POST",
+			data: {"image":response,"file":file_input,"username":username,"password":password},
+			success: function (data) {
+        if (data == 'Please select an image') {
+          alert(data);
+        }
+        else if (data == 'Account added!') {
+          $('#upload-lbl').hide();
+          alert(data);
+          $(location).attr('href','<?php echo base_url() ?>Admin/accounts');
+        }
+        else if (data == 'Account cannot be added') {
+          $('#upload-lbl').hide();
+          alert(data);
+        }
+        else {
+          $('#upload-lbl').hide();
+          $('#error_message').html('<div class="alert alert-danger">'+ data +'</div>');
+        }
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>
