@@ -348,8 +348,8 @@ class Account extends CI_Controller
 
   public function themes()
   {
-    $data['themes'] = $this->Accounts->get_themes();
-    $this->load->view('template/index',$data);
+    $this->data['themes'] = $this->Accounts->get_themes();
+    $this->load->view('template/index',$this->data);
   }
 
   public function save_template()
