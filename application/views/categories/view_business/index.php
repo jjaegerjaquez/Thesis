@@ -375,10 +375,10 @@
                 <div class="separator"></div>
                 <ul>
                   <div class="list-text visible-lg visible-md visible-sm">
-                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?>, <?php echo $business->locality ?></li>
+                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?></li>
                   </div>
                   <div class="hidden-lg hidden-md hidden-sm">
-                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?>, <?php echo $business->locality ?></li>
+                    <li class="detail-list"><span>Address:</span> <?php echo $business->address?></li>
                   </div>
                   <li class="detail-list"><span>Cellphone:</span> +63<?php echo $business->cellphone?></li>
                   <li class="detail-list"><span>Telephone:</span> <?php echo $business->telephone?></li>

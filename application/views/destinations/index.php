@@ -424,10 +424,10 @@
               <div class="separator"></div>
               <ul>
                 <div class="list-text visible-lg visible-md visible-sm">
-                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                  <li class="detail-list"><?php echo $result->address?></li>
                 </div>
                 <div class="hidden-lg hidden-md hidden-sm">
-                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                  <li class="detail-list"><?php echo $result->address?></li>
                 </div>
                 <?php if (!empty($result->cellphone)): ?>
                   <li class="detail-list">+63<?php echo $result->cellphone?></li>
