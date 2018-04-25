@@ -80,10 +80,19 @@ class Categories extends CI_Model
     return $query->result();
   }
 
-  public function get_category_result($category)
+  public function get_category_result($limit,$offset,$category)
   {
     $ctgry = str_replace('_', ' ', $category);
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry'");
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry'");
+    // $query = $this->db->query("SELECT  *,(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate FROM basic_info WHERE category = '$ctgry'");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_value');
+    $this->db->from('basic_info');
+    $this->db->where('category',$ctgry);
+    // $this->db->order_by('topic_count','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 
@@ -145,7 +154,7 @@ class Categories extends CI_Model
 
   public function get_reviews($business_id)
   {
-    $query = $this->db->query("select username,review,rate,r.date_created,image from users u join reviews r join rates ra join profile p on (u.user_id=r.user_id and u.user_id = ra.user_id and u.user_id = p.user_id and r.business_id = ra.business_id) where r.business_id = '$business_id'");
+    $query = $this->db->query("select username,review,r.rate,r.date_created,image from users u join reviews r join profile p on (u.user_id=r.user_id and u.user_id = p.user_id) where r.business_id = '$business_id' order by date_created desc");
     return $query->result();
   }
 
@@ -168,12 +177,12 @@ class Categories extends CI_Model
 
   public function get_rates($business_id)
   {
-    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate_value,business_id FROM `reviews` WHERE business_id = '$business_id'");
     if ($query->num_rows() > 0) {
       $res = $query->row();
-      if (empty($res->rate)) {
+      if (empty($res->rate_value)) {
         $business = new stdClass;
-        $business->rate = "0";
+        $business->rate_value = "0";
         $business->business_id = $business_id;
         return $business;
       }
@@ -189,11 +198,51 @@ class Categories extends CI_Model
     return $query->row();
   }
 
-  public function get_category_result_by_date($category)
+  public function get_category_result_by_date($limit,$offset,$category)
   {
     // $query = $this->db->query("select bi.user_id,bi.id,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where category = '$category' ORDER by bi.date_created desc");
     $ctgry = str_replace('_', ' ', $category);
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry' ORDER by date_created desc");
+    // $query = $this->db->query("SELECT  *,(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate FROM basic_info WHERE category = '$ctgry' ORDER BY date_created DESC");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_value');
+    $this->db->from('basic_info');
+    $this->db->where('category',$ctgry);
+    $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function get_category_result_by_ratings($limit,$offset,$category)
+  {
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry'");
+    // $query = $this->db->query("SELECT  *,(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate FROM basic_info WHERE category = '$ctgry' ORDER BY rate DESC");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_value');
+    $this->db->from('basic_info');
+    $this->db->where('category',$ctgry);
+    $this->db->order_by('rate_value','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function get_category_result_by_votes($limit,$offset,$category)
+  {
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE category = '$ctgry'");
+    // $query = $this->db->query("SELECT  *,(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate FROM basic_info WHERE category = '$ctgry' ORDER BY vote_count DESC");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_value');
+    $this->db->from('basic_info');
+    $this->db->where('category',$ctgry);
+    $this->db->order_by('vote_count','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 

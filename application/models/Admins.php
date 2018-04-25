@@ -48,7 +48,18 @@ class Admins extends CI_Model
     $this->db->select('*');
     $this->db->from('basic_info');
     // $this->db->join('users','basic_info.user_id=users.user_id');
-    $this->db->order_by('date_created','DESC');
+    $this->db->order_by('business_name','ASC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function function_pagination_localities($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('localities');
+    // $this->db->join('users','basic_info.user_id=users.user_id');
+    $this->db->order_by('locality','ASC');
     $this->db->limit($limit, $offset);
     $query = $this->db->get();
     return $query->result();
@@ -383,6 +394,18 @@ class Admins extends CI_Model
     return $query->result();
   }
 
+  public function get_locality_result($letter)
+  {
+    $query = $this->db->query("select * from localities where locality like '$letter%'");
+    return $query->result();
+  }
+
+  public function search_locality($keyword)
+  {
+    $query = $this->db->query("select * from localities where locality like '%$keyword%'");
+    return $query->result();
+  }
+
   public function get_locality($locality_id)
   {
     $query = $this->db->get_where('localities', ['locality_id' => $locality_id]);
@@ -406,6 +429,23 @@ class Admins extends CI_Model
     $query = $this->db->query("select * from categories order by category asc");
     return $query->result();
   }
+
+  public function search_category($keyword)
+  {
+    $query = $this->db->query("select * from categories where category like '%$keyword%'");
+    return $query->result();
+  }
+
+  function function_pagination_categories($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('categories');
+    // $this->db->join('users','basic_info.user_id=users.user_id');
+    $this->db->order_by('category','ASC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
 
   public function get_category($category_id)
   {
@@ -563,6 +603,39 @@ class Admins extends CI_Model
     return $query->result();
   }
 
+  public function filter_finished_events($month)
+  {
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from events where month(start_date) = '$month' and (start_date < '$cur_date' or end_date < '$cur_date')");
+    return $query->result();
+  }
+
+  public function filter_events($month)
+  {
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from events where month(start_date) = '$month' and (start_date >= '$cur_date' or end_date >= '$cur_date')");
+    return $query->result();
+  }
+
+
+  public function filter_events_by_date($_date)
+  {
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from events where start_date = '$_date' and (start_date >= '$cur_date' or end_date >= '$cur_date')");
+    return $query->result();
+  }
+
+  public function filter_finished_events_by_date($_date)
+  {
+    $date = new DateTime("now");
+    $cur_date = $date->format('Y-m-d ');
+    $query = $this->db->query("select * from events where start_date = '$_date' and (start_date < '$cur_date' or end_date < '$cur_date')");
+    return $query->result();
+  }
+
   public function get_event($event_id)
   {
     $query = $this->db->get_where('events', ['event_id' => $event_id]);
@@ -596,4 +669,18 @@ class Admins extends CI_Model
     return $this->db->update('topics', $Topic);
   }
   // END OF FORUM
+
+  // suppliers
+  public function filter_suppliers($letter)
+  {
+    $query = $this->db->query("select * from basic_info where business_name like '$letter%'");
+    return $query->result();
+  }
+
+  public function search_supplier($keyword)
+  {
+    $query = $this->db->query("select * from basic_info where business_name like '%$keyword%'");
+    return $query->result();
+  }
+  // END OF SUPPLIERS
 }

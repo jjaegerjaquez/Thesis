@@ -184,24 +184,57 @@ class Forums extends CI_Model
 
   function function_pagination($limit, $offset)
 	{
-    $this->db->select('*');
+    $this->db->select('topics.topic_id,topics.topic,topics.date_created');
+    $this->db->select('(SELECT COUNT(topic_id) FROM posts WHERE posts.topic_id = topics.topic_id)+
+        (SELECT COUNT(topic_id) FROM comments WHERE comments.topic_id = topics.topic_id) as topic_count');
     $this->db->from('topics');
-    $this->db->join('users','topics.created_by=users.user_id');
     $this->db->where('created_by !=', 'Admin');
     $this->db->where('topics.status', '1');
-    //$query = $this->db->get();
-    // $this->db->order_by('nim','ASC');
-    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    $this->db->order_by('topic_count','DESC');
     $this->db->limit($limit, $offset);
     $query = $this->db->get();
     return $query->result();
 	}
 
+  public function get_topic_count($topic_id)
+  {
+    $query = $this->db->query("SELECT (SELECT COUNT(topic_id) FROM posts WHERE topic_id = '$topic_id')+(SELECT COUNT(topic_id) from comments WHERE topic_id = '$topic_id') AS topic_count, topic_id from topics where topic_id ='$topic_id'");
+
+    if ($query->num_rows() > 0) {
+      $res = $query->row();
+      if ($res->topic_count == '0') {
+        $business = new stdClass;
+        $business->topic_count = "0";
+        $business->topic_id = $topic_id;
+        return $business;
+      }
+      else {
+        return $query->row();
+      }
+    }
+  }
+
+  public function get_topic_details($limit,$offset,$topic_id)
+  {
+    $this->db->select('*');
+    $this->db->from('topics');
+    $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('created_by !=', 'Admin');
+    $this->db->where('topics.status', '1');
+    $this->db->where('topics.topic_id', $topic_id);
+    //$query = $this->db->get();
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->row();
+  }
+
   function get_approved_user_topics($limit, $offset)
 	{
     $this->db->select('*');
     $this->db->from('topics');
-    $this->db->join('users','topics.created_by=users.user_id');
+    // $this->db->join('users','topics.created_by=users.user_id');
     $this->db->where('created_by !=', 'Admin');
     $this->db->where('topics.status', '1');
     //$query = $this->db->get();
@@ -214,9 +247,20 @@ class Forums extends CI_Model
 
   function function_pagination_faqs($limit, $offset)
 	{
-    $this->db->select('*');
+    // $this->db->select('*');
+    // $this->db->from('topics');
+    // $this->db->where('created_by', 'Admin');
+    // $this->db->limit($limit, $offset);
+    // $query = $this->db->get();
+    // return $query->result();
+
+
+    $this->db->select('topics.topic_id,topics.topic,topics.date_created');
+    $this->db->select('(SELECT COUNT(topic_id) FROM posts WHERE posts.topic_id = topics.topic_id)+
+        (SELECT COUNT(topic_id) FROM comments WHERE comments.topic_id = topics.topic_id) as topic_count');
     $this->db->from('topics');
-    $this->db->where('created_by', 'Admin');
+    $this->db->where('created_by =', 'Admin');
+    $this->db->order_by('topic_count','DESC');
     $this->db->limit($limit, $offset);
     $query = $this->db->get();
     return $query->result();

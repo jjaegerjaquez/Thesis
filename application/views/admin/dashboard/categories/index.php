@@ -141,8 +141,13 @@
           </div>
         </div>
         <div class="box-body">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <input type="text" class="form-control" name="" value="" placeholder="Search" id="search">
+            </div>
+          </div>
           <div class="col-xs-12">
-            <div class="row">
+            <div class="row" id="box">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
@@ -199,5 +204,24 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$("#search").keyup(function () {
+  if ($("#search").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/categories');
+  }else {
+    var letter = {
+        keyword: $("#search").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/search_category",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+</script>
 </body>
 </html>

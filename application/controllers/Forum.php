@@ -10,6 +10,7 @@ class Forum extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->helper(array('form', 'url'));
+    $this->load->library('banbuilder/lang/en_us_wordlist_regex');
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
@@ -126,8 +127,8 @@ class Forum extends CI_Controller
     // // $this->pagination->initialize($config);
     // // $this->data['topics'] = $this->Forums->function_pagination($limit, $offset);
     // $this->load->view('forum/all',$this->data);
-
-    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin'],['status' => '1']);
+    $count = 0;
+    $query2= $this->db->get_where('topics', ['created_by !=' => 'Admin', 'status' => '1']);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
@@ -156,6 +157,7 @@ class Forum extends CI_Controller
     $config['cur_tag_close'] = '</b></span></li>';
     $this->pagination->initialize($config);
     $this->data['topics'] = $this->Forums->function_pagination($limit, $offset);
+    // echo $query2->num_rows();
     $this->load->view('forum/topics/all',$this->data);
   }
 
@@ -267,6 +269,10 @@ class Forum extends CI_Controller
 
   public function submit_comment()
   {
+    $us_wordlist = new en_us_wordlist_regex();
+    $badwords = $us_wordlist->getBadWords();
+    $this->load->library('banbuilder/Censor_Function');
+    $censorFunction = new Censor_Function();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       // echo $this->input->get('comment');
@@ -285,26 +291,34 @@ class Forum extends CI_Controller
       {
         $data['topic_info'] = $this->Forums->get_topic_info($this->input->post('topic_id'));
         $my_date = date("Y-m-d h:i:s");
-        $Post = [
-          'topic_id' => $this->input->post('topic_id'),
-          'user_id' => $this->traveller_id,
-          'content' => $this->input->post('comment'),
-          'date_created' => date("Y-m-d"),
-          'date_updated' => NULL
-        ];
-        $my_date = date("Y-m-d h:i:s");
-        $Notif = [
-          'sender_id' => $this->traveller_id,
-          'type_of_notification' => 'Comment',
-          'title_content' => $this->data['traveller_details']->username.' commented on your post.',
-          'body_content' => $this->input->post('comment'),
-          'href' => base_url().'Forum/topic/'.$this->input->post('topic_id'),
-          'recipient_id' => $data['topic_info']->created_by,
-          'is_unread' => '0',
-          'created_time' => $my_date
-        ];
-        if ($this->db->insert('posts',$Post) && $this->db->insert('notifications', $Notif)) {
-          echo "Successful";
+        $censored = $censorFunction->censorString($this->input->post('comment'), $badwords);
+        if (empty($censored['clean']))
+        {
+          $Post = [
+            'topic_id' => $this->input->post('topic_id'),
+            'user_id' => $this->traveller_id,
+            'content' => $this->input->post('comment'),
+            'date_created' => date("Y-m-d"),
+            'date_updated' => NULL
+          ];
+          $my_date = date("Y-m-d h:i:s");
+          $Notif = [
+            'sender_id' => $this->traveller_id,
+            'type_of_notification' => 'Comment',
+            'title_content' => $this->data['traveller_details']->username.' commented on your post.',
+            'body_content' => $this->input->post('comment'),
+            'href' => base_url().'Forum/topic/'.$this->input->post('topic_id'),
+            'recipient_id' => $data['topic_info']->created_by,
+            'is_unread' => '0',
+            'created_time' => $my_date
+          ];
+          if ($this->db->insert('posts',$Post) && $this->db->insert('notifications', $Notif)) {
+            echo "Successful";
+          }
+        }
+        else
+        {
+          echo "Offensive";
         }
       }
     }
@@ -385,7 +399,7 @@ class Forum extends CI_Controller
         'status' => '0'
       ];
       if ($this->db->insert('topics',$Topic)) {
-        echo "<script>alert('The topic you created has been sent and will undergo review');document.location='/Forum/add_topic'</script>";
+        echo "<script>alert('The topic you created has been sent and will undergo review');document.location='/Forum/all'</script>";
       }
     }
   }

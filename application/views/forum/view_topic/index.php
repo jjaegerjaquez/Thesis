@@ -657,7 +657,9 @@
             $( "#comment-error" ).html('<div class="alert alert-danger">Please enter your comment</div>');
           }else if (message == 'Not logged in') {
             $('#login').modal('show');
-          }else if (message = 'Successful') {
+          }else if (message == 'Offensive') {
+            alert("We think your comment includes offensive language, please refrain from using one");
+          }else if (message == 'Successful') {
             $(location).attr('href','<?php echo base_url(); ?>Forum/topic/'+<?php echo $topic->topic_id?>);
           }
           else {

@@ -369,7 +369,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <tbody id="table">
-                      <?php if (!empty($topics)): ?>
+                      <!-- <?php if (!empty($topics)): ?>
                         <?php foreach ($topics as $key => $topic): ?>
                           <tr>
                             <td>
@@ -383,7 +383,20 @@
                             </td>
                           </tr>
                         <?php endforeach; ?>
-                      <?php endif; ?>
+                      <?php endif; ?> -->
+                      <?php foreach ($topics as $key => $topic): ?>
+                        <tr>
+                          <td>
+                            <ul class="topics">
+                              <li class="topic-title"><a href="<?php echo base_url(); ?>Forum/topic/<?php echo $topic->topic_id?>"><h4><?php echo $topic->topic ?></h4></a></li>
+                              <ul class="list-inline topic-details">
+                                <li><span><i class="ion-ios-calendar"></i> </span><?php $date = strtotime($topic->date_created); echo date('F j Y',$date)?></li>
+                                <li><span><i class="ion-chatbubble"></i> </span>Comments: <?php echo $topic->topic_count ?></li>
+                              </ul>
+                            </ul>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
                     </tbody>
                   </table>
                 </div>

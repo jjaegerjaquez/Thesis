@@ -376,8 +376,8 @@
                               <ul class="topics">
                                 <li><a href="<?php echo base_url(); ?>Forum/topic/<?php echo $faq->topic_id?>"><h4><?php echo $faq->topic ?></h4></a></li>
                                 <ul class="list-inline topic-details">
-                                  <li><span><i class="ion-android-person"></i> </span>Added by: <?php echo $faq->created_by ?></li>
                                   <li><span><i class="ion-ios-calendar"></i> </span><?php $date = strtotime($faq->date_created); echo date('F j Y',$date)?></li>
+                                  <li><span><i class="ion-chatbubble"></i> </span>Comments: <?php echo $faq->topic_count ?></li>
                                 </ul>
                               </ul>
                             </td>

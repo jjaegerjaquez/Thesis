@@ -141,7 +141,6 @@ class Accounts extends CI_Model
     $this->db->select('*');
     $this->db->from('users');
     $this->db->join('reviews','users.user_id=reviews.user_id');
-    $this->db->join('rates','users.user_id=rates.user_id and rates.business_id=reviews.business_id');
     $this->db->join('profile','users.user_id=profile.user_id');
     $this->db->where('is_read', '0');
     $this->db->where('reviews.business_id', $id);
@@ -158,7 +157,6 @@ class Accounts extends CI_Model
     $this->db->select('*');
     $this->db->from('users');
     $this->db->join('reviews','users.user_id=reviews.user_id');
-    $this->db->join('rates','users.user_id=rates.user_id and rates.business_id=reviews.business_id');
     $this->db->join('profile','users.user_id=profile.user_id');
     $this->db->where('is_read', '1');
     $this->db->where('reviews.business_id', $id);

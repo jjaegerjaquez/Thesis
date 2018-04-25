@@ -98,10 +98,48 @@ class Destinations extends CI_Model
     return $query->result();
   }
 
-  public function get_locality_result($locality)
+  public function get_locality_result($limit,$offset,$locality)
   {
     $lclty = str_replace('_', ' ', $locality);
-    $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $this->db->where('locality',$lclty);
+    // $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function get_locality_result_by_votes($limit,$offset,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $this->db->where('locality',$lclty);
+    $this->db->order_by('vote_count','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function get_locality_result_by_ratings($limit,$offset,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    // $query = $this->db->query("SELECT * FROM `basic_info` WHERE locality = '$lclty'");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $this->db->where('locality',$lclty);
+    $this->db->order_by('rate','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 
@@ -211,7 +249,7 @@ class Destinations extends CI_Model
 
   public function get_rates($business_id)
   {
-    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `reviews` WHERE business_id = '$business_id'");
     // return $query->row();
     if ($query->num_rows() > 0) {
       $res = $query->row();
@@ -227,11 +265,93 @@ class Destinations extends CI_Model
     }
   }
 
-  public function get_locality_result_by_date($locality)
+  public function get_locality_result_by_date($limit,$offset,$locality)
   {
     $lclty = str_replace('_', ' ', $locality);
     // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
-    $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $this->db->where('locality',$lclty);
+    $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_category_result($limit,$offset,$category,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    // $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $this->db->where('locality',$lclty);
+    $this->db->where('category',$ctgry);
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_popular($limit,$offset,$category,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    // $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $array = array('locality' => $lclty, 'category' => $ctgry);
+    // $this->db->where('locality',$lclty);
+    $this->db->where($array);
+    $this->db->order_by('vote_count','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_ratings($limit,$offset,$category,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    // $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $array = array('locality' => $lclty, 'category' => $ctgry);
+    // $this->db->where('locality',$lclty);
+    $this->db->where($array);
+    $this->db->order_by('rate','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_recent($limit,$offset,$category,$locality)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    // $query = $this->db->query("select bi.user_id,bi.category,bi.business_name,bi.address,bi.cellphone,bi.telephone,bi.website_url,bi.image,u.date_joined from basic_info bi join users u on (bi.user_id=u.user_id) where locality = '$lclty' ORDER by u.date_joined desc");
+    // $query = $this->db->query("SELECT * FROM `basic_info` where locality = '$lclty' ORDER by date_created desc");
+    // return $query->result();
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    $array = array('locality' => $lclty, 'category' => $ctgry);
+    // $this->db->where('locality',$lclty);
+    $this->db->where($array);
+    $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 

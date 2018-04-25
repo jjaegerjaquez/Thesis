@@ -331,6 +331,84 @@ class Admin extends CI_Controller
     $this->load->view('admin/dashboard/suppliers/index',$this->data);
   }
 
+  public function filter_suppliers()
+  {
+    $data['results'] = $this->Admins->filter_suppliers($this->input->post('letter'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Business Name</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->business_name.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_supplier/'.$result->id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                  <a href="'.base_url().'Admin/delete_supplier/'.$result->id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function search_supplier()
+  {
+    $data['results'] = $this->Admins->search_supplier($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Business Name</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->business_name.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_supplier/'.$result->id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                  <a href="'.base_url().'Admin/delete_supplier/'.$result->id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
   public function view_supplier($id)
   {
     $this->data['supplier'] = $this->Admins->get_supplier($id);
@@ -431,40 +509,116 @@ class Admin extends CI_Controller
   // LOCALITY
   public function localities()
   {
-    $query = $this->db->get('localities','7', $this->uri->segment(3));
-		$this->data['localities'] = $query->result();
+    $query2 = $this->db->get('localities');
+    $limit = 6;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/localities';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$query2= $this->db->get('localities');
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$config['base_url'] = base_url().'Admin/localities';
-		$config['total_rows'] = $query2->num_rows();
-		$config['per_page'] = 7;
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		$config['first_tag_open'] = '<li>';
-		$config['last_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
 
-		$config['next_tag_open'] = '<li>';
-		$config['prev_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
 
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-		$config['cur_tag_close'] = '</b></span></li>';
-
-		$this->pagination->initialize($config);
-
-    // echo $query->num_rows();
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['localities'] = $this->Admins->function_pagination_localities($limit, $offset);
     $this->load->view('admin/dashboard/localities/index',$this->data);
+  }
+
+  public function filter_locality()
+  {
+    $data['results'] = $this->Admins->get_locality_result($this->input->post('letter'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Locality</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->locality.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_locality/'.$result->locality_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                  <a href="'.base_url().'Admin/edit_locality/'.$result->locality_id.'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                  <a href="'.base_url().'Admin/delete_locality/'.$result->locality_id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function search_locality()
+  {
+    $data['results'] = $this->Admins->search_locality($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Locality</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->locality.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_locality/'.$result->locality_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                  <a href="'.base_url().'Admin/edit_locality/'.$result->locality_id.'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                  <a href="'.base_url().'Admin/delete_locality/'.$result->locality_id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
   }
 
   public function add_localities()
@@ -603,39 +757,76 @@ class Admin extends CI_Controller
   // CATEGORY
   public function categories()
   {
-    $query = $this->db->get('categories','7', $this->uri->segment(3));
-		$this->data['categories'] = $query->result();
+    $query2 = $this->db->get('categories');
+    $limit = 6;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/categories';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
 
-		$query2= $this->db->get('categories');
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
 
-		$config['base_url'] = base_url().'Admin/categories';
-		$config['total_rows'] = $query2->num_rows();
-		$config['per_page'] = 7;
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
 
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
 
-		$config['first_tag_open'] = '<li>';
-		$config['last_tag_open'] = '<li>';
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
 
-		$config['next_tag_open'] = '<li>';
-		$config['prev_tag_open'] = '<li>';
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
 
-		$config['num_tag_open'] = '<li>';
-		$config['num_tag_close'] = '</li>';
-
-		$config['first_tag_close'] = '</li>';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_tag_close'] = '</li>';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
-		$config['cur_tag_close'] = '</b></span></li>';
-
-		$this->pagination->initialize($config);
-
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['categories'] = $this->Admins->function_pagination_categories($limit, $offset);
     $this->load->view('admin/dashboard/categories/index',$this->data);
+  }
+
+  public function search_category()
+  {
+    $data['results'] = $this->Admins->search_category($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Category</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->category.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_category/'.$result->category_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                  <a href="'.base_url().'Admin/edit_category/'.$result->category_id.'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                  <a href="'.base_url().'Admin/delete_category/'.$result->category_id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
   }
 
   public function add_category()
@@ -2833,6 +3024,175 @@ class Admin extends CI_Controller
     $this->pagination->initialize($config);
     $this->data['events'] = $this->Admins->pagination_events($limit, $offset);
     $this->load->view('admin/dashboard/events/index',$this->data);
+  }
+
+  public function filter_finished_events()
+  {
+    $data['results'] = $this->Admins->filter_finished_events($this->input->post('month'));
+    // print_r($data['results']);
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">Date</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:400px;">Event</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.date("F j, Y",strtotime($result->start_date)).'</td>
+                <td>'.$result->title.'</td>
+                <td>
+                <a href="'.base_url().'Admin/view_finished_event/'.$result->event_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                <a href="'.base_url().'Admin/edit_finished_event/'.$result->event_id .'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'.base_url().'Admin/delete_finished_event/'.$result->event_id .'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function filter_events()
+  {
+    $data['results'] = $this->Admins->filter_events($this->input->post('month'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">Date</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:400px;">Event</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.date("F j, Y",strtotime($result->start_date)).'</td>
+                <td>'.$result->title.'</td>
+                <td>
+                <a href="'.base_url().'Admin/view_finished_event/'.$result->event_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                <a href="'.base_url().'Admin/edit_finished_event/'.$result->event_id .'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'.base_url().'Admin/delete_finished_event/'.$result->event_id .'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function filter_events_by_date()
+  {
+    $data['results'] = $this->Admins->filter_events_by_date($this->input->post('date'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">Date</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:400px;">Event</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.date("F j, Y",strtotime($result->start_date)).'</td>
+                <td>'.$result->title.'</td>
+                <td>
+                <a href="'.base_url().'Admin/view_finished_event/'.$result->event_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                <a href="'.base_url().'Admin/edit_finished_event/'.$result->event_id .'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'.base_url().'Admin/delete_finished_event/'.$result->event_id .'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function filter_finished_events_by_date()
+  {
+    $data['results'] = $this->Admins->filter_finished_events_by_date($this->input->post('date'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">Date</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:400px;">Event</th>
+                <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.date("F j, Y",strtotime($result->start_date)).'</td>
+                <td>'.$result->title.'</td>
+                <td>
+                <a href="'.base_url().'Admin/view_finished_event/'.$result->event_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                <a href="'.base_url().'Admin/edit_finished_event/'.$result->event_id .'" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                <a href="'.base_url().'Admin/delete_finished_event/'.$result->event_id .'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
   }
 
   public function add_event()

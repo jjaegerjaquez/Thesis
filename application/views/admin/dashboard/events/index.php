@@ -144,19 +144,44 @@
         </div>
         <div class="box-body">
           <div class="col-xs-12">
-            <div class="row">
+            <div class="col-lg-2" style="padding:0;">
+              <div class="form-group">
+                <label>Filter by date:</label>
+                <input type="date" name="" value="" class="form-control" id="date-filter">
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <?php $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"); ?>
+              <?php $values = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"); ?>
+              <?php $count = count($months)?>
+              <div class="form-group">
+                <label>Filter by month:</label>
+                <select class="form-control" name="month-filter" id="month-filter">
+                  <option value="">Select a month</option>
+                  <?php
+                    for ($i=0; $i <$count ; $i++) {
+                      echo '
+                        <option value="'.$values[$i].'">'.$months[$i].'</option>
+                      ';
+                    }
+                  ?>
+                </select>
+              </div>
+            </div>
+            <div class="row" id="box">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
                     <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Event</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">Date</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:400px;">Event</th>
                     </tr>
                   </thead>
                   <tbody>
                       <?php if (!empty($events)): ?>
                         <?php foreach ($events as $key => $event): ?>
                           <tr role="row" class="odd">
+                            <td><?php echo date('F j, Y',strtotime($event->start_date))?></td>
                             <td><?php echo $event->title ?></td>
                             <td>
                               <a href="<?php echo base_url(); ?>Admin/view_event/<?php echo $event->event_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
@@ -205,5 +230,41 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$('#date-filter').change(function() {
+  if ($("#date-filter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/events');
+  }else {
+    var date = {
+        date: $("#date-filter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/filter_events_by_date",
+        type: 'POST',
+        data: date,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+$('#month-filter').change(function() {
+  if ($("#month-filter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/events');
+  }else {
+    var month = {
+        month: $("#month-filter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/filter_events",
+        type: 'POST',
+        data: month,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+</script>
 </body>
 </html>

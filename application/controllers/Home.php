@@ -9,7 +9,7 @@ class Home extends CI_Controller
   public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url','text'));
 		$this->load->library('form_validation');
 		$this->load->library('pagination');
     $this->load->library('session');
@@ -79,6 +79,10 @@ class Home extends CI_Controller
 
     for ($i=0; $i <$count ; $i++) {
       $this->data['counts'][$i] = $this->Homes->get_counts($this->data['localities'][$i]->locality);
+    }
+
+    foreach ($this->data['events'] as $key => $event) {
+
     }
 
     $this->data['counter']=$count;
@@ -924,7 +928,7 @@ class Home extends CI_Controller
         $userData['email'] = $fbUserProfile['email'];
         $userData['gender'] = $fbUserProfile['gender'];
         $userData['picture'] = $fbUserProfile['picture']['data']['url'];
-        
+
         // echo $fbUserProfile['id'];
         // echo "<br>";
         // echo $fbUserProfile['first_name'];

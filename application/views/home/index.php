@@ -377,7 +377,7 @@
         <?php $ctr = 1;?>
         <?php foreach ($image_sliders as $key => $image_slider): ?>
           <div class="item <?php if($ctr <=1 ){ echo 'active';}?>">
-            <img class="carousel-img img-responsive" src="<?php echo $image_slider->value?>">
+            <img class="carousel-img img-responsive" src="<?php echo $image_slider->value?>" width="100%">
           </div>
           <?php $ctr++;?>
         <?php endforeach; ?>
@@ -542,7 +542,12 @@
                     </span>
                   </span>
                   <span class="detail-container">
-                      <span class="title"><?php echo $event->title?></span>
+                      <span class="title">
+                        <?php
+                          $limited_word = word_limiter($event->title,4);
+                          echo $limited_word;
+                        ?>
+                      </span>
                       <span class="description"><?php echo $event->type?> - Click to learn more.</span>
                   </span>
                   </span>

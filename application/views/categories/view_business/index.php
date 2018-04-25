@@ -391,7 +391,7 @@
           <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
             <ul class="rating-vote">
               <li><i class="ion-ios-star rating-icon"></i></li>
-              <li class="">Ratings:<br class="hidden-lg hidden-md hidden-sm"><?php echo number_format($rate->rate, 1)?></li>
+              <li class="">Ratings: <br class="hidden-lg hidden-md hidden-sm"><?php echo number_format($rate->rate_value, 1)?></li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-4 col-xs-4 text-center info-div">
@@ -668,9 +668,9 @@ $('#toggle-heart').on('click',function () {
                 $('#toggle-heart').prop('checked', false);
                 $('#login').modal('show');
               }else if (message > 1) {
-                $('#vote').html('Votes: '+message);
+                $('#vote').html('Faves: '+message);
               }else {
-                $('#vote').html('Vote: '+message);
+                $('#vote').html('Fave: '+message);
               }
             }
         });
@@ -686,9 +686,9 @@ $('#toggle-heart').on('click',function () {
           data: vote,
           success: function(message) {
             if (message > 1) {
-              $('#vote').html('Votes: '+message);
+              $('#vote').html('Faves: '+message);
             }else {
-              $('#vote').html('Vote: '+message);
+              $('#vote').html('Fave: '+message);
             }
           }
       });
@@ -775,15 +775,17 @@ $('#Add_Review').click(function() {
         data: review,
         success: function(message) {
 
-          if (message == 'Voted') {
-
-          }else if (message=='Unsucessful') {
-
+          if (message == 'Rate') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Please add your rate</div>');
+          }else if (message == 'Experience') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Please share us your experience...</div>');
           }else if (message == 'Not logged in') {
             $('#login').modal('show');
+          }else if (message == 'Offensive') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Here at Travel Hub, we promote a healthy and positive community, and we think your review includes offensive language. Please refrain from using one and give us your honest review. Thank you.</div>');
           }
           else {
-            $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
+            $('#review_error_msg').hide();
           }
         }
     });
@@ -798,15 +800,19 @@ $('#Add_Review').click(function() {
         type: 'POST',
         data: review,
         success: function(message) {
-          if (message == 'Voted') {
-
-          }else if (message=='Unsucessful') {
-
+          if (message == 'Rate') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Please add your rate</div>');
+          }else if (message == 'Experience') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Please share us your experience...</div>');
           }else if (message == 'Not logged in') {
             $('#login').modal('show');
+          }else if (message == 'Offensive') {
+            $('#review_error_msg').html('<div class="alert alert-danger">Here at Travel Hub, we promote a healthy and positive community, and we think your review includes offensive language. Please refrain from using one and give us your honest review. Thank you.</div>');
           }
           else {
-            $('#review_error_msg').html('<div class="alert alert-danger">'+ message +'</div>');
+            $('#review_error_msg').hide();
+            alert('Thanks for sharing us your experience, it will greatly help other travellers.');
+            $(location).attr('href','/Category/view/<?php echo str_replace(' ', '_', $business->business_name)?>');
           }
         }
     });

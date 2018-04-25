@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- jQuery 2.2.3 -->
+  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,700|Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
@@ -344,99 +346,119 @@
     </div>
     <div class="row content">
       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 side-content">
-        <div class="side-header text-center">
-          <span class="filter">Filters</span>
-          <div class="separator"></div>
-          <span>Sort by</span>
-        </div>
-        <ul class="sort-list">
-          <form id="_filter" action="" method="post">
+        <form class="" action="<?php echo base_url()?>Destination/result/<?php echo str_replace(' ', '_', $destination->locality)?>" method="post">
+          <div class="side-header text-center">
+            <span class="filter">Filters</span>
+            <div class="separator"></div>
+            <span>Sort by</span>
+          </div>
+          <ul class="sort-list">
             <div class="filters">
-              <li><label><input class="filter-style" type="radio" name="filter" value="popular">Popularity - <span>high to low</span></label></li>
-              <li><label><input class="filter-style" type="radio" name="filter" value="rating"> Rating - <span>high to low</span></label></li>
-              <li><label><input class="filter-style" type="radio" name="filter" value="recent"> Recently Added </label></li>
+              <?php if (!empty($selected_filter) && $selected_filter == 'popular'): ?>
+                <li><label style="font-weight:bold;"><input class="filter-style" type="radio" name="filter" value="popular">Popularity - <span>high to low</span></label></li>
+              <?php else: ?>
+                <li><label><input class="filter-style" type="radio" name="filter" value="popular">Popularity - <span>high to low</span></label></li>
+              <?php endif; ?>
+              <?php if (!empty($selected_filter) && $selected_filter == 'rating'): ?>
+                <li><label style="font-weight:bold;"><input class="filter-style" type="radio" name="filter" value="rating"> Rating - <span>high to low</span></label></li>
+              <?php else: ?>
+                <li><label><input class="filter-style" type="radio" name="filter" value="rating"> Rating - <span>high to low</span></label></li>
+              <?php endif; ?>
+              <?php if (!empty($selected_filter) && $selected_filter == 'recent'): ?>
+                <li><label style="font-weight:bold;"><input class="filter-style" type="radio" name="filter" value="recent"> Recently Added </label></li>
+              <?php else: ?>
+                <li><label><input class="filter-style" type="radio" name="filter" value="recent"> Recently Added </label></li>
+              <?php endif; ?>
             </div>
-          </form>
-        </ul>
-        <div class="side-header text-center">
-          <span>Categories</span>
-        </div>
-        <ul class="sort-list">
-          <?php if (!empty($categories)): ?>
-            <form id="_category" action="" method="post">
+          </ul>
+          <div class="side-header text-center">
+            <span>Categories</span>
+          </div>
+          <ul class="sort-list">
+            <?php if (!empty($categories)): ?>
               <select class="category-dropdown form-control" name="category" id="category-filters">
-                <option value="" selected disabled>Select a category</option>
+                <?php if (!empty($selected_category)): ?>
+                  <option value="" selected>Select a category</option>
+                <?php endif; ?>
+                <option value ="<?php if (!empty($selected_category)): ?><?php echo str_replace(' ', '_', $selected_category)?><?php endif;?>" selected><?php if (!empty($selected_category)): ?><?php echo $selected_category ?><?php else: ?>Select a category<?php endif; ?></option>
                 <?php foreach ($categories as $key => $category): ?>
-                  <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>
+                  <?php if (!empty($selected_categor)): ?>
+                    <?php if ($selected_category == $category->category): ?>
+                  <?php endif; ?>
+                  <?php else: ?>
+                    <option value="<?php echo str_replace(' ', '_', $category->category)?>"><?php echo $category->category ?></option>
+                  <?php endif; ?>
                 <?php endforeach; ?>
               </select>
-            </form>
-          <?php else: ?>
-            <li>0 results</li>
-          <?php endif; ?>
-        </ul>
+            <?php else: ?>
+              <li>0 results</li>
+            <?php endif; ?>
+          </ul>
+          <div class="form-group">
+            <button type="submit" name="button" class="form-control s-btn">Search</button>
+          </div>
+        </form>
       </div>
 
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content" id="main">
-        <?php if (!empty($ctr)): ?>
-          <?php for ($i=0; $i <$ctr ; $i++) { ?>
-            <div class="media" style="background-color:#fff;border:5px solid #fff;">
-              <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="media-object" src="<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
+        <?php foreach ($results as $key => $result): ?>
+          <div class="media" style="background-color:#fff;border:5px solid #fff;">
+            <div class="pull-left visible-lg visible-md visible-sm media-left">
+              <?php if (!empty($result->image)): ?>
+                <img class="media-object" src="<?php echo $result->image?>" alt="image" width="200px" height="200px">
+              <?php else: ?>
+                <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
+              <?php endif; ?>
+            </div>
+            <div class="media-body rating">
+              <?php if (!empty($result->image)): ?>
+                <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $result->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+              <?php else: ?>
+                <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px"><br class="hidden-lg hidden-md hidden-sm">
+              <?php endif; ?>
+              <span class="votes-style hidden-lg hidden-md hidden-sm" style=""><?php echo $result->vote_count?> <?php if ($result->vote_count > 1): ?> faves <?php else: ?> fave <?php endif; ?> <span class="badge rating-style hidden-lg hidden-md hidden-sm" style=""><?php if (!empty($result->rate)): ?><?php echo number_format($result->rate, 1)?><?php else: ?>0.0<?php endif; ?></span></span>
+              <span class="category-style"><?php echo $result->category?></span>
+              <span class="pull-right votes-style visible-lg visible-md visible-sm" style=""><?php echo $result->vote_count?> <?php if ($result->vote_count > 1): ?> faves <?php else: ?> fave <?php endif; ?></span>
+              <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style=""><?php if (!empty($result->rate)): ?><?php echo number_format($result->rate, 1)?><?php else: ?>0.0<?php endif; ?></span>
+              <h2 class="media-heading business-title"><?php echo $result->business_name?></h2>
+              <div class="separator"></div>
+              <ul>
+                <div class="list-text visible-lg visible-md visible-sm">
+                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                </div>
+                <div class="hidden-lg hidden-md hidden-sm">
+                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                </div>
+                <?php if (!empty($result->cellphone)): ?>
+                  <li class="detail-list">+63<?php echo $result->cellphone?></li>
                 <?php else: ?>
-                  <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
+                  <li class="detail-list"><?php echo $result->telephone?></li>
                 <?php endif; ?>
-              </div>
-              <div class="media-body rating">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php else: ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php endif; ?>
-                <span class="votes-style hidden-lg hidden-md hidden-sm" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?> <span class="badge rating-style hidden-lg hidden-md hidden-sm" style=""><?php echo number_format($rates[$i]->rate, 1)?></span></span>
-                <span class="category-style"><?php echo $results[$i]->category?></span>
-                <span class="pull-right votes-style visible-lg visible-md visible-sm" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
-                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style=""><?php echo number_format($rates[$i]->rate, 1)?></span>
-                <h2 class="media-heading business-title"><?php echo $results[$i]->business_name?></h2>
-                <div class="separator"></div>
-                <ul>
-                  <div class="list-text visible-lg visible-md visible-sm">
-                    <li class="detail-list"><?php echo $results[$i]->address?>, <?php echo $results[$i]->locality ?></li>
+              </ul>
+              <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a target="" href="<?php echo $result->website_url?>" class="btn">
+                    <div class="space"></div>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    <!-- <span class="btn-text-style">Visit Website</span> -->
+                    </a>
                   </div>
-                  <div class="hidden-lg hidden-md hidden-sm">
-                    <li class="detail-list"><?php echo $results[$i]->address?>, <?php echo $results[$i]->locality ?></li>
-                  </div>
-                  <?php if (!empty($results[$i]->cellphone)): ?>
-                    <li class="detail-list">+63<?php echo $results[$i]->cellphone?></li>
-                  <?php else: ?>
-                    <li class="detail-list"><?php echo $results[$i]->telephone?></li>
-                  <?php endif; ?>
-                </ul>
-                <div class="row button-div">
-                  <div class="col-lg-12">
-                    <div class="col-xs-6 btn-style1">
-                      <a target="" href="<?php echo $results[$i]->website_url?>" class="btn">
-                      <div class="space"></div>
-                      <span><i class="ion-earth"></i> Visit Website</span>
-        			        <!-- <span class="btn-text-style">Visit Website</span> -->
-        		          </a>
-                    </div>
-                    <div class="col-xs-6 btn-style2">
-                      <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn">
-                      <div class="space"></div>
-                      <span><i class="ion-information-circled"></i> More</span>
-        			        <!-- <span class=""></span> -->
-        		          </a>
-                    </div>
+                  <div class="col-xs-6 btn-style2">
+                    <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $result->business_name)?>" class="btn">
+                    <div class="space"></div>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    <!-- <span class=""></span> -->
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          <?php }?>
-        <?php else: ?>
-          <?php echo "0 result" ?>
-        <?php endif; ?>
+          </div>
+        <?php endforeach; ?>
+        <nav class="pull-right table-footer" style="margin-top:10px;">
+          <?php echo $this->pagination->create_links();?>
+        </nav>
       </div>
     </div>
   </div>
@@ -479,8 +501,6 @@
   </footer>
   <!-- END FOOTER -->
 
-  <!-- jQuery 2.2.3 -->
-  <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
   <!-- Bootstrap 3.3.6 -->
   <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
   <script>
@@ -601,7 +621,10 @@
               type: 'POST',
               data: $("#_filter,#_category").serialize(),
               success: function(message) {
-                  $('#main').html(message);
+                  // $('#main').html(message);
+                  if (message == 'Popular') {
+                    $(location).attr('href','<?php echo base_url(); ?>Destination/popular/'+destination);
+                  }
               }
           });
       });
@@ -612,7 +635,10 @@
             type: 'POST',
             data: $("#_filter,#_category").serialize(),
             success: function(message) {
-              $('#main').html(message);
+              if (message == 'Popular') {
+                alert('Popular');
+              }
+              // $('#main').html(message);
             }
         });
       });

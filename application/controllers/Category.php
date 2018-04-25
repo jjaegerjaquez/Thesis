@@ -15,6 +15,7 @@ class Category extends CI_Controller
     $this->load->library('session');
     $this->load->library('google');
     $this->load->library('facebook');
+    $this->load->library('banbuilder/lang/en_us_wordlist_regex');
 		$this->load->model('Categories');
     $this->data['categories'] = $this->Categories->get_categories();
     $this->data['title'] = $this->Categories->get_title();
@@ -54,77 +55,152 @@ class Category extends CI_Controller
   {
     $count = 0;
     if ($filter == 'popular') {
-      $this->data['results'] = $this->Categories->get_category_result($category);
-      foreach ($this->data['results'] as $key => $result) {
-        $count++;
-      }
+      $ctgry = str_replace('_', ' ', $category);
+      $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
+      $limit = 2;
+      $offset = $this->uri->segment(5);
+      $config['uri_segment'] = 5;
+      $config['base_url'] = '/Category/result/'.$category.'/popular';
+      $config['total_rows'] = $query2->num_rows();
+      $config['per_page'] = $limit;
+      $config['full_tag_open'] = '<ul class="pagination">';
+      $config['full_tag_close'] = '</ul>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
-      }
-      rsort($this->data['votes']);
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['results'][$i] = $this->Categories->get_business_details($this->data['votes'][$i]->business_id);
-      }
+      $config['first_tag_open'] = '<li>';
+      $config['last_tag_open'] = '<li>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['votes'][$i]->business_id);
-      }
+      $config['next_tag_open'] = '<li>';
+      $config['prev_tag_open'] = '<li>';
+
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+
+      $config['first_tag_close'] = '</li>';
+      $config['last_tag_close'] = '</li>';
+
+      $config['next_tag_close'] = '</li>';
+      $config['prev_tag_close'] = '</li>';
+
+      $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+      $config['cur_tag_close'] = '</b></span></li>';
+      $this->pagination->initialize($config);
+      $this->data['results'] = $this->Categories->get_category_result_by_votes($limit,$offset,$category);
+      $this->data['ctr']=$count;
+      $this->data['category'] = $category;
+      $this->data['filter'] = $filter;
+      $this->load->view('categories/result/result',$this->data);
     }
     elseif ($filter == 'ratings')
     {
-      $this->data['results'] = $this->Categories->get_category_result($category);
-      foreach ($this->data['results'] as $key => $result) {
-        $count++;
-      }
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
-      }
-      // print_r($this->data['rates']);
-      rsort($this->data['rates']);
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['results'][$i] = $this->Categories->get_business_details($this->data['rates'][$i]->business_id);
-      }
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['rates'][$i]->business_id);
-      }
+      $ctgry = str_replace('_', ' ', $category);
+      $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
+      $limit = 2;
+      $offset = $this->uri->segment(5);
+      $config['uri_segment'] = 5;
+      $config['base_url'] = '/Category/result/'.$category.'/ratings';
+      $config['total_rows'] = $query2->num_rows();
+      $config['per_page'] = $limit;
+      $config['full_tag_open'] = '<ul class="pagination">';
+      $config['full_tag_close'] = '</ul>';
+
+      $config['first_tag_open'] = '<li>';
+      $config['last_tag_open'] = '<li>';
+
+      $config['next_tag_open'] = '<li>';
+      $config['prev_tag_open'] = '<li>';
+
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+
+      $config['first_tag_close'] = '</li>';
+      $config['last_tag_close'] = '</li>';
+
+      $config['next_tag_close'] = '</li>';
+      $config['prev_tag_close'] = '</li>';
+
+      $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+      $config['cur_tag_close'] = '</b></span></li>';
+      $this->pagination->initialize($config);
+      $this->data['results'] = $this->Categories->get_category_result_by_ratings($limit,$offset,$category);
+      $this->data['ctr']=$count;
+      $this->data['category'] = $category;
+      $this->data['filter'] = $filter;
+      $this->load->view('categories/result/result',$this->data);
     }
     elseif ($filter == 'recent')
     {
-      $this->data['results'] = $this->Categories->get_category_result_by_date($category);
+      $ctgry = str_replace('_', ' ', $category);
+      $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
+      $limit = 2;
+      $offset = $this->uri->segment(5);
+      $config['uri_segment'] = 5;
+      $config['base_url'] = '/Category/result/'.$category.'/recent';
+      $config['total_rows'] = $query2->num_rows();
+      $config['per_page'] = $limit;
+      $config['full_tag_open'] = '<ul class="pagination">';
+      $config['full_tag_close'] = '</ul>';
 
-      foreach ($this->data['results'] as $key => $result) {
-        $count++;
-      }
+      $config['first_tag_open'] = '<li>';
+      $config['last_tag_open'] = '<li>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
-      }
+      $config['next_tag_open'] = '<li>';
+      $config['prev_tag_open'] = '<li>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
-      }
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+
+      $config['first_tag_close'] = '</li>';
+      $config['last_tag_close'] = '</li>';
+
+      $config['next_tag_close'] = '</li>';
+      $config['prev_tag_close'] = '</li>';
+
+      $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+      $config['cur_tag_close'] = '</b></span></li>';
+      $this->pagination->initialize($config);
+      $this->data['results'] = $this->Categories->get_category_result_by_date($limit,$offset,$category);
+      $this->data['ctr']=$count;
+      $this->data['category'] = $category;
+      $this->data['filter'] = $filter;
+      $this->load->view('categories/result/result',$this->data);
     }
     else
     {
-      $this->data['results'] = $this->Categories->get_category_result($category);
-      foreach ($this->data['results'] as $key => $result) {
-        $count++;
-      }
+      $ctgry = str_replace('_', ' ', $category);
+      $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
+      $limit = 2;
+      $offset = $this->uri->segment(4);
+      $config['uri_segment'] = 4;
+      $config['base_url'] = '/Category/result/'.$category;
+      $config['total_rows'] = $query2->num_rows();
+      $config['per_page'] = $limit;
+      $config['full_tag_open'] = '<ul class="pagination">';
+      $config['full_tag_close'] = '</ul>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['votes'][$i] = $this->Categories->get_votes($this->data['results'][$i]->id);
-      }
+      $config['first_tag_open'] = '<li>';
+      $config['last_tag_open'] = '<li>';
 
-      for ($i=0; $i <$count ; $i++) {
-        $this->data['rates'][$i] = $this->Categories->get_rates($this->data['results'][$i]->id);
-      }
+      $config['next_tag_open'] = '<li>';
+      $config['prev_tag_open'] = '<li>';
+
+      $config['num_tag_open'] = '<li>';
+      $config['num_tag_close'] = '</li>';
+
+      $config['first_tag_close'] = '</li>';
+      $config['last_tag_close'] = '</li>';
+
+      $config['next_tag_close'] = '</li>';
+      $config['prev_tag_close'] = '</li>';
+
+      $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+      $config['cur_tag_close'] = '</b></span></li>';
+      $this->pagination->initialize($config);
+      $this->data['results'] = $this->Categories->get_category_result($limit,$offset,$category);
+      $this->data['ctr']=$count;
+      $this->data['category'] = $category;
+      $this->data['filter'] = NULL;
+      $this->load->view('categories/result/result',$this->data);
     }
-    $this->data['ctr']=$count;
-    $this->data['category'] = $category;
-    $this->data['filter'] = $filter;
-    // print_r($this->data['notifications']);
-    $this->load->view('categories/result/result',$this->data);
   }
 
   public function search()
@@ -153,12 +229,16 @@ class Category extends CI_Controller
 
   public function add_review()
   {
+    $us_wordlist = new en_us_wordlist_regex();
+    $badwords = $us_wordlist->getBadWords();
+    $this->load->library('banbuilder/Censor_Function');
+    $censorFunction = new Censor_Function();
     if ($this->session->userdata('traveller_is_logged_in'))
     {
       $rate = $this->input->post('rate');
       if ($rate == '0')
       {
-        echo 'Please select your rate';
+        echo 'Rate';
       }
       else
       {
@@ -166,27 +246,22 @@ class Category extends CI_Controller
             'review', 'Review',
             'trim|required',
             array(
-                    'required'      => 'Please share us your experience...'
+                    'required'      => 'Please share us your experience'
             )
         );
         if ($this->form_validation->run() == FALSE)
         {
-          echo validation_errors();
+          echo "Experience";
         }
         else
         {
-          $Rate = [
-            'user_id' => $this->traveller_id,
-            'business_id' => $this->input->post('business_id'),
-            'rate' => $this->input->post('rate'),
-            'date_created' => date("Y-m-d")
-          ];
-          if ($this->db->insert('rates',$Rate)) {
-            // $this->data['vote'] = $this->Homes->get_vote($business_id);
-            // echo $this->data['vote']->vote;
+          $censored = $censorFunction->censorString($this->input->post('review'), $badwords);
+          if (empty($censored['clean']))
+          {
             $Review = [
               'user_id' => $this->traveller_id,
               'business_id' => $this->input->post('business_id'),
+              'rate' => $this->input->post('rate'),
               'review' => $this->input->post('review'),
               'is_read' => '0',
               'date_created' => date("Y-m-d")
@@ -203,18 +278,23 @@ class Category extends CI_Controller
             ];
             if ($this->db->insert('reviews',$Review) && $this->db->insert('supplier_notifications', $Notif)) {
               $this->data['business_details'] = $this->Categories->get_business_by_Id($this->input->post('business_id'));
-              echo "
-              <script type='text/javascript'>
-                var elem = document.createElement('script');
-                elem.onload = function () {
-                    jQuery(document).ready(function () {
-                      $(location).attr('href','/Category/view/".str_replace(' ', '_', $this->data['business_details']->business_name)."');
-                    });
-                };
-                elem.src = '/public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js';
-                document.getElementsByTagName('head')[0].appendChild(elem);
-              </script>";
+              // echo "
+              // <script type='text/javascript'>
+              //   var elem = document.createElement('script');
+              //   elem.onload = function () {
+              //       jQuery(document).ready(function () {
+              //         $(location).attr('href','/Category/view/".str_replace(' ', '_', $this->data['business_details']->business_name)."');
+              //       });
+              //   };
+              //   elem.src = '/public/thesis/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js';
+              //   document.getElementsByTagName('head')[0].appendChild(elem);
+              // </script>";
+              echo "Successful";
             }
+          }
+          else
+          {
+            echo "Offensive";
           }
         }
       }

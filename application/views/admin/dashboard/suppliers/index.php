@@ -141,8 +141,22 @@
           </div>
         </div>
         <div class="box-body">
+          <div class="col-lg-2">
+            <?php $letters = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"); ?>
+            <div class="form-group">
+              <select class="form-control" name="letter-filter" id="letter-filter">
+                <option value="">Filter by letter</option>
+                <?php foreach ($letters as $key => $letter): ?>
+                  <option value="<?php echo $letter?>"><?php echo $letter?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <input type="text" class="form-control" name="" value="" placeholder="Search" id="search-letter">
+          </div>
           <div class="col-xs-12">
-            <div class="row">
+            <div class="row" id="box">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
@@ -196,5 +210,41 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
+<script>
+$('#letter-filter').change(function() {
+  if ($("#letter-filter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/suppliers');
+  }else {
+    var letter = {
+        letter: $("#letter-filter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/filter_suppliers",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+$("#search-letter").keyup(function () {
+  if ($("#search-letter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/suppliers');
+  }else {
+    var letter = {
+        keyword: $("#search-letter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/search_supplier",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+</script>
 </body>
 </html>

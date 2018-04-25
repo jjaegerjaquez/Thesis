@@ -357,73 +357,72 @@
               <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
               <li style="font-weight:bold;color:blue;"><a href="/Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
             <?php endif; ?>
-            <?php else: ?>
-              <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
-              <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
-              <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
+          <?php else: ?>
+            <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/popular">Popularity - <span>high to low</span></a></li>
+            <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/ratings">Rating - <span>high to low</span></a></li>
+            <li><a href="<?php echo base_url(); ?>Category/result/<?php echo str_replace(' ', '_', $category)?>/recent">Recently Added</a></li>
           <?php endif; ?>
         </ul>
       </div>
       <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 main-content">
-        <?php if (!empty($ctr)): ?>
-          <?php for ($i=0; $i <$ctr ; $i++) { ?>
-            <div class="media" style="background-color:#fff;border:5px solid #fff;">
-              <div class="pull-left visible-lg visible-md visible-sm media-left">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="media-object" src="<?php echo $results[$i]->image?>" alt="image" width="200px" height="200px">
+        <?php foreach ($results as $key => $result): ?>
+          <div class="media" style="background-color:#fff;border:5px solid #fff;">
+            <div class="pull-left visible-lg visible-md visible-sm media-left">
+              <?php if (!empty($result->image)): ?>
+                <img class="media-object" src="<?php echo $result->image?>" alt="image" width="200px" height="200px">
+              <?php else: ?>
+                <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
+              <?php endif; ?>
+            </div>
+            <div class="media-body rating">
+              <?php if (!empty($result->image)): ?>
+                <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $result->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
+              <?php else: ?>
+                <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px"><br class="hidden-lg hidden-md hidden-sm">
+              <?php endif; ?>
+              <span class="votes-style hidden-lg hidden-md hidden-sm" style=""><?php echo $result->vote_count?> <?php if ($result->vote_count > 1): ?> faves <?php else: ?> fave <?php endif; ?> <span class="badge rating-style hidden-lg hidden-md hidden-sm" style=""><?php if (!empty($result->rate_value)): ?><?php echo number_format($result->rate_value, 1)?><?php else: ?>0.0<?php endif; ?></span></span>
+              <span class="category-style"><?php echo $result->category?></span>
+              <span class="pull-right votes-style visible-lg visible-md visible-sm" style=""><?php echo $result->vote_count?> <?php if ($result->vote_count > 1): ?> faves <?php else: ?> fave <?php endif; ?></span>
+              <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style=""><?php if (!empty($result->rate_value)): ?><?php echo number_format($result->rate_value, 1)?><?php else: ?>0.0<?php endif; ?></span>
+              <h2 class="media-heading business-title"><?php echo $result->business_name?></h2>
+              <div class="separator"></div>
+              <ul>
+                <div class="list-text visible-lg visible-md visible-sm">
+                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                </div>
+                <div class="hidden-lg hidden-md hidden-sm">
+                  <li class="detail-list"><?php echo $result->address?>, <?php echo $result->locality ?></li>
+                </div>
+                <?php if (!empty($result->cellphone)): ?>
+                  <li class="detail-list">+63<?php echo $result->cellphone?></li>
                 <?php else: ?>
-                  <img class="media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image" width="200px" height="200px">
+                  <li class="detail-list"><?php echo $result->telephone?></li>
                 <?php endif; ?>
-              </div>
-              <div class="media-body rating">
-                <?php if (!empty($results[$i]->image)): ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo $results[$i]->image?>" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php else: ?>
-                  <img class="hidden-lg hidden-md hidden-sm center-block img-responsive media-object" src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="image"><br class="hidden-lg hidden-md hidden-sm">
-                <?php endif; ?>
-                <span class="votes-style hidden-lg hidden-md hidden-sm" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?> <span class="badge rating-style hidden-lg hidden-md hidden-sm" style=""><?php echo number_format($rates[$i]->rate, 1)?></span></span>
-                <span class="category-style"><?php echo $results[$i]->category?></span>
-                <span class="pull-right votes-style visible-lg visible-md visible-sm" style=""><?php echo $votes[$i]->vote?> <?php if ($votes[$i]->vote > 1): ?> votes <?php else: ?> vote <?php endif; ?></span>
-                <span class="badge pull-right rating-style visible-lg visible-md visible-sm" style=""><?php echo number_format($rates[$i]->rate, 1)?></span>
-                <h2 class="media-heading business-title"><?php echo $results[$i]->business_name?></h2>
-                <div class="separator"></div>
-                <ul>
-                  <div class="list-text visible-lg visible-md visible-sm">
-                    <li class="detail-list"><?php echo $results[$i]->address?>, <?php echo $results[$i]->locality ?></li>
+              </ul>
+              <div class="row button-div">
+                <div class="col-lg-12">
+                  <div class="col-xs-6 btn-style1">
+                    <a target="" href="<?php echo $result->website_url?>" class="btn">
+                    <div class="space"></div>
+                    <span><i class="ion-earth"></i> Visit Website</span>
+                    <!-- <span class="btn-text-style">Visit Website</span> -->
+                    </a>
                   </div>
-                  <div class="hidden-lg hidden-md hidden-sm">
-                    <li class="detail-list"><?php echo $results[$i]->address?>, <?php echo $results[$i]->locality ?></li>
-                  </div>
-                  <?php if (!empty($results[$i]->cellphone)): ?>
-                    <li class="detail-list">+63<?php echo $results[$i]->cellphone?></li>
-                  <?php else: ?>
-                    <li class="detail-list"><?php echo $results[$i]->telephone?></li>
-                  <?php endif; ?>
-                </ul>
-                <div class="row button-div">
-                  <div class="col-lg-12">
-                    <div class="col-xs-6 btn-style1">
-                      <a target="" href="<?php echo $results[$i]->website_url?>" class="btn">
-                      <div class="space"></div>
-                      <span><i class="ion-earth"></i> Visit Website</span>
-        			        <!-- <span class="btn-text-style">Visit Website</span> -->
-        		          </a>
-                    </div>
-                    <div class="col-xs-6 btn-style2">
-                      <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $results[$i]->business_name)?>" class="btn">
-                      <div class="space"></div>
-                      <span><i class="ion-information-circled"></i> More</span>
-        			        <!-- <span class=""></span> -->
-        		          </a>
-                    </div>
+                  <div class="col-xs-6 btn-style2">
+                    <a href="<?php echo base_url(); ?>Category/view/<?php echo str_replace(' ', '_', $result->business_name)?>" class="btn">
+                    <div class="space"></div>
+                    <span><i class="ion-information-circled"></i> More</span>
+                    <!-- <span class=""></span> -->
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          <?php }?>
-        <?php else: ?>
-          <?php echo "0 result" ?>
-        <?php endif; ?>
+          </div>
+        <?php endforeach; ?>
+        <nav class="pull-right table-footer" style="margin-top:10px;">
+          <?php echo $this->pagination->create_links();?>
+        </nav>
       </div>
     </div>
   </div>

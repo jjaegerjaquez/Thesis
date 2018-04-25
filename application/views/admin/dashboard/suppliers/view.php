@@ -144,6 +144,16 @@
           <div class="table-responsive">
             <table class="table table-bordered">
               <tr>
+                <td><label>Image:</label></td>
+                <td>
+                  <?php if (!empty($supplier->image)): ?>
+                    <img src="<?php echo $supplier->image;?>" alt="" width="200px" height="200px">
+                  <?php else: ?>
+                    <img src="<?php echo base_url(); ?>public/img/default-img.jpg" alt="" width="200px" height="200px">
+                  <?php endif; ?>
+                </td>
+              </tr>
+              <tr>
                 <td><label>ID:</label></td>
                 <td><?php echo $supplier->id;?></td>
               </tr>

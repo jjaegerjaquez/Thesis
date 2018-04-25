@@ -135,15 +135,31 @@
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin/add_localities" class="btn btn-success"><i class="fa fa-plus"></i> Add Locality</a>
+          <div class="col-lg-2">
+            <a href="<?php echo base_url(); ?>Admin/add_localities" class="btn btn-success"><i class="fa fa-plus"></i> Add Locality</a>
+          </div>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
         <div class="box-body">
+          <div class="col-lg-2">
+            <?php $letters = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"); ?>
+            <div class="form-group">
+              <select class="form-control" name="letter-filter" id="letter-filter">
+                <option value="">Filter by letter</option>
+                <?php foreach ($letters as $key => $letter): ?>
+                  <option value="<?php echo $letter?>"><?php echo $letter?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <input type="text" class="form-control" name="" value="" placeholder="Search" id="search-letter">
+          </div>
           <div class="col-xs-12">
-            <div class="row">
+            <div class="row" id="box">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
@@ -200,5 +216,41 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
+<script>
+$('#letter-filter').change(function() {
+  if ($("#letter-filter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/localities');
+  }else {
+    var letter = {
+        letter: $("#letter-filter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/filter_locality",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+$("#search-letter").keyup(function () {
+  if ($("#search-letter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/localities');
+  }else {
+    var letter = {
+        keyword: $("#search-letter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/search_locality",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+</script>
 </body>
 </html>

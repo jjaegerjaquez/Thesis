@@ -154,7 +154,7 @@
                   <?php if (!empty($event->image)): ?>
                     <img src="<?php echo $event->image?>" class="img-responsive"/>
                   <?php else: ?>
-                    <img src="<?php echo base_url(); ?>/public/img/events/def-img-l.jpg" class="img-responsive"/>
+                    <img src="<?php echo base_url(); ?>/public/img/events/def-img-l.jpg" class="img-responsive" width="400px;"/>
                   <?php endif; ?>
                 </td>
               </tr>
