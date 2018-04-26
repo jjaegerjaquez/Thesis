@@ -106,17 +106,32 @@ class Admins extends CI_Model
     return $query->result();
 	}
 
-  function function_pagination_faves($limit, $offset)
+  function function_pagination_travellers($limit, $offset)
 	{
     // select * from votes v join users u join basic_info bi on (v.voter_id=u.user_id and v.business_id=bi.id)
     $this->db->select('*');
-    $this->db->from('votes');
-    $this->db->join('users','votes.voter_id=users.user_id');
-    $this->db->join('basic_info','votes.business_id=basic_info.id');
+    $this->db->from('users');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where('type', 'Traveller');
+    // $this->db->join('basic_info','votes.business_id=basic_info.id');
     // $this->db->order_by('date_created','DESC');
     $this->db->limit($limit, $offset);
     $query = $this->db->get();
     return $query->result();
+	}
+
+  function get_traveller($user_id)
+	{
+    // select * from votes v join users u join basic_info bi on (v.voter_id=u.user_id and v.business_id=bi.id)
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where('users.user_id', $user_id);
+    // $this->db->join('basic_info','votes.business_id=basic_info.id');
+    // $this->db->order_by('date_created','DESC');
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->row();
 	}
 
   function function_pagination_reviews($limit, $offset)
@@ -142,6 +157,31 @@ class Admins extends CI_Model
     // $this->db->order_by('nim','ASC');
     //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
     $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function fetch_comments($limit,$offset,$topic_id)
+	{
+    $this->db->select('*');
+    $this->db->from('posts');
+    $this->db->where('topic_id', $topic_id);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
+  function fetch_replies($limit,$offset,$topic_id)
+	{
+    $this->db->select('*');
+    $this->db->from('comments');
+    // $this->db->join('users','topics.created_by=users.user_id');
+    $this->db->where('topic_id', $topic_id);
+    //$query = $this->db->get();
+    // $this->db->where('topics.status', '1');
+    // $this->db->order_by('nim','ASC');
+    //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
+    // $this->db->limit($limit, $offset);
     $query = $this->db->get();
     return $query->result();
 	}
@@ -366,7 +406,7 @@ class Admins extends CI_Model
     $this->db->from('basic_info');
     $this->db->join('advertisements','basic_info.id=advertisements.business_id');
     $this->db->where($where);
-    // $this->db->where('type', 'Priority');
+    $this->db->where('notified !=', 'Yes');
     //$query = $this->db->get();
     // $this->db->order_by('nim','ASC');
     //$query = $this->db->get('tb_mahasiswa','tb_prodi',$limit, $offset);
@@ -385,6 +425,12 @@ class Admins extends CI_Model
   {
     $this->db->where('advertisement_id', $ad_id);
     return $this->db->update('advertisements', $Ad);
+  }
+
+  public function update_ad_notified($Notified,$ad_id)
+  {
+    $this->db->where('advertisement_id', $ad_id);
+    return $this->db->update('advertisements', $Notified);
   }
 
   // LOCALITY
@@ -447,6 +493,18 @@ class Admins extends CI_Model
     return $query->result();
 	}
 
+  function fetch_notified($limit, $offset)
+	{
+    $this->db->select('*');
+    $this->db->from('advertisements');
+    $this->db->join('basic_info','advertisements.business_id=basic_info.id');
+    $this->db->where('notified','Yes');
+    $this->db->order_by('termination_date','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+	}
+
   public function get_category($category_id)
   {
     $query = $this->db->get_where('categories', ['category_id' => $category_id]);
@@ -503,6 +561,12 @@ class Admins extends CI_Model
   public function get_supplier_count()
   {
     $query = $this->db->query("SELECT count(id) as supplier_count from basic_info");
+    return $query->row();
+  }
+
+  public function get_traveller_count()
+  {
+    $query = $this->db->query("SELECT count(user_id) as traveller_count from users where type = 'Traveller'");
     return $query->row();
   }
 
@@ -677,9 +741,66 @@ class Admins extends CI_Model
     return $query->result();
   }
 
+  public function filter_travellers($letter)
+  {
+    // $query = $this->db->query("select * from users where username like '$letter%' and type='Traveller'");
+    // return $query->result();
+    $where = "(users.username like '$letter%')";
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where($where);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
   public function search_supplier($keyword)
   {
     $query = $this->db->query("select * from basic_info where business_name like '%$keyword%'");
+    return $query->result();
+  }
+
+  public function search_traveller($keyword)
+  {
+    // $query = $this->db->query("select * from users where username like '$letter%' and type='Traveller'");
+    // return $query->result();
+    $where = "(users.username like '%$keyword%')";
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where($where);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function search_by_businessname($keyword)
+  {
+    // $query = $this->db->query("select * from users where username like '$letter%' and type='Traveller'");
+    // return $query->result();
+    $where = "(basic_info.business_name like '%$keyword%')";
+    $this->db->select('*');
+    $this->db->from('reviews');
+    $this->db->join('basic_info','reviews.business_id=basic_info.id');
+    $this->db->where($where);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function search_by_user($keyword)
+  {
+    // $query = $this->db->query("select * from users where username like '$letter%' and type='Traveller'");
+    // return $query->result();
+    $where = "(users.username like '$keyword%')";
+    $this->db->select('*');
+    $this->db->from('reviews');
+    $this->db->join('basic_info','reviews.business_id=basic_info.id');
+    $this->db->join('users','reviews.user_id=users.user_id');
+    $this->db->where($where);
+    // $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
   // END OF SUPPLIERS

@@ -34,8 +34,9 @@ class Admin extends CI_Controller
       $this->username = $_SESSION['username'];
       $this->data['user'] = $this->Admins->validate_user($this->username);
       $this->data['review_count'] = $this->Admins->get_reviews_count();
-      $this->data['vote_count'] = $this->Admins->get_vote_count();
+      // $this->data['vote_count'] = $this->Admins->get_vote_count();
       $this->data['supplier_count'] = $this->Admins->get_supplier_count();
+      $this->data['traveller_count'] = $this->Admins->get_traveller_count();
     }
 	}
 
@@ -370,6 +371,168 @@ class Admin extends CI_Controller
     }
   }
 
+  public function filter_travellers()
+  {
+    $data['results'] = $this->Admins->filter_travellers($this->input->post('letter'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Username</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Name</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->username.'</td>
+                <td>'.$result->firstname.', '.$result->lastname.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_traveller/'.$result->user_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function search_traveller()
+  {
+    $data['results'] = $this->Admins->search_traveller($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Username</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Name</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->username.'</td>
+                <td>'.$result->firstname.', '.$result->lastname.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/view_traveller/'.$result->user_id.'" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function search_by_businessname()
+  {
+    $data['results'] = $this->Admins->search_by_businessname($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">User</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Business Name</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->username.'</td>
+                <td>'.$result->business_name.'</td>
+                <td>'.$result->review.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/delete_traveller/'.$result->review_id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
+  public function search_by_user()
+  {
+    $data['results'] = $this->Admins->search_by_user($this->input->post('keyword'));
+    if (!empty($data['results']))
+    {
+      echo '
+        <div class="col-sm-12">
+          <table class="table table-bordered table-striped dataTable" role="grid">
+            <thead>
+              <tr role="row">
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">User</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Business Name</th>
+              <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      ';
+        foreach ($data['results'] as $key => $result) {
+          echo '
+              <tr>
+                <td>'.$result->username.'</td>
+                <td>'.$result->business_name.'</td>
+                <td>'.$result->review.'</td>
+                <td>
+                  <a href="'.base_url().'Admin/delete_traveller/'.$result->review_id.'" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                </td>
+              </tr>
+          ';
+        }
+          echo '
+            </tbody>
+          </table>
+        </div>
+          ';
+    }
+    else
+    {
+      echo "0 results";
+    }
+  }
+
   public function search_supplier()
   {
     $data['results'] = $this->Admins->search_supplier($this->input->post('keyword'));
@@ -423,13 +586,13 @@ class Admin extends CI_Controller
     }
   }
 
-  public function faves()
+  public function travellers()
   {
-    $query2= $this->db->get('votes');
+    $query2= $this->db->get_where('users', ['type' => 'Traveller']);
     $limit = 7;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
-    $config['base_url'] = base_url().'Admin/faves';
+    $config['base_url'] = base_url().'Admin/travellers';
     $config['total_rows'] = $query2->num_rows();
     $config['per_page'] = $limit;
     $config['full_tag_open'] = '<ul class="pagination">';
@@ -453,8 +616,14 @@ class Admin extends CI_Controller
 		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
 		$config['cur_tag_close'] = '</b></span></li>';
     $this->pagination->initialize($config);
-    $this->data['faves'] = $this->Admins->function_pagination_faves($limit, $offset);
+    $this->data['travellers'] = $this->Admins->function_pagination_travellers($limit, $offset);
     $this->load->view('admin/dashboard/faves/index',$this->data);
+  }
+
+  public function view_traveller($user_id)
+  {
+    $this->data['traveller'] = $this->Admins->get_traveller($user_id);
+    $this->load->view('admin/dashboard/faves/view',$this->data);
   }
 
   public function delete_fave($id)
@@ -1576,7 +1745,7 @@ class Admin extends CI_Controller
           }
         }
       }
-      if (!empty($this->input->post('instagram')))
+      if (!empty($this->input->post('twitter')))
       {
         $query = $this->db->query("select * from layout where meta_key = 'twitter_link'");
         if ($query->num_rows() > 0)
@@ -1743,7 +1912,7 @@ class Admin extends CI_Controller
           $Subtitle = [
             'value' => $this->input->post('about_subtitle')
           ];
-          if ($this->Admins->update_content($Instagram,$data['subtitle']->content_id)) {
+          if ($this->Admins->update_content($Subtitle,$data['subtitle']->content_id)) {
 
           }
         }
@@ -1883,7 +2052,7 @@ class Admin extends CI_Controller
   public function ending()
   {
     $deadline = date('Y-m-d', strtotime("+5 days"));
-    $query2= $this->db->get_where('advertisements', ['termination_date' => $deadline]);
+    $query2= $this->db->get_where('advertisements', ['termination_date' => $deadline,'notified !=' => 'Yes']);
     $limit = 5;
     $offset = $this->uri->segment(3);
     $config['uri_segment'] = 3;
@@ -1916,6 +2085,41 @@ class Admin extends CI_Controller
     // print_r($this->data['endings']);
   }
 
+  public function notified()
+  {
+    $query2= $this->db->get_where('advertisements', ['notified' => 'Yes']);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = base_url().'Admin/notified';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+		$config['full_tag_close'] = '</ul>';
+
+		$config['first_tag_open'] = '<li>';
+		$config['last_tag_open'] = '<li>';
+
+		$config['next_tag_open'] = '<li>';
+		$config['prev_tag_open'] = '<li>';
+
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+
+		$config['first_tag_close'] = '</li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['next_tag_close'] = '</li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+		$config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['notifieds'] = $this->Admins->fetch_notified($limit, $offset);
+    $this->load->view('admin/dashboard/advertisements/notified',$this->data);
+    // print_r($this->data['endings']);
+  }
+
   public function notify($ad_id)
   {
     $this->data['ad'] = $this->Admins->get_ad($ad_id);
@@ -1927,7 +2131,13 @@ class Admin extends CI_Controller
     // print_r($this->data['ad']);
     $msg = $this->load->view('email/ad',$data,TRUE);
     if ($this->Admins->sendemail($this->data['email']->email,$msg)) {
-      echo "<script>alert('Notification sent.');document.location='/Admin/advertisements'</script>";
+      $Notified = [
+        'Notified' => 'Yes'
+      ];
+      if ($this->Admins->update_ad_notified($Notified,$ad_id))
+      {
+        echo "<script>alert('Notification sent.');document.location='/Admin/advertisements'</script>";
+      }
     }else {
       echo $this->email->print_debugger();
     }
@@ -3687,6 +3897,78 @@ class Admin extends CI_Controller
     $this->pagination->initialize($config);
     $this->data['topics'] = $this->Admins->function_pagination_topics($limit, $offset);
     $this->load->view('admin/dashboard/forums/index',$this->data);
+  }
+
+  public function view_topic($topic_id)
+  {
+    $query2= $this->db->get_where('posts', ['topic_id' => $topic_id]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/view_topic/';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['posts'] = $this->Admins->fetch_comments($limit,$offset,$topic_id);
+    // echo $query2->num_rows();
+    // print_r($this->data['comments']);
+    $this->load->view('admin/dashboard/forums/view',$this->data);
+  }
+
+  public function view_topic_replies($topic_id)
+  {
+    $query2= $this->db->get_where('comments', ['topic_id' => $topic_id]);
+    $limit = 5;
+    $offset = $this->uri->segment(3);
+    $config['uri_segment'] = 3;
+    $config['base_url'] = '/Admin/view_topic_replies/';
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['replies'] = $this->Admins->fetch_replies($limit,$offset,$topic_id);
+    // echo $query2->num_rows();
+    // print_r($this->data['comments']);
+    $this->load->view('admin/dashboard/forums/view_replies',$this->data);
   }
 
   public function add_topic()

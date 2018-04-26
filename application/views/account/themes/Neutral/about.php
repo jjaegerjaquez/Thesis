@@ -49,9 +49,9 @@
   </nav>
 
   <?php if (!empty($about_header_image)): ?>
-    <div class="container-fluid text-center about-header" style="background-image:url('<?php echo $about_header_image->value?>');">
+    <div class="container-fluid text-center about-header" style="background-image:linear-gradient(rgba(0, 0, 0, 0.45),rgba(0, 0, 0, 0.45)),url('<?php echo $about_header_image->value?>');">
   <?php else: ?>
-        <div class="container-fluid text-center about-header" style="background-image:url('<?php echo base_url(); ?>public/img/Neutral/bg.jpg');">
+        <div class="container-fluid text-center about-header" style="background-image:linear-gradient(rgba(0, 0, 0, 0.45),rgba(0, 0, 0, 0.45)),url('<?php echo base_url(); ?>public/img/Neutral/bg.jpg');">
   <?php endif; ?>
     <h1><span class="section-heading-lower">ABOUT</span></h1>
   </div>

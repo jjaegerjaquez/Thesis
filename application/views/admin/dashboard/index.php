@@ -138,7 +138,7 @@
               <?php endif; ?></p>
             </div>
             <div class="icon">
-              <i class="fa fa-user-plus"></i>
+              <i class="fa fa-briefcase"></i>
             </div>
             <a href="<?php echo base_url() ?>Admin/suppliers" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
@@ -150,22 +150,22 @@
           <div class="small-box bg-red">
             <div class="inner">
               <h3>
-                <?php if (!empty($vote_count->vote_count)): ?>
-                  <?php echo $vote_count->vote_count ?>
+                <?php if (!empty($traveller_count->traveller_count)): ?>
+                  <?php echo $traveller_count->traveller_count ?>
                 <?php else: ?>
                   0
                 <?php endif; ?></h3>
 
-              <p><?php if ($vote_count->vote_count > 1): ?>
-                Faves
+              <p><?php if ($traveller_count->traveller_count > 1): ?>
+                Travellers
               <?php else: ?>
-                Fave
+                Traveller
               <?php endif; ?></p>
             </div>
             <div class="icon">
-              <i class="fa fa-heart"></i>
+              <i class="fa fa-user-plus"></i>
             </div>
-            <a href="<?php echo base_url() ?>Admin/faves" class="small-box-footer">
+            <a href="<?php echo base_url() ?>Admin/travellers" class="small-box-footer">
               More info <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>

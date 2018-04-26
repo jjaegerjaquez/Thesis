@@ -122,67 +122,69 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Travellers
-        <small>list of all travellers</small>
+        Category
+        <small>details</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Travellers</li>
+        <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
+        <li><a href="<?php echo base_url(); ?>Admin/travellers">Travellers</a></li>
+        <li class="active">View <?php echo $traveller->username?></li>
       </ol>
     <!-- Main content -->
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin" class="btn btn-success"><i class="ion-chevron-left"></i> Back to dashboard</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
         <div class="box-body">
-          <div class="col-lg-2">
-            <?php $letters = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"); ?>
-            <div class="form-group">
-              <select class="form-control" name="letter-filter" id="letter-filter">
-                <option value="">Filter by letter</option>
-                <?php foreach ($letters as $key => $letter): ?>
-                  <option value="<?php echo $letter?>"><?php echo $letter?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <input type="text" class="form-control" name="" value="" placeholder="Search" id="search-letter">
-          </div>
-          <div class="col-xs-12">
-            <div class="row" id="box">
-              <div class="col-sm-12">
-                <table class="table table-bordered table-striped dataTable" role="grid">
-                  <thead>
-                    <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Username</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Name</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <?php foreach ($travellers as $key => $traveller): ?>
-                        <tr role="row" class="odd">
-                          <td><?php echo $traveller->username ?></td>
-                          <td><?php echo $traveller->firstname ?>, <?php echo $traveller->lastname ?></td>
-                          <td>
-                            <a href="<?php echo base_url();?>Admin/view_traveller/<?php echo $traveller->user_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
-                          </td>
-                        </tr>
-                      <?php endforeach ?>
-                  </tbody>
-                </table>
-              </div>
-              <nav class="pull-right">
-                <?php echo $this->pagination->create_links();?>
-              </nav>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <tr>
+                <td><label>Image</label></td>
+                <?php if (!empty($traveller->image)): ?>
+                  <td><img src="<?php echo $traveller->image?>" class="img-responsive" style="width:350px"/></td>
+                <?php else: ?>
+                  <td><img src="<?php echo base_url();?>/public/img/default-img.jpg" class="img-responsive" style="width:350px"/></td>
+                <?php endif; ?>
+              </tr>
+              <tr>
+                <td><label>ID:</label></td>
+                <td><?php echo $traveller->user_id;?></td>
+              </tr>
+              <tr>
+                <td><label>Username:</label></td>
+                <td><?php echo $traveller->username;?></td>
+              </tr>
+              <tr>
+                <td><label>Email:</label></td>
+                <td><?php echo $traveller->email;?></td>
+              </tr>
+              <tr>
+                <td><label>Fullname:</label></td>
+                <td><?php echo $traveller->firstname;?>, <?php echo $traveller->lastname;?> <?php echo $traveller->middlename;?></td>
+              </tr>
+              <tr>
+                <td><label>Gender:</label></td>
+                <td><?php echo $traveller->gender;?></td>
+              </tr>
+              <tr>
+                <td><label>Address:</label></td>
+                <td><?php echo $traveller->address;?></td>
+              </tr>
+              <tr>
+                <td><label>Cellphone:</label></td>
+                <td>+63<?php echo $traveller->cellphone;?></td>
+              </tr>
+              <tr>
+                <td><label>Date joined:</label></td>
+                <td><?php echo $traveller->date_joined;?></td>
+              </tr>
+            </table>
+            <a href="<?php echo base_url(); ?>Admin/travellers" class="btn btn-danger pull-right"><i class="fa fa-chevron-left"></i> Back</a>
           </div>
         </div>
       </div>
@@ -211,41 +213,7 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<script>
-$('#letter-filter').change(function() {
-  if ($("#letter-filter").val() == '') {
-    $(location).attr('href','<?php echo base_url(); ?>Admin/travellers');
-  }else {
-    var letter = {
-        letter: $("#letter-filter").val()
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Admin/filter_travellers",
-        type: 'POST',
-        data: letter,
-        success: function(result) {
-          $('#box').html(result);
-        }
-    });
-  }
-});
-$("#search-letter").keyup(function () {
-  if ($("#search-letter").val() == '') {
-    $(location).attr('href','<?php echo base_url(); ?>Admin/travellers');
-  }else {
-    var letter = {
-        keyword: $("#search-letter").val()
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Admin/search_traveller",
-        type: 'POST',
-        data: letter,
-        success: function(result) {
-          $('#box').html(result);
-        }
-    });
-  }
-});
-</script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 </body>
 </html>

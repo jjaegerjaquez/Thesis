@@ -186,7 +186,7 @@
           <?php $ctr = 1;?>
           <?php foreach ($gallery_images as $key => $gallery_image): ?>
             <div class="item <?php if($ctr <=1 ){ echo 'active';}?>">
-              <img src="<?php echo $gallery_image->value?>">
+              <img src="<?php echo $gallery_image->value?>" width="100%">
             </div>
             <?php $ctr++;?>
           <?php endforeach; ?>

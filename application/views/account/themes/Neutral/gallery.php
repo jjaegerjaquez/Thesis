@@ -99,6 +99,14 @@
             </div>
           </div>
         <?php elseif (count($gallery_images)== '2'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
           <div class="gallery_product3 col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <img src="<?php echo base_url() ?>public/img/Neutral/img-l-3.jpg" class="img-responsive" class="image3" style="width:100%"> <!--width: 591 pixels height:400 pixels-->
             <div class="middle3">
@@ -124,6 +132,14 @@
             </div>
           </div>
         <?php elseif (count($gallery_images)== '3'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
           <div class="gallery_product4 col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <img src="<?php echo base_url() ?>public/img/Neutral/img-l-4.jpg" class="img-responsive" class="image4"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
             <div class="middle4">
@@ -143,6 +159,14 @@
             </div>
           </div>
         <?php elseif (count($gallery_images)== '4'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
           <div class="gallery_product5 col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <img src="<?php echo base_url() ?>public/img/Neutral/img-l-5.jpg" class="img-responsive"class="image5" style="width:100%"> <!--width: 720 pixels height:455 pixels-->
             <div class="middle5">
@@ -156,6 +180,14 @@
             </div>
           </div>
         <?php elseif (count($gallery_images)== '5'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="gallery_product1 col-lg-4 col-md-4 col-sm-4 col-xs-12 filter sprinkle">
+              <img src="<?php echo $gallery_image->value?>" class="img-responsive" class="image"style="width:100%"> <!--width: 615 pixels height:409 pixels-->
+              <div class="middle">
+                <div class="text"></div>
+              </div>
+            </div>
+          <?php endforeach; ?>
           <div class="gallery_product6 col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <img src="<?php echo base_url() ?>public/img/Neutral/img-l-6.jpg" class="img-responsive" class="image6" style="width:100%"> <!--width: 620 pixels height:413 pixels-->
             <div class="middle6">

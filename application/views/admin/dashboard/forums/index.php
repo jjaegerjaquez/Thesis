@@ -159,6 +159,8 @@
                         <tr role="row" class="odd">
                           <td><?php echo $topic->topic ?></td>
                           <td>
+                            <a href="<?php echo base_url(); ?>Admin/view_topic/<?php echo $topic->topic_id  ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View comments</a>
+                            <a href="<?php echo base_url(); ?>Admin/view_topic_replies/<?php echo $topic->topic_id  ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View replies</a>
                             <a href="<?php echo base_url(); ?>Admin/edit_topic/<?php echo $topic->topic_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
                             <a href="<?php echo base_url(); ?>Admin/delete_topic/<?php echo $topic->topic_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                           </td>

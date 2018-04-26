@@ -136,6 +136,7 @@
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
           <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger"><i class="ion-chevron-left"></i> Back</a>
+          <a href="<?php echo base_url(); ?>Admin/notified" class="btn btn-primary"><i class="fa fa-eye"></i> View notified ads</a>
           <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -164,8 +165,8 @@
                             <td><?php echo date('F j Y',strtotime($ending->termination_date))?></td>
                             <td>
                               <a href="<?php echo base_url(); ?>Admin/notify/<?php echo $ending->advertisement_id ?>" class="btn btn-primary"><i class="ion-email"></i> Notify</a>
-                              <a href="<?php echo base_url(); ?>Admin/edit_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
-                              <a href="<?php echo base_url(); ?>Admin/delete_event/<?php echo $ending->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                              <a href="<?php echo base_url(); ?>Admin/edit_ad/<?php echo $ending->advertisement_id  ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+                              <a href="<?php echo base_url(); ?>Admin/delete_ad/<?php echo $ending->advertisement_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                           </tr>
                         <?php endforeach ?>

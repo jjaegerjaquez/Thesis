@@ -99,13 +99,91 @@ class Searchs extends CI_Model
     return $query->result();
   }
 
-  public function get_locality_result_by_category($locality,$category)
+  public function get_locality_result_by_category($limit,$offset,$locality,$category)
   {
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
-    $locality = ucwords($lclty);
-    $category = ucwords($category);
-    $query = $this->db->query("select * from basic_info where locality = '$locality' and category = '$category'");
+    $_locality = ucwords($lclty);
+    $_category = ucwords($category);
+    // $query = $this->db->query("select * from basic_info where (locality = '$locality' or address like '%$lclty%') and category = '$category'");
+    // return $query->result();
+    // $where = "(locality = '$locality' or address like '%$locality%') and (category = '$category' or business_name = '$category')";
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_count');
+    $this->db->from('basic_info');
+    // $this->db->where($where);
+    $this->db->where('locality', $_locality);
+    $this->db->where('category', $_category);
+    // $this->db->where("category",$_category);
+    // $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_popular($limit,$offset,$locality,$category)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    $_locality = ucwords($lclty);
+    $_category = ucwords($category);
+    // $query = $this->db->query("select * from basic_info where (locality = '$locality' or address like '%$lclty%') and category = '$category'");
+    // return $query->result();
+    // $where = "(locality = '$locality' or address like '%$locality%') and (category = '$category' or business_name = '$category')";
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate_count');
+    $this->db->from('basic_info');
+    // $this->db->where($where);
+    $this->db->where('locality', $_locality);
+    $this->db->where('category', $_category);
+    // $this->db->where("category",$_category);
+    $this->db->order_by('vote_count','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_ratings($limit,$offset,$locality,$category)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    $_locality = ucwords($lclty);
+    $_category = ucwords($category);
+    // $query = $this->db->query("select * from basic_info where (locality = '$locality' or address like '%$lclty%') and category = '$category'");
+    // return $query->result();
+    // $where = "(locality = '$locality' or address like '%$locality%') and (category = '$category' or business_name = '$category')";
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    // $this->db->where($where);
+    $this->db->where('locality', $_locality);
+    $this->db->where('category', $_category);
+    // $this->db->where("category",$_category);
+    $this->db->order_by('rate','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  public function fetch_result_by_recent($limit,$offset,$locality,$category)
+  {
+    $lclty = str_replace('_', ' ', $locality);
+    $ctgry = str_replace('_', ' ', $category);
+    $_locality = ucwords($lclty);
+    $_category = ucwords($category);
+    // $query = $this->db->query("select * from basic_info where (locality = '$locality' or address like '%$lclty%') and category = '$category'");
+    // return $query->result();
+    // $where = "(locality = '$locality' or address like '%$locality%') and (category = '$category' or business_name = '$category')";
+    $this->db->select('*');
+    $this->db->select('(SELECT COUNT(business_id) FROM votes WHERE votes.business_id = basic_info.id) as vote_count,(SELECT (SUM(rate) / count(user_id)) FROM reviews WHERE reviews.business_id = basic_info.id) as rate');
+    $this->db->from('basic_info');
+    // $this->db->where($where);
+    $this->db->where('locality', $_locality);
+    $this->db->where('category', $_category);
+    // $this->db->where("category",$_category);
+    $this->db->order_by('date_created','DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 
@@ -233,7 +311,7 @@ class Searchs extends CI_Model
 
   public function get_rates($business_id)
   {
-    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `reviews` WHERE business_id = '$business_id'");
     // return $query->row();
     if ($query->num_rows() > 0) {
       $res = $query->row();

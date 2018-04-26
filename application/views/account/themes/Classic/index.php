@@ -171,6 +171,9 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '2'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-3.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
@@ -178,24 +181,39 @@
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '3'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-4.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '4'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-5.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '5'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-6.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '6'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-7.jpg);"></div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '7'): ?>
+          <?php foreach ($gallery_images as $key => $gallery_image): ?>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col" style="background-image: url(<?php echo $gallery_image->value?>);"></div>
+          <?php endforeach; ?>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col"  style="background-image: url(/public/img/Template1/img-8.jpg);"></div>
         <?php elseif (count($gallery_images) == '8'): ?>
           <?php foreach ($gallery_images as $key => $gallery_image): ?>

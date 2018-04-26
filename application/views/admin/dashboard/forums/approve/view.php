@@ -129,7 +129,7 @@
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
         <li><a href="<?php echo base_url(); ?>Admin/forum">All</a></li>
-        <li class="active">To be approve</li>
+        <li class="active">Approved</li>
       </ol>
     <!-- Main content -->
     <section class="content">
@@ -150,7 +150,7 @@
                   <thead>
                     <tr role="row">
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">User</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Topic</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:350px;">Topic</th>
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
                     </tr>
                   </thead>
@@ -160,6 +160,8 @@
                           <td><?php echo $topic->username ?></td>
                           <td><?php echo $topic->topic ?></td>
                           <td>
+                            <a href="<?php echo base_url(); ?>Admin/view_topic/<?php echo $topic->topic_id  ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View comments</a>
+                            <a href="<?php echo base_url(); ?>Admin/view_topic_replies/<?php echo $topic->topic_id  ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View replies</a>
                             <a href="<?php echo base_url(); ?>Admin/disapprove/<?php echo $topic->topic_id  ?>" class="btn btn-warning"><i class="fa fa-exclamation-circle"></i> Disapprove</a>
                             <a href="<?php echo base_url(); ?>Admin/delete_user_topic/<?php echo $topic->topic_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                           </td>

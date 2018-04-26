@@ -115,7 +115,7 @@ class Accounts extends CI_Model
 
   public function get_rate($business_id)
   {
-    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `rates` WHERE business_id = '$business_id'");
+    $query = $this->db->query("SELECT (sum(rate) / count(user_id)) as rate,business_id FROM `reviews` WHERE business_id = '$business_id'");
     if ($query->num_rows() > 0) {
       $res = $query->row();
       if (empty($res->rate)) {

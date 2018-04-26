@@ -289,6 +289,7 @@ class Account extends CI_Controller
             'theme' => 'NA',
             'position' => 'Primary',
             'website' => 'Yes',
+            'date_created' => date("Y-m-d"),
             'image' => $_SESSION['image']
           ];
         }elseif (!empty($_SESSION['temp_fb_id'])) {
@@ -298,6 +299,7 @@ class Account extends CI_Controller
             'theme' => 'NA',
             'position' => 'Primary',
             'website' => 'Yes',
+            'date_created' => date("Y-m-d"),
             'image' => 'https://graph.facebook.com/'.$_SESSION['temp_fb_id'].'/picture?type=large'
           ];
         }else {
@@ -306,6 +308,7 @@ class Account extends CI_Controller
             'business_name' => $this->input->post('business_name'),
             'theme' => 'NA',
             'position' => 'Primary',
+            'date_created' => date("Y-m-d"),
             'website' => 'Yes'
           ];
         }
@@ -754,6 +757,7 @@ class Account extends CI_Controller
           'business_name' => $this->input->post('business_name'),
           'theme' => 'NA',
           'position' => 'Secondary',
+          'date_created' => date("Y-m-d"),
           'website' => 'Yes'
         ];
         if ($this->db->insert('basic_info',$Business_information))
@@ -788,6 +792,7 @@ class Account extends CI_Controller
       'business_name' => $_SESSION['secondary_business_name'],
       'theme' => $this->input->post('template'),
       'position' => 'Secondary',
+      'date_created' => date("Y-m-d"),
       'website' => 'No'
     ];
 

@@ -88,7 +88,7 @@
     <section class="sidebar">
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
-        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
         <li class="treeview">
           <a href=""><i class="fa fa-navicon"></i> <span>Layout</span>
             <span class="pull-right-container">
@@ -108,7 +108,7 @@
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/events"><i class="fa fa-calendar"></i> <span>Events</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/forum"><i class="fa fa-comments"></i> <span>Forum</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/themes"><i class="fa fa-cog"></i> <span>Themes</span></a></li>
-        <li class="treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
+        <li class="active treeview"><a href="<?php echo base_url(); ?>Admin/advertisements"><i class="fa fa-usd"></i> <span>Advertisements</span></a></li>
         <li class="treeview"><a href="<?php echo base_url(); ?>Admin/accounts"><i class="fa fa-user"></i> <span>Accounts</span></a></li>
       </ul>
     </section>
@@ -122,60 +122,54 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Travellers
-        <small>list of all travellers</small>
+        Notified ads
+        <small>list of all notified ads</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Travellers</li>
+        <li><a href="<?php echo base_url(); ?>Admin"><i class="fa fa-dashboard"></i> Admin</a></li>
+        <li><a href="<?php echo base_url() ?>Admin/advertisements">Advertisements</a></li>
+        <li class="active">All notified</li>
       </ol>
     <!-- Main content -->
     <section class="content">
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
-          <a href="<?php echo base_url(); ?>Admin" class="btn btn-success"><i class="ion-chevron-left"></i> Back to dashboard</a>
+          <a href="<?php echo base_url(); ?>Admin/ending" class="btn btn-danger"><i class="ion-chevron-left"></i> Back</a>
+          <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
           </div>
         </div>
         <div class="box-body">
-          <div class="col-lg-2">
-            <?php $letters = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"); ?>
-            <div class="form-group">
-              <select class="form-control" name="letter-filter" id="letter-filter">
-                <option value="">Filter by letter</option>
-                <?php foreach ($letters as $key => $letter): ?>
-                  <option value="<?php echo $letter?>"><?php echo $letter?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <input type="text" class="form-control" name="" value="" placeholder="Search" id="search-letter">
-          </div>
           <div class="col-xs-12">
-            <div class="row" id="box">
+            <div class="row">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
                     <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Username</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Name</th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:300px;">Action</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Business Name</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Ad</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">Termination Date</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                      <?php foreach ($travellers as $key => $traveller): ?>
-                        <tr role="row" class="odd">
-                          <td><?php echo $traveller->username ?></td>
-                          <td><?php echo $traveller->firstname ?>, <?php echo $traveller->lastname ?></td>
-                          <td>
-                            <a href="<?php echo base_url();?>Admin/view_traveller/<?php echo $traveller->user_id ?>" class="btn btn-primary"><i class="fa fa-eye"></i> View</a>
-                          </td>
-                        </tr>
-                      <?php endforeach ?>
+                      <?php if (!empty($notifieds)): ?>
+                        <?php foreach ($notifieds as $key => $notified): ?>
+                          <tr role="row" class="odd">
+                            <td><?php echo $notified->business_name ?></td>
+                            <td><?php echo $notified->title ?></td>
+                            <td><?php echo date('F j Y',strtotime($notified->termination_date))?></td>
+                            <td>
+                              <label class="btn btn-success">Notified</label>
+                            </td>
+                          </tr>
+                        <?php endforeach ?>
+                      <?php else: ?>
+                        0 results
+                      <?php endif; ?>
                   </tbody>
                 </table>
               </div>
@@ -211,41 +205,7 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
-<script>
-$('#letter-filter').change(function() {
-  if ($("#letter-filter").val() == '') {
-    $(location).attr('href','<?php echo base_url(); ?>Admin/travellers');
-  }else {
-    var letter = {
-        letter: $("#letter-filter").val()
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Admin/filter_travellers",
-        type: 'POST',
-        data: letter,
-        success: function(result) {
-          $('#box').html(result);
-        }
-    });
-  }
-});
-$("#search-letter").keyup(function () {
-  if ($("#search-letter").val() == '') {
-    $(location).attr('href','<?php echo base_url(); ?>Admin/travellers');
-  }else {
-    var letter = {
-        keyword: $("#search-letter").val()
-    };
-    $.ajax({
-        url: "<?php echo base_url(); ?>Admin/search_traveller",
-        type: 'POST',
-        data: letter,
-        success: function(result) {
-          $('#box').html(result);
-        }
-    });
-  }
-});
-</script>
+<!-- AdminLTE for demo purposes -->
+<script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/demo.js"></script>
 </body>
 </html>

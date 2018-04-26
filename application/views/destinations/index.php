@@ -382,7 +382,7 @@
                 <?php endif; ?>
                 <option value ="<?php if (!empty($selected_category)): ?><?php echo str_replace(' ', '_', $selected_category)?><?php endif;?>" selected><?php if (!empty($selected_category)): ?><?php echo $selected_category ?><?php else: ?>Select a category<?php endif; ?></option>
                 <?php foreach ($categories as $key => $category): ?>
-                  <?php if (!empty($selected_categor)): ?>
+                  <?php if (!empty($selected_category)): ?>
                     <?php if ($selected_category == $category->category): ?>
                   <?php endif; ?>
                   <?php else: ?>

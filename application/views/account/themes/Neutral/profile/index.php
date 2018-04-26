@@ -217,7 +217,7 @@
               <div class="col-lg-8" style="padding-right:0px;">
                 <div class="form-group">
                   <label>Address*</label>
-                  <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="50">
+                  <input type="text" name="address" class="form-control" value="<?php if (!empty($details->address)): ?> <?php echo $details->address ?><?php endif; ?>" maxlength="200">
                   <span style="color:red" class="help-block"><?php echo form_error('address'); ?></span>
                 </div>
               </div>

@@ -141,8 +141,13 @@
           </div>
         </div>
         <div class="box-body">
+          <div class="col-lg-4">
+            <div class="form-group">
+              <input type="text" class="form-control" name="" value="" placeholder="Search by Business Name" id="search-letter">
+            </div>
+          </div>
           <div class="col-xs-12">
-            <div class="row">
+            <div class="row" id="box">
               <div class="col-sm-12">
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
@@ -198,5 +203,41 @@
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>public/thesis/AdminLTE/dist/js/app.min.js"></script>
+<script>
+$("#search-letter").keyup(function () {
+  if ($("#search-letter").val() == '') {
+    $(location).attr('href','<?php echo base_url(); ?>Admin/reviews');
+  }else {
+    var letter = {
+        keyword: $("#search-letter").val()
+    };
+    $.ajax({
+        url: "<?php echo base_url(); ?>Admin/search_by_businessname",
+        type: 'POST',
+        data: letter,
+        success: function(result) {
+          $('#box').html(result);
+        }
+    });
+  }
+});
+// $("#search-user").keyup(function () {
+//   if ($("#search-user").val() == '') {
+//     $(location).attr('href','<?php echo base_url(); ?>Admin/reviews');
+//   }else {
+//     var letter = {
+//         keyword: $("#search-user").val()
+//     };
+//     $.ajax({
+//         url: "<?php echo base_url(); ?>Admin/search_by_user",
+//         type: 'POST',
+//         data: letter,
+//         success: function(result) {
+//           $('#box').html(result);
+//         }
+//     });
+//   }
+// });
+</script>
 </body>
 </html>
