@@ -128,13 +128,13 @@
             <div class="col-lg-5 col-xs-6 no-padding">
               <div class="input-group">
                 <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-                <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+                <input type="text" class="form-control input-style" autocomplete="off" placeholder="Enter province/city" id="locality_search" name="locality-search">
                 <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
               </div>
             </div>
             <div class="col-lg-7 col-xs-6">
               <div class="input-group">
-                <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+                <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for Hotel, Resort, Restaurant, Cafe...">
                 <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
                 <div class="input-group-btn">
                   <button class="btn btn-default"  id="searchsubmit"  type="submit">
@@ -194,13 +194,13 @@
           <div class="col-lg-5 col-xs-6 no-padding">
             <div class="input-group">
               <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-              <input type="text" class="form-control input-style" autocomplete="off" placeholder="Location" id="locality_search" name="locality-search">
+              <input type="text" class="form-control input-style" autocomplete="off" placeholder="Enter province/city" id="locality_search" name="locality-search">
               <ul class="dropdown-menu _txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu" id="_DropdownLocality"></ul>
             </div>
           </div>
           <div class="col-lg-7 col-xs-6">
             <div class="input-group">
-              <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for...">
+              <input type="text" id="look-for" autocomplete="off" class="form-control" name="category" placeholder="Search for Hotel, Resort, Restaurant, Cafe...">
               <ul class="dropdown-menu _txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="_DropdownLookFor"></ul>
               <div class="input-group-btn">
                 <button class="btn btn-default"  id="searchsubmit"  type="submit">
@@ -343,12 +343,12 @@
             <div class="col-lg-3 col-lg-offset-2 col-sm-3 col-sm-offset-2 col-sm-12 no-gutter hidden-xs">
               <div class="input-group">
                 <div class="input-group-addon"><i class="ion-location input-style"></i></div>
-                <input style="" type="text" id="locality-search" autocomplete="off" name="locality-search" class="form-control" placeholder="Location" value="">
+                <input style="" type="text" id="locality-search" autocomplete="off" name="locality-search" class="form-control" placeholder="Enter province/city" value="">
                 <ul class="dropdown-menu txtlocality" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLocality"></ul>
               </div>
             </div>
             <div class="col-lg-4 col-sm-4 col-sm-12 no-gutter hidden-xs">
-              <input style="" type="text" id="look_for" autocomplete="off" name="category" class="form-control" placeholder="Search for..">
+              <input style="" type="text" id="look_for" autocomplete="off" name="category" class="form-control" placeholder="Search for Hotel, Resort, Restaurant, Cafe...">
               <ul class="dropdown-menu txtlookfor" style="margin-left:15px;margin-right:0px;" role="menu" aria-labelledby="dropdownMenu"  id="DropdownLookFor"></ul>
             </div>
             <div class="col-lg-1 col-sm-1 col-sm-12 no-gutter hidden-xs">
