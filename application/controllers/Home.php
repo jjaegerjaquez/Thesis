@@ -531,6 +531,8 @@ class Home extends CI_Controller
           if ($this->Homes->update_email($Username,$this->traveller_id)) {
             redirect(base_url().'Home/profile', 'refresh');
           }
+        }else {
+          redirect(base_url().'Home/profile', 'refresh');
         }
       }
     }

@@ -137,7 +137,6 @@
         <div class="box-header with-border">
           <h3 class="box-title"></h3>
           <a href="<?php echo base_url(); ?>Admin/forum" class="btn btn-danger"><i class="fa fa-chevron-left"></i> Back</a>
-          <a href="<?php echo base_url(); ?>Admin/view_approved" class="btn btn-success"><i class="fa fa-eye"></i> View topic replies</a>
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
               <i class="fa fa-minus"></i></button>
@@ -150,8 +149,8 @@
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
                     <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;"></th>
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1"></th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:500px;">Reply</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -160,13 +159,13 @@
                           <tr role="row" class="odd">
                             <td><?php echo $reply->comment ?></td>
                             <td>
-                              <a href="<?php echo base_url(); ?>Admin/delete_topic/<?php echo $reply->comment_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                              <a href="<?php echo base_url(); ?>Admin/delete_reply/<?php echo $reply->comment_id  ?>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                             </td>
                           </tr>
                         <?php endforeach ?>
                       <?php else: ?>
                         <tr role="row" class="odd">
-                          <td>No comments yet</td>
+                          <td>No replies yet</td>
                           <td>
                           </td>
                         </tr>

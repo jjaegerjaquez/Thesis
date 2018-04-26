@@ -2246,6 +2246,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+30 days"))
                  ];
                }
@@ -2260,6 +2261,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+30 days"))
                  ];
                }
@@ -2276,6 +2278,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+120 days"))
                  ];
                }
@@ -2290,6 +2293,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+120 days"))
                  ];
                }
@@ -2306,6 +2310,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+180 days"))
                  ];
                }
@@ -2320,6 +2325,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+180 days"))
                  ];
                }
@@ -2336,6 +2342,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+365 days"))
                  ];
                }
@@ -2350,6 +2357,7 @@ class Admin extends CI_Controller
                    'image' => base_url().$path.$image_name,
                    'type' => 'Regular',
                    'contract' => $contract,
+                   'notified' => 'No',
                    'termination_date' => date('Y-m-d', strtotime("+365 days"))
                  ];
                }
@@ -2373,6 +2381,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+30 days"))
                 ];
               }
@@ -2386,6 +2395,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+30 days"))
                 ];
               }
@@ -2401,6 +2411,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+120 days"))
                 ];
               }
@@ -2414,6 +2425,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+120 days"))
                 ];
               }
@@ -2429,6 +2441,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+180 days"))
                 ];
               }
@@ -2442,6 +2455,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+180 days"))
                 ];
               }
@@ -2457,6 +2471,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+365 days"))
                 ];
               }
@@ -2470,6 +2485,7 @@ class Admin extends CI_Controller
                   'description' => $this->input->post('description'),
                   'type' => $type,
                   'contract' => $contract,
+                  'notified' => 'No',
                   'termination_date' => date('Y-m-d', strtotime("+365 days"))
                 ];
               }
@@ -2508,8 +2524,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+30 days"))
                    ];
                  }
@@ -2522,8 +2539,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+30 days"))
                    ];
                  }
@@ -2538,8 +2556,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+120 days"))
                    ];
                  }
@@ -2552,8 +2571,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+120 days"))
                    ];
                  }
@@ -2568,8 +2588,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+180 days"))
                    ];
                  }
@@ -2582,8 +2603,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+180 days"))
                    ];
                  }
@@ -2598,8 +2620,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+365 days"))
                    ];
                  }
@@ -2612,8 +2635,9 @@ class Admin extends CI_Controller
                      'subtext' => $this->input->post('subtext'),
                      'description' => $this->input->post('description'),
                      'image' => base_url().$path.$image_name,
-                     'type' => 'Regular',
+                     'type' => 'Priority',
                      'contract' => $contract,
+                     'notified' => 'No',
                      'termination_date' => date('Y-m-d', strtotime("+365 days"))
                    ];
                  }
@@ -2637,6 +2661,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+30 days"))
                   ];
                 }
@@ -2650,6 +2675,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+30 days"))
                   ];
                 }
@@ -2665,6 +2691,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+120 days"))
                   ];
                 }
@@ -2678,6 +2705,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+120 days"))
                   ];
                 }
@@ -2693,6 +2721,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+180 days"))
                   ];
                 }
@@ -2706,6 +2735,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+180 days"))
                   ];
                 }
@@ -2721,6 +2751,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+365 days"))
                   ];
                 }
@@ -2734,6 +2765,7 @@ class Admin extends CI_Controller
                     'description' => $this->input->post('description'),
                     'type' => $type,
                     'contract' => $contract,
+                    'notified' => 'No',
                     'termination_date' => date('Y-m-d', strtotime("+365 days"))
                   ];
                 }
@@ -3897,6 +3929,22 @@ class Admin extends CI_Controller
     $this->pagination->initialize($config);
     $this->data['topics'] = $this->Admins->function_pagination_topics($limit, $offset);
     $this->load->view('admin/dashboard/forums/index',$this->data);
+  }
+
+  public function delete_comment($post_id)
+  {
+    $this->db->where('post_id', $post_id);
+    if ($this->db->delete('posts')) {
+      echo "<script>alert('Comment has been successfully deleted.');document.location='/Admin/forum'</script>";
+    }
+  }
+
+  public function delete_reply($reply_id)
+  {
+    $this->db->where('comment_id', $reply_id);
+    if ($this->db->delete('comments')) {
+      echo "<script>alert('Reply has been successfully deleted.');document.location='/Admin/forum'</script>";
+    }
   }
 
   public function view_topic($topic_id)

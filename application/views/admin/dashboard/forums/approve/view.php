@@ -149,7 +149,7 @@
                 <table class="table table-bordered table-striped dataTable" role="grid">
                   <thead>
                     <tr role="row">
-                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:250px;">User</th>
+                      <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:200px;">User</th>
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1" style="width:350px;">Topic</th>
                       <th class="sorting" tabindex="0" rowspan="1" colspan="1">Action</th>
                     </tr>
