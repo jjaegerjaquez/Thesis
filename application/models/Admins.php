@@ -421,6 +421,26 @@ class Admins extends CI_Model
     return $query->row();
   }
 
+  public function get_ads()
+  {
+    $date = new DateTime("tomorrow");
+    $tom = $date->format('Y-m-d');
+    $deadline = date('Y-m-d', strtotime("+5 days"));
+    $deadline4 = date('Y-m-d', strtotime("+4 days"));
+    $deadline3 = date('Y-m-d', strtotime("+3 days"));
+    $deadline2 = date('Y-m-d', strtotime("+2 days"));
+    $deadline1 = date('Y-m-d', strtotime("+1 days"));
+    $where = "(advertisements.termination_date = '$deadline' or advertisements.termination_date = '$deadline4' or advertisements.termination_date = '$deadline3' or advertisements.termination_date = '$deadline2' or advertisements.termination_date = '$deadline1')";
+    $this->db->select('*');
+    $this->db->from('basic_info');
+    $this->db->join('advertisements','basic_info.id=advertisements.business_id');
+    $this->db->join('users','basic_info.user_id=users.user_id');
+    $this->db->where($where);
+    $this->db->where('notified !=', 'Yes');
+    $query = $this->db->get();
+    return $query->result();
+  }
+
   public function update_ad($Ad,$ad_id)
   {
     $this->db->where('advertisement_id', $ad_id);

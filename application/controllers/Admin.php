@@ -2143,6 +2143,33 @@ class Admin extends CI_Controller
     }
   }
 
+  public function notify_all()
+  {
+    $this->data['ads'] = $this->Admins->get_ads();
+    // print_r($this->data['ads']);
+    $count = 0;
+    $total = count($this->data['ads']);
+    foreach ($this->data['ads'] as $key => $ad) {
+      $data = array(
+         'business_name'=> $ad->business_name,
+         'termination_date' => $ad->termination_date
+      );
+      $msg = $this->load->view('email/ad',$data,TRUE);
+      if ($this->Admins->sendemail($ad->email,$msg)) {
+        $Notified = [
+          'Notified' => 'Yes'
+        ];
+        if ($this->Admins->update_ad_notified($Notified,$ad->advertisement_id))
+        {
+          $count++;
+        }
+      }
+    }
+    if ($count == $total) {
+      echo "<script>alert('Notification sent.');document.location='/Admin/advertisements'</script>";
+    }
+  }
+
   public function ad()
   {
     $this->load->view('email/ad',$this->data);

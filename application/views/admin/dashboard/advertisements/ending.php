@@ -137,6 +137,7 @@
           <h3 class="box-title"></h3>
           <a href="<?php echo base_url(); ?>Admin/advertisements" class="btn btn-danger"><i class="ion-chevron-left"></i> Back</a>
           <a href="<?php echo base_url(); ?>Admin/notified" class="btn btn-primary"><i class="fa fa-eye"></i> View notified ads</a>
+          <a href="<?php echo base_url(); ?>Admin/notify_all" class="btn btn-primary"><i class="fa fa-eye"></i> Notify All</a>
           <!-- <a href="/Admin/finished" class="btn btn-success"><i class="ion-checkmark"></i> Finished Events</a> -->
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
