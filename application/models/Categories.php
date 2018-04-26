@@ -152,9 +152,17 @@ class Categories extends CI_Model
     }
   }
 
-  public function get_reviews($business_id)
+  public function get_reviews($limit,$offset,$business_id)
   {
-    $query = $this->db->query("select username,review,r.rate,r.date_created,image from users u join reviews r join profile p on (u.user_id=r.user_id and u.user_id = p.user_id) where r.business_id = '$business_id' order by date_created desc");
+    // $this->db->query("select username,review,r.rate,r.date_created,image from users u join reviews r join profile p on (u.user_id=r.user_id and u.user_id = p.user_id) where r.business_id = '$business_id' order by date_created desc");
+    $this->db->select('username,review,reviews.rate,reviews.date_created,image');
+    $this->db->from('users');
+    $this->db->join('reviews','users.user_id=reviews.user_id');
+    $this->db->join('profile','users.user_id=profile.user_id');
+    $this->db->where('reviews.business_id', $business_id);
+    $this->db->order_by('date_created', 'DESC');
+    $this->db->limit($limit, $offset);
+    $query = $this->db->get();
     return $query->result();
   }
 

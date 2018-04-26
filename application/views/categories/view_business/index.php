@@ -455,6 +455,9 @@
               <?php endforeach; ?>
             <?php endif; ?>
           </ul>
+          <nav class="pull-right table-footer" style="margin-top:10px;">
+            <?php echo $this->pagination->create_links();?>
+          </nav>
         </div>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 side-content">

@@ -86,7 +86,7 @@ class Destination extends CI_Controller
     else {
       $lclty = str_replace('_', ' ', $locality);
       $query2= $this->db->get_where('basic_info', ['locality' => $lclty]);
-      $limit = 2;
+      $limit = 5;
       $offset = $this->uri->segment(4);
       $config['uri_segment'] = 4;
       $config['base_url'] = '/Destination/result/'.$locality;
@@ -126,7 +126,7 @@ class Destination extends CI_Controller
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty,'category' => $ctgry]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(5);
     $config['uri_segment'] = 5;
     $config['base_url'] = '/Destination/search/'.$category.'/'.$locality;
@@ -164,7 +164,7 @@ class Destination extends CI_Controller
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty,'category' => $ctgry]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(6);
     $config['uri_segment'] = 6;
     $config['base_url'] = '/Destination/search_popular/'.$filter.'/'.$category.'/'.$locality;
@@ -203,7 +203,7 @@ class Destination extends CI_Controller
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty,'category' => $ctgry]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(6);
     $config['uri_segment'] = 6;
     $config['base_url'] = '/Destination/search_rating/'.$filter.'/'.$category.'/'.$locality;
@@ -242,7 +242,7 @@ class Destination extends CI_Controller
     $lclty = str_replace('_', ' ', $locality);
     $ctgry = str_replace('_', ' ', $category);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty,'category' => $ctgry]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(6);
     $config['uri_segment'] = 6;
     $config['base_url'] = '/Destination/search_recent/'.$filter.'/'.$category.'/'.$locality;
@@ -280,7 +280,7 @@ class Destination extends CI_Controller
   {
     $lclty = str_replace('_', ' ', $locality);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(4);
     $config['uri_segment'] = 4;
     $config['base_url'] = '/Destination/popular/'.$locality;
@@ -317,7 +317,7 @@ class Destination extends CI_Controller
   {
     $lclty = str_replace('_', ' ', $locality);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(4);
     $config['uri_segment'] = 4;
     $config['base_url'] = '/Destination/ratings/'.$locality;
@@ -354,7 +354,7 @@ class Destination extends CI_Controller
   {
     $lclty = str_replace('_', ' ', $locality);
     $query2= $this->db->get_where('basic_info', ['locality' => $lclty]);
-    $limit = 2;
+    $limit = 5;
     $offset = $this->uri->segment(4);
     $config['uri_segment'] = 4;
     $config['base_url'] = '/Destination/recent/'.$locality;

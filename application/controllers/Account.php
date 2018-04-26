@@ -261,7 +261,7 @@ class Account extends CI_Controller
 
   public function switch_business()
   {
-    $this->session->unset_userdata('business');
+    // $this->session->unset_userdata('business');
     $this->session->set_userdata('business', $this->input->get('business'));
     redirect(base_url().'Account', 'refresh');
   }

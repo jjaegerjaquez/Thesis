@@ -57,7 +57,7 @@ class Category extends CI_Controller
     if ($filter == 'popular') {
       $ctgry = str_replace('_', ' ', $category);
       $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
-      $limit = 2;
+      $limit = 5;
       $offset = $this->uri->segment(5);
       $config['uri_segment'] = 5;
       $config['base_url'] = '/Category/result/'.$category.'/popular';
@@ -94,7 +94,7 @@ class Category extends CI_Controller
     {
       $ctgry = str_replace('_', ' ', $category);
       $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
-      $limit = 2;
+      $limit = 5;
       $offset = $this->uri->segment(5);
       $config['uri_segment'] = 5;
       $config['base_url'] = '/Category/result/'.$category.'/ratings';
@@ -131,7 +131,7 @@ class Category extends CI_Controller
     {
       $ctgry = str_replace('_', ' ', $category);
       $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
-      $limit = 2;
+      $limit = 5;
       $offset = $this->uri->segment(5);
       $config['uri_segment'] = 5;
       $config['base_url'] = '/Category/result/'.$category.'/recent';
@@ -168,7 +168,7 @@ class Category extends CI_Controller
     {
       $ctgry = str_replace('_', ' ', $category);
       $query2= $this->db->get_where('basic_info', ['category' => $ctgry]);
-      $limit = 2;
+      $limit = 5;
       $offset = $this->uri->segment(4);
       $config['uri_segment'] = 4;
       $config['base_url'] = '/Category/result/'.$category;
@@ -222,7 +222,35 @@ class Category extends CI_Controller
     }
     $this->data['rate'] = $this->Categories->get_rates($business_id);
     $this->data['vote'] = $this->Categories->get_vote($business_id);
-    $this->data['reviews'] = $this->Categories->get_reviews($business_id);
+    $query2= $this->db->get_where('reviews', ['business_id' => $business_id]);
+    $limit = 5;
+    $offset = $this->uri->segment(4);
+    $config['uri_segment'] = 4;
+    $config['base_url'] = '/Category/view/'.$business_name;
+    $config['total_rows'] = $query2->num_rows();
+    $config['per_page'] = $limit;
+    $config['full_tag_open'] = '<ul class="pagination">';
+    $config['full_tag_close'] = '</ul>';
+
+    $config['first_tag_open'] = '<li>';
+    $config['last_tag_open'] = '<li>';
+
+    $config['next_tag_open'] = '<li>';
+    $config['prev_tag_open'] = '<li>';
+
+    $config['num_tag_open'] = '<li>';
+    $config['num_tag_close'] = '</li>';
+
+    $config['first_tag_close'] = '</li>';
+    $config['last_tag_close'] = '</li>';
+
+    $config['next_tag_close'] = '</li>';
+    $config['prev_tag_close'] = '</li>';
+
+    $config['cur_tag_open'] = '<li class=\"active\"><span><b>';
+    $config['cur_tag_close'] = '</b></span></li>';
+    $this->pagination->initialize($config);
+    $this->data['reviews'] = $this->Categories->get_reviews($limit,$offset,$business_id);
     $this->data['review_count'] = $this->Categories->get_review_count($business_id);
     $this->load->view('categories/view_business/index',$this->data);
   }
