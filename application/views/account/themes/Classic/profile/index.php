@@ -212,7 +212,7 @@
             </div>
             <div class="form-group">
               <label>Business Name*</label>
-              <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name?><?php endif; ?>" maxlength="25">
+              <input type="text" name="business_name" class="form-control" value="<?php if (!empty($details->business_name)): ?> <?php echo $details->business_name?><?php endif; ?>" maxlength="50">
               <span style="color:red" class="help-block"><?php echo form_error('business_name'); ?></span>
             </div>
             <div class="row">
